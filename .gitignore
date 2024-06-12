@@ -1,3 +1,4 @@
 .DS_Store
 Library/
 Logs/
+/templates/realms/key.md
