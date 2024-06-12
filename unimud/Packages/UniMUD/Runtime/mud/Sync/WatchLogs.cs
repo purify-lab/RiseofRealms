@@ -62,8 +62,16 @@ namespace mud
             _ws.OnMessage += msg =>
             {
                 var message = Encoding.UTF8.GetString(msg);
-                var block = JsonConvert.DeserializeObject<Block>(message);
-                subject.OnNext(block);
+                Debug.Log("Jerry On Message : " + message);
+                try
+                {
+                    var block = JsonConvert.DeserializeObject<Block>(message);
+                    subject.OnNext(block);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError("Errror: " + e.ToString());
+                }
             };
 
             _ws.OnError += errMsg =>

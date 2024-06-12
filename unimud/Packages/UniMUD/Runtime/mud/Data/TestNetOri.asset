@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 14fa04022fa7a524a934fef3a55e299a, type: 3}
-  m_Name: Testnet
+  m_Name: TestNetOri
   m_EditorClassIdentifier: 
-  jsonRpcUrl: https://follower.testnet2-chain.linfra.xyz
-  wsRpcUrl: wss://follower.testnet2-chain.linfra.xyz/
-  faucetUrl: https://faucet-worker.emergenceland.workers.dev
+  jsonRpcUrl: https://rpc.garnet.qry.live
+  wsRpcUrl: wss://rpc.garnet.qry.live
+  faucetUrl: 
   contractAddress: 
-  chainId: 4243
+  chainId: 17069
