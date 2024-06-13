@@ -16,9 +16,10 @@ contract SpawnSystem is System {
         Player.set(entity, true);
     }
 
-    function spawnToad(int32 x, int32 y, int32 z) public {
+    function spawnToad(int32 x, int32 y, int32 z) public payable {
         bytes32 [] memory keys = Utility.getKeysAtPosition(IWorld(_world()), x, y, z);
         require(keys.length == 0, "Obstruction");
+        require(msg.value == 100000000000000);
 
         bytes32 toad = getUniqueEntity();
         uint32 tadpoles = GameManager.get();

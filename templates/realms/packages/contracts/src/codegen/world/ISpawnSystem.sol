@@ -10,7 +10,7 @@ pragma solidity >=0.8.21;
 interface ISpawnSystem {
   function spawnPlayer() external;
 
-  function spawnToad(int32 x, int32 y, int32 z) external;
+  function spawnToad(int32 x, int32 y, int32 z) external payable;
 
   function deleteToad(int32 x, int32 y, int32 z) external;
 }
