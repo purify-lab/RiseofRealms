@@ -236,8 +236,11 @@ namespace mud
              */
 
             await UniTask.SwitchToMainThread();
-            
-            if (worldBlockNumber < 0) {worldBlockNumber = worldSelector.GetBlockNumber(ActiveNetwork);}
+
+            if (worldBlockNumber < 0)
+            {
+                worldBlockNumber = worldSelector.GetBlockNumber(ActiveNetwork);
+            }
             if (startingBlockNumber < 0) {await GetStartingBlockNumber().ToUniTask();}
             
             Debug.Log($"Starting sync from {worldBlockNumber}...{startingBlockNumber}");
