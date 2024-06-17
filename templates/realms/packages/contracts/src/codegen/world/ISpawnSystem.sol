@@ -12,5 +12,9 @@ interface ISpawnSystem {
 
   function spawnToad(int32 x, int32 y, int32 z) external payable;
 
+  function spawnToad2(int32 x, int32 y, int32 z) external;
+
+  function spawnToad3(int32 x, int32 y, int32 z) external;
+
   function deleteToad(int32 x, int32 y, int32 z) external;
 }
