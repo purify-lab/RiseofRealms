@@ -14,7 +14,7 @@
 
 ## Overview
 
-Rise of Realm is a Fully On-Chain SLG game, where the conquer and defence have the real power to affect and impact the real world. The game operates on a unique token system and integrates various in-game functions to present a new paradigm of crypto gaming experience.
+Rise of Realm is a Fully On-Chain SLG game in which conquering and defending have the real power to affect and impact the real world. The game operates on a unique token system and integrates various in-game functions to present a new paradigm of crypto gaming experience.
 
 ## Game Mechanics
 
@@ -34,15 +34,14 @@ Rise of Realm is a Fully On-Chain SLG game, where the conquer and defence have t
 - **Token Usage:** Players use $TITANS and $FURY tokens to perform in-game actions such as recruiting and deploying armies.
 - **Token Flow:** Tokens spent on army recruitment are added to the reward pool, creating a cyclical economy where players are incentivized to participate actively.
 - **Staking:** Once player occupied a land, they can stake $TITANS or $FURY on selected land, the staking amount will affect the burning or minting amount of opponet's token.
-- **Burning and Minting:** Every time the staking amount of any token is changed, Minting Net Values of both token are recorded on-chain, the values accumulates until an external executor triggle the execute contract.
-- **Execution**: Any one who trigger the execution contract is called executor, and will be reward 10% of any token mint.
-- **Dynamic Balance:** The idea is to convert players' in-game action, into real world impact, projectile the in-game attacking to token price. Players gaining the actual power on manipulating token trend by expand their empire, but the weak force will still have chance to fight back as their entry cost become extreamly low.
+- **Burning and Minting:** Every time the staking amount of any token is changed, the Minting Net Values of both tokens are recorded on-chain, and the values accumulate until an external executor triggers the executed contract.
+- **Execution**: Anyone who triggers the execution contract is called an executor and will be rewarded 10% of any token mint.
+- **Dynamic Balance:** The idea is to convert players' in-game action into real-world impact by projecting the in-game attack to token price. Players gain actual power by manipulating token trends by expanding their empire, but the weak force will still have a chance to fight back as their entry cost becomes extremely low.
 
 ## User Interface
 
-The defult front-end is develop by Purify Lab by leveraging UNIMUD. Players can process all the action in-side the game UI.
-
-![361719387391_.pic](/Users/kaspar/Library/Containers/com.tencent.xinWeChat/Data/Library/Application Support/com.tencent.xinWeChat/2.0b4.0.9/708b6649e814a8cbd9c4f3a001d17c27/Message/MessageTemp/c9aa98a6b5cd446ec503315d25aee8c7/Image/361719387391_.pic.jpg)
+Purify Lab developed the default front end by leveraging UNIMUD. Players can process all the actions inside the game UI.
+![UI](https://github.com/purify-lab/RiseofRealms/assets/97012197/415a444f-3d92-4c42-9d63-a55616235fc8)
 
 MODs and other self-made UI are welcome and encouraged.
 
