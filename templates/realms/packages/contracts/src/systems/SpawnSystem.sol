@@ -19,16 +19,16 @@ contract SpawnSystem is System {
     }
 
     function spawnToad(int32 x, int32 y, int32 z) public payable {
-        bytes32 [] memory keys = Utility.getKeysAtPosition(IWorld(_world()), x, y, z);
-        require(keys.length == 0, "Obstruction");
+//        bytes32 [] memory keys = Utility.getKeysAtPosition(IWorld(_world()), x, y, z);
+//        require(keys.length == 0, "Obstruction");
         require(msg.value == 100000000000000, "No eth");
 
-        bytes32 toad = getUniqueEntity();
-        uint32 tadpoles = GameManager.get();
-
-        Position.set(toad, x, y, z);
-        Toad.set(toad, true);
-        GameManager.set(tadpoles + 1);
+//        bytes32 toad = getUniqueEntity();
+//        uint32 tadpoles = GameManager.get();
+//
+//        Position.set(toad, x, y, z);
+//        Toad.set(toad, true);
+//        GameManager.set(tadpoles + 1);
     }
 
     function spawnToad2(int32 x, int32 y, int32 z) public  {
