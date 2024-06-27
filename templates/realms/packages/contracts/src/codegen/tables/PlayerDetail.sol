@@ -26,13 +26,12 @@ ResourceId constant _tableId = ResourceId.wrap(
 ResourceId constant PlayerDetailTableId = _tableId;
 
 FieldLayout constant _fieldLayout = FieldLayout.wrap(
-  0x0008020104040000000000000000000000000000000000000000000000000000
+  0x0008020004040000000000000000000000000000000000000000000000000000
 );
 
 struct PlayerDetailData {
   uint32 gold;
   uint32 soldier;
-  bytes32[] cites;
 }
 
 library PlayerDetail {
@@ -60,10 +59,9 @@ library PlayerDetail {
    * @return _valueSchema The value schema for the table.
    */
   function getValueSchema() internal pure returns (Schema) {
-    SchemaType[] memory _valueSchema = new SchemaType[](3);
+    SchemaType[] memory _valueSchema = new SchemaType[](2);
     _valueSchema[0] = SchemaType.UINT32;
     _valueSchema[1] = SchemaType.UINT32;
-    _valueSchema[2] = SchemaType.BYTES32_ARRAY;
 
     return SchemaLib.encode(_valueSchema);
   }
@@ -82,10 +80,9 @@ library PlayerDetail {
    * @return fieldNames An array of strings with the names of value fields.
    */
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
-    fieldNames = new string[](3);
+    fieldNames = new string[](2);
     fieldNames[0] = "gold";
     fieldNames[1] = "soldier";
-    fieldNames[2] = "cites";
   }
 
   /**
@@ -187,168 +184,6 @@ library PlayerDetail {
   }
 
   /**
-   * @notice Get cites.
-   */
-  function getCites(bytes32 key) internal view returns (bytes32[] memory cites) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = key;
-
-    bytes memory _blob = StoreSwitch.getDynamicField(_tableId, _keyTuple, 0);
-    return (SliceLib.getSubslice(_blob, 0, _blob.length).decodeArray_bytes32());
-  }
-
-  /**
-   * @notice Get cites.
-   */
-  function _getCites(bytes32 key) internal view returns (bytes32[] memory cites) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = key;
-
-    bytes memory _blob = StoreCore.getDynamicField(_tableId, _keyTuple, 0);
-    return (SliceLib.getSubslice(_blob, 0, _blob.length).decodeArray_bytes32());
-  }
-
-  /**
-   * @notice Set cites.
-   */
-  function setCites(bytes32 key, bytes32[] memory cites) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = key;
-
-    StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((cites)));
-  }
-
-  /**
-   * @notice Set cites.
-   */
-  function _setCites(bytes32 key, bytes32[] memory cites) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = key;
-
-    StoreCore.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((cites)));
-  }
-
-  /**
-   * @notice Get the length of cites.
-   */
-  function lengthCites(bytes32 key) internal view returns (uint256) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = key;
-
-    uint256 _byteLength = StoreSwitch.getDynamicFieldLength(_tableId, _keyTuple, 0);
-    unchecked {
-      return _byteLength / 32;
-    }
-  }
-
-  /**
-   * @notice Get the length of cites.
-   */
-  function _lengthCites(bytes32 key) internal view returns (uint256) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = key;
-
-    uint256 _byteLength = StoreCore.getDynamicFieldLength(_tableId, _keyTuple, 0);
-    unchecked {
-      return _byteLength / 32;
-    }
-  }
-
-  /**
-   * @notice Get an item of cites.
-   * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
-   */
-  function getItemCites(bytes32 key, uint256 _index) internal view returns (bytes32) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = key;
-
-    unchecked {
-      bytes memory _blob = StoreSwitch.getDynamicFieldSlice(_tableId, _keyTuple, 0, _index * 32, (_index + 1) * 32);
-      return (bytes32(_blob));
-    }
-  }
-
-  /**
-   * @notice Get an item of cites.
-   * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
-   */
-  function _getItemCites(bytes32 key, uint256 _index) internal view returns (bytes32) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = key;
-
-    unchecked {
-      bytes memory _blob = StoreCore.getDynamicFieldSlice(_tableId, _keyTuple, 0, _index * 32, (_index + 1) * 32);
-      return (bytes32(_blob));
-    }
-  }
-
-  /**
-   * @notice Push an element to cites.
-   */
-  function pushCites(bytes32 key, bytes32 _element) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = key;
-
-    StoreSwitch.pushToDynamicField(_tableId, _keyTuple, 0, abi.encodePacked((_element)));
-  }
-
-  /**
-   * @notice Push an element to cites.
-   */
-  function _pushCites(bytes32 key, bytes32 _element) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = key;
-
-    StoreCore.pushToDynamicField(_tableId, _keyTuple, 0, abi.encodePacked((_element)));
-  }
-
-  /**
-   * @notice Pop an element from cites.
-   */
-  function popCites(bytes32 key) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = key;
-
-    StoreSwitch.popFromDynamicField(_tableId, _keyTuple, 0, 32);
-  }
-
-  /**
-   * @notice Pop an element from cites.
-   */
-  function _popCites(bytes32 key) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = key;
-
-    StoreCore.popFromDynamicField(_tableId, _keyTuple, 0, 32);
-  }
-
-  /**
-   * @notice Update an element of cites at `_index`.
-   */
-  function updateCites(bytes32 key, uint256 _index, bytes32 _element) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = key;
-
-    unchecked {
-      bytes memory _encoded = abi.encodePacked((_element));
-      StoreSwitch.spliceDynamicData(_tableId, _keyTuple, 0, uint40(_index * 32), uint40(_encoded.length), _encoded);
-    }
-  }
-
-  /**
-   * @notice Update an element of cites at `_index`.
-   */
-  function _updateCites(bytes32 key, uint256 _index, bytes32 _element) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = key;
-
-    unchecked {
-      bytes memory _encoded = abi.encodePacked((_element));
-      StoreCore.spliceDynamicData(_tableId, _keyTuple, 0, uint40(_index * 32), uint40(_encoded.length), _encoded);
-    }
-  }
-
-  /**
    * @notice Get the full data.
    */
   function get(bytes32 key) internal view returns (PlayerDetailData memory _table) {
@@ -381,11 +216,11 @@ library PlayerDetail {
   /**
    * @notice Set the full data using individual values.
    */
-  function set(bytes32 key, uint32 gold, uint32 soldier, bytes32[] memory cites) internal {
+  function set(bytes32 key, uint32 gold, uint32 soldier) internal {
     bytes memory _staticData = encodeStatic(gold, soldier);
 
-    PackedCounter _encodedLengths = encodeLengths(cites);
-    bytes memory _dynamicData = encodeDynamic(cites);
+    PackedCounter _encodedLengths;
+    bytes memory _dynamicData;
 
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = key;
@@ -396,11 +231,11 @@ library PlayerDetail {
   /**
    * @notice Set the full data using individual values.
    */
-  function _set(bytes32 key, uint32 gold, uint32 soldier, bytes32[] memory cites) internal {
+  function _set(bytes32 key, uint32 gold, uint32 soldier) internal {
     bytes memory _staticData = encodeStatic(gold, soldier);
 
-    PackedCounter _encodedLengths = encodeLengths(cites);
-    bytes memory _dynamicData = encodeDynamic(cites);
+    PackedCounter _encodedLengths;
+    bytes memory _dynamicData;
 
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = key;
@@ -414,8 +249,8 @@ library PlayerDetail {
   function set(bytes32 key, PlayerDetailData memory _table) internal {
     bytes memory _staticData = encodeStatic(_table.gold, _table.soldier);
 
-    PackedCounter _encodedLengths = encodeLengths(_table.cites);
-    bytes memory _dynamicData = encodeDynamic(_table.cites);
+    PackedCounter _encodedLengths;
+    bytes memory _dynamicData;
 
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = key;
@@ -429,8 +264,8 @@ library PlayerDetail {
   function _set(bytes32 key, PlayerDetailData memory _table) internal {
     bytes memory _staticData = encodeStatic(_table.gold, _table.soldier);
 
-    PackedCounter _encodedLengths = encodeLengths(_table.cites);
-    bytes memory _dynamicData = encodeDynamic(_table.cites);
+    PackedCounter _encodedLengths;
+    bytes memory _dynamicData;
 
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = key;
@@ -448,34 +283,17 @@ library PlayerDetail {
   }
 
   /**
-   * @notice Decode the tightly packed blob of dynamic data using the encoded lengths.
-   */
-  function decodeDynamic(
-    PackedCounter _encodedLengths,
-    bytes memory _blob
-  ) internal pure returns (bytes32[] memory cites) {
-    uint256 _start;
-    uint256 _end;
-    unchecked {
-      _end = _encodedLengths.atIndex(0);
-    }
-    cites = (SliceLib.getSubslice(_blob, _start, _end).decodeArray_bytes32());
-  }
-
-  /**
    * @notice Decode the tightly packed blobs using this table's field layout.
    * @param _staticData Tightly packed static fields.
-   * @param _encodedLengths Encoded lengths of dynamic fields.
-   * @param _dynamicData Tightly packed dynamic fields.
+   *
+   *
    */
   function decode(
     bytes memory _staticData,
-    PackedCounter _encodedLengths,
-    bytes memory _dynamicData
+    PackedCounter,
+    bytes memory
   ) internal pure returns (PlayerDetailData memory _table) {
     (_table.gold, _table.soldier) = decodeStatic(_staticData);
-
-    (_table.cites) = decodeDynamic(_encodedLengths, _dynamicData);
   }
 
   /**
@@ -507,39 +325,16 @@ library PlayerDetail {
   }
 
   /**
-   * @notice Tightly pack dynamic data lengths using this table's schema.
-   * @return _encodedLengths The lengths of the dynamic fields (packed into a single bytes32 value).
-   */
-  function encodeLengths(bytes32[] memory cites) internal pure returns (PackedCounter _encodedLengths) {
-    // Lengths are effectively checked during copy by 2**40 bytes exceeding gas limits
-    unchecked {
-      _encodedLengths = PackedCounterLib.pack(cites.length * 32);
-    }
-  }
-
-  /**
-   * @notice Tightly pack dynamic (variable length) data using this table's schema.
-   * @return The dynamic data, encoded into a sequence of bytes.
-   */
-  function encodeDynamic(bytes32[] memory cites) internal pure returns (bytes memory) {
-    return abi.encodePacked(EncodeArray.encode((cites)));
-  }
-
-  /**
    * @notice Encode all of a record's fields.
    * @return The static (fixed length) data, encoded into a sequence of bytes.
    * @return The lengths of the dynamic fields (packed into a single bytes32 value).
    * @return The dyanmic (variable length) data, encoded into a sequence of bytes.
    */
-  function encode(
-    uint32 gold,
-    uint32 soldier,
-    bytes32[] memory cites
-  ) internal pure returns (bytes memory, PackedCounter, bytes memory) {
+  function encode(uint32 gold, uint32 soldier) internal pure returns (bytes memory, PackedCounter, bytes memory) {
     bytes memory _staticData = encodeStatic(gold, soldier);
 
-    PackedCounter _encodedLengths = encodeLengths(cites);
-    bytes memory _dynamicData = encodeDynamic(cites);
+    PackedCounter _encodedLengths;
+    bytes memory _dynamicData;
 
     return (_staticData, _encodedLengths, _dynamicData);
   }

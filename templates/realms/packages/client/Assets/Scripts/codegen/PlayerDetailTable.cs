@@ -17,8 +17,6 @@ namespace mudworld
             public uint? PreviousGold;
             public uint? Soldier;
             public uint? PreviousSoldier;
-            public string[]? Cites;
-            public string[]? PreviousCites;
         }
 
         public readonly static string ID = "PlayerDetail";
@@ -34,7 +32,6 @@ namespace mudworld
 
         public uint? Gold;
         public uint? Soldier;
-        public string[]? Cites;
 
         public override Type TableType()
         {
@@ -62,10 +59,6 @@ namespace mudworld
             {
                 return false;
             }
-            if (Cites != other.Cites)
-            {
-                return false;
-            }
             return true;
         }
 
@@ -74,8 +67,6 @@ namespace mudworld
             Gold = (uint)functionParameters[0];
 
             Soldier = (uint)functionParameters[1];
-
-            Cites = (string[])functionParameters[2];
         }
 
         public static IObservable<RecordUpdate> GetPlayerDetailTableUpdates()
@@ -94,7 +85,6 @@ namespace mudworld
         {
             Gold = (uint)property["gold"];
             Soldier = (uint)property["soldier"];
-            Cites = ((object[])property["cites"]).Cast<string>().ToArray();
         }
 
         public override RecordUpdate RecordUpdateToTyped(RecordUpdate recordUpdate)
@@ -125,18 +115,6 @@ namespace mudworld
             {
                 previousSoldierTyped = (uint)previousValue["soldier"];
             }
-            string[]? currentCitesTyped = null;
-            string[]? previousCitesTyped = null;
-
-            if (currentValue != null && currentValue.ContainsKey("cites"))
-            {
-                currentCitesTyped = ((object[])currentValue["cites"]).Cast<string>().ToArray();
-            }
-
-            if (previousValue != null && previousValue.ContainsKey("cites"))
-            {
-                previousCitesTyped = ((object[])previousValue["cites"]).Cast<string>().ToArray();
-            }
 
             return new PlayerDetailTableUpdate
             {
@@ -150,8 +128,6 @@ namespace mudworld
                 PreviousGold = previousGoldTyped,
                 Soldier = currentSoldierTyped,
                 PreviousSoldier = previousSoldierTyped,
-                Cites = currentCitesTyped,
-                PreviousCites = previousCitesTyped,
             };
         }
     }

@@ -11,7 +11,7 @@ export default mudConfig({
       valueSchema: {
         gold: "uint32",
         soldier: "uint32",
-        cites:"bytes32[]"
+        // cites:"bytes32[]"
       }
     },
     Cite: {

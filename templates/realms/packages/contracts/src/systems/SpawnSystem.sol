@@ -18,8 +18,8 @@ contract SpawnSystem is System {
         Player.set(entity, true);
         uint32 gold = 100;
         uint32 soldier = 200;
-        bytes32[] memory cites = new bytes32[](0);
-        PlayerDetail.set(entity,gold,soldier,cites);
+//        bytes32[] memory cites = new bytes32[](0);
+        PlayerDetail.set(entity,gold,soldier);
     }
 
     function buySoldier() public {
