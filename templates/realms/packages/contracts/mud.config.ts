@@ -1,12 +1,19 @@
-import { mudConfig, resolveTableId } from "@latticexyz/world/register";
+import {mudConfig, resolveTableId} from "@latticexyz/world/register";
 
 export default mudConfig({
 
   systems: {},
 
   tables: {
-
     Player: "bool",
+    PlayerDetail: {
+      name: "PlayerDetail",
+      valueSchema: {
+        gold: "uint256",
+        soldier: "uint256",
+        cites:"bytes32[]"
+      }
+    },
     Toad: "bool",
     Position: {
       name: "Position",
@@ -22,11 +29,11 @@ export default mudConfig({
         tadpoles: "uint32",
       },
     },
-    
+
   },
 
   modules: [
-  
+
     {
       name: "UniqueEntityModule",
       root: true,
@@ -37,5 +44,5 @@ export default mudConfig({
       args: [resolveTableId("Position")],
     },
   ],
-  
+
 });

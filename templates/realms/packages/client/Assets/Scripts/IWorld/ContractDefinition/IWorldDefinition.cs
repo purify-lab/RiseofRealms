@@ -581,6 +581,19 @@ namespace IWorld.ContractDefinition
         public virtual int Z { get; set; }
     }
 
+    public partial class SpawnToad3Function : SpawnToad3FunctionBase { }
+
+    [Function("spawnToad3")]
+    public class SpawnToad3FunctionBase : FunctionMessage
+    {
+        [Parameter("int32", "x", 1)]
+        public virtual int X { get; set; }
+        [Parameter("int32", "y", 2)]
+        public virtual int Y { get; set; }
+        [Parameter("int32", "z", 3)]
+        public virtual int Z { get; set; }
+    }
+
     public partial class SpliceDynamicDataFunction : SpliceDynamicDataFunctionBase { }
 
     [Function("spliceDynamicData")]
@@ -1156,6 +1169,8 @@ namespace IWorld.ContractDefinition
         [Parameter("bytes32", "valueSchema", 1)]
         public virtual byte[] ValueSchema { get; set; }
     }
+
+
 
 
 

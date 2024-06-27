@@ -1149,6 +1149,36 @@ namespace IWorld.Service
              return ContractHandler.SendRequestAndWaitForReceiptAsync(spawnToad2Function, cancellationToken);
         }
 
+        public Task<string> SpawnToad3RequestAsync(SpawnToad3Function spawnToad3Function)
+        {
+             return ContractHandler.SendRequestAsync(spawnToad3Function);
+        }
+
+        public Task<TransactionReceipt> SpawnToad3RequestAndWaitForReceiptAsync(SpawnToad3Function spawnToad3Function, CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(spawnToad3Function, cancellationToken);
+        }
+
+        public Task<string> SpawnToad3RequestAsync(int x, int y, int z)
+        {
+            var spawnToad3Function = new SpawnToad3Function();
+                spawnToad3Function.X = x;
+                spawnToad3Function.Y = y;
+                spawnToad3Function.Z = z;
+            
+             return ContractHandler.SendRequestAsync(spawnToad3Function);
+        }
+
+        public Task<TransactionReceipt> SpawnToad3RequestAndWaitForReceiptAsync(int x, int y, int z, CancellationTokenSource cancellationToken = null)
+        {
+            var spawnToad3Function = new SpawnToad3Function();
+                spawnToad3Function.X = x;
+                spawnToad3Function.Y = y;
+                spawnToad3Function.Z = z;
+            
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(spawnToad3Function, cancellationToken);
+        }
+
         public Task<string> SpliceDynamicDataRequestAsync(SpliceDynamicDataFunction spliceDynamicDataFunction)
         {
              return ContractHandler.SendRequestAsync(spliceDynamicDataFunction);
