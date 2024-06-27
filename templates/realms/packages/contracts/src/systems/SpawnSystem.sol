@@ -16,8 +16,8 @@ contract SpawnSystem is System {
         require(Player.get(entity) == false, "Already spawned");
 
         Player.set(entity, true);
-        uint256 gold = 100;
-        uint256 soldier = 200;
+        uint32 gold = 100;
+        uint32 soldier = 200;
         bytes32[] memory cites = new bytes32[](0);
         PlayerDetail.set(entity,gold,soldier,cites);
     }

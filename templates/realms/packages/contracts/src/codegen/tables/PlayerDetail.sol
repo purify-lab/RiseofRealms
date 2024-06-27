@@ -26,12 +26,12 @@ ResourceId constant _tableId = ResourceId.wrap(
 ResourceId constant PlayerDetailTableId = _tableId;
 
 FieldLayout constant _fieldLayout = FieldLayout.wrap(
-  0x0040020120200000000000000000000000000000000000000000000000000000
+  0x0008020104040000000000000000000000000000000000000000000000000000
 );
 
 struct PlayerDetailData {
-  uint256 gold;
-  uint256 soldier;
+  uint32 gold;
+  uint32 soldier;
   bytes32[] cites;
 }
 
@@ -61,8 +61,8 @@ library PlayerDetail {
    */
   function getValueSchema() internal pure returns (Schema) {
     SchemaType[] memory _valueSchema = new SchemaType[](3);
-    _valueSchema[0] = SchemaType.UINT256;
-    _valueSchema[1] = SchemaType.UINT256;
+    _valueSchema[0] = SchemaType.UINT32;
+    _valueSchema[1] = SchemaType.UINT32;
     _valueSchema[2] = SchemaType.BYTES32_ARRAY;
 
     return SchemaLib.encode(_valueSchema);
@@ -105,29 +105,29 @@ library PlayerDetail {
   /**
    * @notice Get gold.
    */
-  function getGold(bytes32 key) internal view returns (uint256 gold) {
+  function getGold(bytes32 key) internal view returns (uint32 gold) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = key;
 
     bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
-    return (uint256(bytes32(_blob)));
+    return (uint32(bytes4(_blob)));
   }
 
   /**
    * @notice Get gold.
    */
-  function _getGold(bytes32 key) internal view returns (uint256 gold) {
+  function _getGold(bytes32 key) internal view returns (uint32 gold) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = key;
 
     bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
-    return (uint256(bytes32(_blob)));
+    return (uint32(bytes4(_blob)));
   }
 
   /**
    * @notice Set gold.
    */
-  function setGold(bytes32 key, uint256 gold) internal {
+  function setGold(bytes32 key, uint32 gold) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = key;
 
@@ -137,7 +137,7 @@ library PlayerDetail {
   /**
    * @notice Set gold.
    */
-  function _setGold(bytes32 key, uint256 gold) internal {
+  function _setGold(bytes32 key, uint32 gold) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = key;
 
@@ -147,29 +147,29 @@ library PlayerDetail {
   /**
    * @notice Get soldier.
    */
-  function getSoldier(bytes32 key) internal view returns (uint256 soldier) {
+  function getSoldier(bytes32 key) internal view returns (uint32 soldier) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = key;
 
     bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
-    return (uint256(bytes32(_blob)));
+    return (uint32(bytes4(_blob)));
   }
 
   /**
    * @notice Get soldier.
    */
-  function _getSoldier(bytes32 key) internal view returns (uint256 soldier) {
+  function _getSoldier(bytes32 key) internal view returns (uint32 soldier) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = key;
 
     bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
-    return (uint256(bytes32(_blob)));
+    return (uint32(bytes4(_blob)));
   }
 
   /**
    * @notice Set soldier.
    */
-  function setSoldier(bytes32 key, uint256 soldier) internal {
+  function setSoldier(bytes32 key, uint32 soldier) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = key;
 
@@ -179,7 +179,7 @@ library PlayerDetail {
   /**
    * @notice Set soldier.
    */
-  function _setSoldier(bytes32 key, uint256 soldier) internal {
+  function _setSoldier(bytes32 key, uint32 soldier) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = key;
 
@@ -381,7 +381,7 @@ library PlayerDetail {
   /**
    * @notice Set the full data using individual values.
    */
-  function set(bytes32 key, uint256 gold, uint256 soldier, bytes32[] memory cites) internal {
+  function set(bytes32 key, uint32 gold, uint32 soldier, bytes32[] memory cites) internal {
     bytes memory _staticData = encodeStatic(gold, soldier);
 
     PackedCounter _encodedLengths = encodeLengths(cites);
@@ -396,7 +396,7 @@ library PlayerDetail {
   /**
    * @notice Set the full data using individual values.
    */
-  function _set(bytes32 key, uint256 gold, uint256 soldier, bytes32[] memory cites) internal {
+  function _set(bytes32 key, uint32 gold, uint32 soldier, bytes32[] memory cites) internal {
     bytes memory _staticData = encodeStatic(gold, soldier);
 
     PackedCounter _encodedLengths = encodeLengths(cites);
@@ -441,10 +441,10 @@ library PlayerDetail {
   /**
    * @notice Decode the tightly packed blob of static data using this table's field layout.
    */
-  function decodeStatic(bytes memory _blob) internal pure returns (uint256 gold, uint256 soldier) {
-    gold = (uint256(Bytes.slice32(_blob, 0)));
+  function decodeStatic(bytes memory _blob) internal pure returns (uint32 gold, uint32 soldier) {
+    gold = (uint32(Bytes.slice4(_blob, 0)));
 
-    soldier = (uint256(Bytes.slice32(_blob, 32)));
+    soldier = (uint32(Bytes.slice4(_blob, 4)));
   }
 
   /**
@@ -502,7 +502,7 @@ library PlayerDetail {
    * @notice Tightly pack static (fixed length) data using this table's schema.
    * @return The static data, encoded into a sequence of bytes.
    */
-  function encodeStatic(uint256 gold, uint256 soldier) internal pure returns (bytes memory) {
+  function encodeStatic(uint32 gold, uint32 soldier) internal pure returns (bytes memory) {
     return abi.encodePacked(gold, soldier);
   }
 
@@ -532,8 +532,8 @@ library PlayerDetail {
    * @return The dyanmic (variable length) data, encoded into a sequence of bytes.
    */
   function encode(
-    uint256 gold,
-    uint256 soldier,
+    uint32 gold,
+    uint32 soldier,
     bytes32[] memory cites
   ) internal pure returns (bytes memory, PackedCounter, bytes memory) {
     bytes memory _staticData = encodeStatic(gold, soldier);

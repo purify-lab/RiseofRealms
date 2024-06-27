@@ -9,8 +9,8 @@ export default mudConfig({
     PlayerDetail: {
       name: "PlayerDetail",
       valueSchema: {
-        gold: "uint256",
-        soldier: "uint256",
+        gold: "uint32",
+        soldier: "uint32",
         cites:"bytes32[]"
       }
     },

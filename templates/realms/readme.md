@@ -7,4 +7,4 @@ CHAIN CODE:17069
 BLOCK SCAN:https://garnet.blockscout.com/
 
 export PRIVATE_KEY=0xfb61ae9ea723f1bff3f7bd183ffbaa730127d9a7ba4fab24340b64fb1904ee5f
-forge script PostDeploy --sig "run(address)"  "0x32c856656b2bcdf739aa486a417b46b3d19f54f9" --broadcast --rpc-url https://rpc.garnet.qry.live/ -vvv --priority-gas-price 100
+forge script PostDeploy --sig "run(address)"  "0x772aa2c04bb7608089c553f2a9bf1dc99e1cfa14" --broadcast --rpc-url https://rpc.garnet.qry.live/ -vvv --priority-gas-price 100
