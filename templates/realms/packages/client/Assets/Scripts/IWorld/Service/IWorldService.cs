@@ -100,6 +100,26 @@ namespace IWorld.Service
              return ContractHandler.SendRequestAndWaitForReceiptAsync(batchCallFromFunction, cancellationToken);
         }
 
+        public Task<string> BuySoldierRequestAsync(BuySoldierFunction buySoldierFunction)
+        {
+             return ContractHandler.SendRequestAsync(buySoldierFunction);
+        }
+
+        public Task<string> BuySoldierRequestAsync()
+        {
+             return ContractHandler.SendRequestAsync<BuySoldierFunction>();
+        }
+
+        public Task<TransactionReceipt> BuySoldierRequestAndWaitForReceiptAsync(BuySoldierFunction buySoldierFunction, CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(buySoldierFunction, cancellationToken);
+        }
+
+        public Task<TransactionReceipt> BuySoldierRequestAndWaitForReceiptAsync(CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync<BuySoldierFunction>(null, cancellationToken);
+        }
+
         public Task<string> CallRequestAsync(CallFunction callFunction)
         {
              return ContractHandler.SendRequestAsync(callFunction);

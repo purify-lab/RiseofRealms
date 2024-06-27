@@ -68,6 +68,13 @@
   },
   {
     "type": "function",
+    "name": "buySoldier",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
     "name": "call",
     "inputs": [
       {

@@ -5,6 +5,7 @@ pragma solidity >=0.8.21;
 
 import { Player, PlayerTableId } from "./tables/Player.sol";
 import { PlayerDetail, PlayerDetailData, PlayerDetailTableId } from "./tables/PlayerDetail.sol";
+import { Cite, CiteTableId } from "./tables/Cite.sol";
 import { Toad, ToadTableId } from "./tables/Toad.sol";
 import { Position, PositionData, PositionTableId } from "./tables/Position.sol";
 import { GameManager, GameManagerTableId } from "./tables/GameManager.sol";
