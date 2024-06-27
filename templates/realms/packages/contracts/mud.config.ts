@@ -14,6 +14,11 @@ export default mudConfig({
         cites:"bytes32[]"
       }
     },
+    Cite: {
+      valueSchema: {
+        owner:"bytes32"
+      }
+    },
     Toad: "bool",
     Position: {
       name: "Position",

@@ -3,7 +3,7 @@ pragma solidity >=0.8.0;
 
 import {System} from "@latticexyz/world/src/System.sol";
 import {IWorld} from "../codegen/world/IWorld.sol";
-import {Player, Position, Toad, GameManager} from "../codegen/index.sol";
+import {Player, Position, Toad, GameManager,PlayerDetail} from "../codegen/index.sol";
 
 import {getUniqueEntity} from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 import {Utility} from "../utility/utility.sol";
@@ -16,6 +16,16 @@ contract SpawnSystem is System {
         require(Player.get(entity) == false, "Already spawned");
 
         Player.set(entity, true);
+        uint256 gold = 99999999999;
+        uint256 soldier = 999999999;
+        bytes32[] memory cites = new bytes32[](0);
+        PlayerDetail.set(entity,gold,soldier,cites);
+    }
+
+    function buySoldier() public {
+        bytes32 entity = Utility.addressToEntityKey(address(_msgSender()));
+        PlayerDetail.setGold(entity, PlayerDetail.getGold(entity) - 1);
+        PlayerDetail.setSoldier(entity, PlayerDetail.getSoldier(entity) + 1);
     }
 
     function spawnToad(int32 x, int32 y, int32 z) public payable {
