@@ -1,196 +1,79 @@
-# UniMUD
-Package for interacting with the [MUD](https://mud.dev) framework in [Unity](https://unity3d.com).
+## Table of Contents
 
-![unimud_header](https://github.com/emergenceland/UniMUD/blob/main/unimud/unimud.png?raw=true)
+- [Overview](#overview)
+- Game Mechanics
+  - [Land Deployment](#land-deployment)
+  - [Army Management](#army-management)
+  - [Rewards System](#rewards-system)
+  - [Token Impact Mechanism](#token-impact-mechanism)
+- [User Interface](#User-Interface)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
 
-## Prerequisites
-1. git ([download](https://git-scm.com/downloads))
-2. foundry (forge, anvil, cast) ([download](https://book.getfoundry.sh/getting-started/installation), make sure to foundryup at least once)
-3. node.js (v16+) ([download](https://nodejs.org/en/download))
-4. pnpm (after installing node: npm install --global pnpm)
-5. Unity ([download](https://unity.com/download))
-6. The .NET SDK (7.0) ([download](https://dotnet.microsoft.com/en-us/download))
+## Overview
 
-If you are using Windows:
-1. Install Git Bash (gitforwindows.org)
-2. Install nodejs, including “native modules” (nodejs.org/en/download) (re native modules: just keep the checkmark, it’s enabled by default in the installer)
-3. Use Git Bash for all terminal commands
+Rise of Realm is a Fully On-Chain SLG game in which conquering and defending have the real power to affect and impact the real world. The game operates on a unique token system and integrates various in-game functions to present a new paradigm of crypto gaming experience.
 
-## Tankmud Written Tutorial
-Follow this [guide](https://gaulll.notion.site/Tankmud-Tutorial-studio-mud-03b74081dac14b998caddbd6c3db9e46) to make a basic MUD game with Unity.
+## Game Mechanics
 
-![tankmud_gif](https://github.com/emergenceland/UniMUD/blob/main/templates/tankmud/packages/client/Docs/tankmud.gif?raw=true)
+### Land Deployment
 
-## Tadpol Video Tutorial
-[![thumbnailGit](https://github.com/emergenceland/UniMUD/assets/7606952/d2cd3765-22a3-4d13-a8b4-f93cb5ec74d3)](https://www.youtube.com/watch?v=-cRTlDlTmSU)
+- **Purchase Permanent Castle:** Players can use ETH or Verse to buy plots of land, which serve as their bases. Once deployed, these bases are indestructible.
+- **Realms Map:** There are 8,000 lands in the map, each corresponding to a Loot Realm. For now, they only share the name, holder utilies will be added in the future.
 
-## Quickstart (with template)
+### Army Management
 
-1. `git clone https://github.com/emergenceland/UniMUD.git`
-2. Open terminal and enter the project root `cd UniMUD/templates/counter`
-3. Install MUD `pnpm install`
-4. Enter contract folder `cd packages/contracts`
-5. Deploy contracts locally `pnpm dev`
-6. Open a second terminal window to contracts `cd UniMUD/templates/counter/packages/contracts`
-7. Run codegen for C# scripts and link to the deploy `pnpm dev:unity`
-8. Open the project in Unity Hub `UniMUD/templates/counter/packages/client`
-9. Enter play mode!
+- **Purchase Armies:** Players use in-game tokens to purchase armies for their respective factions. 
+- **Deploy Armies:** Army can be deployed to specific plots of land. Only one type of faction can be deployed on each command.
+- **Garrison Armies:** Players must allocate a certain number of armies to defend occupied plots. Each plot has a maximum garrison limit.
 
-## Example Usage
+###  Token Impact Mechanism
 
-### Fetching a value for a key
+- **Token Usage:** Players use $TITANS and $FURY tokens to perform in-game actions such as recruiting and deploying armies.
+- **Token Flow:** Tokens spent on army recruitment are added to the reward pool, creating a cyclical economy where players are incentivized to participate actively.
+- **Staking:** Once player occupied a land, they can stake $TITANS or $FURY on selected land, the staking amount will affect the burning or minting amount of opponet's token.
+- **Burning and Minting:** Every time the staking amount of any token is changed, the Minting Net Values of both tokens are recorded on-chain, and the values accumulate until an external executor triggers the executed contract.
+- **Execution**: Anyone who triggers the execution contract is called an executor and will be rewarded 10% of any token mint.
+- **Dynamic Balance:** The idea is to convert players' in-game action into real-world impact by projecting the in-game attack to token price. Players gain actual power by manipulating token trends by expanding their empire, but the weak force will still have a chance to fight back as their entry cost becomes extremely low.
 
-To fetch a table by key, use `GetTable` on MUDTable:
+## User Interface
 
-```csharp
-MonsterTable monstersTable = MUDTable.GetTable<MonsterTable>(key);
-```
+Purify Lab developed the default front end by leveraging UNIMUD. Players can process all the actions inside the game UI.
+![UI](https://github.com/purify-lab/RiseofRealms/assets/97012197/415a444f-3d92-4c42-9d63-a55616235fc8)
 
-### Making transactions
+MODs and other self-made UI are welcome and encouraged.
 
-```csharp
-using IWorld.ContractDefinition;
-using mud;
+## Roadmap
 
-async void Move(int x, int y)
-{
-	// The MoveFunction type comes from your autogenerated bindings
-	// NetworkManager exposes a worldSend property that you can use to send transactions.
-	// It takes care of gas and nonce management for you.
-	// Make sure your MonoBehaviour is set up to handle async/await.
-	await NetworkManager.World.Write<MoveFunction>(System.Convert.ToInt32(x), System.Convert.ToInt32(y));
-}
-```
+1. **Solidity Version:**
+   - Initial development phase focused on integrating with Unity and verifying concepts using uniMUD.
+   - Alpha version completion target: End of July.
+2. **Testing Phase:**
+   - Small-scale tests on Layer 2 solutions to evaluate in-game interactions and mechanics.
+   - Duration: 2 weeks to 1 month.
+3. **Mainnet Launch:**
+   - Finalize and polish the game for release on Verse mainnet with Starknet assets.
+   - Expected launch: Concurrent with Verse mainnet launch.
+4. **Cairo Version:**
+   - Key milestone involving the development of the Cairo version.
+   - Start date: Mid-September.
 
-### Representing State
+## Contributing
 
-UniMUD caches MUD v2 events in the client for you in a "datastore." You can access the datastore via the NetworkManager. The datastore keeps a multilevel index of tableId -> table -> records
+Contributions are welcome! Please follow these steps to contribute:
 
-```csharp
-class RxRecord {
-	public string TableId { get; set; }
-	public string Key { get; set; }
-	public Property RawValue { get; set; }
-}
-```
-
-For example, records for an entity's Position might look like:
-
-```json
-[
-  {
-	"tableId": "Position",
-	"key": "0x1234",
-	"x": 1,
-	"y": 2
-  },
-  {
-	"tableId": "Position",
-	"key": "0x5678",
-	"x": 3,
-	"y": 4
-  }
-]
-```
-
-### Queries
-
-For queries that are useful in an ECS context, you can use the `Query` class to build queries.
-
-**Get all records of entities that have Component X and Component Y**
-
-```csharp
-RxTable Health = ds.tableNameIndex["Health"];
-RxTable Position ds.tableNameIndex["Position"];
-
-var hasHealthAndPosition = new Query().In(Health).In(Position)
-
-// -> [ { table: "Position", key: "0x1234", value: { x: 1, y: 2 } },
-//      { table: "Health", key: "0x1234", value: { health: 100 } },
-//      { table: "Position", key: "0x456", value: {x: 2: y: 3} }, ...]
-```
-
-**Get all records of entities that have Component X and Component Y, but not Component Z**
-
-```csharp
-var notMonsters = new Query().In(Health).In(Position).Not(Monster)
-```
-
-**Get all records of entities that have Component X and Component Y, but only return rows from Component X**
-
-```csharp
-var allHealthRows = new Query().Select(HealthTable).In(Position).In(HealthTable)
-// -> [ { table: "Health", key: "0x1234", value: { health: 100 } } ]
-```
-
-**Get all monsters that have the name Chuck**
-
-```csharp
-var allMonstersNamedChuck = new Query().In(MonsterTable).In(MonsterTable, new Condition[]{Condition.Has("name", "Chuck")})
-// -> [ { table: "Monsters", key: "0x1234", value: { name: "Chuck", strength: 100 } } ]
-```
-
-Make sure you actually run the query after building it, with `NetworkManager.Datastore.RunQuery(yourQuery)`
-
-```csharp
-using mud;
-
-void RenderHealth() {
-  var hasHealth = new Query().Select(Health).In(InitialHealth).In(Health).In(TilePosition);
-
-  var recordsWithHealth = NetworkManager.Datastore.RunQuery(hasHealth); // don't forget
-
-  foreach (var record in recordsWithHealth) {
-    DrawHealthBar(record.value["healthValue"]);
-    // assumes the health table has an attribute called "healthValue"
-  }
-}
-```
-
-### Reacting to Updates
-
-You can do reactive queries on the datastore, with the `MUDTable.GetUpdates<YourTable>()` method.
-
-```csharp
-using System;
-using UniRx;
-using mud;
-using UnityEngine;
-
-public class Counter : MonoBehaviour {
-    private IDisposable _disposable = new();
-
-    void Start() {
-        net = NetworkManager.Instance;
-        net.OnNetworkInitialized += SubscribeToCounter;
-    }
-
-    private void SubscribeToCounter(NetworkManager _) {
-        _counterSub = MUDTable.GetUpdates<CounterTable>().ObserveOnMainThread().Subscribe(OnIncrement);
-    }
-
-    private void OnIncrement(RecordUpdate update) {
-        if (update.Type != UpdateType.DeleteRecord) {
-            var currentValue = update.CurrentRecordValue;
-            if (currentValue == null) return;
-
-            Debug.Log("Counter is now: " + JsonConvert.SerializeObject(currentValue));
-            Instantiate(prefab, Vector3.up, Quaternion.identity); 
-        }
-    }
-}
-```
-
-### Deploying to a testnet
-Select the Testnet NetworkType on the **NetworkManager** or create your own NetworkData ScriptableObject in the project window and link it.
-
-### Limitations
-- Does not support setters for individual table values on contracts (must set the entire table every time)
-- Does not support pop or push array functions on contracts
-  
-## Future work
-- Indexer
-- Caching/persistence
+1. Fork the repository.
+2. Create a new branch: `git checkout -b feature-branch`
+3. Make your changes and commit them: `git commit -m 'Add new feature'`
+4. Push to the branch: `git push origin feature-branch`
+5. Submit a pull request.
 
 ## License
+
 MIT
+
+## Contact
+
+For support or collaboration, find us in [Twitter](https://x.com/purifylab_xyz).
