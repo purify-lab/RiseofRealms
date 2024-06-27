@@ -45,6 +45,14 @@ namespace IWorld.ContractDefinition
         public virtual List<SystemCallFromData> SystemCalls { get; set; }
     }
 
+    public partial class BuySoldierFunction : BuySoldierFunctionBase { }
+
+    [Function("buySoldier")]
+    public class BuySoldierFunctionBase : FunctionMessage
+    {
+
+    }
+
     public partial class CallFunction : CallFunctionBase { }
 
     [Function("call", "bytes")]
@@ -1023,6 +1031,8 @@ namespace IWorld.ContractDefinition
     public class WorldUnlimiteddelegationnotallowedErrorBase : IErrorDTO
     {
     }
+
+
 
 
 
