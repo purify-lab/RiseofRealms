@@ -14,9 +14,8 @@ const provider = new ethers.providers.JsonRpcProvider("https://rpc.garnet.qry.li
 
 
 const ETHER = Ether.onChain(1)
-const WETH = new Token(1, '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', 18, 'WETH', 'Wrapped Ether')
-const USDC = new Token(1, '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', 6, 'USDC', 'USD Coin')
-
+const WETH = new Token(1, '0x4200000000000000000000000000000000000006', 18, 'WETH', 'Wrapped Ether')
+const USDC = new Token(1, '0xC6dD7d2374073d4C1a4de12eD54E0f436572f917', 6, 'USDC', 'USD Coin')
 
 const wethContract = new ethers.Contract(WETH.address, erc20Abi, provider)
 const usdcContract = new ethers.Contract(USDC.address, erc20Abi, provider)
@@ -25,7 +24,7 @@ const usdcContract = new ethers.Contract(USDC.address, erc20Abi, provider)
 async function getPool(tokenA, tokenB, feeAmount) {
     const [token0, token1] = tokenA.sortsBefore(tokenB) ? [tokenA, tokenB] : [tokenB, tokenA]
 
-    const poolAddress = Pool.getAddress(token0, token1, feeAmount)
+    const poolAddress = "0x9f82Dec2dB0Ae3657b574166Ac4B2D89c629F098";//Pool.getAddress(token0, token1, feeAmount)
 
     const contract = new ethers.Contract(poolAddress, IUniswapV3Pool.abi, provider)
 
@@ -90,19 +89,20 @@ function buildTrade(trades) {
 }
 
 
-const RECIPIENT = '0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B'
+const RECIPIENT = '0x74f0Bf9321fF57a4028999bB88ca623cc9e79F14'
 
 
 async function main() {
-    const signer = new ethers.Wallet("fb61ae9ea723f1bff3f7bd183ffbaa730127d9a7ba4fab24340b64fb1904ee5f");
+    const signer = new ethers.Wallet("fb61ae9ea723f1bff3f7bd183ffbaa730127d9a7ba4fab24340b64fb1904ee5f",provider);
 
-    const WETH_USDC_V3 = await getPool(WETH, USDC, FeeAmount.MEDIUM)
+    const WETH_USDC_V3 = await getPool(WETH, USDC, FeeAmount.LOW)
 
-    const inputEther = ethers.utils.parseEther('1').toString()
+    const inputEther = ethers.utils.parseEther('1000').toString()
 
+    const router =  new RouteV3([WETH_USDC_V3], USDC,WETH);
     const trade = await V3Trade.fromRoute(
-        new RouteV3([WETH_USDC_V3], ETHER, USDC),
-        CurrencyAmount.fromRawAmount(ETHER, inputEther),
+        router,
+        CurrencyAmount.fromRawAmount(USDC, inputEther),
         TradeType.EXACT_INPUT
     )
 
@@ -125,9 +125,10 @@ async function main() {
 
     const tx = await signer.sendTransaction({
         data: params.calldata,
-        to: '0xEf1c6E67703c7BD7107eed8303Fbe6EC2554BF6B',
+        to: '0x02b36A5aCa3e51d2E73926E3D3bB59C979B60C78',
         value: params.value,
         from: RECIPIENT,
+        gasLimit: 1000000 // Increase the gas limit
     })
 
     const receipt = await tx.wait()
