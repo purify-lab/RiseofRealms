@@ -5,6 +5,7 @@ import * as fs from "node:fs";
 dotenv.config();
 
 const UniversalRouterABI = JSON.parse(fs.readFileSync(__dirname + "/../abi/UniversalRouter.json").toString());
+const Permit2ABI = JSON.parse(fs.readFileSync(__dirname + "/../abi/Permit2.json").toString());
 
 async function MakeSignature() {
 
@@ -20,7 +21,7 @@ async function MakeSignature() {
   const spender = '0x9876543210987654321098765432109876543210';
   const value = ethers.parseEther('1.0');
   const deadline = Math.floor(Date.now() / 1000) + 3600; // 1 小时后过期
-  const contract = new ethers.Contract("", UniversalRouterABI, userWallet);
+  const contract = new ethers.Contract("", Permit2ABI, userWallet);
   const nonce = await contract.nonces(owner);
   const digest = await contract.getPermitDigest(owner, spender, value, nonce, deadline);
   // 3. 使用用户的私钥对 digest 进行签名
