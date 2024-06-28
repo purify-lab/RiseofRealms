@@ -1,33 +1,35 @@
 import {ethers} from 'ethers';
 import dotenv from "dotenv";
 import * as fs from "node:fs";
+import {PERMIT_TYPEHASH, getPermitDigest, getDomainSeparator, sign} from './utils/signatures'
 
 dotenv.config();
 
 const UniversalRouterABI = JSON.parse(fs.readFileSync(__dirname + "/../abi/UniversalRouter.json").toString());
 const Permit2ABI = JSON.parse(fs.readFileSync(__dirname + "/../abi/Permit2.json").toString());
 
-async function MakeSignature() {
-
+async function MakeSignature(owner: string, user: string) {
+  const chainId=1;
+  const name = "SIN";
   if (!process.env.PRIVATE_KEY) {
     throw new Error('PRIVATE_KEY environment variable is not set.');
   }
-
-  const provider = new ethers.JsonRpcProvider("");
-  // 1. 获取用户的钱包实例
-  const userWallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
-  // 2. 计算 permit 数据的 digest
-  const owner = '0x0123456789012345678901234567890123456789';
-  const spender = '0x9876543210987654321098765432109876543210';
-  const value = ethers.parseEther('1.0');
-  const deadline = Math.floor(Date.now() / 1000) + 3600; // 1 小时后过期
-  const contract = new ethers.Contract("", Permit2ABI, userWallet);
-  const nonce = await contract.nonces(owner);
-  const digest = await contract.getPermitDigest(owner, spender, value, nonce, deadline);
-  // 3. 使用用户的私钥对 digest 进行签名
-  const signingKey = new ethers.SigningKey(userWallet.privateKey);
-  const signature = await signingKey.sign(digest);
-  console.log("signature", signature);
+  const privateKeyBuffer = Buffer.from(process.env.PRIVATE_KEY!, 'hex');
+  const privateKeyUint8Array = new Uint8Array(privateKeyBuffer);
+  const approve = {
+    owner: owner,
+    spender: user,
+    value: 100,
+  }
+  // deadline as much as you want in the future
+  const deadline = 100000000000000
+  // Get the user's nonce
+  const nonce = 0;//await token.nonces(owner)
+  const digest = getPermitDigest(name, "0xF4b984B7ac1A784A7d8FC5622137Ace836179dAc", chainId, approve, nonce, deadline)
+  const { r, s, v } = sign(digest, privateKeyUint8Array);
+  return `0x${r.toString('hex')}${s.toString('hex')}${v.toString(16)}`;
 }
 
-MakeSignature();
+MakeSignature("0x74f0Bf9321fF57a4028999bB88ca623cc9e79F14","0x74f0Bf9321fF57a4028999bB88ca623cc9e79F14").then((r)=>{
+  console.log(r);
+});

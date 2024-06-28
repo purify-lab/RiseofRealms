@@ -1,4 +1,4 @@
-import { keccak256, toUtf8Bytes } from 'ethers'
+import { keccak256, defaultAbiCoder, toUtf8Bytes, solidityPack } from 'ethers/lib/utils'
 import { BigNumberish } from 'ethers'
 import { ecsign } from 'ethereumjs-util'
 
