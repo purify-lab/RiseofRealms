@@ -22225,6 +22225,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: febe12f81b484af44a8caccda9e3c2c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddressText: {fileID: 2137213407}
+  CityText: {fileID: 786292348}
+  CoinText: {fileID: 1581999934}
+  SoldierText: {fileID: 612983780}
+  TokenAText: {fileID: 250174225}
+  TokenBText: {fileID: 1721572724}
+  TokenCText: {fileID: 315654683}
+  OnPurchaseBtn: {fileID: 2100747567}
+  PurchaseLandPage: {fileID: 949349164}
 --- !u!1 &262984984
 GameObject:
   m_ObjectHideFlags: 0
@@ -38154,6 +38163,7 @@ GameObject:
   - component: {fileID: 949349165}
   - component: {fileID: 949349167}
   - component: {fileID: 949349166}
+  - component: {fileID: 949349168}
   m_Layer: 5
   m_Name: PurchaseLandPage
   m_TagString: Untagged
@@ -38219,6 +38229,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 949349164}
   m_CullTransparentMesh: 1
+--- !u!114 &949349168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 949349164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f567121f31430f4caa5e96719120779, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CloseBtn: {fileID: 1618638423}
+  coordsText: {fileID: 1435985225}
+  PriceText: {fileID: 1775206292}
+  BuyBtn: {fileID: 9530058}
 --- !u!1 &949483461
 GameObject:
   m_ObjectHideFlags: 0

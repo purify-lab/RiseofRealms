@@ -4,19 +4,46 @@ using IWorld.ContractDefinition;
 using mudworld;
 using UnityEngine;
 using mud;
+using UnityEngine.UI;
 
 public class MainPageUI : MonoBehaviour
 {
+    public Text AddressText;
+    public Text CityText;
+    public Text CoinText;
+    public Text SoldierText;
+    
+    public Text TokenAText;
+    public Text TokenBText;
+    public Text TokenCText;
+
+    public Button OnPurchaseBtn;
+
+    public GameObject PurchaseLandPage;
     
     // Start is called before the first frame update
-    void Start()
+    async void Start()
     {
         NetworkManager.OnInitialized += SpawnPlayer;
-        Tokens.Inst.ReadTokenBalance(Tokens.Inst.token_a_addr);
-        Tokens.Inst.ReadTokenBalance(Tokens.Inst.token_b_addr);
-        Tokens.Inst.ReadTokenBalance(Tokens.Inst.token_c_addr);
+        var aToken = await Tokens.Inst.ReadTokenBalance(Tokens.Inst.token_a_addr);
+        var bToken = await Tokens.Inst.ReadTokenBalance(Tokens.Inst.token_b_addr);
+        var cToken = await Tokens.Inst.ReadTokenBalance(Tokens.Inst.token_c_addr);
         
+        Debug.Log("Jerry aToken " + aToken);
+        Debug.Log("Jerry bToken " + bToken);
+        Debug.Log("Jerry cToken " + cToken);
+
+        TokenAText.text = aToken.ToString();
+        TokenBText.text = bToken.ToString();
+        TokenCText.text = cToken.ToString();
         
+        OnPurchaseBtn.onClick.AddListener(onclickPurchase);
+    }
+
+    void onclickPurchase()
+    {
+        PurchaseLandPage.SetActive(true);
+        Debug.Log("On Purchase");
     }
     
     void SpawnPlayer() {
@@ -28,11 +55,16 @@ public class MainPageUI : MonoBehaviour
             Debug.Log("Player found");
         }
         
-        SendBuySoldierTx();
+
+        AddressText.text = Utils.GetAddressText(NetworkManager.Account.Address) ;
+        
+        //SendBuySoldierTx();
         
         if (player != null && player.Value != false)
         {
             PlayerDetailTable pdt = MUDTable.GetTable<PlayerDetailTable>(NetworkManager.LocalKey);
+            CoinText.text = pdt.Gold.ToString();
+            SoldierText.text = pdt.Soldier.ToString();
             Debug.Log("Jerry PDT:" + pdt.Gold + " : " + pdt.Soldier + " : ");
         }
     }

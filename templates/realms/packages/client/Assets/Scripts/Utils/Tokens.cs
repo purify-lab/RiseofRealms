@@ -1,10 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
+using Cysharp.Threading.Tasks;
 using Nethereum.ABI.FunctionEncoding.Attributes;
 using UnityEngine;
 using Nethereum.Accounts;
 using Nethereum.Contracts;
+using Nethereum.Contracts.Standards.ERC20.TokenList;
+using Nethereum.Util;
+using Nethereum.Web3;
 using Nethereum.Web3.Accounts;
 
 [Function("balanceOf", "uint256")]
@@ -20,7 +25,7 @@ public class Tokens : Singleton<Tokens>
     public string token_b_addr = "0x45AD5640957673B6585a5500D35740fbf698498b";
     public string token_c_addr = "0x358CD91cb9E587b5990E4BBa1C49Bc5FB384674e";
 
-    public async void ReadTokenBalance(string contractAddress)
+    public async UniTask<Decimal> ReadTokenBalance(string contractAddress)
     {
         var account = new Account("0x832cce0f0faef94f242adad051e015bed9ffa7d4");
         var web3 = new Nethereum.Web3.Web3(account,"https://rpc.garnet.qry.live/");
@@ -32,8 +37,9 @@ public class Tokens : Singleton<Tokens>
 
         var balanceHandler = web3.Eth.GetContractQueryHandler<BalanceOfFunction>();
         var balance = await balanceHandler.QueryAsync<BigInteger>(contractAddress, balanceOfFunctionMessage);
-        
-        Debug.Log("Jerry Balance: " + balance);
+        var balanceInEther = Web3.Convert.FromWei(balance, UnitConversion.EthUnit.Ether);
+
+        return balanceInEther;
     }
 
 }
