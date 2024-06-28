@@ -2,3 +2,5 @@
 Library/
 Logs/
 /templates/realms/key.md
+/ror_bot/node_modules/
+/ror_bot/dist/
