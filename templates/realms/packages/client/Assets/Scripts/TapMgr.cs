@@ -3,12 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class EventTapMap : EventParam
+{
+    public Vector3Int pos;
+}
+
 public class TapMgr : MonoBehaviour 
 {
     public bool isPlacing;
     public GameObject building;
 
     public Vector3Int buildingCursor;
+    public Vector3Int tapPos;
+
+    public static TapMgr inst;
+
+    private void Awake()
+    {
+        inst = this;
+    }
 
     Plane m_Plane;
     // Start is called before the first frame update
@@ -33,6 +46,8 @@ public class TapMgr : MonoBehaviour
         {
             return;
         }
+
+        tapPos = buildingCursor;
         
         Debug.Log("Tap Pos: " + buildingCursor);
     }

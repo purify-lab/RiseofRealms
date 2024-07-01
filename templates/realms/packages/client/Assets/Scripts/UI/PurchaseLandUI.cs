@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,12 @@ public class PurchaseLandUI : MonoBehaviour
     {
         CloseBtn.onClick.AddListener(onCloseBtnClick);
         BuyBtn.onClick.AddListener(onBuyBtnClick);
+        
+    }
+
+    private void OnEnable()
+    {
+        Debug.Log("On Purchase Tile: " + TapMgr.inst.tapPos);
     }
 
     void onBuyBtnClick()
