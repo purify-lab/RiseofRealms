@@ -76,4 +76,54 @@ public class Tokens : Singleton<Tokens>
         return balanceInEther;
     }
 
+    public async UniTask<bool> TransferToken(string contractAddress, string toAddress, BigInteger amount)
+    {
+        var account = new Account("0x832cce0f0faef94f242adad051e015bed9ffa7d4");
+        var web3 = new Nethereum.Web3.Web3(account,"https://rpc.garnet.qry.live/");
+
+        var transferFunctionMessage = new TransferFunction()
+        {
+            To = toAddress,
+            TokenAmount = amount
+        };
+
+        var transferHandler = web3.Eth.GetContractTransactionHandler<TransferFunction>();
+        var transfer = await transferHandler.SendRequestAsync(contractAddress, transferFunctionMessage);
+
+        return transfer;
+    }
+
+    public async UniTask<bool> ApproveToken(string contractAddress, string spenderAddress, BigInteger amount)
+    {
+        var account = new Account("0x832cce0f0faef94f242adad051e015bed9ffa7d4");
+        var web3 = new Nethereum.Web3.Web3(account,"https://rpc.garnet.qry.live/");
+
+        var approveFunctionMessage = new ApproveFunction()
+        {
+            Spender = spenderAddress,
+            Value = amount
+        };
+
+        var approveHandler = web3.Eth.GetContractTransactionHandler<ApproveFunction>();
+        var approve = await approveHandler.SendRequestAsync(contractAddress, approveFunctionMessage);
+
+        return approve;
+    }
+
+    public async UniTask<BigInteger> ReadTokenAllowance(string contractAddress, string ownerAddress, string spenderAddress)
+    {
+        var account = new Account("0x832cce0f0faef94f242adad051e015bed9ffa7d4");
+        var web3 = new Nethereum.Web3.Web3(account,"https://rpc.garnet.qry.live/");
+
+        var allowedFunctionMessage = new AllowedFunctionBase()
+        {
+            Owner = ownerAddress,
+            Spender = spenderAddress
+        };
+
+        var allowedHandler = web3.Eth.GetContractQueryHandler<AllowedFunctionBase>();
+        var allowed = await allowedHandler.QueryAsync<BigInteger>(contractAddress, allowedFunctionMessage);
+
+        return allowed;
+    }
 }
