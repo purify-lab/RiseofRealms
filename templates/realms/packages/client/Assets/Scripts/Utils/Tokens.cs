@@ -59,6 +59,12 @@ public class Tokens : Singleton<Tokens>
     public string token_b_addr = "0x45AD5640957673B6585a5500D35740fbf698498b";
     public string token_c_addr = "0x358CD91cb9E587b5990E4BBa1C49Bc5FB384674e";
 
+
+    /**
+    * 读取代币余额
+    * @param contractAddress 代币合约地址
+    * @return 余额
+    */
     public async UniTask<Decimal> ReadTokenBalance(string contractAddress)
     {
         var account = new Account("0x832cce0f0faef94f242adad051e015bed9ffa7d4");
@@ -76,6 +82,13 @@ public class Tokens : Singleton<Tokens>
         return balanceInEther;
     }
 
+    /**
+    * 转账代币
+    * @param contractAddress 代币合约地址
+    * @param toAddress 目标地址
+    * @param amount 金额
+    * @return 是否成功
+    */
     public async UniTask<bool> TransferToken(string contractAddress, string toAddress, BigInteger amount)
     {
         var account = new Account("0x832cce0f0faef94f242adad051e015bed9ffa7d4");
@@ -93,6 +106,13 @@ public class Tokens : Singleton<Tokens>
         return transfer;
     }
 
+    /**
+    * 授权代币
+    * @param contractAddress 代币合约地址
+    * @param spenderAddress 授权地址
+    * @param amount 金额
+    * @return 是否成功
+    */
     public async UniTask<bool> ApproveToken(string contractAddress, string spenderAddress, BigInteger amount)
     {
         var account = new Account("0x832cce0f0faef94f242adad051e015bed9ffa7d4");
@@ -110,6 +130,13 @@ public class Tokens : Singleton<Tokens>
         return approve;
     }
 
+    /**
+    * 读取代币授权额度
+    * @param contractAddress 代币合约地址
+    * @param ownerAddress 拥有者地址
+    * @param spenderAddress 授权地址
+    * @return 授权额度
+    */
     public async UniTask<BigInteger> ReadTokenAllowance(string contractAddress, string ownerAddress, string spenderAddress)
     {
         var account = new Account("0x832cce0f0faef94f242adad051e015bed9ffa7d4");
