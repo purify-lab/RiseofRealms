@@ -103,7 +103,7 @@ public class Tokens : Singleton<Tokens>
         var transferHandler = web3.Eth.GetContractTransactionHandler<TransferFunction>();
         var transfer = await transferHandler.SendRequestAsync(contractAddress, transferFunctionMessage);
 
-        return transfer;
+        return true;
     }
 
     /**
@@ -127,7 +127,7 @@ public class Tokens : Singleton<Tokens>
         var approveHandler = web3.Eth.GetContractTransactionHandler<ApproveFunction>();
         var approve = await approveHandler.SendRequestAsync(contractAddress, approveFunctionMessage);
 
-        return approve;
+        return true;
     }
 
     /**

@@ -34,12 +34,7 @@ public class TapMgr : MonoBehaviour
             return;
         }
         
-        if (BuildingMgr.Inst.isPlacing)
-        {
-            var cell = MapDrawer.inst.GetTileByPos(buildingCursor);
-            cell.isWalkable = false;
-            BuildingMgr.Inst.EndPlace();
-        }
+        Debug.Log("Tap Pos: " + buildingCursor);
     }
 
     
@@ -47,26 +42,20 @@ public class TapMgr : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (BuildingMgr.Inst.isPlacing)
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        float enter = 0.0f;
+
+        if (m_Plane.Raycast(ray, out enter))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Vector3 hitPoint = ray.GetPoint(enter);
+            hitPoint.z *= -1;
 
-            float enter = 0.0f;
-
-            if (m_Plane.Raycast(ray, out enter))
-            {
-                Vector3 hitPoint = ray.GetPoint(enter);
-                hitPoint.z *= -1;
-
-                buildingCursor = MapDrawer.inst.SnapToHexGridCoord(hitPoint);
-                BuildingMgr.Inst.building.transform.position = MapDrawer.inst.SnapToHexGrid(hitPoint);
-            } 
-        }
-        else if(Input.GetMouseButtonDown(1))
+            buildingCursor = MapDrawer.inst.SnapToHexGridCoord(hitPoint);
+            //BuildingMgr.Inst.building.transform.position = MapDrawer.inst.SnapToHexGrid(hitPoint);
+        } 
+        if(Input.GetMouseButtonDown(1))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            float enter = 0.0f;
-
             if (m_Plane.Raycast(ray, out enter))
             {
                 Vector3 hitPoint = ray.GetPoint(enter);

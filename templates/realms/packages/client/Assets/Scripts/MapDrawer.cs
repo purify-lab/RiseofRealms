@@ -301,14 +301,13 @@ public class MapDrawer : MonoBehaviour
     {
         if (Input.GetAxis("Mouse ScrollWheel") > 0f ) // forward
         {
-            mainCam.orthographicSize -= 0.2f;
-            mainCam.orthographicSize = Mathf.Clamp(mainCam.orthographicSize, 2.5f, 7);
+            mainCam.fieldOfView -= 1f;
+            mainCam.fieldOfView = Mathf.Clamp(mainCam.fieldOfView, 20, 70);
         }
         else if (Input.GetAxis("Mouse ScrollWheel") < 0f ) // backwards
         {
-            
-            mainCam.orthographicSize += 0.2f;
-            mainCam.orthographicSize = Mathf.Clamp(mainCam.orthographicSize, 2.5f, 7);
+            mainCam.fieldOfView += 1f;
+            mainCam.fieldOfView = Mathf.Clamp(mainCam.fieldOfView, 20f, 70);
         }
     }
 }
