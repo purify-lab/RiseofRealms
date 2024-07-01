@@ -12,11 +12,45 @@ using Nethereum.Util;
 using Nethereum.Web3;
 using Nethereum.Web3.Accounts;
 
+//查询余额
 [Function("balanceOf", "uint256")]
 public class BalanceOfFunction : FunctionMessage
 {
     [Parameter("address", "_owner", 1)]
     public string Owner { get; set; }
+}
+
+//转账
+[Function("transfer", "bool")]
+public class TransferFunction : FunctionMessage
+{
+    [Parameter("address", "_to", 1)]
+    public string To { get; set; }
+
+    [Parameter("uint256", "_value", 2)]
+    public BigInteger TokenAmount { get; set; }
+}
+
+//授权
+[Function("approve", "bool")]
+public class ApproveFunction : FunctionMessage
+{
+    [Parameter("address", "_spender", 1)]
+    public virtual string Spender { get; set; }
+
+    [Parameter("uint256", "_value", 2)]
+    public virtual BigInteger Value { get; set; }
+}
+
+//查询授权额度
+[Function("allowed", "uint256")]
+public class AllowedFunctionBase : FunctionMessage
+{
+    [Parameter("address", "", 1)]
+    public virtual string Owner { get; set; }
+
+    [Parameter("address", "", 2)]
+    public virtual string Spender { get; set; }
 }
 
 public class Tokens : Singleton<Tokens>
