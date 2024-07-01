@@ -59,6 +59,15 @@ public class Tokens : Singleton<Tokens>
     public string token_b_addr = "0x45AD5640957673B6585a5500D35740fbf698498b";
     public string token_c_addr = "0x358CD91cb9E587b5990E4BBa1C49Bc5FB384674e";
 
+    private Account account;
+    private Web3 web3;
+
+    public override void Init()
+    {
+        base.Init();
+        account = new Account("0x832cce0f0faef94f242adad051e015bed9ffa7d4");
+        web3 = new Nethereum.Web3.Web3(account,"https://rpc.garnet.qry.live/");
+    }
 
     /**
     * 读取代币余额
@@ -67,9 +76,6 @@ public class Tokens : Singleton<Tokens>
     */
     public async UniTask<Decimal> ReadTokenBalance(string contractAddress)
     {
-        var account = new Account("0x832cce0f0faef94f242adad051e015bed9ffa7d4");
-        var web3 = new Nethereum.Web3.Web3(account,"https://rpc.garnet.qry.live/");
-        
         var balanceOfFunctionMessage = new BalanceOfFunction()
         {
             Owner = account.Address,
@@ -91,9 +97,6 @@ public class Tokens : Singleton<Tokens>
     */
     public async UniTask<bool> TransferToken(string contractAddress, string toAddress, BigInteger amount)
     {
-        var account = new Account("0x832cce0f0faef94f242adad051e015bed9ffa7d4");
-        var web3 = new Nethereum.Web3.Web3(account,"https://rpc.garnet.qry.live/");
-
         var transferFunctionMessage = new TransferFunction()
         {
             To = toAddress,
@@ -115,9 +118,6 @@ public class Tokens : Singleton<Tokens>
     */
     public async UniTask<bool> ApproveToken(string contractAddress, string spenderAddress, BigInteger amount)
     {
-        var account = new Account("0x832cce0f0faef94f242adad051e015bed9ffa7d4");
-        var web3 = new Nethereum.Web3.Web3(account,"https://rpc.garnet.qry.live/");
-
         var approveFunctionMessage = new ApproveFunction()
         {
             Spender = spenderAddress,
@@ -139,9 +139,6 @@ public class Tokens : Singleton<Tokens>
     */
     public async UniTask<BigInteger> ReadTokenAllowance(string contractAddress, string ownerAddress, string spenderAddress)
     {
-        var account = new Account("0x832cce0f0faef94f242adad051e015bed9ffa7d4");
-        var web3 = new Nethereum.Web3.Web3(account,"https://rpc.garnet.qry.live/");
-
         var allowedFunctionMessage = new AllowedFunctionBase()
         {
             Owner = ownerAddress,
