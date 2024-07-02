@@ -50,6 +50,7 @@ contract SpawnSystem is System {
         Capital.setLastTime(capital_id, block.timestamp);
     }
 
+    //驻军
     function garrison(uint16 capital_id, uint256 infantry, uint256 cavalryA, uint256 cavalryB, uint256 cavalryC) public {
         bytes32 owner = Utility.addressToEntityKey(address(_msgSender()));
         require(Capital.getOwner(capital_id) == owner, "this capital not yours");
