@@ -78,6 +78,9 @@ contract SpawnSystem is System {
         require(PlayerDetail.getCavalryB(owner) >= cavalryB, "not enough cavalryB");
         require(PlayerDetail.getCavalryC(owner) >= cavalryC, "not enough cavalryC");
 
+        uint256 max_power = 20000;
+        require(infantry * 5 + cavalryA * 10 + cavalryB * 10 + cavalryC * 10 <= max_power, "too many troops");
+
         PlayerDetail.setInfantry(owner, PlayerDetail.getInfantry(owner) - infantry);
         PlayerDetail.setCavalryA(owner, PlayerDetail.getCavalryA(owner) - cavalryA);
         PlayerDetail.setCavalryB(owner, PlayerDetail.getCavalryB(owner) - cavalryB);
@@ -133,6 +136,17 @@ contract SpawnSystem is System {
         Army.setCavalryC(owner, army_id, 0);
         Army.setDestination(owner, army_id, 0);
         Army.setLastTime(owner, army_id, 0);
+    }
+
+    function farming(uint16 capital_id) public {
+        bytes32 owner = Utility.addressToEntityKey(address(_msgSender()));
+        require(Capital.getOwner(capital_id) == owner, "this capital not yours");
+        uint256 last_time = Capital.getLastTime(capital_id);
+        uint256 now = block.timestamp;
+        uint256 time = now - last_time;
+        uint256 gold = time * 100;
+        PlayerDetail.setGold(owner, PlayerDetail.getGold(owner) + gold);
+        Capital.setLastTime(capital_id, now);
     }
 
 }
