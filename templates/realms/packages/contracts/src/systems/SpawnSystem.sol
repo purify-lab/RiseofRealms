@@ -117,10 +117,16 @@ contract SpawnSystem is System {
     }
 
     function attack(uint8 army_id) public {
+        require(army_id > 0 && army_id <= 9, "invalid army id");
         bytes32 owner = Utility.addressToEntityKey(address(_msgSender()));
         uint256 attack_power = Army.getInfantry(owner, army_id) * 5 + Army.getCavalryA(owner, army_id) * 10 + Army.getCavalryB(owner, army_id) * 10 + Army.getCavalryC(owner, army_id) * 10;
         uint16 destination = Army.getDestination(owner, army_id);
         uint256 defence_power = Capital.getInfantry(destination) * 5 + Capital.getCavalryA(destination) * 10 + Capital.getCavalryB(destination) * 10 + Capital.getCavalryC(destination) * 10;
+
+        require(Army.getDestination(owner, army_id) != 0, "this army not marching");
+        require(Army.getOwner(owner, army_id) == owner, "this army not yours");
+        require(Army.getDestination(owner, army_id) != Capital.getOwner(destination), "can't attack your own capital");
+        require(block.timestamp - Army.getLastTime(owner, army_id) >= 60 * 5, "not ready yet");
 
         if (attack_power > defence_power) {
             Capital.setOwner(destination, owner);
@@ -144,9 +150,10 @@ contract SpawnSystem is System {
         uint256 last_time = Capital.getLastTime(capital_id);
         uint256 now = block.timestamp;
         uint256 time = now - last_time;
-        uint256 gold = time * 100;
+        uint256 gold = time * 1;
         PlayerDetail.setGold(owner, PlayerDetail.getGold(owner) + gold);
         Capital.setLastTime(capital_id, now);
     }
+
 
 }
