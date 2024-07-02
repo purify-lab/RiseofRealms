@@ -27,6 +27,7 @@ contract SpawnSystem is System {
     function buyInfantry(uint256 amount) public {
         uint256 price = 50;
         bytes32 entity = Utility.addressToEntityKey(address(_msgSender()));
+        require(PlayerDetail.getGold(entity) >= price * amount, "not enough gold");
         PlayerDetail.setGold(entity, PlayerDetail.getGold(entity) - price * amount);
         PlayerDetail.setInfantry(entity, PlayerDetail.getInfantry(entity) + amount);
     }
@@ -34,8 +35,25 @@ contract SpawnSystem is System {
     function buyCavalryA(uint256 amount) public {
         uint256 price = 100;
         bytes32 entity = Utility.addressToEntityKey(address(_msgSender()));
+        require(PlayerDetail.getGold(entity) >= price * amount, "not enough gold");
         PlayerDetail.setGold(entity, PlayerDetail.getGold(entity) - price * amount);
         PlayerDetail.setCavalryA(entity, PlayerDetail.getCavalryA(entity) + amount);
+    }
+
+    function buyCavalryB(uint256 amount) public {
+        uint256 price = 200;
+        bytes32 entity = Utility.addressToEntityKey(address(_msgSender()));
+        require(PlayerDetail.getGold(entity) >= price * amount, "not enough gold");
+        PlayerDetail.setGold(entity, PlayerDetail.getGold(entity) - price * amount);
+        PlayerDetail.setCavalryB(entity, PlayerDetail.getCavalryB(entity) + amount);
+    }
+
+    function buyCavalryC(uint256 amount) public {
+        uint256 price = 400;
+        bytes32 entity = Utility.addressToEntityKey(address(_msgSender()));
+        require(PlayerDetail.getGold(entity) >= price * amount, "not enough gold");
+        PlayerDetail.setGold(entity, PlayerDetail.getGold(entity) - price * amount);
+        PlayerDetail.setCavalryC(entity, PlayerDetail.getCavalryC(entity) + amount);
     }
 
     function spawnCapital(uint16 capital_id) public payable {
