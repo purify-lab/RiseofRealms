@@ -10,7 +10,9 @@ pragma solidity >=0.8.21;
 interface ISpawnSystem {
   function spawnPlayer() external;
 
-  function buySoldier() external;
+  function buyInfantry(uint256 amount) external;
+
+  function buyCavalry(uint256 amount) external;
 
   function spawnCapital(uint16 capital_id) external payable;
 

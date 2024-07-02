@@ -10,7 +10,8 @@ export default mudConfig({
       name: "PlayerDetail",
       valueSchema: {
         gold: "uint256",
-        soldier: "uint256",
+        infantry: "uint256",
+        cavalry: "uint256",
         capital: "uint16"
         // cites:"bytes32[]"
       }
@@ -29,7 +30,10 @@ export default mudConfig({
         occupation: "address",
         infantry: "uint256",
         cavalry: "uint256",
-        lastTime: "uint256"
+        lastTime: "uint256",
+        pledgedTokenA: "uint256",
+        pledgedTokenB: "uint256",
+        pledgedTokenC: "uint256",
       }
     },
     Toad: "bool",

@@ -16,16 +16,24 @@ contract SpawnSystem is System {
         require(Player.get(entity) == false, "Already spawned");
 
         Player.set(entity, true);
-        uint32 gold = 1000000000;
-        uint32 soldier = 2000000000;
-//        bytes32[] memory cites = new bytes32[](0);
-        PlayerDetail.set(entity, gold, soldier, 0);
+
+        PlayerDetail.setGold(entity, 1000000000);
+        PlayerDetail.setInfantry(entity, 1000000000);
+        PlayerDetail.setCavalry(entity, 1000000000);
     }
 
-    function buySoldier() public {
+    function buyInfantry(uint256 amount) public {
+        uint256 price = 50;
         bytes32 entity = Utility.addressToEntityKey(address(_msgSender()));
-        PlayerDetail.setGold(entity, PlayerDetail.getGold(entity) - 1);
-        PlayerDetail.setSoldier(entity, PlayerDetail.getSoldier(entity) + 1);
+        PlayerDetail.setGold(entity, PlayerDetail.getGold(entity) - price * amount);
+        PlayerDetail.setInfantry(entity, PlayerDetail.getInfantry(entity) + amount);
+    }
+
+    function buyCavalry(uint256 amount) public {
+        uint256 price = 100;
+        bytes32 entity = Utility.addressToEntityKey(address(_msgSender()));
+        PlayerDetail.setGold(entity, PlayerDetail.getGold(entity) - price * amount);
+        PlayerDetail.setCavalry(entity, PlayerDetail.getCavalry(entity) + amount);
     }
 
     function spawnCapital(uint16 capital_id) public payable {
@@ -35,61 +43,10 @@ contract SpawnSystem is System {
         require(Capital.getOwner(capital_id) == 0, "this capital already spawned");
         require(PlayerDetail.getCapital(owner) == 0, "you already spawned capital");
 
-//        Capital.set(id, owner, 0, block.timestamp);
         PlayerDetail.setCapital(owner, capital_id);
         Capital.setOwner(capital_id, owner);
         Capital.setLastTime(capital_id, block.timestamp);
     }
 
-    function spawnToad(int32 x, int32 y, int32 z) public payable {
-//        bytes32 [] memory keys = Utility.getKeysAtPosition(IWorld(_world()), x, y, z);
-//        require(keys.length == 0, "Obstruction");
-        require(msg.value == 100000000000000, "No eth");
 
-//        bytes32 toad = getUniqueEntity();
-//        uint32 tadpoles = GameManager.get();
-//
-//        Position.set(toad, x, y, z);
-//        Toad.set(toad, true);
-//        GameManager.set(tadpoles + 1);
-    }
-
-    function spawnToad2(int32 x, int32 y, int32 z) public {
-        bytes32 [] memory keys = Utility.getKeysAtPosition(IWorld(_world()), x, y, z);
-        require(keys.length == 0, "Obstruction");
-
-        bytes32 toad = getUniqueEntity();
-        uint32 tadpoles = GameManager.get();
-
-        Position.set(toad, x, y, z);
-        Toad.set(toad, true);
-        GameManager.set(tadpoles + 1);
-    }
-
-    function spawnToad3(int32 x, int32 y, int32 z) public {
-        bytes32 [] memory keys = Utility.getKeysAtPosition(IWorld(_world()), x, y, z);
-        require(keys.length == 0, "Obstruction");
-
-        IERC20 token = IERC20(0x4200000000000000000000000000000000000006);
-        token.transferFrom(msg.sender, address(this), 100);
-
-        bytes32 toad = getUniqueEntity();
-        uint32 tadpoles = GameManager.get();
-
-        Position.set(toad, x, y, z);
-        Toad.set(toad, true);
-        GameManager.set(tadpoles + 1);
-    }
-
-    function deleteToad(int32 x, int32 y, int32 z) public {
-        bytes32 [] memory keys = Utility.getKeysAtPosition(IWorld(_world()), x, y, z);
-        require(keys.length > 0, "No toad");
-
-        bytes32 toad = keys[0];
-        uint32 tadpoles = GameManager.get();
-
-        Position.deleteRecord(toad);
-        Toad.deleteRecord(toad);
-        GameManager.set(tadpoles - 1);
-    }
 }
