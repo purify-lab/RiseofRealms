@@ -1,6 +1,19 @@
 [
   {
     "type": "function",
+    "name": "attack",
+    "inputs": [
+      {
+        "name": "army_id",
+        "type": "uint8",
+        "internalType": "uint8"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
     "name": "batchCall",
     "inputs": [
       {
@@ -68,7 +81,33 @@
   },
   {
     "type": "function",
-    "name": "buyCavalry",
+    "name": "buyCavalryA",
+    "inputs": [
+      {
+        "name": "amount",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "buyCavalryB",
+    "inputs": [
+      {
+        "name": "amount",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "buyCavalryC",
     "inputs": [
       {
         "name": "amount",
@@ -178,22 +217,45 @@
   },
   {
     "type": "function",
-    "name": "deleteToad",
+    "name": "farming",
     "inputs": [
       {
-        "name": "x",
-        "type": "int32",
-        "internalType": "int32"
+        "name": "capital_id",
+        "type": "uint16",
+        "internalType": "uint16"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "garrison",
+    "inputs": [
+      {
+        "name": "capital_id",
+        "type": "uint16",
+        "internalType": "uint16"
       },
       {
-        "name": "y",
-        "type": "int32",
-        "internalType": "int32"
+        "name": "infantry",
+        "type": "uint256",
+        "internalType": "uint256"
       },
       {
-        "name": "z",
-        "type": "int32",
-        "internalType": "int32"
+        "name": "cavalryA",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "cavalryB",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "cavalryC",
+        "type": "uint256",
+        "internalType": "uint256"
       }
     ],
     "outputs": [],
@@ -648,6 +710,44 @@
         "name": "args",
         "type": "bytes",
         "internalType": "bytes"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "march",
+    "inputs": [
+      {
+        "name": "destination",
+        "type": "uint16",
+        "internalType": "uint16"
+      },
+      {
+        "name": "infantry",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "cavalryA",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "cavalryB",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "cavalryC",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "army_id",
+        "type": "uint8",
+        "internalType": "uint8"
       }
     ],
     "outputs": [],
@@ -1118,75 +1218,6 @@
     "type": "function",
     "name": "spawnPlayer",
     "inputs": [],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "spawnToad",
-    "inputs": [
-      {
-        "name": "x",
-        "type": "int32",
-        "internalType": "int32"
-      },
-      {
-        "name": "y",
-        "type": "int32",
-        "internalType": "int32"
-      },
-      {
-        "name": "z",
-        "type": "int32",
-        "internalType": "int32"
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "payable"
-  },
-  {
-    "type": "function",
-    "name": "spawnToad2",
-    "inputs": [
-      {
-        "name": "x",
-        "type": "int32",
-        "internalType": "int32"
-      },
-      {
-        "name": "y",
-        "type": "int32",
-        "internalType": "int32"
-      },
-      {
-        "name": "z",
-        "type": "int32",
-        "internalType": "int32"
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "spawnToad3",
-    "inputs": [
-      {
-        "name": "x",
-        "type": "int32",
-        "internalType": "int32"
-      },
-      {
-        "name": "y",
-        "type": "int32",
-        "internalType": "int32"
-      },
-      {
-        "name": "z",
-        "type": "int32",
-        "internalType": "int32"
-      }
-    ],
     "outputs": [],
     "stateMutability": "nonpayable"
   },

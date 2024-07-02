@@ -27,6 +27,15 @@ namespace IWorld.ContractDefinition
 
     }
 
+    public partial class AttackFunction : AttackFunctionBase { }
+
+    [Function("attack")]
+    public class AttackFunctionBase : FunctionMessage
+    {
+        [Parameter("uint8", "army_id", 1)]
+        public virtual byte ArmyId { get; set; }
+    }
+
     public partial class BatchCallFunction : BatchCallFunctionBase { }
 
     [Function("batchCall", "bytes[]")]
@@ -45,10 +54,28 @@ namespace IWorld.ContractDefinition
         public virtual List<SystemCallFromData> SystemCalls { get; set; }
     }
 
-    public partial class BuyCavalryFunction : BuyCavalryFunctionBase { }
+    public partial class BuyCavalryAFunction : BuyCavalryAFunctionBase { }
 
-    [Function("buyCavalry")]
-    public class BuyCavalryFunctionBase : FunctionMessage
+    [Function("buyCavalryA")]
+    public class BuyCavalryAFunctionBase : FunctionMessage
+    {
+        [Parameter("uint256", "amount", 1)]
+        public virtual BigInteger Amount { get; set; }
+    }
+
+    public partial class BuyCavalryBFunction : BuyCavalryBFunctionBase { }
+
+    [Function("buyCavalryB")]
+    public class BuyCavalryBFunctionBase : FunctionMessage
+    {
+        [Parameter("uint256", "amount", 1)]
+        public virtual BigInteger Amount { get; set; }
+    }
+
+    public partial class BuyCavalryCFunction : BuyCavalryCFunctionBase { }
+
+    [Function("buyCavalryC")]
+    public class BuyCavalryCFunctionBase : FunctionMessage
     {
         [Parameter("uint256", "amount", 1)]
         public virtual BigInteger Amount { get; set; }
@@ -106,17 +133,30 @@ namespace IWorld.ContractDefinition
         public virtual List<byte[]> KeyTuple { get; set; }
     }
 
-    public partial class DeleteToadFunction : DeleteToadFunctionBase { }
+    public partial class FarmingFunction : FarmingFunctionBase { }
 
-    [Function("deleteToad")]
-    public class DeleteToadFunctionBase : FunctionMessage
+    [Function("farming")]
+    public class FarmingFunctionBase : FunctionMessage
     {
-        [Parameter("int32", "x", 1)]
-        public virtual int X { get; set; }
-        [Parameter("int32", "y", 2)]
-        public virtual int Y { get; set; }
-        [Parameter("int32", "z", 3)]
-        public virtual int Z { get; set; }
+        [Parameter("uint16", "capital_id", 1)]
+        public virtual ushort CapitalId { get; set; }
+    }
+
+    public partial class GarrisonFunction : GarrisonFunctionBase { }
+
+    [Function("garrison")]
+    public class GarrisonFunctionBase : FunctionMessage
+    {
+        [Parameter("uint16", "capital_id", 1)]
+        public virtual ushort CapitalId { get; set; }
+        [Parameter("uint256", "infantry", 2)]
+        public virtual BigInteger Infantry { get; set; }
+        [Parameter("uint256", "cavalryA", 3)]
+        public virtual BigInteger CavalryA { get; set; }
+        [Parameter("uint256", "cavalryB", 4)]
+        public virtual BigInteger CavalryB { get; set; }
+        [Parameter("uint256", "cavalryC", 5)]
+        public virtual BigInteger CavalryC { get; set; }
     }
 
     public partial class GetDynamicFieldFunction : GetDynamicFieldFunctionBase { }
@@ -324,6 +364,25 @@ namespace IWorld.ContractDefinition
         public virtual string Module { get; set; }
         [Parameter("bytes", "args", 2)]
         public virtual byte[] Args { get; set; }
+    }
+
+    public partial class MarchFunction : MarchFunctionBase { }
+
+    [Function("march")]
+    public class MarchFunctionBase : FunctionMessage
+    {
+        [Parameter("uint16", "destination", 1)]
+        public virtual ushort Destination { get; set; }
+        [Parameter("uint256", "infantry", 2)]
+        public virtual BigInteger Infantry { get; set; }
+        [Parameter("uint256", "cavalryA", 3)]
+        public virtual BigInteger CavalryA { get; set; }
+        [Parameter("uint256", "cavalryB", 4)]
+        public virtual BigInteger CavalryB { get; set; }
+        [Parameter("uint256", "cavalryC", 5)]
+        public virtual BigInteger CavalryC { get; set; }
+        [Parameter("uint8", "army_id", 6)]
+        public virtual byte ArmyId { get; set; }
     }
 
     public partial class PopFromDynamicFieldFunction : PopFromDynamicFieldFunctionBase { }
@@ -580,45 +639,6 @@ namespace IWorld.ContractDefinition
     public class SpawnPlayerFunctionBase : FunctionMessage
     {
 
-    }
-
-    public partial class SpawnToadFunction : SpawnToadFunctionBase { }
-
-    [Function("spawnToad")]
-    public class SpawnToadFunctionBase : FunctionMessage
-    {
-        [Parameter("int32", "x", 1)]
-        public virtual int X { get; set; }
-        [Parameter("int32", "y", 2)]
-        public virtual int Y { get; set; }
-        [Parameter("int32", "z", 3)]
-        public virtual int Z { get; set; }
-    }
-
-    public partial class SpawnToad2Function : SpawnToad2FunctionBase { }
-
-    [Function("spawnToad2")]
-    public class SpawnToad2FunctionBase : FunctionMessage
-    {
-        [Parameter("int32", "x", 1)]
-        public virtual int X { get; set; }
-        [Parameter("int32", "y", 2)]
-        public virtual int Y { get; set; }
-        [Parameter("int32", "z", 3)]
-        public virtual int Z { get; set; }
-    }
-
-    public partial class SpawnToad3Function : SpawnToad3FunctionBase { }
-
-    [Function("spawnToad3")]
-    public class SpawnToad3FunctionBase : FunctionMessage
-    {
-        [Parameter("int32", "x", 1)]
-        public virtual int X { get; set; }
-        [Parameter("int32", "y", 2)]
-        public virtual int Y { get; set; }
-        [Parameter("int32", "z", 3)]
-        public virtual int Z { get; set; }
     }
 
     public partial class SpliceDynamicDataFunction : SpliceDynamicDataFunctionBase { }
@@ -1063,6 +1083,12 @@ namespace IWorld.ContractDefinition
 
 
 
+
+
+
+
+
+
     public partial class CreatorOutputDTO : CreatorOutputDTOBase { }
 
     [FunctionOutput]
@@ -1071,6 +1097,8 @@ namespace IWorld.ContractDefinition
         [Parameter("address", "", 1)]
         public virtual string ReturnValue1 { get; set; }
     }
+
+
 
 
 
@@ -1200,10 +1228,6 @@ namespace IWorld.ContractDefinition
         [Parameter("bytes32", "valueSchema", 1)]
         public virtual byte[] ValueSchema { get; set; }
     }
-
-
-
-
 
 
 

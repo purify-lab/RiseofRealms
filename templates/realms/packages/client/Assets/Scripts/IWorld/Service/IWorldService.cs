@@ -48,6 +48,32 @@ namespace IWorld.Service
             ContractHandler = web3.Eth.GetContractHandler(contractAddress);
         }
 
+        public Task<string> AttackRequestAsync(AttackFunction attackFunction)
+        {
+             return ContractHandler.SendRequestAsync(attackFunction);
+        }
+
+        public Task<TransactionReceipt> AttackRequestAndWaitForReceiptAsync(AttackFunction attackFunction, CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(attackFunction, cancellationToken);
+        }
+
+        public Task<string> AttackRequestAsync(byte armyId)
+        {
+            var attackFunction = new AttackFunction();
+                attackFunction.ArmyId = armyId;
+            
+             return ContractHandler.SendRequestAsync(attackFunction);
+        }
+
+        public Task<TransactionReceipt> AttackRequestAndWaitForReceiptAsync(byte armyId, CancellationTokenSource cancellationToken = null)
+        {
+            var attackFunction = new AttackFunction();
+                attackFunction.ArmyId = armyId;
+            
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(attackFunction, cancellationToken);
+        }
+
         public Task<string> BatchCallRequestAsync(BatchCallFunction batchCallFunction)
         {
              return ContractHandler.SendRequestAsync(batchCallFunction);
@@ -100,30 +126,82 @@ namespace IWorld.Service
              return ContractHandler.SendRequestAndWaitForReceiptAsync(batchCallFromFunction, cancellationToken);
         }
 
-        public Task<string> BuyCavalryRequestAsync(BuyCavalryFunction buyCavalryFunction)
+        public Task<string> BuyCavalryARequestAsync(BuyCavalryAFunction buyCavalryAFunction)
         {
-             return ContractHandler.SendRequestAsync(buyCavalryFunction);
+             return ContractHandler.SendRequestAsync(buyCavalryAFunction);
         }
 
-        public Task<TransactionReceipt> BuyCavalryRequestAndWaitForReceiptAsync(BuyCavalryFunction buyCavalryFunction, CancellationTokenSource cancellationToken = null)
+        public Task<TransactionReceipt> BuyCavalryARequestAndWaitForReceiptAsync(BuyCavalryAFunction buyCavalryAFunction, CancellationTokenSource cancellationToken = null)
         {
-             return ContractHandler.SendRequestAndWaitForReceiptAsync(buyCavalryFunction, cancellationToken);
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(buyCavalryAFunction, cancellationToken);
         }
 
-        public Task<string> BuyCavalryRequestAsync(BigInteger amount)
+        public Task<string> BuyCavalryARequestAsync(BigInteger amount)
         {
-            var buyCavalryFunction = new BuyCavalryFunction();
-                buyCavalryFunction.Amount = amount;
+            var buyCavalryAFunction = new BuyCavalryAFunction();
+                buyCavalryAFunction.Amount = amount;
             
-             return ContractHandler.SendRequestAsync(buyCavalryFunction);
+             return ContractHandler.SendRequestAsync(buyCavalryAFunction);
         }
 
-        public Task<TransactionReceipt> BuyCavalryRequestAndWaitForReceiptAsync(BigInteger amount, CancellationTokenSource cancellationToken = null)
+        public Task<TransactionReceipt> BuyCavalryARequestAndWaitForReceiptAsync(BigInteger amount, CancellationTokenSource cancellationToken = null)
         {
-            var buyCavalryFunction = new BuyCavalryFunction();
-                buyCavalryFunction.Amount = amount;
+            var buyCavalryAFunction = new BuyCavalryAFunction();
+                buyCavalryAFunction.Amount = amount;
             
-             return ContractHandler.SendRequestAndWaitForReceiptAsync(buyCavalryFunction, cancellationToken);
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(buyCavalryAFunction, cancellationToken);
+        }
+
+        public Task<string> BuyCavalryBRequestAsync(BuyCavalryBFunction buyCavalryBFunction)
+        {
+             return ContractHandler.SendRequestAsync(buyCavalryBFunction);
+        }
+
+        public Task<TransactionReceipt> BuyCavalryBRequestAndWaitForReceiptAsync(BuyCavalryBFunction buyCavalryBFunction, CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(buyCavalryBFunction, cancellationToken);
+        }
+
+        public Task<string> BuyCavalryBRequestAsync(BigInteger amount)
+        {
+            var buyCavalryBFunction = new BuyCavalryBFunction();
+                buyCavalryBFunction.Amount = amount;
+            
+             return ContractHandler.SendRequestAsync(buyCavalryBFunction);
+        }
+
+        public Task<TransactionReceipt> BuyCavalryBRequestAndWaitForReceiptAsync(BigInteger amount, CancellationTokenSource cancellationToken = null)
+        {
+            var buyCavalryBFunction = new BuyCavalryBFunction();
+                buyCavalryBFunction.Amount = amount;
+            
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(buyCavalryBFunction, cancellationToken);
+        }
+
+        public Task<string> BuyCavalryCRequestAsync(BuyCavalryCFunction buyCavalryCFunction)
+        {
+             return ContractHandler.SendRequestAsync(buyCavalryCFunction);
+        }
+
+        public Task<TransactionReceipt> BuyCavalryCRequestAndWaitForReceiptAsync(BuyCavalryCFunction buyCavalryCFunction, CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(buyCavalryCFunction, cancellationToken);
+        }
+
+        public Task<string> BuyCavalryCRequestAsync(BigInteger amount)
+        {
+            var buyCavalryCFunction = new BuyCavalryCFunction();
+                buyCavalryCFunction.Amount = amount;
+            
+             return ContractHandler.SendRequestAsync(buyCavalryCFunction);
+        }
+
+        public Task<TransactionReceipt> BuyCavalryCRequestAndWaitForReceiptAsync(BigInteger amount, CancellationTokenSource cancellationToken = null)
+        {
+            var buyCavalryCFunction = new BuyCavalryCFunction();
+                buyCavalryCFunction.Amount = amount;
+            
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(buyCavalryCFunction, cancellationToken);
         }
 
         public Task<string> BuyInfantryRequestAsync(BuyInfantryFunction buyInfantryFunction)
@@ -249,34 +327,64 @@ namespace IWorld.Service
              return ContractHandler.SendRequestAndWaitForReceiptAsync(deleteRecordFunction, cancellationToken);
         }
 
-        public Task<string> DeleteToadRequestAsync(DeleteToadFunction deleteToadFunction)
+        public Task<string> FarmingRequestAsync(FarmingFunction farmingFunction)
         {
-             return ContractHandler.SendRequestAsync(deleteToadFunction);
+             return ContractHandler.SendRequestAsync(farmingFunction);
         }
 
-        public Task<TransactionReceipt> DeleteToadRequestAndWaitForReceiptAsync(DeleteToadFunction deleteToadFunction, CancellationTokenSource cancellationToken = null)
+        public Task<TransactionReceipt> FarmingRequestAndWaitForReceiptAsync(FarmingFunction farmingFunction, CancellationTokenSource cancellationToken = null)
         {
-             return ContractHandler.SendRequestAndWaitForReceiptAsync(deleteToadFunction, cancellationToken);
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(farmingFunction, cancellationToken);
         }
 
-        public Task<string> DeleteToadRequestAsync(int x, int y, int z)
+        public Task<string> FarmingRequestAsync(ushort capitalId)
         {
-            var deleteToadFunction = new DeleteToadFunction();
-                deleteToadFunction.X = x;
-                deleteToadFunction.Y = y;
-                deleteToadFunction.Z = z;
+            var farmingFunction = new FarmingFunction();
+                farmingFunction.CapitalId = capitalId;
             
-             return ContractHandler.SendRequestAsync(deleteToadFunction);
+             return ContractHandler.SendRequestAsync(farmingFunction);
         }
 
-        public Task<TransactionReceipt> DeleteToadRequestAndWaitForReceiptAsync(int x, int y, int z, CancellationTokenSource cancellationToken = null)
+        public Task<TransactionReceipt> FarmingRequestAndWaitForReceiptAsync(ushort capitalId, CancellationTokenSource cancellationToken = null)
         {
-            var deleteToadFunction = new DeleteToadFunction();
-                deleteToadFunction.X = x;
-                deleteToadFunction.Y = y;
-                deleteToadFunction.Z = z;
+            var farmingFunction = new FarmingFunction();
+                farmingFunction.CapitalId = capitalId;
             
-             return ContractHandler.SendRequestAndWaitForReceiptAsync(deleteToadFunction, cancellationToken);
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(farmingFunction, cancellationToken);
+        }
+
+        public Task<string> GarrisonRequestAsync(GarrisonFunction garrisonFunction)
+        {
+             return ContractHandler.SendRequestAsync(garrisonFunction);
+        }
+
+        public Task<TransactionReceipt> GarrisonRequestAndWaitForReceiptAsync(GarrisonFunction garrisonFunction, CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(garrisonFunction, cancellationToken);
+        }
+
+        public Task<string> GarrisonRequestAsync(ushort capitalId, BigInteger infantry, BigInteger cavalryA, BigInteger cavalryB, BigInteger cavalryC)
+        {
+            var garrisonFunction = new GarrisonFunction();
+                garrisonFunction.CapitalId = capitalId;
+                garrisonFunction.Infantry = infantry;
+                garrisonFunction.CavalryA = cavalryA;
+                garrisonFunction.CavalryB = cavalryB;
+                garrisonFunction.CavalryC = cavalryC;
+            
+             return ContractHandler.SendRequestAsync(garrisonFunction);
+        }
+
+        public Task<TransactionReceipt> GarrisonRequestAndWaitForReceiptAsync(ushort capitalId, BigInteger infantry, BigInteger cavalryA, BigInteger cavalryB, BigInteger cavalryC, CancellationTokenSource cancellationToken = null)
+        {
+            var garrisonFunction = new GarrisonFunction();
+                garrisonFunction.CapitalId = capitalId;
+                garrisonFunction.Infantry = infantry;
+                garrisonFunction.CavalryA = cavalryA;
+                garrisonFunction.CavalryB = cavalryB;
+                garrisonFunction.CavalryC = cavalryC;
+            
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(garrisonFunction, cancellationToken);
         }
 
         public Task<byte[]> GetDynamicFieldQueryAsync(GetDynamicFieldFunction getDynamicFieldFunction, BlockParameter blockParameter = null)
@@ -591,6 +699,42 @@ namespace IWorld.Service
                 installRootModuleFunction.Args = args;
             
              return ContractHandler.SendRequestAndWaitForReceiptAsync(installRootModuleFunction, cancellationToken);
+        }
+
+        public Task<string> MarchRequestAsync(MarchFunction marchFunction)
+        {
+             return ContractHandler.SendRequestAsync(marchFunction);
+        }
+
+        public Task<TransactionReceipt> MarchRequestAndWaitForReceiptAsync(MarchFunction marchFunction, CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(marchFunction, cancellationToken);
+        }
+
+        public Task<string> MarchRequestAsync(ushort destination, BigInteger infantry, BigInteger cavalryA, BigInteger cavalryB, BigInteger cavalryC, byte armyId)
+        {
+            var marchFunction = new MarchFunction();
+                marchFunction.Destination = destination;
+                marchFunction.Infantry = infantry;
+                marchFunction.CavalryA = cavalryA;
+                marchFunction.CavalryB = cavalryB;
+                marchFunction.CavalryC = cavalryC;
+                marchFunction.ArmyId = armyId;
+            
+             return ContractHandler.SendRequestAsync(marchFunction);
+        }
+
+        public Task<TransactionReceipt> MarchRequestAndWaitForReceiptAsync(ushort destination, BigInteger infantry, BigInteger cavalryA, BigInteger cavalryB, BigInteger cavalryC, byte armyId, CancellationTokenSource cancellationToken = null)
+        {
+            var marchFunction = new MarchFunction();
+                marchFunction.Destination = destination;
+                marchFunction.Infantry = infantry;
+                marchFunction.CavalryA = cavalryA;
+                marchFunction.CavalryB = cavalryB;
+                marchFunction.CavalryC = cavalryC;
+                marchFunction.ArmyId = armyId;
+            
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(marchFunction, cancellationToken);
         }
 
         public Task<string> PopFromDynamicFieldRequestAsync(PopFromDynamicFieldFunction popFromDynamicFieldFunction)
@@ -1165,96 +1309,6 @@ namespace IWorld.Service
         public Task<TransactionReceipt> SpawnPlayerRequestAndWaitForReceiptAsync(CancellationTokenSource cancellationToken = null)
         {
              return ContractHandler.SendRequestAndWaitForReceiptAsync<SpawnPlayerFunction>(null, cancellationToken);
-        }
-
-        public Task<string> SpawnToadRequestAsync(SpawnToadFunction spawnToadFunction)
-        {
-             return ContractHandler.SendRequestAsync(spawnToadFunction);
-        }
-
-        public Task<TransactionReceipt> SpawnToadRequestAndWaitForReceiptAsync(SpawnToadFunction spawnToadFunction, CancellationTokenSource cancellationToken = null)
-        {
-             return ContractHandler.SendRequestAndWaitForReceiptAsync(spawnToadFunction, cancellationToken);
-        }
-
-        public Task<string> SpawnToadRequestAsync(int x, int y, int z)
-        {
-            var spawnToadFunction = new SpawnToadFunction();
-                spawnToadFunction.X = x;
-                spawnToadFunction.Y = y;
-                spawnToadFunction.Z = z;
-            
-             return ContractHandler.SendRequestAsync(spawnToadFunction);
-        }
-
-        public Task<TransactionReceipt> SpawnToadRequestAndWaitForReceiptAsync(int x, int y, int z, CancellationTokenSource cancellationToken = null)
-        {
-            var spawnToadFunction = new SpawnToadFunction();
-                spawnToadFunction.X = x;
-                spawnToadFunction.Y = y;
-                spawnToadFunction.Z = z;
-            
-             return ContractHandler.SendRequestAndWaitForReceiptAsync(spawnToadFunction, cancellationToken);
-        }
-
-        public Task<string> SpawnToad2RequestAsync(SpawnToad2Function spawnToad2Function)
-        {
-             return ContractHandler.SendRequestAsync(spawnToad2Function);
-        }
-
-        public Task<TransactionReceipt> SpawnToad2RequestAndWaitForReceiptAsync(SpawnToad2Function spawnToad2Function, CancellationTokenSource cancellationToken = null)
-        {
-             return ContractHandler.SendRequestAndWaitForReceiptAsync(spawnToad2Function, cancellationToken);
-        }
-
-        public Task<string> SpawnToad2RequestAsync(int x, int y, int z)
-        {
-            var spawnToad2Function = new SpawnToad2Function();
-                spawnToad2Function.X = x;
-                spawnToad2Function.Y = y;
-                spawnToad2Function.Z = z;
-            
-             return ContractHandler.SendRequestAsync(spawnToad2Function);
-        }
-
-        public Task<TransactionReceipt> SpawnToad2RequestAndWaitForReceiptAsync(int x, int y, int z, CancellationTokenSource cancellationToken = null)
-        {
-            var spawnToad2Function = new SpawnToad2Function();
-                spawnToad2Function.X = x;
-                spawnToad2Function.Y = y;
-                spawnToad2Function.Z = z;
-            
-             return ContractHandler.SendRequestAndWaitForReceiptAsync(spawnToad2Function, cancellationToken);
-        }
-
-        public Task<string> SpawnToad3RequestAsync(SpawnToad3Function spawnToad3Function)
-        {
-             return ContractHandler.SendRequestAsync(spawnToad3Function);
-        }
-
-        public Task<TransactionReceipt> SpawnToad3RequestAndWaitForReceiptAsync(SpawnToad3Function spawnToad3Function, CancellationTokenSource cancellationToken = null)
-        {
-             return ContractHandler.SendRequestAndWaitForReceiptAsync(spawnToad3Function, cancellationToken);
-        }
-
-        public Task<string> SpawnToad3RequestAsync(int x, int y, int z)
-        {
-            var spawnToad3Function = new SpawnToad3Function();
-                spawnToad3Function.X = x;
-                spawnToad3Function.Y = y;
-                spawnToad3Function.Z = z;
-            
-             return ContractHandler.SendRequestAsync(spawnToad3Function);
-        }
-
-        public Task<TransactionReceipt> SpawnToad3RequestAndWaitForReceiptAsync(int x, int y, int z, CancellationTokenSource cancellationToken = null)
-        {
-            var spawnToad3Function = new SpawnToad3Function();
-                spawnToad3Function.X = x;
-                spawnToad3Function.Y = y;
-                spawnToad3Function.Z = z;
-            
-             return ContractHandler.SendRequestAndWaitForReceiptAsync(spawnToad3Function, cancellationToken);
         }
 
         public Task<string> SpliceDynamicDataRequestAsync(SpliceDynamicDataFunction spliceDynamicDataFunction)

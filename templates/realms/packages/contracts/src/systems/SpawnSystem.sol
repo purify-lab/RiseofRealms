@@ -124,8 +124,7 @@ contract SpawnSystem is System {
         uint256 defence_power = Capital.getInfantry(destination) * 5 + Capital.getCavalryA(destination) * 10 + Capital.getCavalryB(destination) * 10 + Capital.getCavalryC(destination) * 10;
 
         require(Army.getDestination(owner, army_id) != 0, "this army not marching");
-        require(Army.getOwner(owner, army_id) == owner, "this army not yours");
-        require(Army.getDestination(owner, army_id) != Capital.getOwner(destination), "can't attack your own capital");
+        require(owner != Capital.getOwner(destination), "can't attack your own capital");
         require(block.timestamp - Army.getLastTime(owner, army_id) >= 60 * 5, "not ready yet");
 
         if (attack_power > defence_power) {
@@ -148,11 +147,11 @@ contract SpawnSystem is System {
         bytes32 owner = Utility.addressToEntityKey(address(_msgSender()));
         require(Capital.getOwner(capital_id) == owner, "this capital not yours");
         uint256 last_time = Capital.getLastTime(capital_id);
-        uint256 now = block.timestamp;
-        uint256 time = now - last_time;
+        uint256 currentTimestamp = block.timestamp;
+        uint256 time = currentTimestamp - last_time;
         uint256 gold = time * 1;
         PlayerDetail.setGold(owner, PlayerDetail.getGold(owner) + gold);
-        Capital.setLastTime(capital_id, now);
+        Capital.setLastTime(capital_id, currentTimestamp);
     }
 
 

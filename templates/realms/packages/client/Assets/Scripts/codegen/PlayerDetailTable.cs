@@ -17,8 +17,12 @@ namespace mudworld
             public System.Numerics.BigInteger? PreviousGold;
             public System.Numerics.BigInteger? Infantry;
             public System.Numerics.BigInteger? PreviousInfantry;
-            public System.Numerics.BigInteger? Cavalry;
-            public System.Numerics.BigInteger? PreviousCavalry;
+            public System.Numerics.BigInteger? CavalryA;
+            public System.Numerics.BigInteger? PreviousCavalryA;
+            public System.Numerics.BigInteger? CavalryB;
+            public System.Numerics.BigInteger? PreviousCavalryB;
+            public System.Numerics.BigInteger? CavalryC;
+            public System.Numerics.BigInteger? PreviousCavalryC;
             public uint? Capital;
             public uint? PreviousCapital;
         }
@@ -36,7 +40,9 @@ namespace mudworld
 
         public System.Numerics.BigInteger? Gold;
         public System.Numerics.BigInteger? Infantry;
-        public System.Numerics.BigInteger? Cavalry;
+        public System.Numerics.BigInteger? CavalryA;
+        public System.Numerics.BigInteger? CavalryB;
+        public System.Numerics.BigInteger? CavalryC;
         public uint? Capital;
 
         public override Type TableType()
@@ -65,7 +71,15 @@ namespace mudworld
             {
                 return false;
             }
-            if (Cavalry != other.Cavalry)
+            if (CavalryA != other.CavalryA)
+            {
+                return false;
+            }
+            if (CavalryB != other.CavalryB)
+            {
+                return false;
+            }
+            if (CavalryC != other.CavalryC)
             {
                 return false;
             }
@@ -82,9 +96,13 @@ namespace mudworld
 
             Infantry = (System.Numerics.BigInteger)functionParameters[1];
 
-            Cavalry = (System.Numerics.BigInteger)functionParameters[2];
+            CavalryA = (System.Numerics.BigInteger)functionParameters[2];
 
-            Capital = (uint)functionParameters[3];
+            CavalryB = (System.Numerics.BigInteger)functionParameters[3];
+
+            CavalryC = (System.Numerics.BigInteger)functionParameters[4];
+
+            Capital = (uint)functionParameters[5];
         }
 
         public static IObservable<RecordUpdate> GetPlayerDetailTableUpdates()
@@ -103,7 +121,9 @@ namespace mudworld
         {
             Gold = (System.Numerics.BigInteger)property["gold"];
             Infantry = (System.Numerics.BigInteger)property["infantry"];
-            Cavalry = (System.Numerics.BigInteger)property["cavalry"];
+            CavalryA = (System.Numerics.BigInteger)property["cavalryA"];
+            CavalryB = (System.Numerics.BigInteger)property["cavalryB"];
+            CavalryC = (System.Numerics.BigInteger)property["cavalryC"];
             Capital = (uint)property["capital"];
         }
 
@@ -135,17 +155,41 @@ namespace mudworld
             {
                 previousInfantryTyped = (System.Numerics.BigInteger)previousValue["infantry"];
             }
-            System.Numerics.BigInteger? currentCavalryTyped = null;
-            System.Numerics.BigInteger? previousCavalryTyped = null;
+            System.Numerics.BigInteger? currentCavalryATyped = null;
+            System.Numerics.BigInteger? previousCavalryATyped = null;
 
-            if (currentValue != null && currentValue.ContainsKey("cavalry"))
+            if (currentValue != null && currentValue.ContainsKey("cavalrya"))
             {
-                currentCavalryTyped = (System.Numerics.BigInteger)currentValue["cavalry"];
+                currentCavalryATyped = (System.Numerics.BigInteger)currentValue["cavalrya"];
             }
 
-            if (previousValue != null && previousValue.ContainsKey("cavalry"))
+            if (previousValue != null && previousValue.ContainsKey("cavalrya"))
             {
-                previousCavalryTyped = (System.Numerics.BigInteger)previousValue["cavalry"];
+                previousCavalryATyped = (System.Numerics.BigInteger)previousValue["cavalrya"];
+            }
+            System.Numerics.BigInteger? currentCavalryBTyped = null;
+            System.Numerics.BigInteger? previousCavalryBTyped = null;
+
+            if (currentValue != null && currentValue.ContainsKey("cavalryb"))
+            {
+                currentCavalryBTyped = (System.Numerics.BigInteger)currentValue["cavalryb"];
+            }
+
+            if (previousValue != null && previousValue.ContainsKey("cavalryb"))
+            {
+                previousCavalryBTyped = (System.Numerics.BigInteger)previousValue["cavalryb"];
+            }
+            System.Numerics.BigInteger? currentCavalryCTyped = null;
+            System.Numerics.BigInteger? previousCavalryCTyped = null;
+
+            if (currentValue != null && currentValue.ContainsKey("cavalryc"))
+            {
+                currentCavalryCTyped = (System.Numerics.BigInteger)currentValue["cavalryc"];
+            }
+
+            if (previousValue != null && previousValue.ContainsKey("cavalryc"))
+            {
+                previousCavalryCTyped = (System.Numerics.BigInteger)previousValue["cavalryc"];
             }
             uint? currentCapitalTyped = null;
             uint? previousCapitalTyped = null;
@@ -172,8 +216,12 @@ namespace mudworld
                 PreviousGold = previousGoldTyped,
                 Infantry = currentInfantryTyped,
                 PreviousInfantry = previousInfantryTyped,
-                Cavalry = currentCavalryTyped,
-                PreviousCavalry = previousCavalryTyped,
+                CavalryA = currentCavalryATyped,
+                PreviousCavalryA = previousCavalryATyped,
+                CavalryB = currentCavalryBTyped,
+                PreviousCavalryB = previousCavalryBTyped,
+                CavalryC = currentCavalryCTyped,
+                PreviousCavalryC = previousCavalryCTyped,
                 Capital = currentCapitalTyped,
                 PreviousCapital = previousCapitalTyped,
             };
