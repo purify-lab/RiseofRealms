@@ -101,13 +101,20 @@ contract SpawnSystem is System {
         uint16 destination = Army.getDestination(owner, army_id);
         uint256 defence_power = Capital.getInfantry(destination) * 5 + Capital.getCavalryA(destination) * 10 + Capital.getCavalryB(destination) * 10 + Capital.getCavalryC(destination) * 10;
 
-        if(attack_power > defence_power){
+        if (attack_power > defence_power) {
             Capital.setOwner(destination, owner);
             Capital.setInfantry(destination, Army.getInfantry(owner, army_id));
             Capital.setCavalryA(destination, Army.getCavalryA(owner, army_id));
             Capital.setCavalryB(destination, Army.getCavalryB(owner, army_id));
             Capital.setCavalryC(destination, Army.getCavalryC(owner, army_id));
         }
+
+        Army.setInfantry(owner, army_id, 0);
+        Army.setCavalryA(owner, army_id, 0);
+        Army.setCavalryB(owner, army_id, 0);
+        Army.setCavalryC(owner, army_id, 0);
+        Army.setDestination(owner, army_id, 0);
+        Army.setLastTime(owner, army_id, 0);
     }
 
 }
