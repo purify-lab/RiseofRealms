@@ -11,20 +11,25 @@ export default mudConfig({
       valueSchema: {
         gold: "uint256",
         soldier: "uint256",
+        capital: "uint16"
         // cites:"bytes32[]"
       }
     },
     Cite: {
       valueSchema: {
-        owner:"bytes32"
+        owner: "bytes32"
       }
     },
-    Capital:{
-      key:"uint16",
+    Capital: {
+      keySchema: {
+        id: "uint16"
+      },
       valueSchema: {
-        owner:"bytes32",
-        soldier:"uint256",
-        lastTime:"uint256"
+        owner: "bytes32",
+        occupation: "address",
+        infantry: "uint256",
+        cavalry: "uint256",
+        lastTime: "uint256"
       }
     },
     Toad: "bool",

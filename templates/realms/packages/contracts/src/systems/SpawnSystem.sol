@@ -19,7 +19,7 @@ contract SpawnSystem is System {
         uint32 gold = 1000000000;
         uint32 soldier = 2000000000;
 //        bytes32[] memory cites = new bytes32[](0);
-        PlayerDetail.set(entity, gold, soldier);
+        PlayerDetail.set(entity, gold, soldier, 0);
     }
 
     function buySoldier() public {
@@ -28,12 +28,17 @@ contract SpawnSystem is System {
         PlayerDetail.setSoldier(entity, PlayerDetail.getSoldier(entity) + 1);
     }
 
-    function spawnCapital(uint16 id) public payable {
+    function spawnCapital(uint16 capital_id) public payable {
         //price 0.0005 eth
         require(msg.value == 500000000000000, "No eth");
         bytes32 owner = Utility.addressToEntityKey(address(_msgSender()));
-        require(Capital.get(id) == false, "Already spawned");
-        Capital.set(id, owner, 0, block.timestamp);
+        require(Capital.getOwner(capital_id) == 0, "this capital already spawned");
+        require(PlayerDetail.getCapital(owner) == 0, "you already spawned capital");
+
+//        Capital.set(id, owner, 0, block.timestamp);
+        PlayerDetail.setCapital(owner, capital_id);
+        Capital.setOwner(capital_id, owner);
+        Capital.setLastTime(capital_id, block.timestamp);
     }
 
     function spawnToad(int32 x, int32 y, int32 z) public payable {

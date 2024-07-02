@@ -12,7 +12,7 @@ interface ISpawnSystem {
 
   function buySoldier() external;
 
-  function spawnCapital(uint16 id) external payable;
+  function spawnCapital(uint16 capital_id) external payable;
 
   function spawnToad(int32 x, int32 y, int32 z) external payable;
 
