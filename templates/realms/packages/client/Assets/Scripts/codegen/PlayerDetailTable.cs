@@ -13,10 +13,10 @@ namespace mudworld
     {
         public class PlayerDetailTableUpdate : RecordUpdate
         {
-            public uint? Gold;
-            public uint? PreviousGold;
-            public uint? Soldier;
-            public uint? PreviousSoldier;
+            public System.Numerics.BigInteger? Gold;
+            public System.Numerics.BigInteger? PreviousGold;
+            public System.Numerics.BigInteger? Soldier;
+            public System.Numerics.BigInteger? PreviousSoldier;
         }
 
         public readonly static string ID = "PlayerDetail";
@@ -30,8 +30,8 @@ namespace mudworld
             return ID;
         }
 
-        public uint? Gold;
-        public uint? Soldier;
+        public System.Numerics.BigInteger? Gold;
+        public System.Numerics.BigInteger? Soldier;
 
         public override Type TableType()
         {
@@ -64,9 +64,9 @@ namespace mudworld
 
         public override void SetValues(params object[] functionParameters)
         {
-            Gold = (uint)functionParameters[0];
+            Gold = (System.Numerics.BigInteger)functionParameters[0];
 
-            Soldier = (uint)functionParameters[1];
+            Soldier = (System.Numerics.BigInteger)functionParameters[1];
         }
 
         public static IObservable<RecordUpdate> GetPlayerDetailTableUpdates()
@@ -83,37 +83,37 @@ namespace mudworld
 
         public override void PropertyToTable(Property property)
         {
-            Gold = (uint)property["gold"];
-            Soldier = (uint)property["soldier"];
+            Gold = (System.Numerics.BigInteger)property["gold"];
+            Soldier = (System.Numerics.BigInteger)property["soldier"];
         }
 
         public override RecordUpdate RecordUpdateToTyped(RecordUpdate recordUpdate)
         {
             var currentValue = recordUpdate.CurrentRecordValue as Property;
             var previousValue = recordUpdate.PreviousRecordValue as Property;
-            uint? currentGoldTyped = null;
-            uint? previousGoldTyped = null;
+            System.Numerics.BigInteger? currentGoldTyped = null;
+            System.Numerics.BigInteger? previousGoldTyped = null;
 
             if (currentValue != null && currentValue.ContainsKey("gold"))
             {
-                currentGoldTyped = (uint)currentValue["gold"];
+                currentGoldTyped = (System.Numerics.BigInteger)currentValue["gold"];
             }
 
             if (previousValue != null && previousValue.ContainsKey("gold"))
             {
-                previousGoldTyped = (uint)previousValue["gold"];
+                previousGoldTyped = (System.Numerics.BigInteger)previousValue["gold"];
             }
-            uint? currentSoldierTyped = null;
-            uint? previousSoldierTyped = null;
+            System.Numerics.BigInteger? currentSoldierTyped = null;
+            System.Numerics.BigInteger? previousSoldierTyped = null;
 
             if (currentValue != null && currentValue.ContainsKey("soldier"))
             {
-                currentSoldierTyped = (uint)currentValue["soldier"];
+                currentSoldierTyped = (System.Numerics.BigInteger)currentValue["soldier"];
             }
 
             if (previousValue != null && previousValue.ContainsKey("soldier"))
             {
-                previousSoldierTyped = (uint)previousValue["soldier"];
+                previousSoldierTyped = (System.Numerics.BigInteger)previousValue["soldier"];
             }
 
             return new PlayerDetailTableUpdate

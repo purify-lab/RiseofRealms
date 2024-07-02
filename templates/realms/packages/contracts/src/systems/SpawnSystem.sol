@@ -3,7 +3,7 @@ pragma solidity >=0.8.0;
 
 import {System} from "@latticexyz/world/src/System.sol";
 import {IWorld} from "../codegen/world/IWorld.sol";
-import {Player, Position, Toad, GameManager,PlayerDetail} from "../codegen/index.sol";
+import {Player, Position, Toad, GameManager, PlayerDetail, Capital} from "../codegen/index.sol";
 
 import {getUniqueEntity} from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 import {Utility} from "../utility/utility.sol";
@@ -16,16 +16,24 @@ contract SpawnSystem is System {
         require(Player.get(entity) == false, "Already spawned");
 
         Player.set(entity, true);
-        uint32 gold = 100;
-        uint32 soldier = 200;
+        uint32 gold = 1000000000;
+        uint32 soldier = 2000000000;
 //        bytes32[] memory cites = new bytes32[](0);
-        PlayerDetail.set(entity,gold,soldier);
+        PlayerDetail.set(entity, gold, soldier);
     }
 
     function buySoldier() public {
         bytes32 entity = Utility.addressToEntityKey(address(_msgSender()));
         PlayerDetail.setGold(entity, PlayerDetail.getGold(entity) - 1);
         PlayerDetail.setSoldier(entity, PlayerDetail.getSoldier(entity) + 1);
+    }
+
+    function spawnCapital(uint16 id) public payable {
+        //price 0.0005 eth
+        require(msg.value == 500000000000000, "No eth");
+        bytes32 owner = Utility.addressToEntityKey(address(_msgSender()));
+        require(Capital.get(id) == false, "Already spawned");
+        Capital.set(id, owner, 0, block.timestamp);
     }
 
     function spawnToad(int32 x, int32 y, int32 z) public payable {
@@ -41,7 +49,7 @@ contract SpawnSystem is System {
 //        GameManager.set(tadpoles + 1);
     }
 
-    function spawnToad2(int32 x, int32 y, int32 z) public  {
+    function spawnToad2(int32 x, int32 y, int32 z) public {
         bytes32 [] memory keys = Utility.getKeysAtPosition(IWorld(_world()), x, y, z);
         require(keys.length == 0, "Obstruction");
 
@@ -53,7 +61,7 @@ contract SpawnSystem is System {
         GameManager.set(tadpoles + 1);
     }
 
-    function spawnToad3(int32 x, int32 y, int32 z) public  {
+    function spawnToad3(int32 x, int32 y, int32 z) public {
         bytes32 [] memory keys = Utility.getKeysAtPosition(IWorld(_world()), x, y, z);
         require(keys.length == 0, "Obstruction");
 

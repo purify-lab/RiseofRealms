@@ -9,14 +9,22 @@ export default mudConfig({
     PlayerDetail: {
       name: "PlayerDetail",
       valueSchema: {
-        gold: "uint32",
-        soldier: "uint32",
+        gold: "uint256",
+        soldier: "uint256",
         // cites:"bytes32[]"
       }
     },
     Cite: {
       valueSchema: {
         owner:"bytes32"
+      }
+    },
+    Capital:{
+      key:"uint16",
+      valueSchema: {
+        owner:"bytes32",
+        soldier:"uint256",
+        lastTime:"uint256"
       }
     },
     Toad: "bool",
