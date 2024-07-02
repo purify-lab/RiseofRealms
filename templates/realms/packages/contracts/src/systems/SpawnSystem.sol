@@ -31,11 +31,11 @@ contract SpawnSystem is System {
         PlayerDetail.setInfantry(entity, PlayerDetail.getInfantry(entity) + amount);
     }
 
-    function buyCavalry(uint256 amount) public {
+    function buyCavalryA(uint256 amount) public {
         uint256 price = 100;
         bytes32 entity = Utility.addressToEntityKey(address(_msgSender()));
         PlayerDetail.setGold(entity, PlayerDetail.getGold(entity) - price * amount);
-        PlayerDetail.setCavalry(entity, PlayerDetail.getCavalry(entity) + amount);
+        PlayerDetail.setCavalryA(entity, PlayerDetail.getCavalryA(entity) + amount);
     }
 
     function spawnCapital(uint16 capital_id) public payable {
@@ -80,7 +80,7 @@ contract SpawnSystem is System {
         require(PlayerDetail.getCavalryB(owner) >= cavalryB, "not enough cavalryB");
         require(PlayerDetail.getCavalryC(owner) >= cavalryC, "not enough cavalryC");
         require(army_id > 0 && army_id <= 9, "invalid army id");
-        require(army_id.getOwner(owner) == 0, "this army not yours");
+        require(Army.getDestination(owner, army_id) == 0, "this army not yours");
 
         PlayerDetail.setInfantry(owner, PlayerDetail.getInfantry(owner) - infantry);
         PlayerDetail.setCavalryA(owner, PlayerDetail.getCavalryA(owner) - cavalryA);
@@ -95,8 +95,19 @@ contract SpawnSystem is System {
         Army.setLastTime(owner, army_id, block.timestamp);
     }
 
-    function attack(uint16 army_id) public {
+    function attack(uint8 army_id) public {
+        bytes32 owner = Utility.addressToEntityKey(address(_msgSender()));
+        uint256 attack_power = Army.getInfantry(owner, army_id) * 5 + Army.getCavalryA(owner, army_id) * 10 + Army.getCavalryB(owner, army_id) * 10 + Army.getCavalryC(owner, army_id) * 10;
+        uint16 destination = Army.getDestination(owner, army_id);
+        uint256 defence_power = Capital.getInfantry(destination) * 5 + Capital.getCavalryA(destination) * 10 + Capital.getCavalryB(destination) * 10 + Capital.getCavalryC(destination) * 10;
 
+        if(attack_power > defence_power){
+            Capital.setOwner(destination, owner);
+            Capital.setInfantry(destination, Army.getInfantry(owner, army_id));
+            Capital.setCavalryA(destination, Army.getCavalryA(owner, army_id));
+            Capital.setCavalryB(destination, Army.getCavalryB(owner, army_id));
+            Capital.setCavalryC(destination, Army.getCavalryC(owner, army_id));
+        }
     }
 
 }

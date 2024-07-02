@@ -12,13 +12,20 @@ interface ISpawnSystem {
 
   function buyInfantry(uint256 amount) external;
 
-  function buyCavalry(uint256 amount) external;
+  function buyCavalryA(uint256 amount) external;
 
   function spawnCapital(uint16 capital_id) external payable;
 
   function garrison(uint16 capital_id, uint256 infantry, uint256 cavalryA, uint256 cavalryB, uint256 cavalryC) external;
 
-  function move(uint16 destination, uint256 infantry, uint256 cavalryA, uint256 cavalryB, uint256 cavalryC) external;
+  function march(
+    uint16 destination,
+    uint256 infantry,
+    uint256 cavalryA,
+    uint256 cavalryB,
+    uint256 cavalryC,
+    uint8 army_id
+  ) external;
 
-  function attack(uint16 army_id) external;
+  function attack(uint8 army_id) external;
 }
