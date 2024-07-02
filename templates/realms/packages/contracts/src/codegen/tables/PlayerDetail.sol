@@ -26,13 +26,15 @@ ResourceId constant _tableId = ResourceId.wrap(
 ResourceId constant PlayerDetailTableId = _tableId;
 
 FieldLayout constant _fieldLayout = FieldLayout.wrap(
-  0x0062040020202002000000000000000000000000000000000000000000000000
+  0x00a2060020202020200200000000000000000000000000000000000000000000
 );
 
 struct PlayerDetailData {
   uint256 gold;
   uint256 infantry;
-  uint256 cavalry;
+  uint256 cavalryA;
+  uint256 cavalryB;
+  uint256 cavalryC;
   uint16 capital;
 }
 
@@ -61,11 +63,13 @@ library PlayerDetail {
    * @return _valueSchema The value schema for the table.
    */
   function getValueSchema() internal pure returns (Schema) {
-    SchemaType[] memory _valueSchema = new SchemaType[](4);
+    SchemaType[] memory _valueSchema = new SchemaType[](6);
     _valueSchema[0] = SchemaType.UINT256;
     _valueSchema[1] = SchemaType.UINT256;
     _valueSchema[2] = SchemaType.UINT256;
-    _valueSchema[3] = SchemaType.UINT16;
+    _valueSchema[3] = SchemaType.UINT256;
+    _valueSchema[4] = SchemaType.UINT256;
+    _valueSchema[5] = SchemaType.UINT16;
 
     return SchemaLib.encode(_valueSchema);
   }
@@ -84,11 +88,13 @@ library PlayerDetail {
    * @return fieldNames An array of strings with the names of value fields.
    */
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
-    fieldNames = new string[](4);
+    fieldNames = new string[](6);
     fieldNames[0] = "gold";
     fieldNames[1] = "infantry";
-    fieldNames[2] = "cavalry";
-    fieldNames[3] = "capital";
+    fieldNames[2] = "cavalryA";
+    fieldNames[3] = "cavalryB";
+    fieldNames[4] = "cavalryC";
+    fieldNames[5] = "capital";
   }
 
   /**
@@ -190,9 +196,9 @@ library PlayerDetail {
   }
 
   /**
-   * @notice Get cavalry.
+   * @notice Get cavalryA.
    */
-  function getCavalry(bytes32 key) internal view returns (uint256 cavalry) {
+  function getCavalryA(bytes32 key) internal view returns (uint256 cavalryA) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = key;
 
@@ -201,9 +207,9 @@ library PlayerDetail {
   }
 
   /**
-   * @notice Get cavalry.
+   * @notice Get cavalryA.
    */
-  function _getCavalry(bytes32 key) internal view returns (uint256 cavalry) {
+  function _getCavalryA(bytes32 key) internal view returns (uint256 cavalryA) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = key;
 
@@ -212,23 +218,107 @@ library PlayerDetail {
   }
 
   /**
-   * @notice Set cavalry.
+   * @notice Set cavalryA.
    */
-  function setCavalry(bytes32 key, uint256 cavalry) internal {
+  function setCavalryA(bytes32 key, uint256 cavalryA) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = key;
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((cavalry)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((cavalryA)), _fieldLayout);
   }
 
   /**
-   * @notice Set cavalry.
+   * @notice Set cavalryA.
    */
-  function _setCavalry(bytes32 key, uint256 cavalry) internal {
+  function _setCavalryA(bytes32 key, uint256 cavalryA) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = key;
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((cavalry)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((cavalryA)), _fieldLayout);
+  }
+
+  /**
+   * @notice Get cavalryB.
+   */
+  function getCavalryB(bytes32 key) internal view returns (uint256 cavalryB) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
+
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 3, _fieldLayout);
+    return (uint256(bytes32(_blob)));
+  }
+
+  /**
+   * @notice Get cavalryB.
+   */
+  function _getCavalryB(bytes32 key) internal view returns (uint256 cavalryB) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
+
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 3, _fieldLayout);
+    return (uint256(bytes32(_blob)));
+  }
+
+  /**
+   * @notice Set cavalryB.
+   */
+  function setCavalryB(bytes32 key, uint256 cavalryB) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
+
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((cavalryB)), _fieldLayout);
+  }
+
+  /**
+   * @notice Set cavalryB.
+   */
+  function _setCavalryB(bytes32 key, uint256 cavalryB) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
+
+    StoreCore.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((cavalryB)), _fieldLayout);
+  }
+
+  /**
+   * @notice Get cavalryC.
+   */
+  function getCavalryC(bytes32 key) internal view returns (uint256 cavalryC) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
+
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 4, _fieldLayout);
+    return (uint256(bytes32(_blob)));
+  }
+
+  /**
+   * @notice Get cavalryC.
+   */
+  function _getCavalryC(bytes32 key) internal view returns (uint256 cavalryC) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
+
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 4, _fieldLayout);
+    return (uint256(bytes32(_blob)));
+  }
+
+  /**
+   * @notice Set cavalryC.
+   */
+  function setCavalryC(bytes32 key, uint256 cavalryC) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
+
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 4, abi.encodePacked((cavalryC)), _fieldLayout);
+  }
+
+  /**
+   * @notice Set cavalryC.
+   */
+  function _setCavalryC(bytes32 key, uint256 cavalryC) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
+
+    StoreCore.setStaticField(_tableId, _keyTuple, 4, abi.encodePacked((cavalryC)), _fieldLayout);
   }
 
   /**
@@ -238,7 +328,7 @@ library PlayerDetail {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = key;
 
-    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 3, _fieldLayout);
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 5, _fieldLayout);
     return (uint16(bytes2(_blob)));
   }
 
@@ -249,7 +339,7 @@ library PlayerDetail {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = key;
 
-    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 3, _fieldLayout);
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 5, _fieldLayout);
     return (uint16(bytes2(_blob)));
   }
 
@@ -260,7 +350,7 @@ library PlayerDetail {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = key;
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((capital)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 5, abi.encodePacked((capital)), _fieldLayout);
   }
 
   /**
@@ -270,7 +360,7 @@ library PlayerDetail {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = key;
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((capital)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 5, abi.encodePacked((capital)), _fieldLayout);
   }
 
   /**
@@ -306,8 +396,16 @@ library PlayerDetail {
   /**
    * @notice Set the full data using individual values.
    */
-  function set(bytes32 key, uint256 gold, uint256 infantry, uint256 cavalry, uint16 capital) internal {
-    bytes memory _staticData = encodeStatic(gold, infantry, cavalry, capital);
+  function set(
+    bytes32 key,
+    uint256 gold,
+    uint256 infantry,
+    uint256 cavalryA,
+    uint256 cavalryB,
+    uint256 cavalryC,
+    uint16 capital
+  ) internal {
+    bytes memory _staticData = encodeStatic(gold, infantry, cavalryA, cavalryB, cavalryC, capital);
 
     PackedCounter _encodedLengths;
     bytes memory _dynamicData;
@@ -321,8 +419,16 @@ library PlayerDetail {
   /**
    * @notice Set the full data using individual values.
    */
-  function _set(bytes32 key, uint256 gold, uint256 infantry, uint256 cavalry, uint16 capital) internal {
-    bytes memory _staticData = encodeStatic(gold, infantry, cavalry, capital);
+  function _set(
+    bytes32 key,
+    uint256 gold,
+    uint256 infantry,
+    uint256 cavalryA,
+    uint256 cavalryB,
+    uint256 cavalryC,
+    uint16 capital
+  ) internal {
+    bytes memory _staticData = encodeStatic(gold, infantry, cavalryA, cavalryB, cavalryC, capital);
 
     PackedCounter _encodedLengths;
     bytes memory _dynamicData;
@@ -337,7 +443,14 @@ library PlayerDetail {
    * @notice Set the full data using the data struct.
    */
   function set(bytes32 key, PlayerDetailData memory _table) internal {
-    bytes memory _staticData = encodeStatic(_table.gold, _table.infantry, _table.cavalry, _table.capital);
+    bytes memory _staticData = encodeStatic(
+      _table.gold,
+      _table.infantry,
+      _table.cavalryA,
+      _table.cavalryB,
+      _table.cavalryC,
+      _table.capital
+    );
 
     PackedCounter _encodedLengths;
     bytes memory _dynamicData;
@@ -352,7 +465,14 @@ library PlayerDetail {
    * @notice Set the full data using the data struct.
    */
   function _set(bytes32 key, PlayerDetailData memory _table) internal {
-    bytes memory _staticData = encodeStatic(_table.gold, _table.infantry, _table.cavalry, _table.capital);
+    bytes memory _staticData = encodeStatic(
+      _table.gold,
+      _table.infantry,
+      _table.cavalryA,
+      _table.cavalryB,
+      _table.cavalryC,
+      _table.capital
+    );
 
     PackedCounter _encodedLengths;
     bytes memory _dynamicData;
@@ -368,14 +488,22 @@ library PlayerDetail {
    */
   function decodeStatic(
     bytes memory _blob
-  ) internal pure returns (uint256 gold, uint256 infantry, uint256 cavalry, uint16 capital) {
+  )
+    internal
+    pure
+    returns (uint256 gold, uint256 infantry, uint256 cavalryA, uint256 cavalryB, uint256 cavalryC, uint16 capital)
+  {
     gold = (uint256(Bytes.slice32(_blob, 0)));
 
     infantry = (uint256(Bytes.slice32(_blob, 32)));
 
-    cavalry = (uint256(Bytes.slice32(_blob, 64)));
+    cavalryA = (uint256(Bytes.slice32(_blob, 64)));
 
-    capital = (uint16(Bytes.slice2(_blob, 96)));
+    cavalryB = (uint256(Bytes.slice32(_blob, 96)));
+
+    cavalryC = (uint256(Bytes.slice32(_blob, 128)));
+
+    capital = (uint16(Bytes.slice2(_blob, 160)));
   }
 
   /**
@@ -389,7 +517,9 @@ library PlayerDetail {
     PackedCounter,
     bytes memory
   ) internal pure returns (PlayerDetailData memory _table) {
-    (_table.gold, _table.infantry, _table.cavalry, _table.capital) = decodeStatic(_staticData);
+    (_table.gold, _table.infantry, _table.cavalryA, _table.cavalryB, _table.cavalryC, _table.capital) = decodeStatic(
+      _staticData
+    );
   }
 
   /**
@@ -419,10 +549,12 @@ library PlayerDetail {
   function encodeStatic(
     uint256 gold,
     uint256 infantry,
-    uint256 cavalry,
+    uint256 cavalryA,
+    uint256 cavalryB,
+    uint256 cavalryC,
     uint16 capital
   ) internal pure returns (bytes memory) {
-    return abi.encodePacked(gold, infantry, cavalry, capital);
+    return abi.encodePacked(gold, infantry, cavalryA, cavalryB, cavalryC, capital);
   }
 
   /**
@@ -434,10 +566,12 @@ library PlayerDetail {
   function encode(
     uint256 gold,
     uint256 infantry,
-    uint256 cavalry,
+    uint256 cavalryA,
+    uint256 cavalryB,
+    uint256 cavalryC,
     uint16 capital
   ) internal pure returns (bytes memory, PackedCounter, bytes memory) {
-    bytes memory _staticData = encodeStatic(gold, infantry, cavalry, capital);
+    bytes memory _staticData = encodeStatic(gold, infantry, cavalryA, cavalryB, cavalryC, capital);
 
     PackedCounter _encodedLengths;
     bytes memory _dynamicData;

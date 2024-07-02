@@ -16,11 +16,9 @@ interface ISpawnSystem {
 
   function spawnCapital(uint16 capital_id) external payable;
 
-  function spawnToad(int32 x, int32 y, int32 z) external payable;
+  function garrison(uint16 capital_id, uint256 infantry, uint256 cavalryA, uint256 cavalryB, uint256 cavalryC) external;
 
-  function spawnToad2(int32 x, int32 y, int32 z) external;
+  function move(uint16 destination, uint256 infantry, uint256 cavalryA, uint256 cavalryB, uint256 cavalryC) external;
 
-  function spawnToad3(int32 x, int32 y, int32 z) external;
-
-  function deleteToad(int32 x, int32 y, int32 z) external;
+  function attack(uint16 army_id) external;
 }

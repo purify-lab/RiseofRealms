@@ -11,14 +11,30 @@ export default mudConfig({
       valueSchema: {
         gold: "uint256",
         infantry: "uint256",
-        cavalry: "uint256",
-        capital: "uint16"
+        cavalryA: "uint256",
+        cavalryB: "uint256",
+        cavalryC: "uint256",
+        capital: "uint16",
         // cites:"bytes32[]"
       }
     },
     Cite: {
       valueSchema: {
         owner: "bytes32"
+      }
+    },
+    Army: {
+      keySchema: {
+        owner: "bytes32",
+        id: "uint8"
+      },
+      valueSchema: {
+        infantry: "uint256",
+        cavalryA: "uint256",
+        cavalryB: "uint256",
+        cavalryC: "uint256",
+        lastTime: "uint256",
+        destination: "uint16",
       }
     },
     Capital: {
@@ -29,11 +45,20 @@ export default mudConfig({
         owner: "bytes32",
         occupation: "address",
         infantry: "uint256",
-        cavalry: "uint256",
+        cavalryA: "uint256",
+        cavalryB: "uint256",
+        cavalryC: "uint256",
         lastTime: "uint256",
-        pledgedTokenA: "uint256",
         pledgedTokenB: "uint256",
         pledgedTokenC: "uint256",
+      }
+    },
+    CapitalExtends: {
+      keySchema: {
+        id: "uint16"
+      },
+      valueSchema: {
+        owner: "bytes32",
       }
     },
     Toad: "bool",

@@ -3,7 +3,7 @@ pragma solidity >=0.8.0;
 
 import {System} from "@latticexyz/world/src/System.sol";
 import {IWorld} from "../codegen/world/IWorld.sol";
-import {Player, Position, Toad, GameManager, PlayerDetail, Capital} from "../codegen/index.sol";
+import {Player, Position, Toad, GameManager, PlayerDetail, Capital, Army} from "../codegen/index.sol";
 
 import {getUniqueEntity} from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 import {Utility} from "../utility/utility.sol";
@@ -19,7 +19,9 @@ contract SpawnSystem is System {
 
         PlayerDetail.setGold(entity, 1000000000);
         PlayerDetail.setInfantry(entity, 1000000000);
-        PlayerDetail.setCavalry(entity, 1000000000);
+        PlayerDetail.setCavalryA(entity, 1000000000);
+        PlayerDetail.setCavalryB(entity, 1000000000);
+        PlayerDetail.setCavalryC(entity, 1000000000);
     }
 
     function buyInfantry(uint256 amount) public {
@@ -48,5 +50,52 @@ contract SpawnSystem is System {
         Capital.setLastTime(capital_id, block.timestamp);
     }
 
+    function garrison(uint16 capital_id, uint256 infantry, uint256 cavalryA, uint256 cavalryB, uint256 cavalryC) public {
+        bytes32 owner = Utility.addressToEntityKey(address(_msgSender()));
+        require(Capital.getOwner(capital_id) == owner, "this capital not yours");
+
+        require(PlayerDetail.getInfantry(owner) >= infantry, "not enough infantry");
+        require(PlayerDetail.getCavalryA(owner) >= cavalryA, "not enough cavalryA");
+        require(PlayerDetail.getCavalryB(owner) >= cavalryB, "not enough cavalryB");
+        require(PlayerDetail.getCavalryC(owner) >= cavalryC, "not enough cavalryC");
+
+        PlayerDetail.setInfantry(owner, PlayerDetail.getInfantry(owner) - infantry);
+        PlayerDetail.setCavalryA(owner, PlayerDetail.getCavalryA(owner) - cavalryA);
+        PlayerDetail.setCavalryB(owner, PlayerDetail.getCavalryB(owner) - cavalryB);
+        PlayerDetail.setCavalryC(owner, PlayerDetail.getCavalryC(owner) - cavalryC);
+
+        Capital.setInfantry(capital_id, Capital.getInfantry(capital_id) + infantry);
+        Capital.setCavalryA(capital_id, Capital.getCavalryA(capital_id) + cavalryA);
+        Capital.setCavalryB(capital_id, Capital.getCavalryB(capital_id) + cavalryB);
+        Capital.setCavalryC(capital_id, Capital.getCavalryC(capital_id) + cavalryC);
+    }
+
+    //行军
+    function march(uint16 destination, uint256 infantry, uint256 cavalryA, uint256 cavalryB, uint256 cavalryC, uint8 army_id) public {
+        bytes32 owner = Utility.addressToEntityKey(address(_msgSender()));
+
+        require(PlayerDetail.getInfantry(owner) >= infantry, "not enough infantry");
+        require(PlayerDetail.getCavalryA(owner) >= cavalryA, "not enough cavalryA");
+        require(PlayerDetail.getCavalryB(owner) >= cavalryB, "not enough cavalryB");
+        require(PlayerDetail.getCavalryC(owner) >= cavalryC, "not enough cavalryC");
+        require(army_id > 0 && army_id <= 9, "invalid army id");
+        require(army_id.getOwner(owner) == 0, "this army not yours");
+
+        PlayerDetail.setInfantry(owner, PlayerDetail.getInfantry(owner) - infantry);
+        PlayerDetail.setCavalryA(owner, PlayerDetail.getCavalryA(owner) - cavalryA);
+        PlayerDetail.setCavalryB(owner, PlayerDetail.getCavalryB(owner) - cavalryB);
+        PlayerDetail.setCavalryC(owner, PlayerDetail.getCavalryC(owner) - cavalryC);
+
+        Army.setInfantry(owner, army_id, infantry);
+        Army.setCavalryA(owner, army_id, cavalryA);
+        Army.setCavalryB(owner, army_id, cavalryB);
+        Army.setCavalryC(owner, army_id, cavalryC);
+        Army.setDestination(owner, army_id, destination);
+        Army.setLastTime(owner, army_id, block.timestamp);
+    }
+
+    function attack(uint16 army_id) public {
+
+    }
 
 }
