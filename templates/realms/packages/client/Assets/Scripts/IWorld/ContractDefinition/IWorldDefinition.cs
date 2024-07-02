@@ -45,12 +45,22 @@ namespace IWorld.ContractDefinition
         public virtual List<SystemCallFromData> SystemCalls { get; set; }
     }
 
-    public partial class BuySoldierFunction : BuySoldierFunctionBase { }
+    public partial class BuyCavalryFunction : BuyCavalryFunctionBase { }
 
-    [Function("buySoldier")]
-    public class BuySoldierFunctionBase : FunctionMessage
+    [Function("buyCavalry")]
+    public class BuyCavalryFunctionBase : FunctionMessage
     {
+        [Parameter("uint256", "amount", 1)]
+        public virtual BigInteger Amount { get; set; }
+    }
 
+    public partial class BuyInfantryFunction : BuyInfantryFunctionBase { }
+
+    [Function("buyInfantry")]
+    public class BuyInfantryFunctionBase : FunctionMessage
+    {
+        [Parameter("uint256", "amount", 1)]
+        public virtual BigInteger Amount { get; set; }
     }
 
     public partial class CallFunction : CallFunctionBase { }
@@ -555,6 +565,15 @@ namespace IWorld.ContractDefinition
         public virtual byte[] FieldLayout { get; set; }
     }
 
+    public partial class SpawnCapitalFunction : SpawnCapitalFunctionBase { }
+
+    [Function("spawnCapital")]
+    public class SpawnCapitalFunctionBase : FunctionMessage
+    {
+        [Parameter("uint16", "capital_id", 1)]
+        public virtual ushort CapitalId { get; set; }
+    }
+
     public partial class SpawnPlayerFunction : SpawnPlayerFunctionBase { }
 
     [Function("spawnPlayer")]
@@ -1042,6 +1061,8 @@ namespace IWorld.ContractDefinition
 
 
 
+
+
     public partial class CreatorOutputDTO : CreatorOutputDTOBase { }
 
     [FunctionOutput]
@@ -1179,6 +1200,8 @@ namespace IWorld.ContractDefinition
         [Parameter("bytes32", "valueSchema", 1)]
         public virtual byte[] ValueSchema { get; set; }
     }
+
+
 
 
 

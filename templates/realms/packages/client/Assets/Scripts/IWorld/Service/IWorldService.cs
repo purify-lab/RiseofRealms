@@ -100,24 +100,56 @@ namespace IWorld.Service
              return ContractHandler.SendRequestAndWaitForReceiptAsync(batchCallFromFunction, cancellationToken);
         }
 
-        public Task<string> BuySoldierRequestAsync(BuySoldierFunction buySoldierFunction)
+        public Task<string> BuyCavalryRequestAsync(BuyCavalryFunction buyCavalryFunction)
         {
-             return ContractHandler.SendRequestAsync(buySoldierFunction);
+             return ContractHandler.SendRequestAsync(buyCavalryFunction);
         }
 
-        public Task<string> BuySoldierRequestAsync()
+        public Task<TransactionReceipt> BuyCavalryRequestAndWaitForReceiptAsync(BuyCavalryFunction buyCavalryFunction, CancellationTokenSource cancellationToken = null)
         {
-             return ContractHandler.SendRequestAsync<BuySoldierFunction>();
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(buyCavalryFunction, cancellationToken);
         }
 
-        public Task<TransactionReceipt> BuySoldierRequestAndWaitForReceiptAsync(BuySoldierFunction buySoldierFunction, CancellationTokenSource cancellationToken = null)
+        public Task<string> BuyCavalryRequestAsync(BigInteger amount)
         {
-             return ContractHandler.SendRequestAndWaitForReceiptAsync(buySoldierFunction, cancellationToken);
+            var buyCavalryFunction = new BuyCavalryFunction();
+                buyCavalryFunction.Amount = amount;
+            
+             return ContractHandler.SendRequestAsync(buyCavalryFunction);
         }
 
-        public Task<TransactionReceipt> BuySoldierRequestAndWaitForReceiptAsync(CancellationTokenSource cancellationToken = null)
+        public Task<TransactionReceipt> BuyCavalryRequestAndWaitForReceiptAsync(BigInteger amount, CancellationTokenSource cancellationToken = null)
         {
-             return ContractHandler.SendRequestAndWaitForReceiptAsync<BuySoldierFunction>(null, cancellationToken);
+            var buyCavalryFunction = new BuyCavalryFunction();
+                buyCavalryFunction.Amount = amount;
+            
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(buyCavalryFunction, cancellationToken);
+        }
+
+        public Task<string> BuyInfantryRequestAsync(BuyInfantryFunction buyInfantryFunction)
+        {
+             return ContractHandler.SendRequestAsync(buyInfantryFunction);
+        }
+
+        public Task<TransactionReceipt> BuyInfantryRequestAndWaitForReceiptAsync(BuyInfantryFunction buyInfantryFunction, CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(buyInfantryFunction, cancellationToken);
+        }
+
+        public Task<string> BuyInfantryRequestAsync(BigInteger amount)
+        {
+            var buyInfantryFunction = new BuyInfantryFunction();
+                buyInfantryFunction.Amount = amount;
+            
+             return ContractHandler.SendRequestAsync(buyInfantryFunction);
+        }
+
+        public Task<TransactionReceipt> BuyInfantryRequestAndWaitForReceiptAsync(BigInteger amount, CancellationTokenSource cancellationToken = null)
+        {
+            var buyInfantryFunction = new BuyInfantryFunction();
+                buyInfantryFunction.Amount = amount;
+            
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(buyInfantryFunction, cancellationToken);
         }
 
         public Task<string> CallRequestAsync(CallFunction callFunction)
@@ -1087,6 +1119,32 @@ namespace IWorld.Service
                 setStaticFieldFunction.FieldLayout = fieldLayout;
             
              return ContractHandler.SendRequestAndWaitForReceiptAsync(setStaticFieldFunction, cancellationToken);
+        }
+
+        public Task<string> SpawnCapitalRequestAsync(SpawnCapitalFunction spawnCapitalFunction)
+        {
+             return ContractHandler.SendRequestAsync(spawnCapitalFunction);
+        }
+
+        public Task<TransactionReceipt> SpawnCapitalRequestAndWaitForReceiptAsync(SpawnCapitalFunction spawnCapitalFunction, CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(spawnCapitalFunction, cancellationToken);
+        }
+
+        public Task<string> SpawnCapitalRequestAsync(ushort capitalId)
+        {
+            var spawnCapitalFunction = new SpawnCapitalFunction();
+                spawnCapitalFunction.CapitalId = capitalId;
+            
+             return ContractHandler.SendRequestAsync(spawnCapitalFunction);
+        }
+
+        public Task<TransactionReceipt> SpawnCapitalRequestAndWaitForReceiptAsync(ushort capitalId, CancellationTokenSource cancellationToken = null)
+        {
+            var spawnCapitalFunction = new SpawnCapitalFunction();
+                spawnCapitalFunction.CapitalId = capitalId;
+            
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(spawnCapitalFunction, cancellationToken);
         }
 
         public Task<string> SpawnPlayerRequestAsync(SpawnPlayerFunction spawnPlayerFunction)
