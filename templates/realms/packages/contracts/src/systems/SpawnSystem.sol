@@ -12,6 +12,9 @@ import {IERC20} from "../utility/IERC20.sol";
 
 contract SpawnSystem is System {
 
+    /**
+    * @dev 生成玩家
+    */
     function spawnPlayer() public {
         bytes32 entity = Utility.addressToEntityKey(address(_msgSender()));
         require(Player.get(entity) == false, "Already spawned");
@@ -26,6 +29,10 @@ contract SpawnSystem is System {
         PlayerDetail.setCavalryC(entity, 1000000000);
     }
 
+    /**
+    * @dev 购买步兵
+    * @param amount 数量
+    */
     function buyInfantry(uint256 amount) public {
         uint256 price = 50;
         bytes32 entity = Utility.addressToEntityKey(address(_msgSender()));
@@ -34,6 +41,10 @@ contract SpawnSystem is System {
         PlayerDetail.setInfantry(entity, PlayerDetail.getInfantry(entity) + amount);
     }
 
+    /**
+    * @dev 购买骑兵A
+    * @param amount 数量
+    */
     function buyCavalryA(uint256 amount) public {
         uint256 price = 100;
         bytes32 entity = Utility.addressToEntityKey(address(_msgSender()));
@@ -42,6 +53,10 @@ contract SpawnSystem is System {
         PlayerDetail.setCavalryA(entity, PlayerDetail.getCavalryA(entity) + amount);
     }
 
+    /**
+    * @dev 购买骑兵B
+    * @param amount 数量
+    */
     function buyCavalryB(uint256 amount) public {
         uint256 price = 200;
         bytes32 entity = Utility.addressToEntityKey(address(_msgSender()));
@@ -50,6 +65,10 @@ contract SpawnSystem is System {
         PlayerDetail.setCavalryB(entity, PlayerDetail.getCavalryB(entity) + amount);
     }
 
+    /**
+    * @dev 购买骑兵C
+    * @param amount 数量
+    */
     function buyCavalryC(uint256 amount) public {
         uint256 price = 400;
         bytes32 entity = Utility.addressToEntityKey(address(_msgSender()));
@@ -58,6 +77,10 @@ contract SpawnSystem is System {
         PlayerDetail.setCavalryC(entity, PlayerDetail.getCavalryC(entity) + amount);
     }
 
+    /**
+    * @dev 生成领地
+    * @param capital_id 领地id
+    */
     function spawnCapital(uint16 capital_id) public payable {
         //price 0.0005 eth
         require(capital_id > 0 && capital_id <= 8000, "invalid capital id");
@@ -71,7 +94,14 @@ contract SpawnSystem is System {
         Capital.setLastTime(capital_id, block.timestamp);
     }
 
-    //驻军
+    /**
+    * @dev 驻守
+    * @param capital_id 要驻守的领地id
+    * @param infantry 步兵数量
+    * @param cavalryA 骑兵A数量
+    * @param cavalryB 骑兵B数量
+    * @param cavalryC 骑兵C数量
+    */
     function garrison(uint16 capital_id, uint256 infantry, uint256 cavalryA, uint256 cavalryB, uint256 cavalryC) public {
         bytes32 owner = Utility.addressToEntityKey(address(_msgSender()));
         require(Capital.getOwner(capital_id) == owner, "this capital not yours");
@@ -95,7 +125,15 @@ contract SpawnSystem is System {
         Capital.setCavalryC(capital_id, Capital.getCavalryC(capital_id) + cavalryC);
     }
 
-    //行军
+    /**
+    * @dev 派遣军队
+    * @param destination 目的地
+    * @param infantry 步兵数量
+    * @param cavalryA 骑兵A数量
+    * @param cavalryB 骑兵B数量
+    * @param cavalryC 骑兵C数量
+    * @param army_id 军队id
+    */
     function march(uint16 destination, uint256 infantry, uint256 cavalryA, uint256 cavalryB, uint256 cavalryC, uint8 army_id) public {
         bytes32 owner = Utility.addressToEntityKey(address(_msgSender()));
 
@@ -154,7 +192,10 @@ contract SpawnSystem is System {
         Army.setLastTime(owner, army_id, 0);
     }
 
-    //收获
+    /**
+    * @dev 收获
+    * @param capital_id 要收获的领地id
+    */
     function farming(uint16 capital_id) public {
         bytes32 owner = Utility.addressToEntityKey(address(_msgSender()));
         require(Capital.getOwner(capital_id) == owner, "this capital not yours");
