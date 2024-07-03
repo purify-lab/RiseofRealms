@@ -11,7 +11,19 @@ namespace mudworld
 {
     public class BattleReportTable : MUDTable
     {
-        public class BattleReportTableUpdate : RecordUpdate { }
+        public class BattleReportTableUpdate : RecordUpdate
+        {
+            public uint? CapitalId;
+            public uint? PreviousCapitalId;
+            public System.Numerics.BigInteger? Timestamp;
+            public System.Numerics.BigInteger? PreviousTimestamp;
+            public string? Attacker;
+            public string? PreviousAttacker;
+            public string? Defender;
+            public string? PreviousDefender;
+            public System.Numerics.BigInteger? LossInfantry;
+            public System.Numerics.BigInteger? PreviousLossInfantry;
+        }
 
         public readonly static string ID = "BattleReport";
         public static RxTable Table
@@ -23,6 +35,12 @@ namespace mudworld
         {
             return ID;
         }
+
+        public uint? CapitalId;
+        public System.Numerics.BigInteger? Timestamp;
+        public string? Attacker;
+        public string? Defender;
+        public System.Numerics.BigInteger? LossInfantry;
 
         public override Type TableType()
         {
@@ -42,10 +60,41 @@ namespace mudworld
             {
                 return false;
             }
+            if (CapitalId != other.CapitalId)
+            {
+                return false;
+            }
+            if (Timestamp != other.Timestamp)
+            {
+                return false;
+            }
+            if (Attacker != other.Attacker)
+            {
+                return false;
+            }
+            if (Defender != other.Defender)
+            {
+                return false;
+            }
+            if (LossInfantry != other.LossInfantry)
+            {
+                return false;
+            }
             return true;
         }
 
-        public override void SetValues(params object[] functionParameters) { }
+        public override void SetValues(params object[] functionParameters)
+        {
+            CapitalId = (uint)functionParameters[0];
+
+            Timestamp = (System.Numerics.BigInteger)functionParameters[1];
+
+            Attacker = (string)functionParameters[2];
+
+            Defender = (string)functionParameters[3];
+
+            LossInfantry = (System.Numerics.BigInteger)functionParameters[4];
+        }
 
         public static IObservable<RecordUpdate> GetBattleReportTableUpdates()
         {
@@ -59,12 +108,80 @@ namespace mudworld
                 });
         }
 
-        public override void PropertyToTable(Property property) { }
+        public override void PropertyToTable(Property property)
+        {
+            CapitalId = (uint)property["capitalId"];
+            Timestamp = (System.Numerics.BigInteger)property["timestamp"];
+            Attacker = (string)property["attacker"];
+            Defender = (string)property["defender"];
+            LossInfantry = (System.Numerics.BigInteger)property["lossInfantry"];
+        }
 
         public override RecordUpdate RecordUpdateToTyped(RecordUpdate recordUpdate)
         {
             var currentValue = recordUpdate.CurrentRecordValue as Property;
             var previousValue = recordUpdate.PreviousRecordValue as Property;
+            uint? currentCapitalIdTyped = null;
+            uint? previousCapitalIdTyped = null;
+
+            if (currentValue != null && currentValue.ContainsKey("capitalid"))
+            {
+                currentCapitalIdTyped = (uint)currentValue["capitalid"];
+            }
+
+            if (previousValue != null && previousValue.ContainsKey("capitalid"))
+            {
+                previousCapitalIdTyped = (uint)previousValue["capitalid"];
+            }
+            System.Numerics.BigInteger? currentTimestampTyped = null;
+            System.Numerics.BigInteger? previousTimestampTyped = null;
+
+            if (currentValue != null && currentValue.ContainsKey("timestamp"))
+            {
+                currentTimestampTyped = (System.Numerics.BigInteger)currentValue["timestamp"];
+            }
+
+            if (previousValue != null && previousValue.ContainsKey("timestamp"))
+            {
+                previousTimestampTyped = (System.Numerics.BigInteger)previousValue["timestamp"];
+            }
+            string? currentAttackerTyped = null;
+            string? previousAttackerTyped = null;
+
+            if (currentValue != null && currentValue.ContainsKey("attacker"))
+            {
+                currentAttackerTyped = (string)currentValue["attacker"];
+            }
+
+            if (previousValue != null && previousValue.ContainsKey("attacker"))
+            {
+                previousAttackerTyped = (string)previousValue["attacker"];
+            }
+            string? currentDefenderTyped = null;
+            string? previousDefenderTyped = null;
+
+            if (currentValue != null && currentValue.ContainsKey("defender"))
+            {
+                currentDefenderTyped = (string)currentValue["defender"];
+            }
+
+            if (previousValue != null && previousValue.ContainsKey("defender"))
+            {
+                previousDefenderTyped = (string)previousValue["defender"];
+            }
+            System.Numerics.BigInteger? currentLossInfantryTyped = null;
+            System.Numerics.BigInteger? previousLossInfantryTyped = null;
+
+            if (currentValue != null && currentValue.ContainsKey("lossinfantry"))
+            {
+                currentLossInfantryTyped = (System.Numerics.BigInteger)currentValue["lossinfantry"];
+            }
+
+            if (previousValue != null && previousValue.ContainsKey("lossinfantry"))
+            {
+                previousLossInfantryTyped = (System.Numerics.BigInteger)
+                    previousValue["lossinfantry"];
+            }
 
             return new BattleReportTableUpdate
             {
@@ -74,6 +191,16 @@ namespace mudworld
                 CurrentRecordKey = recordUpdate.CurrentRecordKey,
                 PreviousRecordKey = recordUpdate.PreviousRecordKey,
                 Type = recordUpdate.Type,
+                CapitalId = currentCapitalIdTyped,
+                PreviousCapitalId = previousCapitalIdTyped,
+                Timestamp = currentTimestampTyped,
+                PreviousTimestamp = previousTimestampTyped,
+                Attacker = currentAttackerTyped,
+                PreviousAttacker = previousAttackerTyped,
+                Defender = currentDefenderTyped,
+                PreviousDefender = previousDefenderTyped,
+                LossInfantry = currentLossInfantryTyped,
+                PreviousLossInfantry = previousLossInfantryTyped,
             };
         }
     }

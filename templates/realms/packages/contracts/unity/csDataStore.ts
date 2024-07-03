@@ -1,9 +1,9 @@
 import mudConfig from "../mud.config";
-import { SchemaAbiType, schemaAbiTypes, staticAbiTypes } from "@latticexyz/schema-type";
-import { EnumField, TableField, schemaTypesToCSTypeStrings } from "./types";
-import { writeFileSync, mkdirSync } from "fs";
-import { exec } from "child_process";
-import { renderFile } from "ejs";
+import {SchemaAbiType, schemaAbiTypes, staticAbiTypes} from "@latticexyz/schema-type";
+import {EnumField, TableField, schemaTypesToCSTypeStrings} from "./types";
+import {writeFileSync, mkdirSync} from "fs";
+import {exec} from "child_process";
+import {renderFile} from "ejs";
 
 export function createTableDefinition(
   filePath: string,
@@ -16,24 +16,32 @@ export function createTableDefinition(
   const fields: TableField[] = [];
   const keyFields: TableField[] = [];
 
-  for (const key in keySchema) {
-    const keyType = keySchema[key];
-    if (!keyType) throw new Error(`[${tableName}]: Unknown type for field ${key}`);
-    if (keyType === "bytes32" && key === "key") continue;
-    keyFields.push({ key: key[0] + key.slice(1), type: schemaTypesToCSTypeStrings[keyType] });
-  }
+  // console.log("keySchema", keySchema);
+
+  //
+  // for (const key in keySchema) {
+  //   const keyType = keySchema[key];
+  //   if (!keyType) throw new Error(`[${tableName}]: Unknown type for field ${key}`);
+  //   if (keyType === "bytes32" && key === "key") continue;
+  //   keyFields.push({ key: key[0] + key.slice(1), type: schemaTypesToCSTypeStrings[keyType] });
+  // }
+
+  // console.log("valueSchema", valueSchema);
 
   for (const key in valueSchema) {
     var valueType = valueSchema[key];
-    console.log(valueType);
+    // console.log("key valueType valueSchema",key, valueType, valueSchema);
+    console.log("key:", key);
+    console.log("valueType:", valueType);
+
     if (!valueType) throw new Error(`[${tableName}]: Unknown type for field ${key}`);
-
-    if (valueType in mudConfig.enums) {
-      console.log(valueType + " is " + schemaAbiTypes[0]);
-      valueType = schemaAbiTypes[0];
-    } 
-
-    fields.push({ key: key[0] + key.slice(1), type: schemaTypesToCSTypeStrings[valueType] });
+    //
+    // if (valueType in mudConfig.enums) {
+    //   console.log(valueType + " is " + schemaAbiTypes[0]);
+    //   valueType = schemaAbiTypes[0];
+    // }
+    //
+    fields.push({key: key[0] + key.slice(1), type: schemaTypesToCSTypeStrings[valueType.type]});
   }
 
   if (keyFields.length > 0) {
@@ -49,7 +57,7 @@ export function createTableDefinition(
       fields,
     },
     (err, str) => {
-      console.log("writeFileSync " + filePath);
+      console.log("writeFileSync " + filePath, fields);
       writeFileSync(filePath, str);
       if (err) throw err;
     }
@@ -65,9 +73,9 @@ export function createUserEnums(
 
   const fields: EnumField[] = [];
 
-  Object.entries(mudConfig.enums).forEach( ([enumName, enumValues]) => {
+  Object.entries(mudConfig.enums).forEach(([enumName, enumValues]) => {
     console.log(enumName);
-    fields.push({ enumName: enumName, values: enumValues });
+    fields.push({enumName: enumName, values: enumValues});
   });
 
   renderFile(
@@ -111,17 +119,17 @@ async function main() {
   console.log(outputPath);
 
   try {
-    mkdirSync(outputPath, { recursive: true });
+    mkdirSync(outputPath, {recursive: true});
     console.log("Directory created successfully.");
   } catch (error) {
     if (error instanceof Error) console.error("Error creating directory:", error.message);
   }
 
-  
+
   const tables = mudConfig.tables;
-  Object.entries(tables).forEach( ([tableName, { keySchema, valueSchema }]) => {
+  Object.entries(tables).forEach(([tableName, {key, schema}]) => {
     const filePath = `${outputPath}/${tableName + "Table"}.cs`;
-    createTableDefinition(filePath, namespace, mudConfig, tableName, keySchema, valueSchema);
+    createTableDefinition(filePath, namespace, mudConfig, tableName, key, schema);
   });
 
 
@@ -130,7 +138,7 @@ async function main() {
 
   const filePath = `${outputPath}/mudworld.asmdef`;
   createAssemblyReference(filePath, namespace);
-  
+
 
   // formatting
   exec(`dotnet tool run dotnet-csharpier "${outputPath}"`, (err, stdout, stderr) => {

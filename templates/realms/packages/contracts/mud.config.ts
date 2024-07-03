@@ -108,6 +108,7 @@ import {defineWorld} from "@latticexyz/world";
 
 export default defineWorld({
   worldContractName: "RoR",
+  // namespace: "mud",
   systems: {
     SpawnSystem: {
       name: "spwan",

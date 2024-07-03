@@ -11,7 +11,13 @@ namespace mudworld
 {
     public class PlayerTable : MUDTable
     {
-        public class PlayerTableUpdate : RecordUpdate { }
+        public class PlayerTableUpdate : RecordUpdate
+        {
+            public string? Id;
+            public string? PreviousId;
+            public bool? Value;
+            public bool? PreviousValue;
+        }
 
         public readonly static string ID = "Player";
         public static RxTable Table
@@ -23,6 +29,9 @@ namespace mudworld
         {
             return ID;
         }
+
+        public string? Id;
+        public bool? Value;
 
         public override Type TableType()
         {
@@ -42,10 +51,23 @@ namespace mudworld
             {
                 return false;
             }
+            if (Id != other.Id)
+            {
+                return false;
+            }
+            if (Value != other.Value)
+            {
+                return false;
+            }
             return true;
         }
 
-        public override void SetValues(params object[] functionParameters) { }
+        public override void SetValues(params object[] functionParameters)
+        {
+            Id = (string)functionParameters[0];
+
+            Value = (bool)functionParameters[1];
+        }
 
         public static IObservable<RecordUpdate> GetPlayerTableUpdates()
         {
@@ -59,12 +81,40 @@ namespace mudworld
                 });
         }
 
-        public override void PropertyToTable(Property property) { }
+        public override void PropertyToTable(Property property)
+        {
+            Id = (string)property["id"];
+            Value = (bool)property["value"];
+        }
 
         public override RecordUpdate RecordUpdateToTyped(RecordUpdate recordUpdate)
         {
             var currentValue = recordUpdate.CurrentRecordValue as Property;
             var previousValue = recordUpdate.PreviousRecordValue as Property;
+            string? currentIdTyped = null;
+            string? previousIdTyped = null;
+
+            if (currentValue != null && currentValue.ContainsKey("id"))
+            {
+                currentIdTyped = (string)currentValue["id"];
+            }
+
+            if (previousValue != null && previousValue.ContainsKey("id"))
+            {
+                previousIdTyped = (string)previousValue["id"];
+            }
+            bool? currentValueTyped = null;
+            bool? previousValueTyped = null;
+
+            if (currentValue != null && currentValue.ContainsKey("value"))
+            {
+                currentValueTyped = (bool)currentValue["value"];
+            }
+
+            if (previousValue != null && previousValue.ContainsKey("value"))
+            {
+                previousValueTyped = (bool)previousValue["value"];
+            }
 
             return new PlayerTableUpdate
             {
@@ -74,6 +124,10 @@ namespace mudworld
                 CurrentRecordKey = recordUpdate.CurrentRecordKey,
                 PreviousRecordKey = recordUpdate.PreviousRecordKey,
                 Type = recordUpdate.Type,
+                Id = currentIdTyped,
+                PreviousId = previousIdTyped,
+                Value = currentValueTyped,
+                PreviousValue = previousValueTyped,
             };
         }
     }
