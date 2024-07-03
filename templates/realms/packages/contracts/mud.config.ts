@@ -9,13 +9,13 @@ export default mudConfig({
     PlayerDetail: {
       name: "PlayerDetail",
       valueSchema: {
+        wallet: "address",
         gold: "uint256",
         infantry: "uint256",
         cavalryA: "uint256",
         cavalryB: "uint256",
         cavalryC: "uint256",
         capital: "uint16",
-        // cites:"bytes32[]"
       }
     },
     Cite: {
@@ -59,6 +59,17 @@ export default mudConfig({
       },
       valueSchema: {
         owner: "bytes32",
+      }
+    },
+    BattleReport: {
+      keySchema: {
+        capitalId: "uint16",
+        timestamp: "uint256"
+      },
+      valueSchema: {
+        attacker: "address",
+        defender: "address",
+        lossInfantry: "uint256",
       }
     },
     Toad: "bool",

@@ -9,6 +9,7 @@ import { Cite, CiteTableId } from "./tables/Cite.sol";
 import { Army, ArmyData, ArmyTableId } from "./tables/Army.sol";
 import { Capital, CapitalData, CapitalTableId } from "./tables/Capital.sol";
 import { CapitalExtends, CapitalExtendsTableId } from "./tables/CapitalExtends.sol";
+import { BattleReport, BattleReportData, BattleReportTableId } from "./tables/BattleReport.sol";
 import { Toad, ToadTableId } from "./tables/Toad.sol";
 import { Position, PositionData, PositionTableId } from "./tables/Position.sol";
 import { GameManager, GameManagerTableId } from "./tables/GameManager.sol";

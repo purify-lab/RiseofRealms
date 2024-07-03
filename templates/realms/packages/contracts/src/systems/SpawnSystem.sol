@@ -3,7 +3,7 @@ pragma solidity >=0.8.0;
 
 import {System} from "@latticexyz/world/src/System.sol";
 import {IWorld} from "../codegen/world/IWorld.sol";
-import {Player, Position, Toad, GameManager, PlayerDetail, Capital, Army} from "../codegen/index.sol";
+import {Player, Position, Toad, GameManager, PlayerDetail, Capital, Army, BattleReport} from "../codegen/index.sol";
 
 import {getUniqueEntity} from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 import {Utility} from "../utility/utility.sol";
@@ -11,6 +11,7 @@ import {IERC20} from "../utility/IERC20.sol";
 
 
 contract SpawnSystem is System {
+
     function spawnPlayer() public {
         bytes32 entity = Utility.addressToEntityKey(address(_msgSender()));
         require(Player.get(entity) == false, "Already spawned");

@@ -13,7 +13,7 @@ contract PostDeploy is Script {
 
     // ------------------ Add world spawn code ------------------
     IWorld world = IWorld(worldAddress);
-//    world.spawnToad2(0,0,0);
+    world.spawnPlayer();
 
     vm.stopBroadcast();
   }
