@@ -133,6 +133,24 @@
   },
   {
     "type": "function",
+    "name": "buyInfantryByToken",
+    "inputs": [
+      {
+        "name": "token_type",
+        "type": "uint8",
+        "internalType": "enum TokenType"
+      },
+      {
+        "name": "amount",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
     "name": "call",
     "inputs": [
       {
@@ -594,6 +612,19 @@
       }
     ],
     "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getStageOneEndTime",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "timestamp",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "pure"
   },
   {
     "type": "function",

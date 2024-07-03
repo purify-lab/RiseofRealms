@@ -230,6 +230,34 @@ namespace IWorld.Service
              return ContractHandler.SendRequestAndWaitForReceiptAsync(buyInfantryFunction, cancellationToken);
         }
 
+        public Task<string> BuyInfantryByTokenRequestAsync(BuyInfantryByTokenFunction buyInfantryByTokenFunction)
+        {
+             return ContractHandler.SendRequestAsync(buyInfantryByTokenFunction);
+        }
+
+        public Task<TransactionReceipt> BuyInfantryByTokenRequestAndWaitForReceiptAsync(BuyInfantryByTokenFunction buyInfantryByTokenFunction, CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(buyInfantryByTokenFunction, cancellationToken);
+        }
+
+        public Task<string> BuyInfantryByTokenRequestAsync(byte tokenType, BigInteger amount)
+        {
+            var buyInfantryByTokenFunction = new BuyInfantryByTokenFunction();
+                buyInfantryByTokenFunction.TokenType = tokenType;
+                buyInfantryByTokenFunction.Amount = amount;
+            
+             return ContractHandler.SendRequestAsync(buyInfantryByTokenFunction);
+        }
+
+        public Task<TransactionReceipt> BuyInfantryByTokenRequestAndWaitForReceiptAsync(byte tokenType, BigInteger amount, CancellationTokenSource cancellationToken = null)
+        {
+            var buyInfantryByTokenFunction = new BuyInfantryByTokenFunction();
+                buyInfantryByTokenFunction.TokenType = tokenType;
+                buyInfantryByTokenFunction.Amount = amount;
+            
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(buyInfantryByTokenFunction, cancellationToken);
+        }
+
         public Task<string> CallRequestAsync(CallFunction callFunction)
         {
              return ContractHandler.SendRequestAsync(callFunction);
@@ -558,6 +586,17 @@ namespace IWorld.Service
                 getRecordFunction.KeyTuple = keyTuple;
             
             return ContractHandler.QueryDeserializingToObjectAsync<GetRecordFunction, GetRecordOutputDTO>(getRecordFunction, blockParameter);
+        }
+
+        public Task<BigInteger> GetStageOneEndTimeQueryAsync(GetStageOneEndTimeFunction getStageOneEndTimeFunction, BlockParameter blockParameter = null)
+        {
+            return ContractHandler.QueryAsync<GetStageOneEndTimeFunction, BigInteger>(getStageOneEndTimeFunction, blockParameter);
+        }
+
+        
+        public Task<BigInteger> GetStageOneEndTimeQueryAsync(BlockParameter blockParameter = null)
+        {
+            return ContractHandler.QueryAsync<GetStageOneEndTimeFunction, BigInteger>(null, blockParameter);
         }
 
         public Task<byte[]> GetStaticFieldQueryAsync(GetStaticFieldFunction getStaticFieldFunction, BlockParameter blockParameter = null)

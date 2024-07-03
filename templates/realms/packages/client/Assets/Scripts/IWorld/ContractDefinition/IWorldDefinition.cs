@@ -90,6 +90,17 @@ namespace IWorld.ContractDefinition
         public virtual BigInteger Amount { get; set; }
     }
 
+    public partial class BuyInfantryByTokenFunction : BuyInfantryByTokenFunctionBase { }
+
+    [Function("buyInfantryByToken")]
+    public class BuyInfantryByTokenFunctionBase : FunctionMessage
+    {
+        [Parameter("uint8", "token_type", 1)]
+        public virtual byte TokenType { get; set; }
+        [Parameter("uint256", "amount", 2)]
+        public virtual BigInteger Amount { get; set; }
+    }
+
     public partial class CallFunction : CallFunctionBase { }
 
     [Function("call", "bytes")]
@@ -298,6 +309,14 @@ namespace IWorld.ContractDefinition
         public virtual byte[] TableId { get; set; }
         [Parameter("bytes32[]", "keyTuple", 2)]
         public virtual List<byte[]> KeyTuple { get; set; }
+    }
+
+    public partial class GetStageOneEndTimeFunction : GetStageOneEndTimeFunctionBase { }
+
+    [Function("getStageOneEndTime", "uint256")]
+    public class GetStageOneEndTimeFunctionBase : FunctionMessage
+    {
+
     }
 
     public partial class GetStaticFieldFunction : GetStaticFieldFunctionBase { }
@@ -1290,6 +1309,8 @@ namespace IWorld.ContractDefinition
 
 
 
+
+
     public partial class CreatorOutputDTO : CreatorOutputDTOBase { }
 
     [FunctionOutput]
@@ -1410,6 +1431,15 @@ namespace IWorld.ContractDefinition
         public virtual byte[] EncodedLengths { get; set; }
         [Parameter("bytes", "dynamicData", 3)]
         public virtual byte[] DynamicData { get; set; }
+    }
+
+    public partial class GetStageOneEndTimeOutputDTO : GetStageOneEndTimeOutputDTOBase { }
+
+    [FunctionOutput]
+    public class GetStageOneEndTimeOutputDTOBase : IFunctionOutputDTO 
+    {
+        [Parameter("uint256", "timestamp", 1)]
+        public virtual BigInteger Timestamp { get; set; }
     }
 
     public partial class GetStaticFieldOutputDTO : GetStaticFieldOutputDTOBase { }

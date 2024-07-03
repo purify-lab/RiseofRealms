@@ -17,6 +17,7 @@ import { EncodedLengths, EncodedLengthsLib } from "@latticexyz/store/src/Encoded
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 
 struct CapitalData {
+  uint16 tileId;
   bytes32 owner;
   address occupation;
   uint256 infantry;
@@ -33,12 +34,12 @@ library Capital {
   ResourceId constant _tableId = ResourceId.wrap(0x746200000000000000000000000000004361706974616c000000000000000000);
 
   FieldLayout constant _fieldLayout =
-    FieldLayout.wrap(0x0114090020142020202020202000000000000000000000000000000000000000);
+    FieldLayout.wrap(0x01160a0002201420202020202020000000000000000000000000000000000000);
 
   // Hex-encoded key schema of (uint16)
   Schema constant _keySchema = Schema.wrap(0x0002010001000000000000000000000000000000000000000000000000000000);
-  // Hex-encoded value schema of (bytes32, address, uint256, uint256, uint256, uint256, uint256, uint256, uint256)
-  Schema constant _valueSchema = Schema.wrap(0x011409005f611f1f1f1f1f1f1f00000000000000000000000000000000000000);
+  // Hex-encoded value schema of (uint16, bytes32, address, uint256, uint256, uint256, uint256, uint256, uint256, uint256)
+  Schema constant _valueSchema = Schema.wrap(0x01160a00015f611f1f1f1f1f1f1f000000000000000000000000000000000000);
 
   /**
    * @notice Get the table's key field names.
@@ -54,16 +55,17 @@ library Capital {
    * @return fieldNames An array of strings with the names of value fields.
    */
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
-    fieldNames = new string[](9);
-    fieldNames[0] = "owner";
-    fieldNames[1] = "occupation";
-    fieldNames[2] = "infantry";
-    fieldNames[3] = "cavalryA";
-    fieldNames[4] = "cavalryB";
-    fieldNames[5] = "cavalryC";
-    fieldNames[6] = "lastTime";
-    fieldNames[7] = "pledgedTokenB";
-    fieldNames[8] = "pledgedTokenC";
+    fieldNames = new string[](10);
+    fieldNames[0] = "tileId";
+    fieldNames[1] = "owner";
+    fieldNames[2] = "occupation";
+    fieldNames[3] = "infantry";
+    fieldNames[4] = "cavalryA";
+    fieldNames[5] = "cavalryB";
+    fieldNames[6] = "cavalryC";
+    fieldNames[7] = "lastTime";
+    fieldNames[8] = "pledgedTokenB";
+    fieldNames[9] = "pledgedTokenC";
   }
 
   /**
@@ -81,13 +83,55 @@ library Capital {
   }
 
   /**
+   * @notice Get tileId.
+   */
+  function getTileId(uint16 id) internal view returns (uint16 tileId) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32(uint256(id));
+
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
+    return (uint16(bytes2(_blob)));
+  }
+
+  /**
+   * @notice Get tileId.
+   */
+  function _getTileId(uint16 id) internal view returns (uint16 tileId) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32(uint256(id));
+
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
+    return (uint16(bytes2(_blob)));
+  }
+
+  /**
+   * @notice Set tileId.
+   */
+  function setTileId(uint16 id, uint16 tileId) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32(uint256(id));
+
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((tileId)), _fieldLayout);
+  }
+
+  /**
+   * @notice Set tileId.
+   */
+  function _setTileId(uint16 id, uint16 tileId) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32(uint256(id));
+
+    StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((tileId)), _fieldLayout);
+  }
+
+  /**
    * @notice Get owner.
    */
   function getOwner(uint16 id) internal view returns (bytes32 owner) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
     return (bytes32(_blob));
   }
 
@@ -98,7 +142,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
     return (bytes32(_blob));
   }
 
@@ -109,7 +153,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((owner)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((owner)), _fieldLayout);
   }
 
   /**
@@ -119,7 +163,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((owner)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((owner)), _fieldLayout);
   }
 
   /**
@@ -129,7 +173,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 2, _fieldLayout);
     return (address(bytes20(_blob)));
   }
 
@@ -140,7 +184,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 2, _fieldLayout);
     return (address(bytes20(_blob)));
   }
 
@@ -151,7 +195,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((occupation)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((occupation)), _fieldLayout);
   }
 
   /**
@@ -161,7 +205,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((occupation)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((occupation)), _fieldLayout);
   }
 
   /**
@@ -171,7 +215,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 2, _fieldLayout);
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 3, _fieldLayout);
     return (uint256(bytes32(_blob)));
   }
 
@@ -182,7 +226,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 2, _fieldLayout);
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 3, _fieldLayout);
     return (uint256(bytes32(_blob)));
   }
 
@@ -193,7 +237,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((infantry)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((infantry)), _fieldLayout);
   }
 
   /**
@@ -203,7 +247,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((infantry)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((infantry)), _fieldLayout);
   }
 
   /**
@@ -213,7 +257,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 3, _fieldLayout);
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 4, _fieldLayout);
     return (uint256(bytes32(_blob)));
   }
 
@@ -224,7 +268,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 3, _fieldLayout);
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 4, _fieldLayout);
     return (uint256(bytes32(_blob)));
   }
 
@@ -235,7 +279,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((cavalryA)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 4, abi.encodePacked((cavalryA)), _fieldLayout);
   }
 
   /**
@@ -245,7 +289,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((cavalryA)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 4, abi.encodePacked((cavalryA)), _fieldLayout);
   }
 
   /**
@@ -255,7 +299,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 4, _fieldLayout);
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 5, _fieldLayout);
     return (uint256(bytes32(_blob)));
   }
 
@@ -266,7 +310,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 4, _fieldLayout);
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 5, _fieldLayout);
     return (uint256(bytes32(_blob)));
   }
 
@@ -277,7 +321,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 4, abi.encodePacked((cavalryB)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 5, abi.encodePacked((cavalryB)), _fieldLayout);
   }
 
   /**
@@ -287,7 +331,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 4, abi.encodePacked((cavalryB)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 5, abi.encodePacked((cavalryB)), _fieldLayout);
   }
 
   /**
@@ -297,7 +341,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 5, _fieldLayout);
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 6, _fieldLayout);
     return (uint256(bytes32(_blob)));
   }
 
@@ -308,7 +352,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 5, _fieldLayout);
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 6, _fieldLayout);
     return (uint256(bytes32(_blob)));
   }
 
@@ -319,7 +363,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 5, abi.encodePacked((cavalryC)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 6, abi.encodePacked((cavalryC)), _fieldLayout);
   }
 
   /**
@@ -329,7 +373,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 5, abi.encodePacked((cavalryC)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 6, abi.encodePacked((cavalryC)), _fieldLayout);
   }
 
   /**
@@ -339,7 +383,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 6, _fieldLayout);
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 7, _fieldLayout);
     return (uint256(bytes32(_blob)));
   }
 
@@ -350,7 +394,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 6, _fieldLayout);
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 7, _fieldLayout);
     return (uint256(bytes32(_blob)));
   }
 
@@ -361,7 +405,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 6, abi.encodePacked((lastTime)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 7, abi.encodePacked((lastTime)), _fieldLayout);
   }
 
   /**
@@ -371,7 +415,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 6, abi.encodePacked((lastTime)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 7, abi.encodePacked((lastTime)), _fieldLayout);
   }
 
   /**
@@ -381,7 +425,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 7, _fieldLayout);
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 8, _fieldLayout);
     return (uint256(bytes32(_blob)));
   }
 
@@ -392,7 +436,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 7, _fieldLayout);
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 8, _fieldLayout);
     return (uint256(bytes32(_blob)));
   }
 
@@ -403,7 +447,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 7, abi.encodePacked((pledgedTokenB)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 8, abi.encodePacked((pledgedTokenB)), _fieldLayout);
   }
 
   /**
@@ -413,7 +457,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 7, abi.encodePacked((pledgedTokenB)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 8, abi.encodePacked((pledgedTokenB)), _fieldLayout);
   }
 
   /**
@@ -423,7 +467,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 8, _fieldLayout);
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 9, _fieldLayout);
     return (uint256(bytes32(_blob)));
   }
 
@@ -434,7 +478,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 8, _fieldLayout);
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 9, _fieldLayout);
     return (uint256(bytes32(_blob)));
   }
 
@@ -445,7 +489,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 8, abi.encodePacked((pledgedTokenC)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 9, abi.encodePacked((pledgedTokenC)), _fieldLayout);
   }
 
   /**
@@ -455,7 +499,7 @@ library Capital {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 8, abi.encodePacked((pledgedTokenC)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 9, abi.encodePacked((pledgedTokenC)), _fieldLayout);
   }
 
   /**
@@ -493,6 +537,7 @@ library Capital {
    */
   function set(
     uint16 id,
+    uint16 tileId,
     bytes32 owner,
     address occupation,
     uint256 infantry,
@@ -504,6 +549,7 @@ library Capital {
     uint256 pledgedTokenC
   ) internal {
     bytes memory _staticData = encodeStatic(
+      tileId,
       owner,
       occupation,
       infantry,
@@ -529,6 +575,7 @@ library Capital {
    */
   function _set(
     uint16 id,
+    uint16 tileId,
     bytes32 owner,
     address occupation,
     uint256 infantry,
@@ -540,6 +587,7 @@ library Capital {
     uint256 pledgedTokenC
   ) internal {
     bytes memory _staticData = encodeStatic(
+      tileId,
       owner,
       occupation,
       infantry,
@@ -565,6 +613,7 @@ library Capital {
    */
   function set(uint16 id, CapitalData memory _table) internal {
     bytes memory _staticData = encodeStatic(
+      _table.tileId,
       _table.owner,
       _table.occupation,
       _table.infantry,
@@ -590,6 +639,7 @@ library Capital {
    */
   function _set(uint16 id, CapitalData memory _table) internal {
     bytes memory _staticData = encodeStatic(
+      _table.tileId,
       _table.owner,
       _table.occupation,
       _table.infantry,
@@ -619,6 +669,7 @@ library Capital {
     internal
     pure
     returns (
+      uint16 tileId,
       bytes32 owner,
       address occupation,
       uint256 infantry,
@@ -630,23 +681,25 @@ library Capital {
       uint256 pledgedTokenC
     )
   {
-    owner = (Bytes.getBytes32(_blob, 0));
+    tileId = (uint16(Bytes.getBytes2(_blob, 0)));
 
-    occupation = (address(Bytes.getBytes20(_blob, 32)));
+    owner = (Bytes.getBytes32(_blob, 2));
 
-    infantry = (uint256(Bytes.getBytes32(_blob, 52)));
+    occupation = (address(Bytes.getBytes20(_blob, 34)));
 
-    cavalryA = (uint256(Bytes.getBytes32(_blob, 84)));
+    infantry = (uint256(Bytes.getBytes32(_blob, 54)));
 
-    cavalryB = (uint256(Bytes.getBytes32(_blob, 116)));
+    cavalryA = (uint256(Bytes.getBytes32(_blob, 86)));
 
-    cavalryC = (uint256(Bytes.getBytes32(_blob, 148)));
+    cavalryB = (uint256(Bytes.getBytes32(_blob, 118)));
 
-    lastTime = (uint256(Bytes.getBytes32(_blob, 180)));
+    cavalryC = (uint256(Bytes.getBytes32(_blob, 150)));
 
-    pledgedTokenB = (uint256(Bytes.getBytes32(_blob, 212)));
+    lastTime = (uint256(Bytes.getBytes32(_blob, 182)));
 
-    pledgedTokenC = (uint256(Bytes.getBytes32(_blob, 244)));
+    pledgedTokenB = (uint256(Bytes.getBytes32(_blob, 214)));
+
+    pledgedTokenC = (uint256(Bytes.getBytes32(_blob, 246)));
   }
 
   /**
@@ -661,6 +714,7 @@ library Capital {
     bytes memory
   ) internal pure returns (CapitalData memory _table) {
     (
+      _table.tileId,
       _table.owner,
       _table.occupation,
       _table.infantry,
@@ -698,6 +752,7 @@ library Capital {
    * @return The static data, encoded into a sequence of bytes.
    */
   function encodeStatic(
+    uint16 tileId,
     bytes32 owner,
     address occupation,
     uint256 infantry,
@@ -710,6 +765,7 @@ library Capital {
   ) internal pure returns (bytes memory) {
     return
       abi.encodePacked(
+        tileId,
         owner,
         occupation,
         infantry,
@@ -729,6 +785,7 @@ library Capital {
    * @return The dynamic (variable length) data, encoded into a sequence of bytes.
    */
   function encode(
+    uint16 tileId,
     bytes32 owner,
     address occupation,
     uint256 infantry,
@@ -740,6 +797,7 @@ library Capital {
     uint256 pledgedTokenC
   ) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
     bytes memory _staticData = encodeStatic(
+      tileId,
       owner,
       occupation,
       infantry,

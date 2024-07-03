@@ -31,8 +31,8 @@ export function createTableDefinition(
   for (const key in valueSchema) {
     var valueType = valueSchema[key];
     // console.log("key valueType valueSchema",key, valueType, valueSchema);
-    console.log("key:", key);
-    console.log("valueType:", valueType);
+    // console.log("key:", key);
+    // console.log("valueType:", valueType);
 
     if (!valueType) throw new Error(`[${tableName}]: Unknown type for field ${key}`);
     //
@@ -77,6 +77,7 @@ export function createUserEnums(
   enums: any,
 ) {
 
+  console.log("enums",enums);
   const fields: EnumField[] = [];
 
   Object.entries(mudConfig.enums).forEach(([enumName, enumValues]) => {

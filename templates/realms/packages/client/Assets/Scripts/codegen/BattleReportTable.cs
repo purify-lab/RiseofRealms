@@ -17,6 +17,10 @@ namespace mudworld
             public string? PreviousAttacker;
             public string? Defender;
             public string? PreviousDefender;
+            public bool? Win;
+            public bool? PreviousWin;
+            public bool? AttackOrDefence;
+            public bool? PreviousAttackOrDefence;
             public System.Numerics.BigInteger? LossInfantry;
             public System.Numerics.BigInteger? PreviousLossInfantry;
         }
@@ -34,6 +38,8 @@ namespace mudworld
 
         public string? Attacker;
         public string? Defender;
+        public bool? Win;
+        public bool? AttackOrDefence;
         public System.Numerics.BigInteger? LossInfantry;
 
         public override Type TableType()
@@ -62,6 +68,14 @@ namespace mudworld
             {
                 return false;
             }
+            if (Win != other.Win)
+            {
+                return false;
+            }
+            if (AttackOrDefence != other.AttackOrDefence)
+            {
+                return false;
+            }
             if (LossInfantry != other.LossInfantry)
             {
                 return false;
@@ -75,7 +89,11 @@ namespace mudworld
 
             Defender = (string)functionParameters[1];
 
-            LossInfantry = (System.Numerics.BigInteger)functionParameters[2];
+            Win = (bool)functionParameters[2];
+
+            AttackOrDefence = (bool)functionParameters[3];
+
+            LossInfantry = (System.Numerics.BigInteger)functionParameters[4];
         }
 
         public static IObservable<RecordUpdate> GetBattleReportTableUpdates()
@@ -94,6 +112,8 @@ namespace mudworld
         {
             Attacker = (string)property["attacker"];
             Defender = (string)property["defender"];
+            Win = (bool)property["win"];
+            AttackOrDefence = (bool)property["attackOrDefence"];
             LossInfantry = (System.Numerics.BigInteger)property["lossInfantry"];
         }
 
@@ -125,6 +145,30 @@ namespace mudworld
             {
                 previousDefenderTyped = (string)previousValue["defender"];
             }
+            bool? currentWinTyped = null;
+            bool? previousWinTyped = null;
+
+            if (currentValue != null && currentValue.ContainsKey("win"))
+            {
+                currentWinTyped = (bool)currentValue["win"];
+            }
+
+            if (previousValue != null && previousValue.ContainsKey("win"))
+            {
+                previousWinTyped = (bool)previousValue["win"];
+            }
+            bool? currentAttackOrDefenceTyped = null;
+            bool? previousAttackOrDefenceTyped = null;
+
+            if (currentValue != null && currentValue.ContainsKey("attackordefence"))
+            {
+                currentAttackOrDefenceTyped = (bool)currentValue["attackordefence"];
+            }
+
+            if (previousValue != null && previousValue.ContainsKey("attackordefence"))
+            {
+                previousAttackOrDefenceTyped = (bool)previousValue["attackordefence"];
+            }
             System.Numerics.BigInteger? currentLossInfantryTyped = null;
             System.Numerics.BigInteger? previousLossInfantryTyped = null;
 
@@ -151,6 +195,10 @@ namespace mudworld
                 PreviousAttacker = previousAttackerTyped,
                 Defender = currentDefenderTyped,
                 PreviousDefender = previousDefenderTyped,
+                Win = currentWinTyped,
+                PreviousWin = previousWinTyped,
+                AttackOrDefence = currentAttackOrDefenceTyped,
+                PreviousAttackOrDefence = previousAttackOrDefenceTyped,
                 LossInfantry = currentLossInfantryTyped,
                 PreviousLossInfantry = previousLossInfantryTyped,
             };

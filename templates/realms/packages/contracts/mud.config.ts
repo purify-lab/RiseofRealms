@@ -109,6 +109,9 @@ import {defineWorld} from "@latticexyz/world";
 export default defineWorld({
   worldContractName: "RoR",
   // namespace: "mud",
+  enums: {
+    TokenType: ["TokenA", "TokenB", "TokenC"],
+  },
   systems: {
     SpawnSystem: {
       name: "spwan",
@@ -163,6 +166,7 @@ export default defineWorld({
       key: ["id"],
       schema: {
         id: "uint16",
+        tileId: "uint16",
         owner: "bytes32",
         occupation: "address",
         infantry: "uint256",
@@ -193,6 +197,8 @@ export default defineWorld({
         timestamp: "uint256",
         attacker: "address",
         defender: "address",
+        win: "bool",
+        attackOrDefence: "bool",
         lossInfantry: "uint256",
       }
     },

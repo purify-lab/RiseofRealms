@@ -4,12 +4,19 @@ pragma solidity >=0.8.0;
 import {System} from "@latticexyz/world/src/System.sol";
 import {IWorld} from "../codegen/world/IWorld.sol";
 import {Player, PlayerDetail, Capital, Army, BattleReport} from "../codegen/index.sol";
-
+import {TokenType} from "../codegen/Common.sol";
 import {Utility} from "../utility/utility.sol";
 import {IERC20} from "../utility/IERC20.sol";
 
 
 contract SpawnSystem is System {
+
+    //收款人
+    address constant Recipient = 0x74f0Bf9321fF57a4028999bB88ca623cc9e79F14;
+    //货币
+    address constant TokenA = 0x74f0Bf9321fF57a4028999bB88ca623cc9e79F14;
+    address constant TokenB = 0x74f0Bf9321fF57a4028999bB88ca623cc9e79F14;
+    address constant TokenC = 0x74f0Bf9321fF57a4028999bB88ca623cc9e79F14;
 
     /**
     * @dev 生成玩家
@@ -38,6 +45,12 @@ contract SpawnSystem is System {
         require(PlayerDetail.getGold(entity) >= price * amount, "not enough gold");
         PlayerDetail.setGold(entity, PlayerDetail.getGold(entity) - price * amount);
         PlayerDetail.setInfantry(entity, PlayerDetail.getInfantry(entity) + amount);
+    }
+
+    function buyInfantryByToken(TokenType token_type, uint256 amount) public {
+        if (token_type == TokenType.TokenA) {
+            IERC20(TokenA).transferFrom(_msgSender(), Recipient, 50 * amount);
+        }
     }
 
     /**
@@ -89,8 +102,12 @@ contract SpawnSystem is System {
         require(PlayerDetail.getCapital(owner) == 0, "you already spawned capital");
 
         PlayerDetail.setCapital(owner, capital_id);
+        Capital.setTileId(capital_id, capital_id);
         Capital.setOwner(capital_id, owner);
         Capital.setLastTime(capital_id, block.timestamp);
+
+        //转账给收款人
+        IERC20(Recipient).transfer(Recipient, 500000000000000);
     }
 
     /**
@@ -160,7 +177,11 @@ contract SpawnSystem is System {
     }
 
     /**
-     * @dev 攻击
+     * @dev 攻击 如果攻击人的士兵数量大于被攻击人的士兵数量，攻击人胜利，否则被攻击人胜利
+     * @dev 攻击人胜利 领取所有人变为攻击人 更新时间
+     * @dev 被攻击人胜利 领取所有人不变
+     * @dev 无论胜利与否 都销毁军队
+
      * @param army_id 军队id
      */
     function attack(uint8 army_id) public {
@@ -174,24 +195,49 @@ contract SpawnSystem is System {
         require(owner != Capital.getOwner(destination), "can't attack your own capital");
         require(block.timestamp - Army.getLastTime(owner, army_id) >= 60 * 5, "not ready yet");
 
-        if (attack_power > defence_power) {
-            Capital.setOwner(destination, owner);
-            Capital.setInfantry(destination, Army.getInfantry(owner, army_id));
-            Capital.setCavalryA(destination, Army.getCavalryA(owner, army_id));
-            Capital.setCavalryB(destination, Army.getCavalryB(owner, army_id));
-            Capital.setCavalryC(destination, Army.getCavalryC(owner, army_id));
-
-            BattleReport.setAttacker(destination, block.timestamp, _msgSender());
-//            BattleReport.setDefender(destination, block.timestamp, Capital.getOwner(destination));
-
+        uint256 attacker_infantry_loss = 0;
+        uint256 defender_infantry_loss = 0;
+        if (Army.getInfantry(owner, army_id) > Capital.getInfantry(destination)) {
+            attacker_infantry_loss = Army.getInfantry(owner, army_id) - Capital.getInfantry(destination);
+        } else {
+            defender_infantry_loss = Capital.getInfantry(destination) - Army.getInfantry(owner, army_id);
         }
 
+        if (attack_power > defence_power) {
+            Capital.setOwner(destination, owner);
+            Capital.setLastTime(destination, block.timestamp);
+            // Attacker wins
+            BattleReport.setAttacker(destination, block.timestamp, _msgSender());
+            BattleReport.setDefender(destination, block.timestamp, Utility.entityKeyToAddress(Capital.getOwner(destination)));
+            BattleReport.setWin(destination, block.timestamp, true);
+            BattleReport.setAttackOrDefence(destination, block.timestamp, true);
+            BattleReport.setLossInfantry(destination, block.timestamp, Capital.getInfantry(destination));
+
+            // Defender loses
+            uint256 defenderLoss = Capital.getInfantry(destination) + Capital.getCavalryA(destination) + Capital.getCavalryB(destination) + Capital.getCavalryC(destination);
+
+            BattleReport.setLossInfantry(destination, block.timestamp, defenderLoss);
+        } else {
+            // Attacker loses
+            BattleReport.setAttacker(destination, block.timestamp, _msgSender());
+            BattleReport.setDefender(destination, block.timestamp, Utility.entityKeyToAddress(Capital.getOwner(destination)));
+            BattleReport.setWin(destination, block.timestamp, false);
+            BattleReport.setAttackOrDefence(destination, block.timestamp, true);
+            BattleReport.setLossInfantry(destination, block.timestamp, Army.getInfantry(owner, army_id));
+
+            // Defender wins
+            uint256 attackerLoss = Army.getInfantry(owner, army_id) + Army.getCavalryA(owner, army_id) + Army.getCavalryB(owner, army_id) + Army.getCavalryC(owner, army_id);
+
+            BattleReport.setLossInfantry(destination, block.timestamp, attackerLoss);
+        }
+
+        //销毁军队
+        Army.setDestination(owner, army_id, 0);
+        Army.setLastTime(owner, army_id, 0);
         Army.setInfantry(owner, army_id, 0);
         Army.setCavalryA(owner, army_id, 0);
         Army.setCavalryB(owner, army_id, 0);
         Army.setCavalryC(owner, army_id, 0);
-        Army.setDestination(owner, army_id, 0);
-        Army.setLastTime(owner, army_id, 0);
     }
 
     /**
@@ -209,5 +255,11 @@ contract SpawnSystem is System {
         Capital.setLastTime(capital_id, currentTimestamp);
     }
 
-
+    /**
+     * @dev 第一阶段结束时间
+     */
+    function getStageOneEndTime() pure public returns (uint256 timestamp){
+        //2024-07-10
+        return 1720540800;
+    }
 }
