@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using IWorld.ContractDefinition;
@@ -6,8 +7,16 @@ using UnityEngine;
 using mud;
 using UnityEngine.UI;
 
+public enum GameState
+{
+    Game,
+    SelectTile,
+    PlaceTile,
+}
+
 public class MainPageUI : MonoBehaviour
 {
+    public GameState state;
     public Text AddressText;
     public Text CityText;
     public Text CoinText;
@@ -20,10 +29,18 @@ public class MainPageUI : MonoBehaviour
     public Button OnPurchaseBtn;
 
     public GameObject PurchaseLandPage;
-    
+
+    public static MainPageUI inst;
+
+    private void Awake()
+    {
+        inst = this;
+    }
+
     // Start is called before the first frame update
     async void Start()
     {
+        state = GameState.Game;
         NetworkManager.OnInitialized += SpawnPlayer;
         var aToken = await Tokens.Inst.ReadTokenBalance(Tokens.Inst.token_a_addr);
         var bToken = await Tokens.Inst.ReadTokenBalance(Tokens.Inst.token_b_addr);
@@ -39,8 +56,8 @@ public class MainPageUI : MonoBehaviour
         
         OnPurchaseBtn.onClick.AddListener(onclickPurchase);
     }
-
-    void onclickPurchase()
+    
+    public void onclickPurchase()
     {
         PurchaseLandPage.SetActive(true);
         Debug.Log("On Purchase");
@@ -66,6 +83,15 @@ public class MainPageUI : MonoBehaviour
             CoinText.text = pdt.Gold.ToString();
             var soldier = pdt.CavalryA + pdt.CavalryB + pdt.CavalryC + pdt.Infantry;
             SoldierText.text = soldier.ToString();
+            
+            var hasHealthAndPosition = new Query().In(CapitalTable.Table,
+                new Condition[] { Condition.Has("owner", NetworkManager.LocalKey) });
+            var recordsWithHealth = NetworkManager.Datastore.RunQuery(hasHealthAndPosition);
+            foreach (var capital in recordsWithHealth)
+            {
+                var id = capital.Key;
+                Debug.Log(">>>>>>>> Tile ID : " + id);
+            }
         }
     }
     

@@ -58,6 +58,7 @@ public class MapDrawer : MonoBehaviour
     public int side;
 
     public Dictionary<int, CubeCell> cellDics = new Dictionary<int, CubeCell>();
+    public Dictionary<Vector3Int, int> cellByPosDic = new Dictionary<Vector3Int, int>();
 
     public int nowId;
 
@@ -220,6 +221,9 @@ public class MapDrawer : MonoBehaviour
         cell.gameObject.transform.position = qAxies * cell.pos.x + rAxies * cell.pos.y + sAxies * cell.pos.z;
         var pos = cell.pos;
         cell.gameObject.name = $"{pos.x}-{pos.y}-{pos.z}";
+
+        cellByPosDic[cell.pos] = cell.id;
+        cellDics[cell.id] = cell;
     }
     
     public Vector3 GetSceneByCoords(Vector3Int pos)

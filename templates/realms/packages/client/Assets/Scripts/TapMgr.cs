@@ -48,11 +48,7 @@ public class TapMgr : MonoBehaviour
         }
 
         tapPos = buildingCursor;
-        
-        Debug.Log("Tap Pos: " + buildingCursor);
     }
-
-    
 
     // Update is called once per frame
     void Update()
@@ -67,8 +63,23 @@ public class TapMgr : MonoBehaviour
             hitPoint.z *= -1;
 
             buildingCursor = MapDrawer.inst.SnapToHexGridCoord(hitPoint);
-            //BuildingMgr.Inst.building.transform.position = MapDrawer.inst.SnapToHexGrid(hitPoint);
-        } 
+            if (BuildingMgr.Inst.isPlacing && BuildingMgr.Inst.building != null)
+            {
+                BuildingMgr.Inst.building.transform.position = MapDrawer.inst.SnapToHexGrid(hitPoint);
+            }
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            tapPos = buildingCursor;
+            if (MainPageUI.inst.state == GameState.PlaceTile)
+            {
+                Debug.Log(">>>>>>>>>> Tap Pos: " + buildingCursor);
+                BuildingMgr.Inst.EndPlace();
+                MainPageUI.inst.state = GameState.Game;
+                PurchaseLandUI.inst.Show(buildingCursor);
+            }
+        }
         if(Input.GetMouseButtonDown(1))
         {
             if (m_Plane.Raycast(ray, out enter))
