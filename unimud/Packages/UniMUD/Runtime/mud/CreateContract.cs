@@ -86,7 +86,7 @@ namespace mud
                 functionMessage.TransactionType = TransactionType.EIP1559.AsByte();
                 functionMessage.MaxPriorityFeePerGas = new HexBigInteger(GasConfig.MaxPriorityFeePerGas);
                 functionMessage.MaxFeePerGas = new HexBigInteger(GasConfig.MaxFeePerGas);
-                functionMessage.Gas = gasLimit;
+                functionMessage.Gas = new BigInteger(321164);
                 functionMessage.FromAddress = _signer.Address;
                 functionMessage.Nonce = _currentNonce;
                 
