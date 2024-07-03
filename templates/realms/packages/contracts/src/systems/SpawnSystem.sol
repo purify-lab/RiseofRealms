@@ -21,7 +21,7 @@ contract SpawnSystem is System {
 
         Player.set(entity, true);
 
-        PlayerDetail.setWallet(_msgSender());
+        PlayerDetail.setWallet(entity, _msgSender());
         PlayerDetail.setGold(entity, 1000000000);
         PlayerDetail.setInfantry(entity, 1000000000);
         PlayerDetail.setCavalryA(entity, 1000000000);
