@@ -135,6 +135,9 @@ contract SpawnSystem is System {
     * @param army_id 军队id
     */
     function march(uint16 destination, uint256 infantry, uint256 cavalryA, uint256 cavalryB, uint256 cavalryC, uint8 army_id) public {
+
+        require(destination > 0 && destination <= 8000, "invalid destination");
+
         bytes32 owner = Utility.addressToEntityKey(address(_msgSender()));
 
         require(PlayerDetail.getInfantry(owner) >= infantry, "not enough infantry");
