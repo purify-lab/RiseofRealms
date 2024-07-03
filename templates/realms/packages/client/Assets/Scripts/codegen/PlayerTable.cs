@@ -13,8 +13,6 @@ namespace mudworld
     {
         public class PlayerTableUpdate : RecordUpdate
         {
-            public string? Id;
-            public string? PreviousId;
             public bool? Value;
             public bool? PreviousValue;
         }
@@ -30,7 +28,6 @@ namespace mudworld
             return ID;
         }
 
-        public string? Id;
         public bool? Value;
 
         public override Type TableType()
@@ -51,10 +48,6 @@ namespace mudworld
             {
                 return false;
             }
-            if (Id != other.Id)
-            {
-                return false;
-            }
             if (Value != other.Value)
             {
                 return false;
@@ -64,9 +57,7 @@ namespace mudworld
 
         public override void SetValues(params object[] functionParameters)
         {
-            Id = (string)functionParameters[0];
-
-            Value = (bool)functionParameters[1];
+            Value = (bool)functionParameters[0];
         }
 
         public static IObservable<RecordUpdate> GetPlayerTableUpdates()
@@ -83,7 +74,6 @@ namespace mudworld
 
         public override void PropertyToTable(Property property)
         {
-            Id = (string)property["id"];
             Value = (bool)property["value"];
         }
 
@@ -91,18 +81,6 @@ namespace mudworld
         {
             var currentValue = recordUpdate.CurrentRecordValue as Property;
             var previousValue = recordUpdate.PreviousRecordValue as Property;
-            string? currentIdTyped = null;
-            string? previousIdTyped = null;
-
-            if (currentValue != null && currentValue.ContainsKey("id"))
-            {
-                currentIdTyped = (string)currentValue["id"];
-            }
-
-            if (previousValue != null && previousValue.ContainsKey("id"))
-            {
-                previousIdTyped = (string)previousValue["id"];
-            }
             bool? currentValueTyped = null;
             bool? previousValueTyped = null;
 
@@ -124,8 +102,6 @@ namespace mudworld
                 CurrentRecordKey = recordUpdate.CurrentRecordKey,
                 PreviousRecordKey = recordUpdate.PreviousRecordKey,
                 Type = recordUpdate.Type,
-                Id = currentIdTyped,
-                PreviousId = previousIdTyped,
                 Value = currentValueTyped,
                 PreviousValue = previousValueTyped,
             };

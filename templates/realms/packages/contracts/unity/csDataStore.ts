@@ -10,7 +10,7 @@ export function createTableDefinition(
   namespace: string,
   mudConfig: any,
   tableName: string,
-  keySchema: { [key: string]: SchemaAbiType },
+  keySchema: string[],
   valueSchema: { [key: string]: SchemaAbiType }
 ) {
   const fields: TableField[] = [];
@@ -41,7 +41,13 @@ export function createTableDefinition(
     //   valueType = schemaAbiTypes[0];
     // }
     //
-    fields.push({key: key[0] + key.slice(1), type: schemaTypesToCSTypeStrings[valueType.type]});
+
+    if(keySchema.indexOf(key) > -1) {
+      //is key
+      keyFields.push({ key: key[0] + key.slice(1), type: schemaTypesToCSTypeStrings[valueType.type] });
+    }else{
+      fields.push({key: key[0] + key.slice(1), type: schemaTypesToCSTypeStrings[valueType.type]});
+    }
   }
 
   if (keyFields.length > 0) {

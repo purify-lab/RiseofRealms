@@ -13,8 +13,6 @@ namespace mudworld
     {
         public class PlayerDetailTableUpdate : RecordUpdate
         {
-            public string? Id;
-            public string? PreviousId;
             public string? Wallet;
             public string? PreviousWallet;
             public System.Numerics.BigInteger? Gold;
@@ -42,7 +40,6 @@ namespace mudworld
             return ID;
         }
 
-        public string? Id;
         public string? Wallet;
         public System.Numerics.BigInteger? Gold;
         public System.Numerics.BigInteger? Infantry;
@@ -66,10 +63,6 @@ namespace mudworld
             PlayerDetailTable other = (PlayerDetailTable)obj;
 
             if (other == null)
-            {
-                return false;
-            }
-            if (Id != other.Id)
             {
                 return false;
             }
@@ -106,21 +99,19 @@ namespace mudworld
 
         public override void SetValues(params object[] functionParameters)
         {
-            Id = (string)functionParameters[0];
+            Wallet = (string)functionParameters[0];
 
-            Wallet = (string)functionParameters[1];
+            Gold = (System.Numerics.BigInteger)functionParameters[1];
 
-            Gold = (System.Numerics.BigInteger)functionParameters[2];
+            Infantry = (System.Numerics.BigInteger)functionParameters[2];
 
-            Infantry = (System.Numerics.BigInteger)functionParameters[3];
+            CavalryA = (System.Numerics.BigInteger)functionParameters[3];
 
-            CavalryA = (System.Numerics.BigInteger)functionParameters[4];
+            CavalryB = (System.Numerics.BigInteger)functionParameters[4];
 
-            CavalryB = (System.Numerics.BigInteger)functionParameters[5];
+            CavalryC = (System.Numerics.BigInteger)functionParameters[5];
 
-            CavalryC = (System.Numerics.BigInteger)functionParameters[6];
-
-            Capital = (uint)functionParameters[7];
+            Capital = (uint)functionParameters[6];
         }
 
         public static IObservable<RecordUpdate> GetPlayerDetailTableUpdates()
@@ -137,7 +128,6 @@ namespace mudworld
 
         public override void PropertyToTable(Property property)
         {
-            Id = (string)property["id"];
             Wallet = (string)property["wallet"];
             Gold = (System.Numerics.BigInteger)property["gold"];
             Infantry = (System.Numerics.BigInteger)property["infantry"];
@@ -151,18 +141,6 @@ namespace mudworld
         {
             var currentValue = recordUpdate.CurrentRecordValue as Property;
             var previousValue = recordUpdate.PreviousRecordValue as Property;
-            string? currentIdTyped = null;
-            string? previousIdTyped = null;
-
-            if (currentValue != null && currentValue.ContainsKey("id"))
-            {
-                currentIdTyped = (string)currentValue["id"];
-            }
-
-            if (previousValue != null && previousValue.ContainsKey("id"))
-            {
-                previousIdTyped = (string)previousValue["id"];
-            }
             string? currentWalletTyped = null;
             string? previousWalletTyped = null;
 
@@ -256,8 +234,6 @@ namespace mudworld
                 CurrentRecordKey = recordUpdate.CurrentRecordKey,
                 PreviousRecordKey = recordUpdate.PreviousRecordKey,
                 Type = recordUpdate.Type,
-                Id = currentIdTyped,
-                PreviousId = previousIdTyped,
                 Wallet = currentWalletTyped,
                 PreviousWallet = previousWalletTyped,
                 Gold = currentGoldTyped,

@@ -13,8 +13,6 @@ namespace mudworld
     {
         public class CapitalTableUpdate : RecordUpdate
         {
-            public uint? Id;
-            public uint? PreviousId;
             public string? Owner;
             public string? PreviousOwner;
             public string? Occupation;
@@ -46,7 +44,6 @@ namespace mudworld
             return ID;
         }
 
-        public uint? Id;
         public string? Owner;
         public string? Occupation;
         public System.Numerics.BigInteger? Infantry;
@@ -72,10 +69,6 @@ namespace mudworld
             CapitalTable other = (CapitalTable)obj;
 
             if (other == null)
-            {
-                return false;
-            }
-            if (Id != other.Id)
             {
                 return false;
             }
@@ -120,25 +113,23 @@ namespace mudworld
 
         public override void SetValues(params object[] functionParameters)
         {
-            Id = (uint)functionParameters[0];
+            Owner = (string)functionParameters[0];
 
-            Owner = (string)functionParameters[1];
+            Occupation = (string)functionParameters[1];
 
-            Occupation = (string)functionParameters[2];
+            Infantry = (System.Numerics.BigInteger)functionParameters[2];
 
-            Infantry = (System.Numerics.BigInteger)functionParameters[3];
+            CavalryA = (System.Numerics.BigInteger)functionParameters[3];
 
-            CavalryA = (System.Numerics.BigInteger)functionParameters[4];
+            CavalryB = (System.Numerics.BigInteger)functionParameters[4];
 
-            CavalryB = (System.Numerics.BigInteger)functionParameters[5];
+            CavalryC = (System.Numerics.BigInteger)functionParameters[5];
 
-            CavalryC = (System.Numerics.BigInteger)functionParameters[6];
+            LastTime = (System.Numerics.BigInteger)functionParameters[6];
 
-            LastTime = (System.Numerics.BigInteger)functionParameters[7];
+            PledgedTokenB = (System.Numerics.BigInteger)functionParameters[7];
 
-            PledgedTokenB = (System.Numerics.BigInteger)functionParameters[8];
-
-            PledgedTokenC = (System.Numerics.BigInteger)functionParameters[9];
+            PledgedTokenC = (System.Numerics.BigInteger)functionParameters[8];
         }
 
         public static IObservable<RecordUpdate> GetCapitalTableUpdates()
@@ -155,7 +146,6 @@ namespace mudworld
 
         public override void PropertyToTable(Property property)
         {
-            Id = (uint)property["id"];
             Owner = (string)property["owner"];
             Occupation = (string)property["occupation"];
             Infantry = (System.Numerics.BigInteger)property["infantry"];
@@ -171,18 +161,6 @@ namespace mudworld
         {
             var currentValue = recordUpdate.CurrentRecordValue as Property;
             var previousValue = recordUpdate.PreviousRecordValue as Property;
-            uint? currentIdTyped = null;
-            uint? previousIdTyped = null;
-
-            if (currentValue != null && currentValue.ContainsKey("id"))
-            {
-                currentIdTyped = (uint)currentValue["id"];
-            }
-
-            if (previousValue != null && previousValue.ContainsKey("id"))
-            {
-                previousIdTyped = (uint)previousValue["id"];
-            }
             string? currentOwnerTyped = null;
             string? previousOwnerTyped = null;
 
@@ -304,8 +282,6 @@ namespace mudworld
                 CurrentRecordKey = recordUpdate.CurrentRecordKey,
                 PreviousRecordKey = recordUpdate.PreviousRecordKey,
                 Type = recordUpdate.Type,
-                Id = currentIdTyped,
-                PreviousId = previousIdTyped,
                 Owner = currentOwnerTyped,
                 PreviousOwner = previousOwnerTyped,
                 Occupation = currentOccupationTyped,
