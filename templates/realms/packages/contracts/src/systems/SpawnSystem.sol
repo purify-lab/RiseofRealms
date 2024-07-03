@@ -18,6 +18,7 @@ contract SpawnSystem is System {
 
         Player.set(entity, true);
 
+        PlayerDetail.setWallet(_msgSender());
         PlayerDetail.setGold(entity, 1000000000);
         PlayerDetail.setInfantry(entity, 1000000000);
         PlayerDetail.setCavalryA(entity, 1000000000);
@@ -59,6 +60,7 @@ contract SpawnSystem is System {
 
     function spawnCapital(uint16 capital_id) public payable {
         //price 0.0005 eth
+        require(capital_id > 0 && capital_id <= 8000, "invalid capital id");
         require(msg.value == 500000000000000, "No eth");
         bytes32 owner = Utility.addressToEntityKey(address(_msgSender()));
         require(Capital.getOwner(capital_id) == 0, "this capital already spawned");
@@ -117,6 +119,10 @@ contract SpawnSystem is System {
         Army.setLastTime(owner, army_id, block.timestamp);
     }
 
+    /**
+     * @dev 攻击
+     * @param army_id 军队id
+     */
     function attack(uint8 army_id) public {
         require(army_id > 0 && army_id <= 9, "invalid army id");
         bytes32 owner = Utility.addressToEntityKey(address(_msgSender()));
@@ -134,6 +140,10 @@ contract SpawnSystem is System {
             Capital.setCavalryA(destination, Army.getCavalryA(owner, army_id));
             Capital.setCavalryB(destination, Army.getCavalryB(owner, army_id));
             Capital.setCavalryC(destination, Army.getCavalryC(owner, army_id));
+
+            BattleReport.setAttacker(destination, block.timestamp, _msgSender());
+//            BattleReport.setDefender(destination, block.timestamp, Capital.getOwner(destination));
+
         }
 
         Army.setInfantry(owner, army_id, 0);
@@ -144,6 +154,7 @@ contract SpawnSystem is System {
         Army.setLastTime(owner, army_id, 0);
     }
 
+    //收获
     function farming(uint16 capital_id) public {
         bytes32 owner = Utility.addressToEntityKey(address(_msgSender()));
         require(Capital.getOwner(capital_id) == owner, "this capital not yours");
