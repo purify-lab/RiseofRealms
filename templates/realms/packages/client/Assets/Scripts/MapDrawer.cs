@@ -10,6 +10,8 @@ using Vector3Int = UnityEngine.Vector3Int;
 
 public class CubeCell
 {
+    public int id;
+    
     public Vector3Int pos;
 
     public GameObject gameObject;
@@ -54,6 +56,10 @@ public class MapDrawer : MonoBehaviour
 {
     public static MapDrawer inst;
     public int side;
+
+    public Dictionary<int, CubeCell> cellDics = new Dictionary<int, CubeCell>();
+
+    public int nowId;
 
     public List<int> createChessEvent = new List<int>();
     
@@ -194,6 +200,8 @@ public class MapDrawer : MonoBehaviour
         var t = tiles[tileIndex];
         cell.isWalkable = tileIndex != 3;
         cell.gameObject = Instantiate(t);
+        cell.id = nowId;
+        nowId++;
         
         var renderer = cell.gameObject.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>();
         cell.material = renderer.material;
@@ -248,6 +256,7 @@ public class MapDrawer : MonoBehaviour
 
     public void CreateDesk()
     {
+        nowId = 1;
         var root = new CubeCell(0, 0, 0);
         CreateTile(root);
         

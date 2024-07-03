@@ -64,8 +64,8 @@ public class MainPageUI : MonoBehaviour
         {
             PlayerDetailTable pdt = MUDTable.GetTable<PlayerDetailTable>(NetworkManager.LocalKey);
             CoinText.text = pdt.Gold.ToString();
-            SoldierText.text = pdt.Soldier.ToString();
-            Debug.Log("Jerry PDT:" + pdt.Gold + " : " + pdt.Soldier + " : ");
+            var soldier = pdt.CavalryA + pdt.CavalryB + pdt.CavalryC + pdt.Infantry;
+            SoldierText.text = soldier.ToString();
         }
     }
     
@@ -75,7 +75,7 @@ public class MainPageUI : MonoBehaviour
     
     async void SendBuySoldierTx() {
         Debug.Log("Buy Soldier: >>>>>>>>>>>>>>>");
-        await TxManager.SendUntilPasses<BuySoldierFunction>();
+        //await TxManager.SendUntilPasses<BuySoldierFunction>();
     }
 
     // Update is called once per frame

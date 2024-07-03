@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class PurchaseLandUI : MonoBehaviour
 {
     public Button CloseBtn;
+    public Button SelectBtn;
     public Text coordsText;
     public Text PriceText;
     public Button BuyBtn;
@@ -16,12 +17,19 @@ public class PurchaseLandUI : MonoBehaviour
     {
         CloseBtn.onClick.AddListener(onCloseBtnClick);
         BuyBtn.onClick.AddListener(onBuyBtnClick);
-        
+        SelectBtn.onClick.AddListener(onClickSelect);
+    }
+
+    void onClickSelect()
+    {
+        gameObject.SetActive(false);
     }
 
     private void OnEnable()
     {
-        Debug.Log("On Purchase Tile: " + TapMgr.inst.tapPos);
+        //Debug.Log("On Purchase Tile: " + TapMgr.inst.tapPos);
+
+        //coordsText.text = TapMgr.inst.tapPos.x + "," + TapMgr.inst.tapPos.y + "," + TapMgr.inst.tapPos.z;
     }
 
     void onBuyBtnClick()
