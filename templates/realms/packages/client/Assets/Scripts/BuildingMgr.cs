@@ -12,6 +12,7 @@ public class BuildingMgr : Singleton<BuildingMgr>
     {
         isPlacing = true;
         building = GameObject.Instantiate(go);
+        MainPageUI.inst.state = GameState.PlaceTile;
     }
 
     public void EndPlace()
