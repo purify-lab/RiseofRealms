@@ -629,18 +629,18 @@ namespace IWorld.Service
              return ContractHandler.SendRequestAndWaitForReceiptAsync(initializeFunction, cancellationToken);
         }
 
-        public Task<string> InitializeRequestAsync(string coreModule)
+        public Task<string> InitializeRequestAsync(string initModule)
         {
             var initializeFunction = new InitializeFunction();
-                initializeFunction.CoreModule = coreModule;
+                initializeFunction.InitModule = initModule;
             
              return ContractHandler.SendRequestAsync(initializeFunction);
         }
 
-        public Task<TransactionReceipt> InitializeRequestAndWaitForReceiptAsync(string coreModule, CancellationTokenSource cancellationToken = null)
+        public Task<TransactionReceipt> InitializeRequestAndWaitForReceiptAsync(string initModule, CancellationTokenSource cancellationToken = null)
         {
             var initializeFunction = new InitializeFunction();
-                initializeFunction.CoreModule = coreModule;
+                initializeFunction.InitModule = initModule;
             
              return ContractHandler.SendRequestAndWaitForReceiptAsync(initializeFunction, cancellationToken);
         }
@@ -655,20 +655,20 @@ namespace IWorld.Service
              return ContractHandler.SendRequestAndWaitForReceiptAsync(installModuleFunction, cancellationToken);
         }
 
-        public Task<string> InstallModuleRequestAsync(string module, byte[] args)
+        public Task<string> InstallModuleRequestAsync(string module, byte[] encodedArgs)
         {
             var installModuleFunction = new InstallModuleFunction();
                 installModuleFunction.Module = module;
-                installModuleFunction.Args = args;
+                installModuleFunction.EncodedArgs = encodedArgs;
             
              return ContractHandler.SendRequestAsync(installModuleFunction);
         }
 
-        public Task<TransactionReceipt> InstallModuleRequestAndWaitForReceiptAsync(string module, byte[] args, CancellationTokenSource cancellationToken = null)
+        public Task<TransactionReceipt> InstallModuleRequestAndWaitForReceiptAsync(string module, byte[] encodedArgs, CancellationTokenSource cancellationToken = null)
         {
             var installModuleFunction = new InstallModuleFunction();
                 installModuleFunction.Module = module;
-                installModuleFunction.Args = args;
+                installModuleFunction.EncodedArgs = encodedArgs;
             
              return ContractHandler.SendRequestAndWaitForReceiptAsync(installModuleFunction, cancellationToken);
         }
@@ -683,20 +683,20 @@ namespace IWorld.Service
              return ContractHandler.SendRequestAndWaitForReceiptAsync(installRootModuleFunction, cancellationToken);
         }
 
-        public Task<string> InstallRootModuleRequestAsync(string module, byte[] args)
+        public Task<string> InstallRootModuleRequestAsync(string module, byte[] encodedArgs)
         {
             var installRootModuleFunction = new InstallRootModuleFunction();
                 installRootModuleFunction.Module = module;
-                installRootModuleFunction.Args = args;
+                installRootModuleFunction.EncodedArgs = encodedArgs;
             
              return ContractHandler.SendRequestAsync(installRootModuleFunction);
         }
 
-        public Task<TransactionReceipt> InstallRootModuleRequestAndWaitForReceiptAsync(string module, byte[] args, CancellationTokenSource cancellationToken = null)
+        public Task<TransactionReceipt> InstallRootModuleRequestAndWaitForReceiptAsync(string module, byte[] encodedArgs, CancellationTokenSource cancellationToken = null)
         {
             var installRootModuleFunction = new InstallRootModuleFunction();
                 installRootModuleFunction.Module = module;
-                installRootModuleFunction.Args = args;
+                installRootModuleFunction.EncodedArgs = encodedArgs;
             
              return ContractHandler.SendRequestAndWaitForReceiptAsync(installRootModuleFunction, cancellationToken);
         }
@@ -925,22 +925,22 @@ namespace IWorld.Service
              return ContractHandler.SendRequestAndWaitForReceiptAsync(registerRootFunctionSelectorFunction, cancellationToken);
         }
 
-        public Task<string> RegisterRootFunctionSelectorRequestAsync(byte[] systemId, string worldFunctionSignature, byte[] systemFunctionSelector)
+        public Task<string> RegisterRootFunctionSelectorRequestAsync(byte[] systemId, string worldFunctionSignature, string systemFunctionSignature)
         {
             var registerRootFunctionSelectorFunction = new RegisterRootFunctionSelectorFunction();
                 registerRootFunctionSelectorFunction.SystemId = systemId;
                 registerRootFunctionSelectorFunction.WorldFunctionSignature = worldFunctionSignature;
-                registerRootFunctionSelectorFunction.SystemFunctionSelector = systemFunctionSelector;
+                registerRootFunctionSelectorFunction.SystemFunctionSignature = systemFunctionSignature;
             
              return ContractHandler.SendRequestAsync(registerRootFunctionSelectorFunction);
         }
 
-        public Task<TransactionReceipt> RegisterRootFunctionSelectorRequestAndWaitForReceiptAsync(byte[] systemId, string worldFunctionSignature, byte[] systemFunctionSelector, CancellationTokenSource cancellationToken = null)
+        public Task<TransactionReceipt> RegisterRootFunctionSelectorRequestAndWaitForReceiptAsync(byte[] systemId, string worldFunctionSignature, string systemFunctionSignature, CancellationTokenSource cancellationToken = null)
         {
             var registerRootFunctionSelectorFunction = new RegisterRootFunctionSelectorFunction();
                 registerRootFunctionSelectorFunction.SystemId = systemId;
                 registerRootFunctionSelectorFunction.WorldFunctionSignature = worldFunctionSignature;
-                registerRootFunctionSelectorFunction.SystemFunctionSelector = systemFunctionSelector;
+                registerRootFunctionSelectorFunction.SystemFunctionSignature = systemFunctionSignature;
             
              return ContractHandler.SendRequestAndWaitForReceiptAsync(registerRootFunctionSelectorFunction, cancellationToken);
         }
@@ -1069,6 +1069,32 @@ namespace IWorld.Service
                 registerTableFunction.FieldNames = fieldNames;
             
              return ContractHandler.SendRequestAndWaitForReceiptAsync(registerTableFunction, cancellationToken);
+        }
+
+        public Task<string> RenounceOwnershipRequestAsync(RenounceOwnershipFunction renounceOwnershipFunction)
+        {
+             return ContractHandler.SendRequestAsync(renounceOwnershipFunction);
+        }
+
+        public Task<TransactionReceipt> RenounceOwnershipRequestAndWaitForReceiptAsync(RenounceOwnershipFunction renounceOwnershipFunction, CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(renounceOwnershipFunction, cancellationToken);
+        }
+
+        public Task<string> RenounceOwnershipRequestAsync(byte[] namespaceId)
+        {
+            var renounceOwnershipFunction = new RenounceOwnershipFunction();
+                renounceOwnershipFunction.NamespaceId = namespaceId;
+            
+             return ContractHandler.SendRequestAsync(renounceOwnershipFunction);
+        }
+
+        public Task<TransactionReceipt> RenounceOwnershipRequestAndWaitForReceiptAsync(byte[] namespaceId, CancellationTokenSource cancellationToken = null)
+        {
+            var renounceOwnershipFunction = new RenounceOwnershipFunction();
+                renounceOwnershipFunction.NamespaceId = namespaceId;
+            
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(renounceOwnershipFunction, cancellationToken);
         }
 
         public Task<string> RevokeAccessRequestAsync(RevokeAccessFunction revokeAccessFunction)
@@ -1476,6 +1502,58 @@ namespace IWorld.Service
                 transferOwnershipFunction.NewOwner = newOwner;
             
              return ContractHandler.SendRequestAndWaitForReceiptAsync(transferOwnershipFunction, cancellationToken);
+        }
+
+        public Task<string> UnregisterDelegationRequestAsync(UnregisterDelegationFunction unregisterDelegationFunction)
+        {
+             return ContractHandler.SendRequestAsync(unregisterDelegationFunction);
+        }
+
+        public Task<TransactionReceipt> UnregisterDelegationRequestAndWaitForReceiptAsync(UnregisterDelegationFunction unregisterDelegationFunction, CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(unregisterDelegationFunction, cancellationToken);
+        }
+
+        public Task<string> UnregisterDelegationRequestAsync(string delegatee)
+        {
+            var unregisterDelegationFunction = new UnregisterDelegationFunction();
+                unregisterDelegationFunction.Delegatee = delegatee;
+            
+             return ContractHandler.SendRequestAsync(unregisterDelegationFunction);
+        }
+
+        public Task<TransactionReceipt> UnregisterDelegationRequestAndWaitForReceiptAsync(string delegatee, CancellationTokenSource cancellationToken = null)
+        {
+            var unregisterDelegationFunction = new UnregisterDelegationFunction();
+                unregisterDelegationFunction.Delegatee = delegatee;
+            
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(unregisterDelegationFunction, cancellationToken);
+        }
+
+        public Task<string> UnregisterNamespaceDelegationRequestAsync(UnregisterNamespaceDelegationFunction unregisterNamespaceDelegationFunction)
+        {
+             return ContractHandler.SendRequestAsync(unregisterNamespaceDelegationFunction);
+        }
+
+        public Task<TransactionReceipt> UnregisterNamespaceDelegationRequestAndWaitForReceiptAsync(UnregisterNamespaceDelegationFunction unregisterNamespaceDelegationFunction, CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(unregisterNamespaceDelegationFunction, cancellationToken);
+        }
+
+        public Task<string> UnregisterNamespaceDelegationRequestAsync(byte[] namespaceId)
+        {
+            var unregisterNamespaceDelegationFunction = new UnregisterNamespaceDelegationFunction();
+                unregisterNamespaceDelegationFunction.NamespaceId = namespaceId;
+            
+             return ContractHandler.SendRequestAsync(unregisterNamespaceDelegationFunction);
+        }
+
+        public Task<TransactionReceipt> UnregisterNamespaceDelegationRequestAndWaitForReceiptAsync(byte[] namespaceId, CancellationTokenSource cancellationToken = null)
+        {
+            var unregisterNamespaceDelegationFunction = new UnregisterNamespaceDelegationFunction();
+                unregisterNamespaceDelegationFunction.NamespaceId = namespaceId;
+            
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(unregisterNamespaceDelegationFunction, cancellationToken);
         }
 
         public Task<string> UnregisterStoreHookRequestAsync(UnregisterStoreHookFunction unregisterStoreHookFunction)

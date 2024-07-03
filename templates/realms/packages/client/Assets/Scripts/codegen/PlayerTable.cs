@@ -11,11 +11,7 @@ namespace mudworld
 {
     public class PlayerTable : MUDTable
     {
-        public class PlayerTableUpdate : RecordUpdate
-        {
-            public bool? Value;
-            public bool? PreviousValue;
-        }
+        public class PlayerTableUpdate : RecordUpdate { }
 
         public readonly static string ID = "Player";
         public static RxTable Table
@@ -27,8 +23,6 @@ namespace mudworld
         {
             return ID;
         }
-
-        public bool? Value;
 
         public override Type TableType()
         {
@@ -48,17 +42,10 @@ namespace mudworld
             {
                 return false;
             }
-            if (Value != other.Value)
-            {
-                return false;
-            }
             return true;
         }
 
-        public override void SetValues(params object[] functionParameters)
-        {
-            Value = (bool)functionParameters[0];
-        }
+        public override void SetValues(params object[] functionParameters) { }
 
         public static IObservable<RecordUpdate> GetPlayerTableUpdates()
         {
@@ -72,27 +59,12 @@ namespace mudworld
                 });
         }
 
-        public override void PropertyToTable(Property property)
-        {
-            Value = (bool)property["value"];
-        }
+        public override void PropertyToTable(Property property) { }
 
         public override RecordUpdate RecordUpdateToTyped(RecordUpdate recordUpdate)
         {
             var currentValue = recordUpdate.CurrentRecordValue as Property;
             var previousValue = recordUpdate.PreviousRecordValue as Property;
-            bool? currentValueTyped = null;
-            bool? previousValueTyped = null;
-
-            if (currentValue != null && currentValue.ContainsKey("value"))
-            {
-                currentValueTyped = (bool)currentValue["value"];
-            }
-
-            if (previousValue != null && previousValue.ContainsKey("value"))
-            {
-                previousValueTyped = (bool)previousValue["value"];
-            }
 
             return new PlayerTableUpdate
             {
@@ -102,8 +74,6 @@ namespace mudworld
                 CurrentRecordKey = recordUpdate.CurrentRecordKey,
                 PreviousRecordKey = recordUpdate.PreviousRecordKey,
                 Type = recordUpdate.Type,
-                Value = currentValueTyped,
-                PreviousValue = previousValueTyped,
             };
         }
     }

@@ -11,15 +11,7 @@ namespace mudworld
 {
     public class BattleReportTable : MUDTable
     {
-        public class BattleReportTableUpdate : RecordUpdate
-        {
-            public string? Attacker;
-            public string? PreviousAttacker;
-            public string? Defender;
-            public string? PreviousDefender;
-            public System.Numerics.BigInteger? LossInfantry;
-            public System.Numerics.BigInteger? PreviousLossInfantry;
-        }
+        public class BattleReportTableUpdate : RecordUpdate { }
 
         public readonly static string ID = "BattleReport";
         public static RxTable Table
@@ -31,10 +23,6 @@ namespace mudworld
         {
             return ID;
         }
-
-        public string? Attacker;
-        public string? Defender;
-        public System.Numerics.BigInteger? LossInfantry;
 
         public override Type TableType()
         {
@@ -54,29 +42,10 @@ namespace mudworld
             {
                 return false;
             }
-            if (Attacker != other.Attacker)
-            {
-                return false;
-            }
-            if (Defender != other.Defender)
-            {
-                return false;
-            }
-            if (LossInfantry != other.LossInfantry)
-            {
-                return false;
-            }
             return true;
         }
 
-        public override void SetValues(params object[] functionParameters)
-        {
-            Attacker = (string)functionParameters[0];
-
-            Defender = (string)functionParameters[1];
-
-            LossInfantry = (System.Numerics.BigInteger)functionParameters[2];
-        }
+        public override void SetValues(params object[] functionParameters) { }
 
         public static IObservable<RecordUpdate> GetBattleReportTableUpdates()
         {
@@ -90,54 +59,12 @@ namespace mudworld
                 });
         }
 
-        public override void PropertyToTable(Property property)
-        {
-            Attacker = (string)property["attacker"];
-            Defender = (string)property["defender"];
-            LossInfantry = (System.Numerics.BigInteger)property["lossInfantry"];
-        }
+        public override void PropertyToTable(Property property) { }
 
         public override RecordUpdate RecordUpdateToTyped(RecordUpdate recordUpdate)
         {
             var currentValue = recordUpdate.CurrentRecordValue as Property;
             var previousValue = recordUpdate.PreviousRecordValue as Property;
-            string? currentAttackerTyped = null;
-            string? previousAttackerTyped = null;
-
-            if (currentValue != null && currentValue.ContainsKey("attacker"))
-            {
-                currentAttackerTyped = (string)currentValue["attacker"];
-            }
-
-            if (previousValue != null && previousValue.ContainsKey("attacker"))
-            {
-                previousAttackerTyped = (string)previousValue["attacker"];
-            }
-            string? currentDefenderTyped = null;
-            string? previousDefenderTyped = null;
-
-            if (currentValue != null && currentValue.ContainsKey("defender"))
-            {
-                currentDefenderTyped = (string)currentValue["defender"];
-            }
-
-            if (previousValue != null && previousValue.ContainsKey("defender"))
-            {
-                previousDefenderTyped = (string)previousValue["defender"];
-            }
-            System.Numerics.BigInteger? currentLossInfantryTyped = null;
-            System.Numerics.BigInteger? previousLossInfantryTyped = null;
-
-            if (currentValue != null && currentValue.ContainsKey("lossinfantry"))
-            {
-                currentLossInfantryTyped = (System.Numerics.BigInteger)currentValue["lossinfantry"];
-            }
-
-            if (previousValue != null && previousValue.ContainsKey("lossinfantry"))
-            {
-                previousLossInfantryTyped = (System.Numerics.BigInteger)
-                    previousValue["lossinfantry"];
-            }
 
             return new BattleReportTableUpdate
             {
@@ -147,12 +74,6 @@ namespace mudworld
                 CurrentRecordKey = recordUpdate.CurrentRecordKey,
                 PreviousRecordKey = recordUpdate.PreviousRecordKey,
                 Type = recordUpdate.Type,
-                Attacker = currentAttackerTyped,
-                PreviousAttacker = previousAttackerTyped,
-                Defender = currentDefenderTyped,
-                PreviousDefender = previousDefenderTyped,
-                LossInfantry = currentLossInfantryTyped,
-                PreviousLossInfantry = previousLossInfantryTyped,
             };
         }
     }

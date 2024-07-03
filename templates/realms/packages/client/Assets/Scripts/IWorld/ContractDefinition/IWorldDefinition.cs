@@ -340,8 +340,8 @@ namespace IWorld.ContractDefinition
     [Function("initialize")]
     public class InitializeFunctionBase : FunctionMessage
     {
-        [Parameter("address", "coreModule", 1)]
-        public virtual string CoreModule { get; set; }
+        [Parameter("address", "initModule", 1)]
+        public virtual string InitModule { get; set; }
     }
 
     public partial class InstallModuleFunction : InstallModuleFunctionBase { }
@@ -351,8 +351,8 @@ namespace IWorld.ContractDefinition
     {
         [Parameter("address", "module", 1)]
         public virtual string Module { get; set; }
-        [Parameter("bytes", "args", 2)]
-        public virtual byte[] Args { get; set; }
+        [Parameter("bytes", "encodedArgs", 2)]
+        public virtual byte[] EncodedArgs { get; set; }
     }
 
     public partial class InstallRootModuleFunction : InstallRootModuleFunctionBase { }
@@ -362,8 +362,8 @@ namespace IWorld.ContractDefinition
     {
         [Parameter("address", "module", 1)]
         public virtual string Module { get; set; }
-        [Parameter("bytes", "args", 2)]
-        public virtual byte[] Args { get; set; }
+        [Parameter("bytes", "encodedArgs", 2)]
+        public virtual byte[] EncodedArgs { get; set; }
     }
 
     public partial class MarchFunction : MarchFunctionBase { }
@@ -470,8 +470,8 @@ namespace IWorld.ContractDefinition
         public virtual byte[] SystemId { get; set; }
         [Parameter("string", "worldFunctionSignature", 2)]
         public virtual string WorldFunctionSignature { get; set; }
-        [Parameter("bytes4", "systemFunctionSelector", 3)]
-        public virtual byte[] SystemFunctionSelector { get; set; }
+        [Parameter("string", "systemFunctionSignature", 3)]
+        public virtual string SystemFunctionSignature { get; set; }
     }
 
     public partial class RegisterStoreHookFunction : RegisterStoreHookFunctionBase { }
@@ -530,6 +530,15 @@ namespace IWorld.ContractDefinition
         public virtual List<string> KeyNames { get; set; }
         [Parameter("string[]", "fieldNames", 6)]
         public virtual List<string> FieldNames { get; set; }
+    }
+
+    public partial class RenounceOwnershipFunction : RenounceOwnershipFunctionBase { }
+
+    [Function("renounceOwnership")]
+    public class RenounceOwnershipFunctionBase : FunctionMessage
+    {
+        [Parameter("bytes32", "namespaceId", 1)]
+        public virtual byte[] NamespaceId { get; set; }
     }
 
     public partial class RevokeAccessFunction : RevokeAccessFunctionBase { }
@@ -720,6 +729,24 @@ namespace IWorld.ContractDefinition
         public virtual string NewOwner { get; set; }
     }
 
+    public partial class UnregisterDelegationFunction : UnregisterDelegationFunctionBase { }
+
+    [Function("unregisterDelegation")]
+    public class UnregisterDelegationFunctionBase : FunctionMessage
+    {
+        [Parameter("address", "delegatee", 1)]
+        public virtual string Delegatee { get; set; }
+    }
+
+    public partial class UnregisterNamespaceDelegationFunction : UnregisterNamespaceDelegationFunctionBase { }
+
+    [Function("unregisterNamespaceDelegation")]
+    public class UnregisterNamespaceDelegationFunctionBase : FunctionMessage
+    {
+        [Parameter("bytes32", "namespaceId", 1)]
+        public virtual byte[] NamespaceId { get; set; }
+    }
+
     public partial class UnregisterStoreHookFunction : UnregisterStoreHookFunctionBase { }
 
     [Function("unregisterStoreHook")]
@@ -805,13 +832,15 @@ namespace IWorld.ContractDefinition
         public virtual byte[] TableId { get; set; }
         [Parameter("bytes32[]", "keyTuple", 2, false )]
         public virtual List<byte[]> KeyTuple { get; set; }
-        [Parameter("uint48", "start", 3, false )]
+        [Parameter("uint8", "dynamicFieldIndex", 3, false )]
+        public virtual byte DynamicFieldIndex { get; set; }
+        [Parameter("uint48", "start", 4, false )]
         public virtual ulong Start { get; set; }
-        [Parameter("uint40", "deleteCount", 4, false )]
+        [Parameter("uint40", "deleteCount", 5, false )]
         public virtual ulong DeleteCount { get; set; }
-        [Parameter("bytes32", "encodedLengths", 5, false )]
+        [Parameter("bytes32", "encodedLengths", 6, false )]
         public virtual byte[] EncodedLengths { get; set; }
-        [Parameter("bytes", "data", 6, false )]
+        [Parameter("bytes", "data", 7, false )]
         public virtual byte[] Data { get; set; }
     }
 
@@ -830,6 +859,136 @@ namespace IWorld.ContractDefinition
         public virtual byte[] Data { get; set; }
     }
 
+    public partial class EncodedlengthsInvalidlengthError : EncodedlengthsInvalidlengthErrorBase { }
+
+    [Error("EncodedLengths_InvalidLength")]
+    public class EncodedlengthsInvalidlengthErrorBase : IErrorDTO
+    {
+        [Parameter("uint256", "length", 1)]
+        public virtual BigInteger Length { get; set; }
+    }
+
+    public partial class FieldlayoutEmptyError : FieldlayoutEmptyErrorBase { }
+    [Error("FieldLayout_Empty")]
+    public class FieldlayoutEmptyErrorBase : IErrorDTO
+    {
+    }
+
+    public partial class FieldlayoutInvalidstaticdatalengthError : FieldlayoutInvalidstaticdatalengthErrorBase { }
+
+    [Error("FieldLayout_InvalidStaticDataLength")]
+    public class FieldlayoutInvalidstaticdatalengthErrorBase : IErrorDTO
+    {
+        [Parameter("uint256", "staticDataLength", 1)]
+        public virtual BigInteger StaticDataLength { get; set; }
+        [Parameter("uint256", "computedStaticDataLength", 2)]
+        public virtual BigInteger ComputedStaticDataLength { get; set; }
+    }
+
+    public partial class FieldlayoutStaticlengthdoesnotfitinawordError : FieldlayoutStaticlengthdoesnotfitinawordErrorBase { }
+
+    [Error("FieldLayout_StaticLengthDoesNotFitInAWord")]
+    public class FieldlayoutStaticlengthdoesnotfitinawordErrorBase : IErrorDTO
+    {
+        [Parameter("uint256", "index", 1)]
+        public virtual BigInteger Index { get; set; }
+    }
+
+    public partial class FieldlayoutStaticlengthisnotzeroError : FieldlayoutStaticlengthisnotzeroErrorBase { }
+
+    [Error("FieldLayout_StaticLengthIsNotZero")]
+    public class FieldlayoutStaticlengthisnotzeroErrorBase : IErrorDTO
+    {
+        [Parameter("uint256", "index", 1)]
+        public virtual BigInteger Index { get; set; }
+    }
+
+    public partial class FieldlayoutStaticlengthiszeroError : FieldlayoutStaticlengthiszeroErrorBase { }
+
+    [Error("FieldLayout_StaticLengthIsZero")]
+    public class FieldlayoutStaticlengthiszeroErrorBase : IErrorDTO
+    {
+        [Parameter("uint256", "index", 1)]
+        public virtual BigInteger Index { get; set; }
+    }
+
+    public partial class FieldlayoutToomanydynamicfieldsError : FieldlayoutToomanydynamicfieldsErrorBase { }
+
+    [Error("FieldLayout_TooManyDynamicFields")]
+    public class FieldlayoutToomanydynamicfieldsErrorBase : IErrorDTO
+    {
+        [Parameter("uint256", "numFields", 1)]
+        public virtual BigInteger NumFields { get; set; }
+        [Parameter("uint256", "maxFields", 2)]
+        public virtual BigInteger MaxFields { get; set; }
+    }
+
+    public partial class FieldlayoutToomanyfieldsError : FieldlayoutToomanyfieldsErrorBase { }
+
+    [Error("FieldLayout_TooManyFields")]
+    public class FieldlayoutToomanyfieldsErrorBase : IErrorDTO
+    {
+        [Parameter("uint256", "numFields", 1)]
+        public virtual BigInteger NumFields { get; set; }
+        [Parameter("uint256", "maxFields", 2)]
+        public virtual BigInteger MaxFields { get; set; }
+    }
+
+    public partial class ModuleAlreadyinstalledError : ModuleAlreadyinstalledErrorBase { }
+    [Error("Module_AlreadyInstalled")]
+    public class ModuleAlreadyinstalledErrorBase : IErrorDTO
+    {
+    }
+
+    public partial class ModuleMissingdependencyError : ModuleMissingdependencyErrorBase { }
+
+    [Error("Module_MissingDependency")]
+    public class ModuleMissingdependencyErrorBase : IErrorDTO
+    {
+        [Parameter("address", "dependency", 1)]
+        public virtual string Dependency { get; set; }
+    }
+
+    public partial class ModuleNonrootinstallnotsupportedError : ModuleNonrootinstallnotsupportedErrorBase { }
+    [Error("Module_NonRootInstallNotSupported")]
+    public class ModuleNonrootinstallnotsupportedErrorBase : IErrorDTO
+    {
+    }
+
+    public partial class ModuleRootinstallnotsupportedError : ModuleRootinstallnotsupportedErrorBase { }
+    [Error("Module_RootInstallNotSupported")]
+    public class ModuleRootinstallnotsupportedErrorBase : IErrorDTO
+    {
+    }
+
+    public partial class SchemaInvalidlengthError : SchemaInvalidlengthErrorBase { }
+
+    [Error("Schema_InvalidLength")]
+    public class SchemaInvalidlengthErrorBase : IErrorDTO
+    {
+        [Parameter("uint256", "length", 1)]
+        public virtual BigInteger Length { get; set; }
+    }
+
+    public partial class SchemaStatictypeafterdynamictypeError : SchemaStatictypeafterdynamictypeErrorBase { }
+    [Error("Schema_StaticTypeAfterDynamicType")]
+    public class SchemaStatictypeafterdynamictypeErrorBase : IErrorDTO
+    {
+    }
+
+    public partial class SliceOutofboundsError : SliceOutofboundsErrorBase { }
+
+    [Error("Slice_OutOfBounds")]
+    public class SliceOutofboundsErrorBase : IErrorDTO
+    {
+        [Parameter("bytes", "data", 1)]
+        public virtual byte[] Data { get; set; }
+        [Parameter("uint256", "start", 2)]
+        public virtual BigInteger Start { get; set; }
+        [Parameter("uint256", "end", 3)]
+        public virtual BigInteger End { get; set; }
+    }
+
     public partial class StoreIndexoutofboundsError : StoreIndexoutofboundsErrorBase { }
 
     [Error("Store_IndexOutOfBounds")]
@@ -841,15 +1000,15 @@ namespace IWorld.ContractDefinition
         public virtual BigInteger AccessedIndex { get; set; }
     }
 
-    public partial class StoreInvaliddynamicdatalengthError : StoreInvaliddynamicdatalengthErrorBase { }
+    public partial class StoreInvalidboundsError : StoreInvalidboundsErrorBase { }
 
-    [Error("Store_InvalidDynamicDataLength")]
-    public class StoreInvaliddynamicdatalengthErrorBase : IErrorDTO
+    [Error("Store_InvalidBounds")]
+    public class StoreInvalidboundsErrorBase : IErrorDTO
     {
-        [Parameter("uint256", "expected", 1)]
-        public virtual BigInteger Expected { get; set; }
-        [Parameter("uint256", "received", 2)]
-        public virtual BigInteger Received { get; set; }
+        [Parameter("uint256", "start", 1)]
+        public virtual BigInteger Start { get; set; }
+        [Parameter("uint256", "end", 2)]
+        public virtual BigInteger End { get; set; }
     }
 
     public partial class StoreInvalidfieldnameslengthError : StoreInvalidfieldnameslengthErrorBase { }
@@ -900,10 +1059,43 @@ namespace IWorld.ContractDefinition
         public virtual ulong FieldLength { get; set; }
     }
 
+    public partial class StoreInvalidstaticdatalengthError : StoreInvalidstaticdatalengthErrorBase { }
+
+    [Error("Store_InvalidStaticDataLength")]
+    public class StoreInvalidstaticdatalengthErrorBase : IErrorDTO
+    {
+        [Parameter("uint256", "expected", 1)]
+        public virtual BigInteger Expected { get; set; }
+        [Parameter("uint256", "received", 2)]
+        public virtual BigInteger Received { get; set; }
+    }
+
+    public partial class StoreInvalidvalueschemadynamiclengthError : StoreInvalidvalueschemadynamiclengthErrorBase { }
+
+    [Error("Store_InvalidValueSchemaDynamicLength")]
+    public class StoreInvalidvalueschemadynamiclengthErrorBase : IErrorDTO
+    {
+        [Parameter("uint256", "expected", 1)]
+        public virtual BigInteger Expected { get; set; }
+        [Parameter("uint256", "received", 2)]
+        public virtual BigInteger Received { get; set; }
+    }
+
     public partial class StoreInvalidvalueschemalengthError : StoreInvalidvalueschemalengthErrorBase { }
 
     [Error("Store_InvalidValueSchemaLength")]
     public class StoreInvalidvalueschemalengthErrorBase : IErrorDTO
+    {
+        [Parameter("uint256", "expected", 1)]
+        public virtual BigInteger Expected { get; set; }
+        [Parameter("uint256", "received", 2)]
+        public virtual BigInteger Received { get; set; }
+    }
+
+    public partial class StoreInvalidvalueschemastaticlengthError : StoreInvalidvalueschemastaticlengthErrorBase { }
+
+    [Error("Store_InvalidValueSchemaStaticLength")]
+    public class StoreInvalidvalueschemastaticlengthErrorBase : IErrorDTO
     {
         [Parameter("uint256", "expected", 1)]
         public virtual BigInteger Expected { get; set; }
@@ -1008,6 +1200,15 @@ namespace IWorld.ContractDefinition
         public virtual string ContractAddress { get; set; }
         [Parameter("bytes4", "interfaceId", 2)]
         public virtual byte[] InterfaceId { get; set; }
+    }
+
+    public partial class WorldInvalidnamespaceError : WorldInvalidnamespaceErrorBase { }
+
+    [Error("World_InvalidNamespace")]
+    public class WorldInvalidnamespaceErrorBase : IErrorDTO
+    {
+        [Parameter("bytes14", "namespace", 1)]
+        public virtual byte[] Namespace { get; set; }
     }
 
     public partial class WorldInvalidresourceidError : WorldInvalidresourceidErrorBase { }
@@ -1281,6 +1482,8 @@ namespace IWorld.ContractDefinition
 
 
 
+
+
     public partial class StoreVersionOutputDTO : StoreVersionOutputDTOBase { }
 
     [FunctionOutput]
@@ -1289,6 +1492,10 @@ namespace IWorld.ContractDefinition
         [Parameter("bytes32", "version", 1)]
         public virtual byte[] Version { get; set; }
     }
+
+
+
+
 
 
 

@@ -11,23 +11,7 @@ namespace mudworld
 {
     public class PlayerDetailTable : MUDTable
     {
-        public class PlayerDetailTableUpdate : RecordUpdate
-        {
-            public string? Wallet;
-            public string? PreviousWallet;
-            public System.Numerics.BigInteger? Gold;
-            public System.Numerics.BigInteger? PreviousGold;
-            public System.Numerics.BigInteger? Infantry;
-            public System.Numerics.BigInteger? PreviousInfantry;
-            public System.Numerics.BigInteger? CavalryA;
-            public System.Numerics.BigInteger? PreviousCavalryA;
-            public System.Numerics.BigInteger? CavalryB;
-            public System.Numerics.BigInteger? PreviousCavalryB;
-            public System.Numerics.BigInteger? CavalryC;
-            public System.Numerics.BigInteger? PreviousCavalryC;
-            public uint? Capital;
-            public uint? PreviousCapital;
-        }
+        public class PlayerDetailTableUpdate : RecordUpdate { }
 
         public readonly static string ID = "PlayerDetail";
         public static RxTable Table
@@ -39,14 +23,6 @@ namespace mudworld
         {
             return ID;
         }
-
-        public string? Wallet;
-        public System.Numerics.BigInteger? Gold;
-        public System.Numerics.BigInteger? Infantry;
-        public System.Numerics.BigInteger? CavalryA;
-        public System.Numerics.BigInteger? CavalryB;
-        public System.Numerics.BigInteger? CavalryC;
-        public uint? Capital;
 
         public override Type TableType()
         {
@@ -66,53 +42,10 @@ namespace mudworld
             {
                 return false;
             }
-            if (Wallet != other.Wallet)
-            {
-                return false;
-            }
-            if (Gold != other.Gold)
-            {
-                return false;
-            }
-            if (Infantry != other.Infantry)
-            {
-                return false;
-            }
-            if (CavalryA != other.CavalryA)
-            {
-                return false;
-            }
-            if (CavalryB != other.CavalryB)
-            {
-                return false;
-            }
-            if (CavalryC != other.CavalryC)
-            {
-                return false;
-            }
-            if (Capital != other.Capital)
-            {
-                return false;
-            }
             return true;
         }
 
-        public override void SetValues(params object[] functionParameters)
-        {
-            Wallet = (string)functionParameters[0];
-
-            Gold = (System.Numerics.BigInteger)functionParameters[1];
-
-            Infantry = (System.Numerics.BigInteger)functionParameters[2];
-
-            CavalryA = (System.Numerics.BigInteger)functionParameters[3];
-
-            CavalryB = (System.Numerics.BigInteger)functionParameters[4];
-
-            CavalryC = (System.Numerics.BigInteger)functionParameters[5];
-
-            Capital = (uint)functionParameters[6];
-        }
+        public override void SetValues(params object[] functionParameters) { }
 
         public static IObservable<RecordUpdate> GetPlayerDetailTableUpdates()
         {
@@ -126,105 +59,12 @@ namespace mudworld
                 });
         }
 
-        public override void PropertyToTable(Property property)
-        {
-            Wallet = (string)property["wallet"];
-            Gold = (System.Numerics.BigInteger)property["gold"];
-            Infantry = (System.Numerics.BigInteger)property["infantry"];
-            CavalryA = (System.Numerics.BigInteger)property["cavalryA"];
-            CavalryB = (System.Numerics.BigInteger)property["cavalryB"];
-            CavalryC = (System.Numerics.BigInteger)property["cavalryC"];
-            Capital = (uint)property["capital"];
-        }
+        public override void PropertyToTable(Property property) { }
 
         public override RecordUpdate RecordUpdateToTyped(RecordUpdate recordUpdate)
         {
             var currentValue = recordUpdate.CurrentRecordValue as Property;
             var previousValue = recordUpdate.PreviousRecordValue as Property;
-            string? currentWalletTyped = null;
-            string? previousWalletTyped = null;
-
-            if (currentValue != null && currentValue.ContainsKey("wallet"))
-            {
-                currentWalletTyped = (string)currentValue["wallet"];
-            }
-
-            if (previousValue != null && previousValue.ContainsKey("wallet"))
-            {
-                previousWalletTyped = (string)previousValue["wallet"];
-            }
-            System.Numerics.BigInteger? currentGoldTyped = null;
-            System.Numerics.BigInteger? previousGoldTyped = null;
-
-            if (currentValue != null && currentValue.ContainsKey("gold"))
-            {
-                currentGoldTyped = (System.Numerics.BigInteger)currentValue["gold"];
-            }
-
-            if (previousValue != null && previousValue.ContainsKey("gold"))
-            {
-                previousGoldTyped = (System.Numerics.BigInteger)previousValue["gold"];
-            }
-            System.Numerics.BigInteger? currentInfantryTyped = null;
-            System.Numerics.BigInteger? previousInfantryTyped = null;
-
-            if (currentValue != null && currentValue.ContainsKey("infantry"))
-            {
-                currentInfantryTyped = (System.Numerics.BigInteger)currentValue["infantry"];
-            }
-
-            if (previousValue != null && previousValue.ContainsKey("infantry"))
-            {
-                previousInfantryTyped = (System.Numerics.BigInteger)previousValue["infantry"];
-            }
-            System.Numerics.BigInteger? currentCavalryATyped = null;
-            System.Numerics.BigInteger? previousCavalryATyped = null;
-
-            if (currentValue != null && currentValue.ContainsKey("cavalrya"))
-            {
-                currentCavalryATyped = (System.Numerics.BigInteger)currentValue["cavalrya"];
-            }
-
-            if (previousValue != null && previousValue.ContainsKey("cavalrya"))
-            {
-                previousCavalryATyped = (System.Numerics.BigInteger)previousValue["cavalrya"];
-            }
-            System.Numerics.BigInteger? currentCavalryBTyped = null;
-            System.Numerics.BigInteger? previousCavalryBTyped = null;
-
-            if (currentValue != null && currentValue.ContainsKey("cavalryb"))
-            {
-                currentCavalryBTyped = (System.Numerics.BigInteger)currentValue["cavalryb"];
-            }
-
-            if (previousValue != null && previousValue.ContainsKey("cavalryb"))
-            {
-                previousCavalryBTyped = (System.Numerics.BigInteger)previousValue["cavalryb"];
-            }
-            System.Numerics.BigInteger? currentCavalryCTyped = null;
-            System.Numerics.BigInteger? previousCavalryCTyped = null;
-
-            if (currentValue != null && currentValue.ContainsKey("cavalryc"))
-            {
-                currentCavalryCTyped = (System.Numerics.BigInteger)currentValue["cavalryc"];
-            }
-
-            if (previousValue != null && previousValue.ContainsKey("cavalryc"))
-            {
-                previousCavalryCTyped = (System.Numerics.BigInteger)previousValue["cavalryc"];
-            }
-            uint? currentCapitalTyped = null;
-            uint? previousCapitalTyped = null;
-
-            if (currentValue != null && currentValue.ContainsKey("capital"))
-            {
-                currentCapitalTyped = (uint)currentValue["capital"];
-            }
-
-            if (previousValue != null && previousValue.ContainsKey("capital"))
-            {
-                previousCapitalTyped = (uint)previousValue["capital"];
-            }
 
             return new PlayerDetailTableUpdate
             {
@@ -234,20 +74,6 @@ namespace mudworld
                 CurrentRecordKey = recordUpdate.CurrentRecordKey,
                 PreviousRecordKey = recordUpdate.PreviousRecordKey,
                 Type = recordUpdate.Type,
-                Wallet = currentWalletTyped,
-                PreviousWallet = previousWalletTyped,
-                Gold = currentGoldTyped,
-                PreviousGold = previousGoldTyped,
-                Infantry = currentInfantryTyped,
-                PreviousInfantry = previousInfantryTyped,
-                CavalryA = currentCavalryATyped,
-                PreviousCavalryA = previousCavalryATyped,
-                CavalryB = currentCavalryBTyped,
-                PreviousCavalryB = previousCavalryBTyped,
-                CavalryC = currentCavalryCTyped,
-                PreviousCavalryC = previousCavalryCTyped,
-                Capital = currentCapitalTyped,
-                PreviousCapital = previousCapitalTyped,
             };
         }
     }
