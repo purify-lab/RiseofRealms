@@ -106,8 +106,8 @@ contract SpawnSystem is System {
         Capital.setOwner(capital_id, owner);
         Capital.setLastTime(capital_id, block.timestamp);
 
-        //转账给收款人
-        IERC20(Recipient).transfer(Recipient, 500000000000000);
+        //eth转账给收款人
+        payable(Recipient).transfer(msg.value);
     }
 
     /**
