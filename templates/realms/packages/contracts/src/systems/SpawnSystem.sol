@@ -102,9 +102,10 @@ contract SpawnSystem is System {
         require(PlayerDetail.getCapital(owner) == 0, "you already spawned capital");
 
         PlayerDetail.setCapital(owner, capital_id);
-        Capital.setTileId(capital_id, capital_id);
-        Capital.setOwner(capital_id, owner);
-        Capital.setLastTime(capital_id, (uint32)(block.timestamp));
+        Capital.set(capital_id, capital_id, owner, address(0), 0, 0, 0, 0, (uint32)(block.timestamp), 0, 0);
+//        Capital.setTileId(capital_id, capital_id);
+//        Capital.setOwner(capital_id, owner);
+//        Capital.setLastTime(capital_id, (uint32)(block.timestamp));
 
         //eth转账给收款人
         payable(Recipient).transfer(msg.value);
@@ -169,12 +170,13 @@ contract SpawnSystem is System {
         PlayerDetail.setCavalryB(owner, PlayerDetail.getCavalryB(owner) - cavalryB);
         PlayerDetail.setCavalryC(owner, PlayerDetail.getCavalryC(owner) - cavalryC);
 
-        Army.setInfantry(armyKey, infantry);
-        Army.setCavalryA(armyKey, cavalryA);
-        Army.setCavalryB(armyKey, cavalryB);
-        Army.setCavalryC(armyKey, cavalryC);
-        Army.setDestination(armyKey, destination);
-        Army.setLastTime(armyKey, (uint32)(block.timestamp));
+        Army.set(armyKey, owner, army_id, infantry, cavalryA, cavalryB, cavalryC, (uint32)(block.timestamp), destination);
+//        Army.setInfantry(armyKey, infantry);
+//        Army.setCavalryA(armyKey, cavalryA);
+//        Army.setCavalryB(armyKey, cavalryB);
+//        Army.setCavalryC(armyKey, cavalryC);
+//        Army.setDestination(armyKey, destination);
+//        Army.setLastTime(armyKey, (uint32)(block.timestamp));
     }
 
     /**
