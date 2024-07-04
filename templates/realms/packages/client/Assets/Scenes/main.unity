@@ -22744,6 +22744,8 @@ MonoBehaviour:
   CloseBtn: {fileID: 0}
   InpInfantryANum: {fileID: 0}
   InpCavalryANum: {fileID: 0}
+  buyInfantryANum: 0
+  buyCavalryANum: 0
 --- !u!1 &246838815
 GameObject:
   m_ObjectHideFlags: 0
@@ -69913,6 +69915,8 @@ MonoBehaviour:
   CloseBtn: {fileID: 67278465}
   InpInfantryANum: {fileID: 1526663872}
   InpCavalryANum: {fileID: 1388966065}
+  buyInfantryANum: 0
+  buyCavalryANum: 0
 --- !u!114 &1776688456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84210,7 +84214,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2098653661
 RectTransform:
   m_ObjectHideFlags: 0
@@ -84596,6 +84600,10 @@ PrefabInstance:
     - target: {fileID: 8726071526014405772, guid: 5528e9ad7f60b9b4ba6ea4fd8274c7ef, type: 3}
       propertyPath: m_Name
       value: WK_Cavalry_Heavy_A
+      objectReference: {fileID: 0}
+    - target: {fileID: 8726071526014405772, guid: 5528e9ad7f60b9b4ba6ea4fd8274c7ef, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
