@@ -25,8 +25,8 @@ namespace mudworld
             public System.Numerics.BigInteger? PreviousCavalryB;
             public System.Numerics.BigInteger? CavalryC;
             public System.Numerics.BigInteger? PreviousCavalryC;
-            public uint? Capital;
-            public uint? PreviousCapital;
+            public uint? Capitals;
+            public uint? PreviousCapitals;
         }
 
         public readonly static string ID = "PlayerDetail";
@@ -46,7 +46,7 @@ namespace mudworld
         public System.Numerics.BigInteger? CavalryA;
         public System.Numerics.BigInteger? CavalryB;
         public System.Numerics.BigInteger? CavalryC;
-        public uint? Capital;
+        public uint? Capitals;
 
         public override Type TableType()
         {
@@ -90,7 +90,7 @@ namespace mudworld
             {
                 return false;
             }
-            if (Capital != other.Capital)
+            if (Capitals != other.Capitals)
             {
                 return false;
             }
@@ -111,7 +111,7 @@ namespace mudworld
 
             CavalryC = (System.Numerics.BigInteger)functionParameters[5];
 
-            Capital = (uint)functionParameters[6];
+            Capitals = (uint)functionParameters[6];
         }
 
         public static IObservable<RecordUpdate> GetPlayerDetailTableUpdates()
@@ -134,7 +134,7 @@ namespace mudworld
             CavalryA = (System.Numerics.BigInteger)property["cavalryA"];
             CavalryB = (System.Numerics.BigInteger)property["cavalryB"];
             CavalryC = (System.Numerics.BigInteger)property["cavalryC"];
-            Capital = (uint)property["capital"];
+            Capitals = (uint)property["capitals"];
         }
 
         public override RecordUpdate RecordUpdateToTyped(RecordUpdate recordUpdate)
@@ -213,17 +213,17 @@ namespace mudworld
             {
                 previousCavalryCTyped = (System.Numerics.BigInteger)previousValue["cavalryc"];
             }
-            uint? currentCapitalTyped = null;
-            uint? previousCapitalTyped = null;
+            uint? currentCapitalsTyped = null;
+            uint? previousCapitalsTyped = null;
 
-            if (currentValue != null && currentValue.ContainsKey("capital"))
+            if (currentValue != null && currentValue.ContainsKey("capitals"))
             {
-                currentCapitalTyped = (uint)currentValue["capital"];
+                currentCapitalsTyped = (uint)currentValue["capitals"];
             }
 
-            if (previousValue != null && previousValue.ContainsKey("capital"))
+            if (previousValue != null && previousValue.ContainsKey("capitals"))
             {
-                previousCapitalTyped = (uint)previousValue["capital"];
+                previousCapitalsTyped = (uint)previousValue["capitals"];
             }
 
             return new PlayerDetailTableUpdate
@@ -246,8 +246,8 @@ namespace mudworld
                 PreviousCavalryB = previousCavalryBTyped,
                 CavalryC = currentCavalryCTyped,
                 PreviousCavalryC = previousCavalryCTyped,
-                Capital = currentCapitalTyped,
-                PreviousCapital = previousCapitalTyped,
+                Capitals = currentCapitalsTyped,
+                PreviousCapitals = previousCapitalsTyped,
             };
         }
     }
