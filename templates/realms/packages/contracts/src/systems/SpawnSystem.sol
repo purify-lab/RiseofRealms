@@ -170,13 +170,15 @@ contract SpawnSystem is System {
         PlayerDetail.setCavalryB(owner, PlayerDetail.getCavalryB(owner) - cavalryB);
         PlayerDetail.setCavalryC(owner, PlayerDetail.getCavalryC(owner) - cavalryC);
 
-        Army.set(armyKey, owner, army_id, infantry, cavalryA, cavalryB, cavalryC, (uint32)(block.timestamp), destination);
-//        Army.setInfantry(armyKey, infantry);
-//        Army.setCavalryA(armyKey, cavalryA);
-//        Army.setCavalryB(armyKey, cavalryB);
-//        Army.setCavalryC(armyKey, cavalryC);
-//        Army.setDestination(armyKey, destination);
-//        Army.setLastTime(armyKey, (uint32)(block.timestamp));
+//        Army.set(armyKey, owner, army_id, infantry, cavalryA, cavalryB, cavalryC, (uint32)(block.timestamp), destination);
+        Army.setOwner(armyKey, owner);
+        Army.setId(armyKey, army_id);
+        Army.setInfantry(armyKey, infantry);
+        Army.setCavalryA(armyKey, cavalryA);
+        Army.setCavalryB(armyKey, cavalryB);
+        Army.setCavalryC(armyKey, cavalryC);
+        Army.setDestination(armyKey, destination);
+        Army.setLastTime(armyKey, (uint32)(block.timestamp));
     }
 
     /**
@@ -293,6 +295,8 @@ contract SpawnSystem is System {
         }
 
         bytes32 reportKey = Utility.battleReportToEntityKey(defenceLocation, (uint32)(block.timestamp));
+        BattleReport.setCapitalId(reportKey, defenceLocation);
+        BattleReport.setTimestamp(reportKey, (uint32)(block.timestamp));
         BattleReport.setAttackWin(reportKey, attackPower > defensePower);
         BattleReport.setAttacker(reportKey, _msgSender());
         BattleReport.setDefender(reportKey, Utility.entityKeyToAddress(defender));
