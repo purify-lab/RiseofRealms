@@ -58,8 +58,9 @@ export default defineWorld({
       }
     },
     BattleReport: {
-      key: ["capitalId", "timestamp"],
+      key: ["key"],
       schema: {
+        key:"bytes32",
         capitalId: "uint16",
         timestamp: "uint32",
         attacker: "address",

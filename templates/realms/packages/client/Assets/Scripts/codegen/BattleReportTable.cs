@@ -13,6 +13,10 @@ namespace mudworld
     {
         public class BattleReportTableUpdate : RecordUpdate
         {
+            public uint? CapitalId;
+            public uint? PreviousCapitalId;
+            public uint? Timestamp;
+            public uint? PreviousTimestamp;
             public string? Attacker;
             public string? PreviousAttacker;
             public string? Defender;
@@ -34,6 +38,8 @@ namespace mudworld
             return ID;
         }
 
+        public uint? CapitalId;
+        public uint? Timestamp;
         public string? Attacker;
         public string? Defender;
         public bool? AttackWin;
@@ -54,6 +60,14 @@ namespace mudworld
             BattleReportTable other = (BattleReportTable)obj;
 
             if (other == null)
+            {
+                return false;
+            }
+            if (CapitalId != other.CapitalId)
+            {
+                return false;
+            }
+            if (Timestamp != other.Timestamp)
             {
                 return false;
             }
@@ -78,13 +92,17 @@ namespace mudworld
 
         public override void SetValues(params object[] functionParameters)
         {
-            Attacker = (string)functionParameters[0];
+            CapitalId = (uint)functionParameters[0];
 
-            Defender = (string)functionParameters[1];
+            Timestamp = (uint)functionParameters[1];
 
-            AttackWin = (bool)functionParameters[2];
+            Attacker = (string)functionParameters[2];
 
-            Losses = (System.Numerics.BigInteger[])functionParameters[3];
+            Defender = (string)functionParameters[3];
+
+            AttackWin = (bool)functionParameters[4];
+
+            Losses = (System.Numerics.BigInteger[])functionParameters[5];
         }
 
         public static IObservable<RecordUpdate> GetBattleReportTableUpdates()
@@ -101,6 +119,8 @@ namespace mudworld
 
         public override void PropertyToTable(Property property)
         {
+            CapitalId = (uint)property["capitalId"];
+            Timestamp = (uint)property["timestamp"];
             Attacker = (string)property["attacker"];
             Defender = (string)property["defender"];
             AttackWin = (bool)property["attackWin"];
@@ -111,6 +131,30 @@ namespace mudworld
         {
             var currentValue = recordUpdate.CurrentRecordValue as Property;
             var previousValue = recordUpdate.PreviousRecordValue as Property;
+            uint? currentCapitalIdTyped = null;
+            uint? previousCapitalIdTyped = null;
+
+            if (currentValue != null && currentValue.ContainsKey("capitalid"))
+            {
+                currentCapitalIdTyped = (uint)currentValue["capitalid"];
+            }
+
+            if (previousValue != null && previousValue.ContainsKey("capitalid"))
+            {
+                previousCapitalIdTyped = (uint)previousValue["capitalid"];
+            }
+            uint? currentTimestampTyped = null;
+            uint? previousTimestampTyped = null;
+
+            if (currentValue != null && currentValue.ContainsKey("timestamp"))
+            {
+                currentTimestampTyped = (uint)currentValue["timestamp"];
+            }
+
+            if (previousValue != null && previousValue.ContainsKey("timestamp"))
+            {
+                previousTimestampTyped = (uint)previousValue["timestamp"];
+            }
             string? currentAttackerTyped = null;
             string? previousAttackerTyped = null;
 
@@ -172,6 +216,10 @@ namespace mudworld
                 CurrentRecordKey = recordUpdate.CurrentRecordKey,
                 PreviousRecordKey = recordUpdate.PreviousRecordKey,
                 Type = recordUpdate.Type,
+                CapitalId = currentCapitalIdTyped,
+                PreviousCapitalId = previousCapitalIdTyped,
+                Timestamp = currentTimestampTyped,
+                PreviousTimestamp = previousTimestampTyped,
                 Attacker = currentAttackerTyped,
                 PreviousAttacker = previousAttackerTyped,
                 Defender = currentDefenderTyped,

@@ -290,10 +290,11 @@ contract SpawnSystem is System {
             Capital.setCavalryC(defenceLocation, Capital.getCavalryC(defenceLocation) - losses[7]);
         }
 
-        BattleReport.setAttackWin(defenceLocation, (uint32)(block.timestamp), attackPower > defensePower);
-        BattleReport.setAttacker(defenceLocation, (uint32)(block.timestamp), _msgSender());
-        BattleReport.setDefender(defenceLocation, (uint32)(block.timestamp), Utility.entityKeyToAddress(defender));
-        BattleReport.setLosses(defenceLocation, (uint32)(block.timestamp), losses);
+        bytes32 reportKey = Utility.battleReportToEntityKey(defenceLocation, (uint32)(block.timestamp));
+        BattleReport.setAttackWin(reportKey, attackPower > defensePower);
+        BattleReport.setAttacker(reportKey, _msgSender());
+        BattleReport.setDefender(reportKey, Utility.entityKeyToAddress(defender));
+        BattleReport.setLosses(reportKey, losses);
 
         // Destroy the armies
         destroyArmy(armyKey);
