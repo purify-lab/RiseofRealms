@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using WebSocketSharp;
 
 public class PurchaseSoldierUI : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class PurchaseSoldierUI : MonoBehaviour
 
     public Button buyBtn;
     public Button CloseBtn;
+
+    public InputField InpInfantryANum;
+    public InputField InpCavalryANum;
 
     public void Show()
     {
@@ -28,7 +32,15 @@ public class PurchaseSoldierUI : MonoBehaviour
 
     void OnBuy()
     {
-        Debug.Log("OnBuy...");
+        if (!InpInfantryANum.text.IsNullOrEmpty())
+        {
+        }
+        
+        if (!InpCavalryANum.text.IsNullOrEmpty())
+        {
+        }
+        
+        Debug.Log("OnBuy..." + InpInfantryANum.text + " : " + InpCavalryANum.text);
     }
 
     // Start is called before the first frame update
