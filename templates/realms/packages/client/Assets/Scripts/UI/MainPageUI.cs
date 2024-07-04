@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using IWorld.ContractDefinition;
 using mudworld;
 using UnityEngine;
@@ -39,6 +40,11 @@ public class MainPageUI : MonoBehaviour
     public PurchaseSoldierUI purchaseSolcer2;
 
     public static MainPageUI inst;
+
+    public void SetSoldierText(BigInteger num)
+    {
+        SoldierText.text = num.ToString();
+    }
 
     private void Awake()
     {

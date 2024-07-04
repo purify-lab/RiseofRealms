@@ -23,6 +23,9 @@ public class CapitalComponent : MUDComponent
         if (update.Owner.Equals(NetworkManager.LocalKey))
         {
             Debug.Log(">>>>>>>>>>> Found My Capital!");
+            var cell = MapDrawer.inst.cellDics[(int)update.TileId];
+            Debug.Log(">>> Cell: " + cell.pos);
+            transform.position = MapDrawer.inst.GetSceneByCoords(cell.pos);
         }
 
         //position = new Vector3((int)update.X, (int)update.Y, (int)update.Z);

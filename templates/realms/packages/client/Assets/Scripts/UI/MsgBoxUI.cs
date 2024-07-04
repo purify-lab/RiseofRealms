@@ -43,11 +43,6 @@ public class MsgBoxUI : MonoBehaviour
         okBtn.onClick.AddListener(OnOK);
         cancleBtn.onClick.AddListener(OnClose);
         closeBtn.onClick.AddListener(OnClose);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        gameObject.SetActive(false);
     }
 }
