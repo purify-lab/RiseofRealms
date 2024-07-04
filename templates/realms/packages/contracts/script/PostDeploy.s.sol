@@ -13,6 +13,7 @@ contract PostDeploy is Script {
 
     // ------------------ Add world spawn code ------------------
     IWorld world = IWorld(worldAddress);
+    world.setUnStakeFee(1);
     world.spawnPlayer();
 
     vm.stopBroadcast();

@@ -1,8 +1,16 @@
-const { SwapRouter } = require('@uniswap/universal-router-sdk')
-const { TradeType, Ether, Token, CurrencyAmount, Percent } = require('@uniswap/sdk-core')
-const { Trade: V2Trade } = require('@uniswap/v2-sdk')
-const { Pool, nearestUsableTick, TickMath, TICK_SPACINGS, FeeAmount, Trade: V3Trade, Route: RouteV3  } = require('@uniswap/v3-sdk')
-const { MixedRouteTrade, Trade: RouterTrade } = require('@uniswap/router-sdk')
+const {SwapRouter} = require('@uniswap/universal-router-sdk')
+const {TradeType, Ether, Token, CurrencyAmount, Percent} = require('@uniswap/sdk-core')
+const {Trade: V2Trade} = require('@uniswap/v2-sdk')
+const {
+    Pool,
+    nearestUsableTick,
+    TickMath,
+    TICK_SPACINGS,
+    FeeAmount,
+    Trade: V3Trade,
+    Route: RouteV3
+} = require('@uniswap/v3-sdk')
+const {MixedRouteTrade, Trade: RouterTrade} = require('@uniswap/router-sdk')
 const IUniswapV3Pool = require('@uniswap/v3-core/artifacts/contracts/UniswapV3Pool.sol/UniswapV3Pool.json')
 const JSBI = require('jsbi')
 const erc20Abi = require('../abi/erc20.json')
@@ -10,6 +18,7 @@ const erc20Abi = require('../abi/erc20.json')
 
 // const hardhat = require("hardhat");
 const ethers = require("ethers");
+const {Contract} = require("ethers");
 const provider = new ethers.providers.JsonRpcProvider("https://rpc.garnet.qry.live/");
 
 
@@ -30,7 +39,7 @@ async function getPool(tokenA, tokenB, feeAmount) {
 
     let liquidity = await contract.liquidity()
 
-    let { sqrtPriceX96, tick } = await contract.slot0()
+    let {sqrtPriceX96, tick} = await contract.slot0()
 
     liquidity = JSBI.BigInt(liquidity.toString())
     sqrtPriceX96 = JSBI.BigInt(sqrtPriceX96.toString())
@@ -90,16 +99,25 @@ function buildTrade(trades) {
 
 
 const RECIPIENT = '0x74f0Bf9321fF57a4028999bB88ca623cc9e79F14'
+const ROUTER = "0x02b36A5aCa3e51d2E73926E3D3bB59C979B60C78";
 
 
 async function main() {
-    const signer = new ethers.Wallet("fb61ae9ea723f1bff3f7bd183ffbaa730127d9a7ba4fab24340b64fb1904ee5f",provider);
+    const signer = new ethers.Wallet("fb61ae9ea723f1bff3f7bd183ffbaa730127d9a7ba4fab24340b64fb1904ee5f", provider);
 
-    const WETH_USDC_V3 = await getPool(WETH, USDC, FeeAmount.LOW)
+    const usdc_contract = new Contract(USDC.address, erc20Abi, signer);
+
 
     const inputEther = ethers.utils.parseEther('1000').toString()
 
-    const router =  new RouteV3([WETH_USDC_V3], USDC,WETH);
+    await usdc_contract.approve(ROUTER, ethers.utils.parseEther('1000'));
+
+    const allow
+
+    const WETH_USDC_V3 = await getPool(WETH, USDC, FeeAmount.LOW)
+
+
+    const router = new RouteV3([WETH_USDC_V3], USDC, WETH);
     const trade = await V3Trade.fromRoute(
         router,
         CurrencyAmount.fromRawAmount(USDC, inputEther),
@@ -125,7 +143,7 @@ async function main() {
 
     const tx = await signer.sendTransaction({
         data: params.calldata,
-        to: '0x02b36A5aCa3e51d2E73926E3D3bB59C979B60C78',
+        to: ROUTER,
         value: params.value,
         from: RECIPIENT,
         gasLimit: 1000000 // Increase the gas limit
@@ -148,7 +166,6 @@ async function main() {
 /*
     node scripts/01_simpleSwap.js
 */
-
 
 
 main()

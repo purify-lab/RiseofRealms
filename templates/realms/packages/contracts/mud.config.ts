@@ -30,7 +30,7 @@ export default defineWorld({
     Army: {
       key: ["key"],
       schema: {
-        key:"bytes32",
+        key: "bytes32",
         owner: "bytes32",
         id: "uint8",
         infantry: "uint256",
@@ -60,7 +60,7 @@ export default defineWorld({
     BattleReport: {
       key: ["key"],
       schema: {
-        key:"bytes32",
+        key: "bytes32",
         capitalId: "uint16",
         timestamp: "uint32",
         attacker: "address",
@@ -69,6 +69,45 @@ export default defineWorld({
         losses: "uint256[8]"
       }
     },
+    GlobalStatistics: {
+      schema: {
+        consumptionTokenB: "uint256",
+        consumptionTokenC: "uint256",
+      },
+      key: [],
+    },
+    GlobalStake: {
+      schema: {
+        stakeTokenB: "uint256",
+        stakeTokenC: "uint256",
+        lastStakeTime: "uint256",
+        valueB: "uint256",
+        valueC: "uint256"
+      },
+      key: [],
+    },
+    GlobalConfig: {
+      schema: {
+        unStakeFee: "uint256"
+      },
+      key: [],
+
+    },
+    PlayerStake: {
+      schema: {
+        wallet: "address",
+        tokenB: "uint256",
+        tokenC: "uint256"
+      },
+      key: ['wallet']
+    }
+    // PlayerStatistics:{
+    //   schema: {
+    //     id: "bytes32",
+    //
+    //   },
+    //   key: ['id']
+    // }
   },
   deploysDirectory: "./mud-deploys",
 });
