@@ -337,7 +337,7 @@ contract SpawnSystem is System {
         bool success = tokenB.transferFrom(_msgSender(), address(this), amount);
         require(success, "trans fail");
         PlayerStake.setTokenB(_msgSender(), PlayerStake.getTokenB(_msgSender()) + amount);
-        uint256 rate = 1;//1.0001
+        uint256 rate = 1;//0.0001
 
         uint256 last_time = GlobalStake.getLastStakeTime();
         uint256 current_time = block.timestamp;
@@ -367,7 +367,7 @@ contract SpawnSystem is System {
         bool success = tokenC.transferFrom(_msgSender(), address(this), amount);
         require(success, "trans fail");
         PlayerStake.setTokenC(_msgSender(), PlayerStake.getTokenC(_msgSender()) + amount);
-        uint256 rate = 1;//1.0001
+        uint256 rate = 1;//0.0001
 
         uint256 last_time = GlobalStake.getLastStakeTime();
         uint256 current_time = block.timestamp;
