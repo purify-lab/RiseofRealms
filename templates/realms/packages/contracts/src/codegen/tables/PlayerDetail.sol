@@ -23,7 +23,7 @@ struct PlayerDetailData {
   uint256 cavalryA;
   uint256 cavalryB;
   uint256 cavalryC;
-  uint16 capital;
+  uint16 capitals;
 }
 
 library PlayerDetail {
@@ -59,7 +59,7 @@ library PlayerDetail {
     fieldNames[3] = "cavalryA";
     fieldNames[4] = "cavalryB";
     fieldNames[5] = "cavalryC";
-    fieldNames[6] = "capital";
+    fieldNames[6] = "capitals";
   }
 
   /**
@@ -329,9 +329,9 @@ library PlayerDetail {
   }
 
   /**
-   * @notice Get capital.
+   * @notice Get capitals.
    */
-  function getCapital(bytes32 id) internal view returns (uint16 capital) {
+  function getCapitals(bytes32 id) internal view returns (uint16 capitals) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = id;
 
@@ -340,9 +340,9 @@ library PlayerDetail {
   }
 
   /**
-   * @notice Get capital.
+   * @notice Get capitals.
    */
-  function _getCapital(bytes32 id) internal view returns (uint16 capital) {
+  function _getCapitals(bytes32 id) internal view returns (uint16 capitals) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = id;
 
@@ -351,23 +351,23 @@ library PlayerDetail {
   }
 
   /**
-   * @notice Set capital.
+   * @notice Set capitals.
    */
-  function setCapital(bytes32 id, uint16 capital) internal {
+  function setCapitals(bytes32 id, uint16 capitals) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = id;
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 6, abi.encodePacked((capital)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 6, abi.encodePacked((capitals)), _fieldLayout);
   }
 
   /**
-   * @notice Set capital.
+   * @notice Set capitals.
    */
-  function _setCapital(bytes32 id, uint16 capital) internal {
+  function _setCapitals(bytes32 id, uint16 capitals) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = id;
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 6, abi.encodePacked((capital)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 6, abi.encodePacked((capitals)), _fieldLayout);
   }
 
   /**
@@ -411,9 +411,9 @@ library PlayerDetail {
     uint256 cavalryA,
     uint256 cavalryB,
     uint256 cavalryC,
-    uint16 capital
+    uint16 capitals
   ) internal {
-    bytes memory _staticData = encodeStatic(wallet, gold, infantry, cavalryA, cavalryB, cavalryC, capital);
+    bytes memory _staticData = encodeStatic(wallet, gold, infantry, cavalryA, cavalryB, cavalryC, capitals);
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
@@ -435,9 +435,9 @@ library PlayerDetail {
     uint256 cavalryA,
     uint256 cavalryB,
     uint256 cavalryC,
-    uint16 capital
+    uint16 capitals
   ) internal {
-    bytes memory _staticData = encodeStatic(wallet, gold, infantry, cavalryA, cavalryB, cavalryC, capital);
+    bytes memory _staticData = encodeStatic(wallet, gold, infantry, cavalryA, cavalryB, cavalryC, capitals);
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
@@ -459,7 +459,7 @@ library PlayerDetail {
       _table.cavalryA,
       _table.cavalryB,
       _table.cavalryC,
-      _table.capital
+      _table.capitals
     );
 
     EncodedLengths _encodedLengths;
@@ -482,7 +482,7 @@ library PlayerDetail {
       _table.cavalryA,
       _table.cavalryB,
       _table.cavalryC,
-      _table.capital
+      _table.capitals
     );
 
     EncodedLengths _encodedLengths;
@@ -509,7 +509,7 @@ library PlayerDetail {
       uint256 cavalryA,
       uint256 cavalryB,
       uint256 cavalryC,
-      uint16 capital
+      uint16 capitals
     )
   {
     wallet = (address(Bytes.getBytes20(_blob, 0)));
@@ -524,7 +524,7 @@ library PlayerDetail {
 
     cavalryC = (uint256(Bytes.getBytes32(_blob, 148)));
 
-    capital = (uint16(Bytes.getBytes2(_blob, 180)));
+    capitals = (uint16(Bytes.getBytes2(_blob, 180)));
   }
 
   /**
@@ -545,7 +545,7 @@ library PlayerDetail {
       _table.cavalryA,
       _table.cavalryB,
       _table.cavalryC,
-      _table.capital
+      _table.capitals
     ) = decodeStatic(_staticData);
   }
 
@@ -580,9 +580,9 @@ library PlayerDetail {
     uint256 cavalryA,
     uint256 cavalryB,
     uint256 cavalryC,
-    uint16 capital
+    uint16 capitals
   ) internal pure returns (bytes memory) {
-    return abi.encodePacked(wallet, gold, infantry, cavalryA, cavalryB, cavalryC, capital);
+    return abi.encodePacked(wallet, gold, infantry, cavalryA, cavalryB, cavalryC, capitals);
   }
 
   /**
@@ -598,9 +598,9 @@ library PlayerDetail {
     uint256 cavalryA,
     uint256 cavalryB,
     uint256 cavalryC,
-    uint16 capital
+    uint16 capitals
   ) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
-    bytes memory _staticData = encodeStatic(wallet, gold, infantry, cavalryA, cavalryB, cavalryC, capital);
+    bytes memory _staticData = encodeStatic(wallet, gold, infantry, cavalryA, cavalryB, cavalryC, capitals);
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;

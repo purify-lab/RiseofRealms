@@ -99,9 +99,9 @@ contract SpawnSystem is System {
         require(msg.value == 500000000000000, "No eth");
         bytes32 owner = Utility.addressToEntityKey(address(_msgSender()));
         require(Capital.getOwner(capital_id) == 0, "this capital already spawned");
-        require(PlayerDetail.getCapital(owner) == 0, "you already spawned capital");
+        require(PlayerDetail.getCapitals(owner) == 0, "you already spawned capital");
 
-        PlayerDetail.setCapital(owner, capital_id);
+        PlayerDetail.setCapitals(owner, PlayerDetail.getCapitals(owner) + 1);
         Capital.set(capital_id, capital_id, owner, address(0), 0, 0, 0, 0, (uint32)(block.timestamp), 0, 0);
 //        Capital.setTileId(capital_id, capital_id);
 //        Capital.setOwner(capital_id, owner);
@@ -287,6 +287,11 @@ contract SpawnSystem is System {
             Capital.setCavalryA(defenceLocation, Army.getCavalryA(armyKey) - losses[1]);
             Capital.setCavalryB(defenceLocation, Army.getCavalryB(armyKey) - losses[2]);
             Capital.setCavalryC(defenceLocation, Army.getCavalryC(armyKey) - losses[3]);
+
+            PlayerDetail.setCapitals(attacker, PlayerDetail.getCapitals(attacker) + 1);
+            if (defender != 0) {
+                PlayerDetail.setCapitals(defender, PlayerDetail.getCapitals(defender) - 1);
+            }
         } else {
             Capital.setInfantry(defenceLocation, Capital.getInfantry(defenceLocation) - losses[4]);
             Capital.setCavalryA(defenceLocation, Capital.getCavalryA(defenceLocation) - losses[5]);

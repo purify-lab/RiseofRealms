@@ -23,7 +23,7 @@ export default defineWorld({
         cavalryA: "uint256",
         cavalryB: "uint256",
         cavalryC: "uint256",
-        capital: "uint16",
+        capitals: "uint16",
       },
       key: ['id']
     },
