@@ -15,7 +15,7 @@ public class PlayerComponent : MUDComponent
         if(info.UpdateType == UpdateType.DeleteRecord || table.Value == false) {
             //player died
         }
-
+        
         if(LocalPlayer == null && Entity.Key == NetworkManager.LocalKey) {
             LocalPlayer = this;
             IsLocalPlayer = true;
