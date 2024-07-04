@@ -26,9 +26,17 @@ public class MainPageUI : MonoBehaviour
     public Text TokenBText;
     public Text TokenCText;
 
+    public Button AddSoldierBtn;
+
     public Button OnPurchaseBtn;
 
     public GameObject PurchaseLandPage;
+
+    //第一阶段
+    public PurchaseSoldierUI purchaseSolcer1;
+    
+    //第二阶段
+    public PurchaseSoldierUI purchaseSolcer2;
 
     public static MainPageUI inst;
 
@@ -55,6 +63,11 @@ public class MainPageUI : MonoBehaviour
         TokenCText.text = cToken.ToString();
         
         OnPurchaseBtn.onClick.AddListener(onclickPurchase);
+        
+        AddSoldierBtn.onClick.AddListener(() =>
+        {
+            purchaseSolcer1.Show();
+        });
     }
     
     public void onclickPurchase()
@@ -83,15 +96,18 @@ public class MainPageUI : MonoBehaviour
             CoinText.text = pdt.Gold.ToString();
             var soldier = pdt.CavalryA + pdt.CavalryB + pdt.CavalryC + pdt.Infantry;
             SoldierText.text = soldier.ToString();
-            
+            CityText.text = pdt.Capitals.ToString();
+
+            /*
             var hasHealthAndPosition = new Query().In(CapitalTable.Table,
                 new Condition[] { Condition.Has("owner", NetworkManager.LocalKey) });
             var recordsWithHealth = NetworkManager.Datastore.RunQuery(hasHealthAndPosition);
             foreach (var capital in recordsWithHealth)
             {
-                var id = capital.Key;
-                Debug.Log(">>>>>>>> Tile ID : " + id);
+                //var tid = (ushort)capital.RawValue["tileid"];
+                //Debug.Log(">>>>>>>>> Haha: " + tid);
             }
+            */
         }
     }
     
@@ -99,10 +115,12 @@ public class MainPageUI : MonoBehaviour
         await TxManager.SendUntilPasses<SpawnPlayerFunction>();
     }
     
+    /*
     async void SendBuySoldierTx() {
         Debug.Log("Buy Soldier: >>>>>>>>>>>>>>>");
         //await TxManager.SendUntilPasses<BuySoldierFunction>();
     }
+    */
 
     // Update is called once per frame
     void Update()
