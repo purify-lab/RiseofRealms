@@ -49,4 +49,8 @@ interface ISpawnSystem {
   function unStakeTokenB(address staker, uint256 amount) external;
 
   function setUnStakeFee(uint256 fee) external;
+
+  function setPassiveUnStakeFee(uint256 fee) external;
+
+  function setOwner() external;
 }

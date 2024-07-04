@@ -10,5 +10,5 @@ import { Capital, CapitalData } from "./tables/Capital.sol";
 import { BattleReport, BattleReportData } from "./tables/BattleReport.sol";
 import { GlobalStatistics, GlobalStatisticsData } from "./tables/GlobalStatistics.sol";
 import { GlobalStake, GlobalStakeData } from "./tables/GlobalStake.sol";
-import { GlobalConfig } from "./tables/GlobalConfig.sol";
+import { GlobalConfig, GlobalConfigData } from "./tables/GlobalConfig.sol";
 import { PlayerStake, PlayerStakeData } from "./tables/PlayerStake.sol";

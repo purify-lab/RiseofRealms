@@ -278,6 +278,7 @@ contract SpawnSystem is System {
             PlayerDetail.setCapitals(attacker, PlayerDetail.getCapitals(attacker) + 1);
             if (defender != 0) {
                 PlayerDetail.setCapitals(defender, PlayerDetail.getCapitals(defender) - 1);
+                passiveUnStake(defender);
             }
         } else {
             Capital.setInfantry(defenceLocation, Capital.getInfantry(defenceLocation) - losses[4]);
@@ -322,9 +323,16 @@ contract SpawnSystem is System {
         return 1720540800;
     }
 
+    function getStakeLimit(address owner) view private returns (uint256 amount){
+        uint256 amount = 50000;
+        bytes32 id = Utility.addressToEntityKey(owner);
+        return amount + PlayerDetail.getCapitals(id) * 50000;
+    }
+
     event EventBurnToken(uint256 netValueB, uint256 netValueC);
 
     function stakeTokenB(uint256 amount) public {
+        require(amount + PlayerStake.getTokenB(_msgSender()) + PlayerStake.getTokenC(_msgSender()) >= getStakeLimit(_msgSender()), "exceed the limit");
         IERC20 tokenB = IERC20(TokenB);
         bool success = tokenB.transferFrom(_msgSender(), address(this), amount);
         require(success, "trans fail");
@@ -354,6 +362,7 @@ contract SpawnSystem is System {
     }
 
     function stakeTokenC(uint256 amount) public {
+        require(amount + PlayerStake.getTokenB(_msgSender()) + PlayerStake.getTokenC(_msgSender()) >= getStakeLimit(_msgSender()), "exceed the limit");
         IERC20 tokenC = IERC20(TokenC);
         bool success = tokenC.transferFrom(_msgSender(), address(this), amount);
         require(success, "trans fail");
@@ -388,13 +397,52 @@ contract SpawnSystem is System {
         if (sender == staker) {
             uint256 out = amount - (amount * GlobalConfig.getUnStakeFee() / 100);
             IERC20(TokenB).transferFrom(address(this), staker, out);
-        } else {
-
         }
-
     }
 
-    function setUnStakeFee(uint256 fee) public { //onlyOwner
+    function passiveUnStake(bytes32 defender, bytes32 attaker) private {
+        address defenderAddress = Utility.entityKeyToAddress(defender);
+        address attackerAddress = Utility.entityKeyToAddress(attacker);
+        uint256 limit = getStakeLimit(defenderAddress);
+        uint256 totalStaked = PlayerStake.getTokenB() + PlayerStake.setTokenC();
+        uint256 fee = GlobalConfig.getPassiveUnStakeFee();
+        if (totalStaked > limit) {
+            uint256 partB = PlayerStake.getTokenB() * 100 / totalStaked * 100;
+            uint256 partC = PlayerStake.getTokenC() * 100 / totalStaked * 100;
+            uint256 tokenUnStakedB = (totalStaked - limit) * partB / 100;
+            uint256 tokenUnStakedC = (totalStaked - limit) * partC / 100;
+            if (tokenUnStakedB > 0) {
+                let feeAmount = tokenUnStakedB * fee / 100;
+                IERC20 tokenB = IERC20(TokenB);
+                PlayerStake.setTokenB(defenderAddress, PlayerStake.getTokenB(defenderAddress) - tokenUnStakedB);
+                tokenB.transferFrom(address(this), defenderAddress, tokenUnStakedB - feeAmount);
+                tokenB.transferFrom(address(this), attackerAddress, feeAmount);
+            }
+            if (tokenUnStakedC > 0) {
+                IERC20 tokenC = IERC20(TokenC);
+                let feeAmount = tokenUnStakedC * fee / 100;
+                PlayerStake.setTokenC(defenderAddress, PlayerStake.getTokenC(defenderAddress) - tokenUnStakedC);
+                tokenC.transferFrom(address(this), defenderAddress, tokenUnStakedC - feeAmount);
+                tokenC.transferFrom(address(this), attackerAddress, feeAmount);
+            }
+        }
+    }
+
+    modifier onlyOwner() {
+        require(_msgSender() == GlobalConfig.getOwner(), "Only the contract owner can call this function.");
+        _;
+    }
+
+    function setUnStakeFee(uint256 fee) onlyOwner public {
         GlobalConfig.setUnStakeFee(fee);
+    }
+
+    function setPassiveUnStakeFee(uint256 fee) onlyOwner public {
+        GlobalConfig.setPassiveUnStakeFee(fee);
+    }
+
+    function setOwner() public {
+        require(GlobalConfig.getOwner() == address(0), "readly set owner");
+        GlobalConfig.setOwner(_msgSender());
     }
 }

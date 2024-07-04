@@ -88,7 +88,9 @@ export default defineWorld({
     },
     GlobalConfig: {
       schema: {
-        unStakeFee: "uint256"
+        unStakeFee: "uint256",
+        passiveUnStakeFee: "uint256",
+        owner: "address"
       },
       key: [],
 
