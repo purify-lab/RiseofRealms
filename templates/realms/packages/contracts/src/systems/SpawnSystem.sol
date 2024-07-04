@@ -26,13 +26,13 @@ contract SpawnSystem is System {
         require(Player.get(entity) == false, "Already spawned");
 
         Player.set(entity, true);
-
-        PlayerDetail.setWallet(entity, _msgSender());
-        PlayerDetail.setGold(entity, 1000000000);
-        PlayerDetail.setInfantry(entity, 1000000000);
-        PlayerDetail.setCavalryA(entity, 1000000000);
-        PlayerDetail.setCavalryB(entity, 1000000000);
-        PlayerDetail.setCavalryC(entity, 1000000000);
+        PlayerDetail.set(entity, _msgSender(), 1000000000, 1000000000, 1000000000, 1000000000, 1000000000, 0);
+//        PlayerDetail.setWallet(entity, _msgSender());
+//        PlayerDetail.setGold(entity, 1000000000);
+//        PlayerDetail.setInfantry(entity, 1000000000);
+//        PlayerDetail.setCavalryA(entity, 1000000000);
+//        PlayerDetail.setCavalryB(entity, 1000000000);
+//        PlayerDetail.setCavalryC(entity, 1000000000);
     }
 
     /**
@@ -200,19 +200,6 @@ contract SpawnSystem is System {
     }
 
     /**
-     * @dev Destroy the army.
-     * @param entityKey The entity key of the army owner.
-     */
-    function destroyArmy(bytes32 entityKey) private {
-        Army.setDestination(entityKey, 0);
-        Army.setLastTime(entityKey, 0);
-        Army.setInfantry(entityKey, 0);
-        Army.setCavalryA(entityKey, 0);
-        Army.setCavalryB(entityKey, 0);
-        Army.setCavalryC(entityKey, 0);
-    }
-
-    /**
     * @dev Calculate losses for both sides
     */
     function _calculateLosses(
@@ -300,15 +287,16 @@ contract SpawnSystem is System {
         }
 
         bytes32 reportKey = Utility.battleReportToEntityKey(defenceLocation, (uint32)(block.timestamp));
-        BattleReport.setCapitalId(reportKey, defenceLocation);
-        BattleReport.setTimestamp(reportKey, (uint32)(block.timestamp));
-        BattleReport.setAttackWin(reportKey, attackPower > defensePower);
-        BattleReport.setAttacker(reportKey, _msgSender());
-        BattleReport.setDefender(reportKey, Utility.entityKeyToAddress(defender));
-        BattleReport.setLosses(reportKey, losses);
+        BattleReport.set(reportKey, defenceLocation, (uint32)(block.timestamp), _msgSender(), Utility.entityKeyToAddress(defender), attackPower > defensePower, losses);
+//        BattleReport.setCapitalId(reportKey, defenceLocation);
+//        BattleReport.setTimestamp(reportKey, (uint32)(block.timestamp));
+//        BattleReport.setAttackWin(reportKey, attackPower > defensePower);
+//        BattleReport.setAttacker(reportKey, _msgSender());
+//        BattleReport.setDefender(reportKey, Utility.entityKeyToAddress(defender));
+//        BattleReport.setLosses(reportKey, losses);
 
         // Destroy the armies
-        destroyArmy(armyKey);
+        Army.deleteRecord(armyKey);
     }
 
     /**
