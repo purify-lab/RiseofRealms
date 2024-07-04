@@ -17,12 +17,10 @@ namespace mudworld
             public string? PreviousAttacker;
             public string? Defender;
             public string? PreviousDefender;
-            public bool? Win;
-            public bool? PreviousWin;
-            public bool? AttackOrDefence;
-            public bool? PreviousAttackOrDefence;
-            public System.Numerics.BigInteger? LossInfantry;
-            public System.Numerics.BigInteger? PreviousLossInfantry;
+            public bool? AttackWin;
+            public bool? PreviousAttackWin;
+            public System.Numerics.BigInteger[]? Losses;
+            public System.Numerics.BigInteger[]? PreviousLosses;
         }
 
         public readonly static string ID = "BattleReport";
@@ -38,9 +36,8 @@ namespace mudworld
 
         public string? Attacker;
         public string? Defender;
-        public bool? Win;
-        public bool? AttackOrDefence;
-        public System.Numerics.BigInteger? LossInfantry;
+        public bool? AttackWin;
+        public System.Numerics.BigInteger[]? Losses;
 
         public override Type TableType()
         {
@@ -68,15 +65,11 @@ namespace mudworld
             {
                 return false;
             }
-            if (Win != other.Win)
+            if (AttackWin != other.AttackWin)
             {
                 return false;
             }
-            if (AttackOrDefence != other.AttackOrDefence)
-            {
-                return false;
-            }
-            if (LossInfantry != other.LossInfantry)
+            if (Losses != other.Losses)
             {
                 return false;
             }
@@ -89,11 +82,9 @@ namespace mudworld
 
             Defender = (string)functionParameters[1];
 
-            Win = (bool)functionParameters[2];
+            AttackWin = (bool)functionParameters[2];
 
-            AttackOrDefence = (bool)functionParameters[3];
-
-            LossInfantry = (System.Numerics.BigInteger)functionParameters[4];
+            Losses = (System.Numerics.BigInteger[])functionParameters[3];
         }
 
         public static IObservable<RecordUpdate> GetBattleReportTableUpdates()
@@ -112,9 +103,8 @@ namespace mudworld
         {
             Attacker = (string)property["attacker"];
             Defender = (string)property["defender"];
-            Win = (bool)property["win"];
-            AttackOrDefence = (bool)property["attackOrDefence"];
-            LossInfantry = (System.Numerics.BigInteger)property["lossInfantry"];
+            AttackWin = (bool)property["attackWin"];
+            Losses = ((object[])property["losses"]).Cast<System.Numerics.BigInteger>().ToArray();
         }
 
         public override RecordUpdate RecordUpdateToTyped(RecordUpdate recordUpdate)
@@ -145,42 +135,33 @@ namespace mudworld
             {
                 previousDefenderTyped = (string)previousValue["defender"];
             }
-            bool? currentWinTyped = null;
-            bool? previousWinTyped = null;
+            bool? currentAttackWinTyped = null;
+            bool? previousAttackWinTyped = null;
 
-            if (currentValue != null && currentValue.ContainsKey("win"))
+            if (currentValue != null && currentValue.ContainsKey("attackwin"))
             {
-                currentWinTyped = (bool)currentValue["win"];
+                currentAttackWinTyped = (bool)currentValue["attackwin"];
             }
 
-            if (previousValue != null && previousValue.ContainsKey("win"))
+            if (previousValue != null && previousValue.ContainsKey("attackwin"))
             {
-                previousWinTyped = (bool)previousValue["win"];
+                previousAttackWinTyped = (bool)previousValue["attackwin"];
             }
-            bool? currentAttackOrDefenceTyped = null;
-            bool? previousAttackOrDefenceTyped = null;
+            System.Numerics.BigInteger[]? currentLossesTyped = null;
+            System.Numerics.BigInteger[]? previousLossesTyped = null;
 
-            if (currentValue != null && currentValue.ContainsKey("attackordefence"))
+            if (currentValue != null && currentValue.ContainsKey("losses"))
             {
-                currentAttackOrDefenceTyped = (bool)currentValue["attackordefence"];
-            }
-
-            if (previousValue != null && previousValue.ContainsKey("attackordefence"))
-            {
-                previousAttackOrDefenceTyped = (bool)previousValue["attackordefence"];
-            }
-            System.Numerics.BigInteger? currentLossInfantryTyped = null;
-            System.Numerics.BigInteger? previousLossInfantryTyped = null;
-
-            if (currentValue != null && currentValue.ContainsKey("lossinfantry"))
-            {
-                currentLossInfantryTyped = (System.Numerics.BigInteger)currentValue["lossinfantry"];
+                currentLossesTyped = ((object[])currentValue["losses"])
+                    .Cast<System.Numerics.BigInteger>()
+                    .ToArray();
             }
 
-            if (previousValue != null && previousValue.ContainsKey("lossinfantry"))
+            if (previousValue != null && previousValue.ContainsKey("losses"))
             {
-                previousLossInfantryTyped = (System.Numerics.BigInteger)
-                    previousValue["lossinfantry"];
+                previousLossesTyped = ((object[])previousValue["losses"])
+                    .Cast<System.Numerics.BigInteger>()
+                    .ToArray();
             }
 
             return new BattleReportTableUpdate
@@ -195,12 +176,10 @@ namespace mudworld
                 PreviousAttacker = previousAttackerTyped,
                 Defender = currentDefenderTyped,
                 PreviousDefender = previousDefenderTyped,
-                Win = currentWinTyped,
-                PreviousWin = previousWinTyped,
-                AttackOrDefence = currentAttackOrDefenceTyped,
-                PreviousAttackOrDefence = previousAttackOrDefenceTyped,
-                LossInfantry = currentLossInfantryTyped,
-                PreviousLossInfantry = previousLossInfantryTyped,
+                AttackWin = currentAttackWinTyped,
+                PreviousAttackWin = previousAttackWinTyped,
+                Losses = currentLossesTyped,
+                PreviousLosses = previousLossesTyped,
             };
         }
     }
