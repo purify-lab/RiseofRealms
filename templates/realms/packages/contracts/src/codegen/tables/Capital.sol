@@ -24,7 +24,7 @@ struct CapitalData {
   uint256 cavalryA;
   uint256 cavalryB;
   uint256 cavalryC;
-  uint256 lastTime;
+  uint32 lastTime;
   uint256 pledgedTokenB;
   uint256 pledgedTokenC;
 }
@@ -34,12 +34,12 @@ library Capital {
   ResourceId constant _tableId = ResourceId.wrap(0x746200000000000000000000000000004361706974616c000000000000000000);
 
   FieldLayout constant _fieldLayout =
-    FieldLayout.wrap(0x01160a0002201420202020202020000000000000000000000000000000000000);
+    FieldLayout.wrap(0x00fa0a0002201420202020042020000000000000000000000000000000000000);
 
   // Hex-encoded key schema of (uint16)
   Schema constant _keySchema = Schema.wrap(0x0002010001000000000000000000000000000000000000000000000000000000);
-  // Hex-encoded value schema of (uint16, bytes32, address, uint256, uint256, uint256, uint256, uint256, uint256, uint256)
-  Schema constant _valueSchema = Schema.wrap(0x01160a00015f611f1f1f1f1f1f1f000000000000000000000000000000000000);
+  // Hex-encoded value schema of (uint16, bytes32, address, uint256, uint256, uint256, uint256, uint32, uint256, uint256)
+  Schema constant _valueSchema = Schema.wrap(0x00fa0a00015f611f1f1f1f031f1f000000000000000000000000000000000000);
 
   /**
    * @notice Get the table's key field names.
@@ -379,29 +379,29 @@ library Capital {
   /**
    * @notice Get lastTime.
    */
-  function getLastTime(uint16 id) internal view returns (uint256 lastTime) {
+  function getLastTime(uint16 id) internal view returns (uint32 lastTime) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
     bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 7, _fieldLayout);
-    return (uint256(bytes32(_blob)));
+    return (uint32(bytes4(_blob)));
   }
 
   /**
    * @notice Get lastTime.
    */
-  function _getLastTime(uint16 id) internal view returns (uint256 lastTime) {
+  function _getLastTime(uint16 id) internal view returns (uint32 lastTime) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
     bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 7, _fieldLayout);
-    return (uint256(bytes32(_blob)));
+    return (uint32(bytes4(_blob)));
   }
 
   /**
    * @notice Set lastTime.
    */
-  function setLastTime(uint16 id, uint256 lastTime) internal {
+  function setLastTime(uint16 id, uint32 lastTime) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
@@ -411,7 +411,7 @@ library Capital {
   /**
    * @notice Set lastTime.
    */
-  function _setLastTime(uint16 id, uint256 lastTime) internal {
+  function _setLastTime(uint16 id, uint32 lastTime) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(id));
 
@@ -544,7 +544,7 @@ library Capital {
     uint256 cavalryA,
     uint256 cavalryB,
     uint256 cavalryC,
-    uint256 lastTime,
+    uint32 lastTime,
     uint256 pledgedTokenB,
     uint256 pledgedTokenC
   ) internal {
@@ -582,7 +582,7 @@ library Capital {
     uint256 cavalryA,
     uint256 cavalryB,
     uint256 cavalryC,
-    uint256 lastTime,
+    uint32 lastTime,
     uint256 pledgedTokenB,
     uint256 pledgedTokenC
   ) internal {
@@ -676,7 +676,7 @@ library Capital {
       uint256 cavalryA,
       uint256 cavalryB,
       uint256 cavalryC,
-      uint256 lastTime,
+      uint32 lastTime,
       uint256 pledgedTokenB,
       uint256 pledgedTokenC
     )
@@ -695,11 +695,11 @@ library Capital {
 
     cavalryC = (uint256(Bytes.getBytes32(_blob, 150)));
 
-    lastTime = (uint256(Bytes.getBytes32(_blob, 182)));
+    lastTime = (uint32(Bytes.getBytes4(_blob, 182)));
 
-    pledgedTokenB = (uint256(Bytes.getBytes32(_blob, 214)));
+    pledgedTokenB = (uint256(Bytes.getBytes32(_blob, 186)));
 
-    pledgedTokenC = (uint256(Bytes.getBytes32(_blob, 246)));
+    pledgedTokenC = (uint256(Bytes.getBytes32(_blob, 218)));
   }
 
   /**
@@ -759,7 +759,7 @@ library Capital {
     uint256 cavalryA,
     uint256 cavalryB,
     uint256 cavalryC,
-    uint256 lastTime,
+    uint32 lastTime,
     uint256 pledgedTokenB,
     uint256 pledgedTokenC
   ) internal pure returns (bytes memory) {
@@ -792,7 +792,7 @@ library Capital {
     uint256 cavalryA,
     uint256 cavalryB,
     uint256 cavalryC,
-    uint256 lastTime,
+    uint32 lastTime,
     uint256 pledgedTokenB,
     uint256 pledgedTokenC
   ) internal pure returns (bytes memory, EncodedLengths, bytes memory) {

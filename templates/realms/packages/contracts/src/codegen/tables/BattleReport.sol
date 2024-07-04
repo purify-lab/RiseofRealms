@@ -30,8 +30,8 @@ library BattleReport {
   FieldLayout constant _fieldLayout =
     FieldLayout.wrap(0x0029030114140100000000000000000000000000000000000000000000000000);
 
-  // Hex-encoded key schema of (uint16, uint256)
-  Schema constant _keySchema = Schema.wrap(0x00220200011f0000000000000000000000000000000000000000000000000000);
+  // Hex-encoded key schema of (uint16, uint32)
+  Schema constant _keySchema = Schema.wrap(0x0006020001030000000000000000000000000000000000000000000000000000);
   // Hex-encoded value schema of (address, address, bool, uint256[])
   Schema constant _valueSchema = Schema.wrap(0x0029030161616081000000000000000000000000000000000000000000000000);
 
@@ -74,7 +74,7 @@ library BattleReport {
   /**
    * @notice Get attacker.
    */
-  function getAttacker(uint16 capitalId, uint256 timestamp) internal view returns (address attacker) {
+  function getAttacker(uint16 capitalId, uint32 timestamp) internal view returns (address attacker) {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
@@ -86,7 +86,7 @@ library BattleReport {
   /**
    * @notice Get attacker.
    */
-  function _getAttacker(uint16 capitalId, uint256 timestamp) internal view returns (address attacker) {
+  function _getAttacker(uint16 capitalId, uint32 timestamp) internal view returns (address attacker) {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
@@ -98,7 +98,7 @@ library BattleReport {
   /**
    * @notice Set attacker.
    */
-  function setAttacker(uint16 capitalId, uint256 timestamp, address attacker) internal {
+  function setAttacker(uint16 capitalId, uint32 timestamp, address attacker) internal {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
@@ -109,7 +109,7 @@ library BattleReport {
   /**
    * @notice Set attacker.
    */
-  function _setAttacker(uint16 capitalId, uint256 timestamp, address attacker) internal {
+  function _setAttacker(uint16 capitalId, uint32 timestamp, address attacker) internal {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
@@ -120,7 +120,7 @@ library BattleReport {
   /**
    * @notice Get defender.
    */
-  function getDefender(uint16 capitalId, uint256 timestamp) internal view returns (address defender) {
+  function getDefender(uint16 capitalId, uint32 timestamp) internal view returns (address defender) {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
@@ -132,7 +132,7 @@ library BattleReport {
   /**
    * @notice Get defender.
    */
-  function _getDefender(uint16 capitalId, uint256 timestamp) internal view returns (address defender) {
+  function _getDefender(uint16 capitalId, uint32 timestamp) internal view returns (address defender) {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
@@ -144,7 +144,7 @@ library BattleReport {
   /**
    * @notice Set defender.
    */
-  function setDefender(uint16 capitalId, uint256 timestamp, address defender) internal {
+  function setDefender(uint16 capitalId, uint32 timestamp, address defender) internal {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
@@ -155,7 +155,7 @@ library BattleReport {
   /**
    * @notice Set defender.
    */
-  function _setDefender(uint16 capitalId, uint256 timestamp, address defender) internal {
+  function _setDefender(uint16 capitalId, uint32 timestamp, address defender) internal {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
@@ -166,7 +166,7 @@ library BattleReport {
   /**
    * @notice Get attackWin.
    */
-  function getAttackWin(uint16 capitalId, uint256 timestamp) internal view returns (bool attackWin) {
+  function getAttackWin(uint16 capitalId, uint32 timestamp) internal view returns (bool attackWin) {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
@@ -178,7 +178,7 @@ library BattleReport {
   /**
    * @notice Get attackWin.
    */
-  function _getAttackWin(uint16 capitalId, uint256 timestamp) internal view returns (bool attackWin) {
+  function _getAttackWin(uint16 capitalId, uint32 timestamp) internal view returns (bool attackWin) {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
@@ -190,7 +190,7 @@ library BattleReport {
   /**
    * @notice Set attackWin.
    */
-  function setAttackWin(uint16 capitalId, uint256 timestamp, bool attackWin) internal {
+  function setAttackWin(uint16 capitalId, uint32 timestamp, bool attackWin) internal {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
@@ -201,7 +201,7 @@ library BattleReport {
   /**
    * @notice Set attackWin.
    */
-  function _setAttackWin(uint16 capitalId, uint256 timestamp, bool attackWin) internal {
+  function _setAttackWin(uint16 capitalId, uint32 timestamp, bool attackWin) internal {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
@@ -212,7 +212,7 @@ library BattleReport {
   /**
    * @notice Get losses.
    */
-  function getLosses(uint16 capitalId, uint256 timestamp) internal view returns (uint256[8] memory losses) {
+  function getLosses(uint16 capitalId, uint32 timestamp) internal view returns (uint256[8] memory losses) {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
@@ -224,7 +224,7 @@ library BattleReport {
   /**
    * @notice Get losses.
    */
-  function _getLosses(uint16 capitalId, uint256 timestamp) internal view returns (uint256[8] memory losses) {
+  function _getLosses(uint16 capitalId, uint32 timestamp) internal view returns (uint256[8] memory losses) {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
@@ -236,7 +236,7 @@ library BattleReport {
   /**
    * @notice Set losses.
    */
-  function setLosses(uint16 capitalId, uint256 timestamp, uint256[8] memory losses) internal {
+  function setLosses(uint16 capitalId, uint32 timestamp, uint256[8] memory losses) internal {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
@@ -247,7 +247,7 @@ library BattleReport {
   /**
    * @notice Set losses.
    */
-  function _setLosses(uint16 capitalId, uint256 timestamp, uint256[8] memory losses) internal {
+  function _setLosses(uint16 capitalId, uint32 timestamp, uint256[8] memory losses) internal {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
@@ -262,7 +262,7 @@ library BattleReport {
    * @notice Get an item of losses.
    * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
-  function getItemLosses(uint16 capitalId, uint256 timestamp, uint256 _index) internal view returns (uint256) {
+  function getItemLosses(uint16 capitalId, uint32 timestamp, uint256 _index) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
@@ -285,7 +285,7 @@ library BattleReport {
    * @notice Get an item of losses.
    * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
-  function _getItemLosses(uint16 capitalId, uint256 timestamp, uint256 _index) internal view returns (uint256) {
+  function _getItemLosses(uint16 capitalId, uint32 timestamp, uint256 _index) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
@@ -307,7 +307,7 @@ library BattleReport {
   /**
    * @notice Update an element of losses at `_index`.
    */
-  function updateLosses(uint16 capitalId, uint256 timestamp, uint256 _index, uint256 _element) internal {
+  function updateLosses(uint16 capitalId, uint32 timestamp, uint256 _index, uint256 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
@@ -321,7 +321,7 @@ library BattleReport {
   /**
    * @notice Update an element of losses at `_index`.
    */
-  function _updateLosses(uint16 capitalId, uint256 timestamp, uint256 _index, uint256 _element) internal {
+  function _updateLosses(uint16 capitalId, uint32 timestamp, uint256 _index, uint256 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
@@ -335,7 +335,7 @@ library BattleReport {
   /**
    * @notice Get the full data.
    */
-  function get(uint16 capitalId, uint256 timestamp) internal view returns (BattleReportData memory _table) {
+  function get(uint16 capitalId, uint32 timestamp) internal view returns (BattleReportData memory _table) {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
@@ -351,7 +351,7 @@ library BattleReport {
   /**
    * @notice Get the full data.
    */
-  function _get(uint16 capitalId, uint256 timestamp) internal view returns (BattleReportData memory _table) {
+  function _get(uint16 capitalId, uint32 timestamp) internal view returns (BattleReportData memory _table) {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
@@ -369,7 +369,7 @@ library BattleReport {
    */
   function set(
     uint16 capitalId,
-    uint256 timestamp,
+    uint32 timestamp,
     address attacker,
     address defender,
     bool attackWin,
@@ -392,7 +392,7 @@ library BattleReport {
    */
   function _set(
     uint16 capitalId,
-    uint256 timestamp,
+    uint32 timestamp,
     address attacker,
     address defender,
     bool attackWin,
@@ -413,7 +413,7 @@ library BattleReport {
   /**
    * @notice Set the full data using the data struct.
    */
-  function set(uint16 capitalId, uint256 timestamp, BattleReportData memory _table) internal {
+  function set(uint16 capitalId, uint32 timestamp, BattleReportData memory _table) internal {
     bytes memory _staticData = encodeStatic(_table.attacker, _table.defender, _table.attackWin);
 
     EncodedLengths _encodedLengths = encodeLengths(_table.losses);
@@ -429,7 +429,7 @@ library BattleReport {
   /**
    * @notice Set the full data using the data struct.
    */
-  function _set(uint16 capitalId, uint256 timestamp, BattleReportData memory _table) internal {
+  function _set(uint16 capitalId, uint32 timestamp, BattleReportData memory _table) internal {
     bytes memory _staticData = encodeStatic(_table.attacker, _table.defender, _table.attackWin);
 
     EncodedLengths _encodedLengths = encodeLengths(_table.losses);
@@ -487,7 +487,7 @@ library BattleReport {
   /**
    * @notice Delete all data for given keys.
    */
-  function deleteRecord(uint16 capitalId, uint256 timestamp) internal {
+  function deleteRecord(uint16 capitalId, uint32 timestamp) internal {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
@@ -498,7 +498,7 @@ library BattleReport {
   /**
    * @notice Delete all data for given keys.
    */
-  function _deleteRecord(uint16 capitalId, uint256 timestamp) internal {
+  function _deleteRecord(uint16 capitalId, uint32 timestamp) internal {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
@@ -556,7 +556,7 @@ library BattleReport {
   /**
    * @notice Encode keys as a bytes32 array using this table's field layout.
    */
-  function encodeKeyTuple(uint16 capitalId, uint256 timestamp) internal pure returns (bytes32[] memory) {
+  function encodeKeyTuple(uint16 capitalId, uint32 timestamp) internal pure returns (bytes32[] memory) {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));

@@ -17,11 +17,13 @@ import { EncodedLengths, EncodedLengthsLib } from "@latticexyz/store/src/Encoded
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 
 struct ArmyData {
+  bytes32 owner;
+  uint8 id;
   uint256 infantry;
   uint256 cavalryA;
   uint256 cavalryB;
   uint256 cavalryC;
-  uint256 lastTime;
+  uint32 lastTime;
   uint16 destination;
 }
 
@@ -30,21 +32,20 @@ library Army {
   ResourceId constant _tableId = ResourceId.wrap(0x7462000000000000000000000000000041726d79000000000000000000000000);
 
   FieldLayout constant _fieldLayout =
-    FieldLayout.wrap(0x00a2060020202020200200000000000000000000000000000000000000000000);
+    FieldLayout.wrap(0x00a7080020012020202004020000000000000000000000000000000000000000);
 
-  // Hex-encoded key schema of (bytes32, uint8)
-  Schema constant _keySchema = Schema.wrap(0x002102005f000000000000000000000000000000000000000000000000000000);
-  // Hex-encoded value schema of (uint256, uint256, uint256, uint256, uint256, uint16)
-  Schema constant _valueSchema = Schema.wrap(0x00a206001f1f1f1f1f0100000000000000000000000000000000000000000000);
+  // Hex-encoded key schema of (bytes32)
+  Schema constant _keySchema = Schema.wrap(0x002001005f000000000000000000000000000000000000000000000000000000);
+  // Hex-encoded value schema of (bytes32, uint8, uint256, uint256, uint256, uint256, uint32, uint16)
+  Schema constant _valueSchema = Schema.wrap(0x00a708005f001f1f1f1f03010000000000000000000000000000000000000000);
 
   /**
    * @notice Get the table's key field names.
    * @return keyNames An array of strings with the names of key fields.
    */
   function getKeyNames() internal pure returns (string[] memory keyNames) {
-    keyNames = new string[](2);
-    keyNames[0] = "owner";
-    keyNames[1] = "id";
+    keyNames = new string[](1);
+    keyNames[0] = "key";
   }
 
   /**
@@ -52,13 +53,15 @@ library Army {
    * @return fieldNames An array of strings with the names of value fields.
    */
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
-    fieldNames = new string[](6);
-    fieldNames[0] = "infantry";
-    fieldNames[1] = "cavalryA";
-    fieldNames[2] = "cavalryB";
-    fieldNames[3] = "cavalryC";
-    fieldNames[4] = "lastTime";
-    fieldNames[5] = "destination";
+    fieldNames = new string[](8);
+    fieldNames[0] = "owner";
+    fieldNames[1] = "id";
+    fieldNames[2] = "infantry";
+    fieldNames[3] = "cavalryA";
+    fieldNames[4] = "cavalryB";
+    fieldNames[5] = "cavalryC";
+    fieldNames[6] = "lastTime";
+    fieldNames[7] = "destination";
   }
 
   /**
@@ -76,288 +79,347 @@ library Army {
   }
 
   /**
-   * @notice Get infantry.
+   * @notice Get owner.
    */
-  function getInfantry(bytes32 owner, uint8 id) internal view returns (uint256 infantry) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
+  function getOwner(bytes32 key) internal view returns (bytes32 owner) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
 
     bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
-    return (uint256(bytes32(_blob)));
+    return (bytes32(_blob));
+  }
+
+  /**
+   * @notice Get owner.
+   */
+  function _getOwner(bytes32 key) internal view returns (bytes32 owner) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
+
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
+    return (bytes32(_blob));
+  }
+
+  /**
+   * @notice Set owner.
+   */
+  function setOwner(bytes32 key, bytes32 owner) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
+
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((owner)), _fieldLayout);
+  }
+
+  /**
+   * @notice Set owner.
+   */
+  function _setOwner(bytes32 key, bytes32 owner) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
+
+    StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((owner)), _fieldLayout);
+  }
+
+  /**
+   * @notice Get id.
+   */
+  function getId(bytes32 key) internal view returns (uint8 id) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
+
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
+    return (uint8(bytes1(_blob)));
+  }
+
+  /**
+   * @notice Get id.
+   */
+  function _getId(bytes32 key) internal view returns (uint8 id) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
+
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
+    return (uint8(bytes1(_blob)));
+  }
+
+  /**
+   * @notice Set id.
+   */
+  function setId(bytes32 key, uint8 id) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
+
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((id)), _fieldLayout);
+  }
+
+  /**
+   * @notice Set id.
+   */
+  function _setId(bytes32 key, uint8 id) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
+
+    StoreCore.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((id)), _fieldLayout);
   }
 
   /**
    * @notice Get infantry.
    */
-  function _getInfantry(bytes32 owner, uint8 id) internal view returns (uint256 infantry) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
-
-    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
-    return (uint256(bytes32(_blob)));
-  }
-
-  /**
-   * @notice Set infantry.
-   */
-  function setInfantry(bytes32 owner, uint8 id, uint256 infantry) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
-
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((infantry)), _fieldLayout);
-  }
-
-  /**
-   * @notice Set infantry.
-   */
-  function _setInfantry(bytes32 owner, uint8 id, uint256 infantry) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
-
-    StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((infantry)), _fieldLayout);
-  }
-
-  /**
-   * @notice Get cavalryA.
-   */
-  function getCavalryA(bytes32 owner, uint8 id) internal view returns (uint256 cavalryA) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
-
-    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
-    return (uint256(bytes32(_blob)));
-  }
-
-  /**
-   * @notice Get cavalryA.
-   */
-  function _getCavalryA(bytes32 owner, uint8 id) internal view returns (uint256 cavalryA) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
-
-    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
-    return (uint256(bytes32(_blob)));
-  }
-
-  /**
-   * @notice Set cavalryA.
-   */
-  function setCavalryA(bytes32 owner, uint8 id, uint256 cavalryA) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
-
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((cavalryA)), _fieldLayout);
-  }
-
-  /**
-   * @notice Set cavalryA.
-   */
-  function _setCavalryA(bytes32 owner, uint8 id, uint256 cavalryA) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
-
-    StoreCore.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((cavalryA)), _fieldLayout);
-  }
-
-  /**
-   * @notice Get cavalryB.
-   */
-  function getCavalryB(bytes32 owner, uint8 id) internal view returns (uint256 cavalryB) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
+  function getInfantry(bytes32 key) internal view returns (uint256 infantry) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
 
     bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 2, _fieldLayout);
     return (uint256(bytes32(_blob)));
   }
 
   /**
-   * @notice Get cavalryB.
+   * @notice Get infantry.
    */
-  function _getCavalryB(bytes32 owner, uint8 id) internal view returns (uint256 cavalryB) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
+  function _getInfantry(bytes32 key) internal view returns (uint256 infantry) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
 
     bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 2, _fieldLayout);
     return (uint256(bytes32(_blob)));
   }
 
   /**
-   * @notice Set cavalryB.
+   * @notice Set infantry.
    */
-  function setCavalryB(bytes32 owner, uint8 id, uint256 cavalryB) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
+  function setInfantry(bytes32 key, uint256 infantry) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((cavalryB)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((infantry)), _fieldLayout);
   }
 
   /**
-   * @notice Set cavalryB.
+   * @notice Set infantry.
    */
-  function _setCavalryB(bytes32 owner, uint8 id, uint256 cavalryB) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
+  function _setInfantry(bytes32 key, uint256 infantry) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((cavalryB)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((infantry)), _fieldLayout);
   }
 
   /**
-   * @notice Get cavalryC.
+   * @notice Get cavalryA.
    */
-  function getCavalryC(bytes32 owner, uint8 id) internal view returns (uint256 cavalryC) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
+  function getCavalryA(bytes32 key) internal view returns (uint256 cavalryA) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
 
     bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 3, _fieldLayout);
     return (uint256(bytes32(_blob)));
   }
 
   /**
-   * @notice Get cavalryC.
+   * @notice Get cavalryA.
    */
-  function _getCavalryC(bytes32 owner, uint8 id) internal view returns (uint256 cavalryC) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
+  function _getCavalryA(bytes32 key) internal view returns (uint256 cavalryA) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
 
     bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 3, _fieldLayout);
     return (uint256(bytes32(_blob)));
   }
 
   /**
-   * @notice Set cavalryC.
+   * @notice Set cavalryA.
    */
-  function setCavalryC(bytes32 owner, uint8 id, uint256 cavalryC) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
+  function setCavalryA(bytes32 key, uint256 cavalryA) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((cavalryC)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((cavalryA)), _fieldLayout);
   }
 
   /**
-   * @notice Set cavalryC.
+   * @notice Set cavalryA.
    */
-  function _setCavalryC(bytes32 owner, uint8 id, uint256 cavalryC) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
+  function _setCavalryA(bytes32 key, uint256 cavalryA) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((cavalryC)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((cavalryA)), _fieldLayout);
   }
 
   /**
-   * @notice Get lastTime.
+   * @notice Get cavalryB.
    */
-  function getLastTime(bytes32 owner, uint8 id) internal view returns (uint256 lastTime) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
+  function getCavalryB(bytes32 key) internal view returns (uint256 cavalryB) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
 
     bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 4, _fieldLayout);
     return (uint256(bytes32(_blob)));
   }
 
   /**
-   * @notice Get lastTime.
+   * @notice Get cavalryB.
    */
-  function _getLastTime(bytes32 owner, uint8 id) internal view returns (uint256 lastTime) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
+  function _getCavalryB(bytes32 key) internal view returns (uint256 cavalryB) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
 
     bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 4, _fieldLayout);
     return (uint256(bytes32(_blob)));
   }
 
   /**
-   * @notice Set lastTime.
+   * @notice Set cavalryB.
    */
-  function setLastTime(bytes32 owner, uint8 id, uint256 lastTime) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
+  function setCavalryB(bytes32 key, uint256 cavalryB) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 4, abi.encodePacked((lastTime)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 4, abi.encodePacked((cavalryB)), _fieldLayout);
   }
 
   /**
-   * @notice Set lastTime.
+   * @notice Set cavalryB.
    */
-  function _setLastTime(bytes32 owner, uint8 id, uint256 lastTime) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
+  function _setCavalryB(bytes32 key, uint256 cavalryB) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 4, abi.encodePacked((lastTime)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 4, abi.encodePacked((cavalryB)), _fieldLayout);
   }
 
   /**
-   * @notice Get destination.
+   * @notice Get cavalryC.
    */
-  function getDestination(bytes32 owner, uint8 id) internal view returns (uint16 destination) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
+  function getCavalryC(bytes32 key) internal view returns (uint256 cavalryC) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
 
     bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 5, _fieldLayout);
+    return (uint256(bytes32(_blob)));
+  }
+
+  /**
+   * @notice Get cavalryC.
+   */
+  function _getCavalryC(bytes32 key) internal view returns (uint256 cavalryC) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
+
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 5, _fieldLayout);
+    return (uint256(bytes32(_blob)));
+  }
+
+  /**
+   * @notice Set cavalryC.
+   */
+  function setCavalryC(bytes32 key, uint256 cavalryC) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
+
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 5, abi.encodePacked((cavalryC)), _fieldLayout);
+  }
+
+  /**
+   * @notice Set cavalryC.
+   */
+  function _setCavalryC(bytes32 key, uint256 cavalryC) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
+
+    StoreCore.setStaticField(_tableId, _keyTuple, 5, abi.encodePacked((cavalryC)), _fieldLayout);
+  }
+
+  /**
+   * @notice Get lastTime.
+   */
+  function getLastTime(bytes32 key) internal view returns (uint32 lastTime) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
+
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 6, _fieldLayout);
+    return (uint32(bytes4(_blob)));
+  }
+
+  /**
+   * @notice Get lastTime.
+   */
+  function _getLastTime(bytes32 key) internal view returns (uint32 lastTime) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
+
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 6, _fieldLayout);
+    return (uint32(bytes4(_blob)));
+  }
+
+  /**
+   * @notice Set lastTime.
+   */
+  function setLastTime(bytes32 key, uint32 lastTime) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
+
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 6, abi.encodePacked((lastTime)), _fieldLayout);
+  }
+
+  /**
+   * @notice Set lastTime.
+   */
+  function _setLastTime(bytes32 key, uint32 lastTime) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
+
+    StoreCore.setStaticField(_tableId, _keyTuple, 6, abi.encodePacked((lastTime)), _fieldLayout);
+  }
+
+  /**
+   * @notice Get destination.
+   */
+  function getDestination(bytes32 key) internal view returns (uint16 destination) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
+
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 7, _fieldLayout);
     return (uint16(bytes2(_blob)));
   }
 
   /**
    * @notice Get destination.
    */
-  function _getDestination(bytes32 owner, uint8 id) internal view returns (uint16 destination) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
+  function _getDestination(bytes32 key) internal view returns (uint16 destination) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
 
-    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 5, _fieldLayout);
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 7, _fieldLayout);
     return (uint16(bytes2(_blob)));
   }
 
   /**
    * @notice Set destination.
    */
-  function setDestination(bytes32 owner, uint8 id, uint16 destination) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
+  function setDestination(bytes32 key, uint16 destination) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 5, abi.encodePacked((destination)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 7, abi.encodePacked((destination)), _fieldLayout);
   }
 
   /**
    * @notice Set destination.
    */
-  function _setDestination(bytes32 owner, uint8 id, uint16 destination) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
+  function _setDestination(bytes32 key, uint16 destination) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 5, abi.encodePacked((destination)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 7, abi.encodePacked((destination)), _fieldLayout);
   }
 
   /**
    * @notice Get the full data.
    */
-  function get(bytes32 owner, uint8 id) internal view returns (ArmyData memory _table) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
+  function get(bytes32 key) internal view returns (ArmyData memory _table) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
 
     (bytes memory _staticData, EncodedLengths _encodedLengths, bytes memory _dynamicData) = StoreSwitch.getRecord(
       _tableId,
@@ -370,10 +432,9 @@ library Army {
   /**
    * @notice Get the full data.
    */
-  function _get(bytes32 owner, uint8 id) internal view returns (ArmyData memory _table) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
+  function _get(bytes32 key) internal view returns (ArmyData memory _table) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
 
     (bytes memory _staticData, EncodedLengths _encodedLengths, bytes memory _dynamicData) = StoreCore.getRecord(
       _tableId,
@@ -387,23 +448,23 @@ library Army {
    * @notice Set the full data using individual values.
    */
   function set(
+    bytes32 key,
     bytes32 owner,
     uint8 id,
     uint256 infantry,
     uint256 cavalryA,
     uint256 cavalryB,
     uint256 cavalryC,
-    uint256 lastTime,
+    uint32 lastTime,
     uint16 destination
   ) internal {
-    bytes memory _staticData = encodeStatic(infantry, cavalryA, cavalryB, cavalryC, lastTime, destination);
+    bytes memory _staticData = encodeStatic(owner, id, infantry, cavalryA, cavalryB, cavalryC, lastTime, destination);
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
 
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
 
     StoreSwitch.setRecord(_tableId, _keyTuple, _staticData, _encodedLengths, _dynamicData);
   }
@@ -412,23 +473,23 @@ library Army {
    * @notice Set the full data using individual values.
    */
   function _set(
+    bytes32 key,
     bytes32 owner,
     uint8 id,
     uint256 infantry,
     uint256 cavalryA,
     uint256 cavalryB,
     uint256 cavalryC,
-    uint256 lastTime,
+    uint32 lastTime,
     uint16 destination
   ) internal {
-    bytes memory _staticData = encodeStatic(infantry, cavalryA, cavalryB, cavalryC, lastTime, destination);
+    bytes memory _staticData = encodeStatic(owner, id, infantry, cavalryA, cavalryB, cavalryC, lastTime, destination);
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
 
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
 
     StoreCore.setRecord(_tableId, _keyTuple, _staticData, _encodedLengths, _dynamicData, _fieldLayout);
   }
@@ -436,8 +497,10 @@ library Army {
   /**
    * @notice Set the full data using the data struct.
    */
-  function set(bytes32 owner, uint8 id, ArmyData memory _table) internal {
+  function set(bytes32 key, ArmyData memory _table) internal {
     bytes memory _staticData = encodeStatic(
+      _table.owner,
+      _table.id,
       _table.infantry,
       _table.cavalryA,
       _table.cavalryB,
@@ -449,9 +512,8 @@ library Army {
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
 
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
 
     StoreSwitch.setRecord(_tableId, _keyTuple, _staticData, _encodedLengths, _dynamicData);
   }
@@ -459,8 +521,10 @@ library Army {
   /**
    * @notice Set the full data using the data struct.
    */
-  function _set(bytes32 owner, uint8 id, ArmyData memory _table) internal {
+  function _set(bytes32 key, ArmyData memory _table) internal {
     bytes memory _staticData = encodeStatic(
+      _table.owner,
+      _table.id,
       _table.infantry,
       _table.cavalryA,
       _table.cavalryB,
@@ -472,9 +536,8 @@ library Army {
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
 
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
 
     StoreCore.setRecord(_tableId, _keyTuple, _staticData, _encodedLengths, _dynamicData, _fieldLayout);
   }
@@ -488,25 +551,31 @@ library Army {
     internal
     pure
     returns (
+      bytes32 owner,
+      uint8 id,
       uint256 infantry,
       uint256 cavalryA,
       uint256 cavalryB,
       uint256 cavalryC,
-      uint256 lastTime,
+      uint32 lastTime,
       uint16 destination
     )
   {
-    infantry = (uint256(Bytes.getBytes32(_blob, 0)));
+    owner = (Bytes.getBytes32(_blob, 0));
 
-    cavalryA = (uint256(Bytes.getBytes32(_blob, 32)));
+    id = (uint8(Bytes.getBytes1(_blob, 32)));
 
-    cavalryB = (uint256(Bytes.getBytes32(_blob, 64)));
+    infantry = (uint256(Bytes.getBytes32(_blob, 33)));
 
-    cavalryC = (uint256(Bytes.getBytes32(_blob, 96)));
+    cavalryA = (uint256(Bytes.getBytes32(_blob, 65)));
 
-    lastTime = (uint256(Bytes.getBytes32(_blob, 128)));
+    cavalryB = (uint256(Bytes.getBytes32(_blob, 97)));
 
-    destination = (uint16(Bytes.getBytes2(_blob, 160)));
+    cavalryC = (uint256(Bytes.getBytes32(_blob, 129)));
+
+    lastTime = (uint32(Bytes.getBytes4(_blob, 161)));
+
+    destination = (uint16(Bytes.getBytes2(_blob, 165)));
   }
 
   /**
@@ -521,6 +590,8 @@ library Army {
     bytes memory
   ) internal pure returns (ArmyData memory _table) {
     (
+      _table.owner,
+      _table.id,
       _table.infantry,
       _table.cavalryA,
       _table.cavalryB,
@@ -533,10 +604,9 @@ library Army {
   /**
    * @notice Delete all data for given keys.
    */
-  function deleteRecord(bytes32 owner, uint8 id) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
+  function deleteRecord(bytes32 key) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
 
     StoreSwitch.deleteRecord(_tableId, _keyTuple);
   }
@@ -544,10 +614,9 @@ library Army {
   /**
    * @notice Delete all data for given keys.
    */
-  function _deleteRecord(bytes32 owner, uint8 id) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
+  function _deleteRecord(bytes32 key) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
 
     StoreCore.deleteRecord(_tableId, _keyTuple, _fieldLayout);
   }
@@ -557,14 +626,16 @@ library Army {
    * @return The static data, encoded into a sequence of bytes.
    */
   function encodeStatic(
+    bytes32 owner,
+    uint8 id,
     uint256 infantry,
     uint256 cavalryA,
     uint256 cavalryB,
     uint256 cavalryC,
-    uint256 lastTime,
+    uint32 lastTime,
     uint16 destination
   ) internal pure returns (bytes memory) {
-    return abi.encodePacked(infantry, cavalryA, cavalryB, cavalryC, lastTime, destination);
+    return abi.encodePacked(owner, id, infantry, cavalryA, cavalryB, cavalryC, lastTime, destination);
   }
 
   /**
@@ -574,14 +645,16 @@ library Army {
    * @return The dynamic (variable length) data, encoded into a sequence of bytes.
    */
   function encode(
+    bytes32 owner,
+    uint8 id,
     uint256 infantry,
     uint256 cavalryA,
     uint256 cavalryB,
     uint256 cavalryC,
-    uint256 lastTime,
+    uint32 lastTime,
     uint16 destination
   ) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
-    bytes memory _staticData = encodeStatic(infantry, cavalryA, cavalryB, cavalryC, lastTime, destination);
+    bytes memory _staticData = encodeStatic(owner, id, infantry, cavalryA, cavalryB, cavalryC, lastTime, destination);
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
@@ -592,10 +665,9 @@ library Army {
   /**
    * @notice Encode keys as a bytes32 array using this table's field layout.
    */
-  function encodeKeyTuple(bytes32 owner, uint8 id) internal pure returns (bytes32[] memory) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = owner;
-    _keyTuple[1] = bytes32(uint256(id));
+  function encodeKeyTuple(bytes32 key) internal pure returns (bytes32[] memory) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = key;
 
     return _keyTuple;
   }

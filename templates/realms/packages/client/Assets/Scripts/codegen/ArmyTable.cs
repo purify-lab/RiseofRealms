@@ -13,6 +13,10 @@ namespace mudworld
     {
         public class ArmyTableUpdate : RecordUpdate
         {
+            public string? Owner;
+            public string? PreviousOwner;
+            public uint? Id;
+            public uint? PreviousId;
             public System.Numerics.BigInteger? Infantry;
             public System.Numerics.BigInteger? PreviousInfantry;
             public System.Numerics.BigInteger? CavalryA;
@@ -21,8 +25,8 @@ namespace mudworld
             public System.Numerics.BigInteger? PreviousCavalryB;
             public System.Numerics.BigInteger? CavalryC;
             public System.Numerics.BigInteger? PreviousCavalryC;
-            public System.Numerics.BigInteger? LastTime;
-            public System.Numerics.BigInteger? PreviousLastTime;
+            public uint? LastTime;
+            public uint? PreviousLastTime;
             public uint? Destination;
             public uint? PreviousDestination;
         }
@@ -38,11 +42,13 @@ namespace mudworld
             return ID;
         }
 
+        public string? Owner;
+        public uint? Id;
         public System.Numerics.BigInteger? Infantry;
         public System.Numerics.BigInteger? CavalryA;
         public System.Numerics.BigInteger? CavalryB;
         public System.Numerics.BigInteger? CavalryC;
-        public System.Numerics.BigInteger? LastTime;
+        public uint? LastTime;
         public uint? Destination;
 
         public override Type TableType()
@@ -60,6 +66,14 @@ namespace mudworld
             ArmyTable other = (ArmyTable)obj;
 
             if (other == null)
+            {
+                return false;
+            }
+            if (Owner != other.Owner)
+            {
+                return false;
+            }
+            if (Id != other.Id)
             {
                 return false;
             }
@@ -92,17 +106,21 @@ namespace mudworld
 
         public override void SetValues(params object[] functionParameters)
         {
-            Infantry = (System.Numerics.BigInteger)functionParameters[0];
+            Owner = (string)functionParameters[0];
 
-            CavalryA = (System.Numerics.BigInteger)functionParameters[1];
+            Id = (uint)functionParameters[1];
 
-            CavalryB = (System.Numerics.BigInteger)functionParameters[2];
+            Infantry = (System.Numerics.BigInteger)functionParameters[2];
 
-            CavalryC = (System.Numerics.BigInteger)functionParameters[3];
+            CavalryA = (System.Numerics.BigInteger)functionParameters[3];
 
-            LastTime = (System.Numerics.BigInteger)functionParameters[4];
+            CavalryB = (System.Numerics.BigInteger)functionParameters[4];
 
-            Destination = (uint)functionParameters[5];
+            CavalryC = (System.Numerics.BigInteger)functionParameters[5];
+
+            LastTime = (uint)functionParameters[6];
+
+            Destination = (uint)functionParameters[7];
         }
 
         public static IObservable<RecordUpdate> GetArmyTableUpdates()
@@ -119,11 +137,13 @@ namespace mudworld
 
         public override void PropertyToTable(Property property)
         {
+            Owner = (string)property["owner"];
+            Id = (uint)property["id"];
             Infantry = (System.Numerics.BigInteger)property["infantry"];
             CavalryA = (System.Numerics.BigInteger)property["cavalryA"];
             CavalryB = (System.Numerics.BigInteger)property["cavalryB"];
             CavalryC = (System.Numerics.BigInteger)property["cavalryC"];
-            LastTime = (System.Numerics.BigInteger)property["lastTime"];
+            LastTime = (uint)property["lastTime"];
             Destination = (uint)property["destination"];
         }
 
@@ -131,6 +151,30 @@ namespace mudworld
         {
             var currentValue = recordUpdate.CurrentRecordValue as Property;
             var previousValue = recordUpdate.PreviousRecordValue as Property;
+            string? currentOwnerTyped = null;
+            string? previousOwnerTyped = null;
+
+            if (currentValue != null && currentValue.ContainsKey("owner"))
+            {
+                currentOwnerTyped = (string)currentValue["owner"];
+            }
+
+            if (previousValue != null && previousValue.ContainsKey("owner"))
+            {
+                previousOwnerTyped = (string)previousValue["owner"];
+            }
+            uint? currentIdTyped = null;
+            uint? previousIdTyped = null;
+
+            if (currentValue != null && currentValue.ContainsKey("id"))
+            {
+                currentIdTyped = (uint)currentValue["id"];
+            }
+
+            if (previousValue != null && previousValue.ContainsKey("id"))
+            {
+                previousIdTyped = (uint)previousValue["id"];
+            }
             System.Numerics.BigInteger? currentInfantryTyped = null;
             System.Numerics.BigInteger? previousInfantryTyped = null;
 
@@ -179,17 +223,17 @@ namespace mudworld
             {
                 previousCavalryCTyped = (System.Numerics.BigInteger)previousValue["cavalryc"];
             }
-            System.Numerics.BigInteger? currentLastTimeTyped = null;
-            System.Numerics.BigInteger? previousLastTimeTyped = null;
+            uint? currentLastTimeTyped = null;
+            uint? previousLastTimeTyped = null;
 
             if (currentValue != null && currentValue.ContainsKey("lasttime"))
             {
-                currentLastTimeTyped = (System.Numerics.BigInteger)currentValue["lasttime"];
+                currentLastTimeTyped = (uint)currentValue["lasttime"];
             }
 
             if (previousValue != null && previousValue.ContainsKey("lasttime"))
             {
-                previousLastTimeTyped = (System.Numerics.BigInteger)previousValue["lasttime"];
+                previousLastTimeTyped = (uint)previousValue["lasttime"];
             }
             uint? currentDestinationTyped = null;
             uint? previousDestinationTyped = null;
@@ -212,6 +256,10 @@ namespace mudworld
                 CurrentRecordKey = recordUpdate.CurrentRecordKey,
                 PreviousRecordKey = recordUpdate.PreviousRecordKey,
                 Type = recordUpdate.Type,
+                Owner = currentOwnerTyped,
+                PreviousOwner = previousOwnerTyped,
+                Id = currentIdTyped,
+                PreviousId = previousIdTyped,
                 Infantry = currentInfantryTyped,
                 PreviousInfantry = previousInfantryTyped,
                 CavalryA = currentCavalryATyped,

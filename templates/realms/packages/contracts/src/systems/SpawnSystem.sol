@@ -104,7 +104,7 @@ contract SpawnSystem is System {
         PlayerDetail.setCapital(owner, capital_id);
         Capital.setTileId(capital_id, capital_id);
         Capital.setOwner(capital_id, owner);
-        Capital.setLastTime(capital_id, block.timestamp);
+        Capital.setLastTime(capital_id, (uint32)(block.timestamp));
 
         //eth转账给收款人
         payable(Recipient).transfer(msg.value);
@@ -153,37 +153,37 @@ contract SpawnSystem is System {
     function march(uint16 destination, uint256 infantry, uint256 cavalryA, uint256 cavalryB, uint256 cavalryC, uint8 army_id) public {
 
         require(destination > 0 && destination <= 8000, "invalid destination");
+        require(army_id > 0 && army_id <= 9, "invalid army id");
 
         bytes32 owner = Utility.addressToEntityKey(address(_msgSender()));
+        bytes32 armyKey = Utility.armyToEntityKey(owner, army_id);
 
         require(PlayerDetail.getInfantry(owner) >= infantry, "not enough infantry");
         require(PlayerDetail.getCavalryA(owner) >= cavalryA, "not enough cavalryA");
         require(PlayerDetail.getCavalryB(owner) >= cavalryB, "not enough cavalryB");
         require(PlayerDetail.getCavalryC(owner) >= cavalryC, "not enough cavalryC");
-        require(army_id > 0 && army_id <= 9, "invalid army id");
-        require(Army.getDestination(owner, army_id) == 0, "this army not yours");
+        require(Army.getDestination(armyKey) == 0, "this army not yours");
 
         PlayerDetail.setInfantry(owner, PlayerDetail.getInfantry(owner) - infantry);
         PlayerDetail.setCavalryA(owner, PlayerDetail.getCavalryA(owner) - cavalryA);
         PlayerDetail.setCavalryB(owner, PlayerDetail.getCavalryB(owner) - cavalryB);
         PlayerDetail.setCavalryC(owner, PlayerDetail.getCavalryC(owner) - cavalryC);
 
-        Army.setInfantry(owner, army_id, infantry);
-        Army.setCavalryA(owner, army_id, cavalryA);
-        Army.setCavalryB(owner, army_id, cavalryB);
-        Army.setCavalryC(owner, army_id, cavalryC);
-        Army.setDestination(owner, army_id, destination);
-        Army.setLastTime(owner, army_id, block.timestamp);
+        Army.setInfantry(armyKey, infantry);
+        Army.setCavalryA(armyKey, cavalryA);
+        Army.setCavalryB(armyKey, cavalryB);
+        Army.setCavalryC(armyKey, cavalryC);
+        Army.setDestination(armyKey, destination);
+        Army.setLastTime(armyKey, (uint32)(block.timestamp));
     }
 
     /**
      * @dev Calculate the total combat power of an army.
      * @param entityKey The entity key of the army owner.
-     * @param armyId The ID of the army.
      * @return The total combat power of the army.
      */
-    function getArmyPower(bytes32 entityKey, uint8 armyId) private view returns (uint256) {
-        return Army.getInfantry(entityKey, armyId) * 5 + Army.getCavalryA(entityKey, armyId) * 10 + Army.getCavalryB(entityKey, armyId) * 10 + Army.getCavalryC(entityKey, armyId) * 10;
+    function getArmyPower(bytes32 entityKey) private view returns (uint256) {
+        return Army.getInfantry(entityKey) * 5 + Army.getCavalryA(entityKey) * 10 + Army.getCavalryB(entityKey) * 10 + Army.getCavalryC(entityKey) * 10;
     }
 
     /**
@@ -198,56 +198,55 @@ contract SpawnSystem is System {
     /**
      * @dev Destroy the army.
      * @param entityKey The entity key of the army owner.
-     * @param armyId The ID of the army.
      */
-    function destroyArmy(bytes32 entityKey, uint8 armyId) private {
-        Army.setDestination(entityKey, armyId, 0);
-        Army.setLastTime(entityKey, armyId, 0);
-        Army.setInfantry(entityKey, armyId, 0);
-        Army.setCavalryA(entityKey, armyId, 0);
-        Army.setCavalryB(entityKey, armyId, 0);
-        Army.setCavalryC(entityKey, armyId, 0);
+    function destroyArmy(bytes32 entityKey) private {
+        Army.setDestination(entityKey, 0);
+        Army.setLastTime(entityKey, 0);
+        Army.setInfantry(entityKey, 0);
+        Army.setCavalryA(entityKey, 0);
+        Army.setCavalryB(entityKey, 0);
+        Army.setCavalryC(entityKey, 0);
     }
 
     /**
     * @dev Calculate losses for both sides
     */
     function _calculateLosses(
-        bytes32 attacker,
-        uint8 army_id,
+        bytes32 armyKey,
         uint16 defenceLocation
     ) private view returns (uint256[8] memory) {
         uint256[8] memory losses;
-        if (Army.getInfantry(attacker, army_id) >= Capital.getInfantry(defenceLocation)) {
+
+        if (Army.getInfantry(armyKey) >= Capital.getInfantry(defenceLocation)) {
             losses[0] = Capital.getInfantry(defenceLocation);
             losses[4] = Capital.getInfantry(defenceLocation);
         } else {
-            losses[0] = Army.getInfantry(attacker, army_id);
-            losses[4] = Army.getInfantry(attacker, army_id);
+            losses[0] = Army.getInfantry(armyKey);
+            losses[4] = Army.getInfantry(armyKey);
         }
 
-        if (Army.getCavalryA(attacker, army_id) >= Capital.getCavalryA(defenceLocation)) {
+        if (Army.getCavalryA(armyKey) >= Capital.getCavalryA(defenceLocation)) {
             losses[1] = Capital.getCavalryA(defenceLocation);
             losses[5] = Capital.getCavalryA(defenceLocation);
         } else {
-            losses[1] = Army.getCavalryA(attacker, army_id);
-            losses[5] = Army.getCavalryA(attacker, army_id);
+            losses[1] = Army.getCavalryA(armyKey);
+            losses[5] = Army.getCavalryA(armyKey);
         }
 
-        if (Army.getCavalryB(attacker, army_id) >= Capital.getCavalryB(defenceLocation)) {
+        if (Army.getCavalryB(armyKey) >= Capital.getCavalryB(defenceLocation)) {
             losses[2] = Capital.getCavalryB(defenceLocation);
             losses[6] = Capital.getCavalryB(defenceLocation);
         } else {
-            losses[2] = Army.getCavalryB(attacker, army_id);
-            losses[6] = Army.getCavalryB(attacker, army_id);
+            losses[2] = Army.getCavalryB(armyKey);
+            losses[6] = Army.getCavalryB(armyKey);
         }
 
-        if (Army.getCavalryC(attacker, army_id) >= Capital.getCavalryC(defenceLocation)) {
+        if (Army.getCavalryC(armyKey) >= Capital.getCavalryC(defenceLocation)) {
             losses[3] = Capital.getCavalryC(defenceLocation);
             losses[7] = Capital.getCavalryC(defenceLocation);
         } else {
-            losses[3] = Army.getCavalryC(attacker, army_id);
-            losses[7] = Army.getCavalryC(attacker, army_id);
+            losses[3] = Army.getCavalryC(armyKey);
+            losses[7] = Army.getCavalryC(armyKey);
         }
         return losses;
     }
@@ -265,24 +264,25 @@ contract SpawnSystem is System {
     function attack(uint8 army_id) public {
         require(army_id > 0 && army_id <= 9, "invalid army id");
         bytes32 attacker = Utility.addressToEntityKey(address(_msgSender()));
-        uint256 attackPower = getArmyPower(attacker, army_id);
-        uint16 defenceLocation = Army.getDestination(attacker, army_id);
+        bytes32 armyKey = Utility.armyToEntityKey(attacker, army_id);
+        uint256 attackPower = getArmyPower(armyKey);
+        uint16 defenceLocation = Army.getDestination(armyKey);
         bytes32 defender = Capital.getOwner(defenceLocation);
         uint256 defensePower = getCapitalPower(defenceLocation);
 
-        require(Army.getDestination(attacker, army_id) != 0, "this army is not marching");
+        require(Army.getDestination(armyKey) != 0, "this army is not marching");
         require(attacker != Capital.getOwner(defenceLocation), "cannot attack your own capital");
-        require(block.timestamp - Army.getLastTime(attacker, army_id) >= 60 * 5, "not ready yet");
+        require((uint32)(block.timestamp) - Army.getLastTime(armyKey) >= 60 * 5, "not ready yet");
 
-        uint256[8] memory losses = _calculateLosses(attacker, army_id, defenceLocation);
+        uint256[8] memory losses = _calculateLosses(armyKey, defenceLocation);
 
         if (attackPower > defensePower) {
             Capital.setOwner(defenceLocation, attacker);
-            Capital.setLastTime(defenceLocation, block.timestamp);
-            Capital.setInfantry(defenceLocation, Army.getCavalryC(attacker, army_id) - losses[0]);
-            Capital.setCavalryA(defenceLocation, Army.getCavalryA(attacker, army_id) - losses[1]);
-            Capital.setCavalryB(defenceLocation, Army.getCavalryB(attacker, army_id) - losses[2]);
-            Capital.setCavalryC(defenceLocation, Army.getCavalryC(attacker, army_id) - losses[3]);
+            Capital.setLastTime(defenceLocation, (uint32)(block.timestamp));
+            Capital.setInfantry(defenceLocation, Army.getCavalryC(armyKey) - losses[0]);
+            Capital.setCavalryA(defenceLocation, Army.getCavalryA(armyKey) - losses[1]);
+            Capital.setCavalryB(defenceLocation, Army.getCavalryB(armyKey) - losses[2]);
+            Capital.setCavalryC(defenceLocation, Army.getCavalryC(armyKey) - losses[3]);
         } else {
             Capital.setInfantry(defenceLocation, Capital.getInfantry(defenceLocation) - losses[4]);
             Capital.setCavalryA(defenceLocation, Capital.getCavalryA(defenceLocation) - losses[5]);
@@ -290,13 +290,13 @@ contract SpawnSystem is System {
             Capital.setCavalryC(defenceLocation, Capital.getCavalryC(defenceLocation) - losses[7]);
         }
 
-        BattleReport.setAttackWin(defenceLocation, block.timestamp, attackPower > defensePower);
-        BattleReport.setAttacker(defenceLocation, block.timestamp, _msgSender());
-        BattleReport.setDefender(defenceLocation, block.timestamp, Utility.entityKeyToAddress(defender));
-        BattleReport.setLosses(defenceLocation, block.timestamp, losses);
+        BattleReport.setAttackWin(defenceLocation, (uint32)(block.timestamp), attackPower > defensePower);
+        BattleReport.setAttacker(defenceLocation, (uint32)(block.timestamp), _msgSender());
+        BattleReport.setDefender(defenceLocation, (uint32)(block.timestamp), Utility.entityKeyToAddress(defender));
+        BattleReport.setLosses(defenceLocation, (uint32)(block.timestamp), losses);
 
         // Destroy the armies
-        destroyArmy(attacker, army_id);
+        destroyArmy(armyKey);
     }
 
     /**
@@ -306,10 +306,10 @@ contract SpawnSystem is System {
     function farming(uint16 capital_id) public {
         bytes32 owner = Utility.addressToEntityKey(address(_msgSender()));
         require(Capital.getOwner(capital_id) == owner, "this capital not yours");
-        uint256 last_time = Capital.getLastTime(capital_id);
-        uint256 currentTimestamp = block.timestamp;
-        uint256 time = currentTimestamp - last_time;
-        uint256 gold = time * 1;
+        uint32 last_time = Capital.getLastTime(capital_id);
+        uint32 currentTimestamp = (uint32)(block.timestamp);
+        uint32 time = currentTimestamp - last_time;
+        uint256 gold = (uint256)(time) * 1;
         PlayerDetail.setGold(owner, PlayerDetail.getGold(owner) + gold);
         Capital.setLastTime(capital_id, currentTimestamp);
     }

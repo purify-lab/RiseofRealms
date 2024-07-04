@@ -27,8 +27,8 @@ namespace mudworld
             public System.Numerics.BigInteger? PreviousCavalryB;
             public System.Numerics.BigInteger? CavalryC;
             public System.Numerics.BigInteger? PreviousCavalryC;
-            public System.Numerics.BigInteger? LastTime;
-            public System.Numerics.BigInteger? PreviousLastTime;
+            public uint? LastTime;
+            public uint? PreviousLastTime;
             public System.Numerics.BigInteger? PledgedTokenB;
             public System.Numerics.BigInteger? PreviousPledgedTokenB;
             public System.Numerics.BigInteger? PledgedTokenC;
@@ -53,7 +53,7 @@ namespace mudworld
         public System.Numerics.BigInteger? CavalryA;
         public System.Numerics.BigInteger? CavalryB;
         public System.Numerics.BigInteger? CavalryC;
-        public System.Numerics.BigInteger? LastTime;
+        public uint? LastTime;
         public System.Numerics.BigInteger? PledgedTokenB;
         public System.Numerics.BigInteger? PledgedTokenC;
 
@@ -134,7 +134,7 @@ namespace mudworld
 
             CavalryC = (System.Numerics.BigInteger)functionParameters[6];
 
-            LastTime = (System.Numerics.BigInteger)functionParameters[7];
+            LastTime = (uint)functionParameters[7];
 
             PledgedTokenB = (System.Numerics.BigInteger)functionParameters[8];
 
@@ -162,7 +162,7 @@ namespace mudworld
             CavalryA = (System.Numerics.BigInteger)property["cavalryA"];
             CavalryB = (System.Numerics.BigInteger)property["cavalryB"];
             CavalryC = (System.Numerics.BigInteger)property["cavalryC"];
-            LastTime = (System.Numerics.BigInteger)property["lastTime"];
+            LastTime = (uint)property["lastTime"];
             PledgedTokenB = (System.Numerics.BigInteger)property["pledgedTokenB"];
             PledgedTokenC = (System.Numerics.BigInteger)property["pledgedTokenC"];
         }
@@ -255,17 +255,17 @@ namespace mudworld
             {
                 previousCavalryCTyped = (System.Numerics.BigInteger)previousValue["cavalryc"];
             }
-            System.Numerics.BigInteger? currentLastTimeTyped = null;
-            System.Numerics.BigInteger? previousLastTimeTyped = null;
+            uint? currentLastTimeTyped = null;
+            uint? previousLastTimeTyped = null;
 
             if (currentValue != null && currentValue.ContainsKey("lasttime"))
             {
-                currentLastTimeTyped = (System.Numerics.BigInteger)currentValue["lasttime"];
+                currentLastTimeTyped = (uint)currentValue["lasttime"];
             }
 
             if (previousValue != null && previousValue.ContainsKey("lasttime"))
             {
-                previousLastTimeTyped = (System.Numerics.BigInteger)previousValue["lasttime"];
+                previousLastTimeTyped = (uint)previousValue["lasttime"];
             }
             System.Numerics.BigInteger? currentPledgedTokenBTyped = null;
             System.Numerics.BigInteger? previousPledgedTokenBTyped = null;
