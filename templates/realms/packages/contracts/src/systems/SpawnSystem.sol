@@ -177,67 +177,126 @@ contract SpawnSystem is System {
     }
 
     /**
-     * @dev 攻击 如果攻击人的士兵数量大于被攻击人的士兵数量，攻击人胜利，否则被攻击人胜利
-     * @dev 攻击人胜利 领取所有人变为攻击人 更新时间
-     * @dev 被攻击人胜利 领取所有人不变
-     * @dev 无论胜利与否 都销毁军队
+     * @dev Calculate the total combat power of an army.
+     * @param entityKey The entity key of the army owner.
+     * @param armyId The ID of the army.
+     * @return The total combat power of the army.
+     */
+    function getArmyPower(bytes32 entityKey, uint8 armyId) private view returns (uint256) {
+        return Army.getInfantry(entityKey, armyId) * 5 + Army.getCavalryA(entityKey, armyId) * 10 + Army.getCavalryB(entityKey, armyId) * 10 + Army.getCavalryC(entityKey, armyId) * 10;
+    }
 
-     * @param army_id 军队id
+    /**
+     * @dev Calculate the total combat power of a capital.
+     * @param locationId The ID of the capital.
+     * @return The total combat power of the capital.
+     */
+    function getCapitalPower(uint16 locationId) private view returns (uint256) {
+        return Capital.getInfantry(locationId) * 5 + Capital.getCavalryA(locationId) * 10 + Capital.getCavalryB(locationId) * 10 + Capital.getCavalryC(locationId) * 10;
+    }
+
+    /**
+     * @dev Destroy the army.
+     * @param entityKey The entity key of the army owner.
+     * @param armyId The ID of the army.
+     */
+    function destroyArmy(bytes32 entityKey, uint8 armyId) private {
+        Army.setDestination(entityKey, armyId, 0);
+        Army.setLastTime(entityKey, armyId, 0);
+        Army.setInfantry(entityKey, armyId, 0);
+        Army.setCavalryA(entityKey, armyId, 0);
+        Army.setCavalryB(entityKey, armyId, 0);
+        Army.setCavalryC(entityKey, armyId, 0);
+    }
+
+    /**
+    * @dev Calculate losses for both sides
+    */
+    function _calculateLosses(
+        bytes32 attacker,
+        uint8 army_id,
+        uint16 defenceLocation
+    ) private view returns (uint256[8] memory) {
+        uint256[8] memory losses;
+        if (Army.getInfantry(attacker, army_id) >= Capital.getInfantry(defenceLocation)) {
+            losses[0] = Capital.getInfantry(defenceLocation);
+            losses[4] = Capital.getInfantry(defenceLocation);
+        } else {
+            losses[0] = Army.getInfantry(attacker, army_id);
+            losses[4] = Army.getInfantry(attacker, army_id);
+        }
+
+        if (Army.getCavalryA(attacker, army_id) >= Capital.getCavalryA(defenceLocation)) {
+            losses[1] = Capital.getCavalryA(defenceLocation);
+            losses[5] = Capital.getCavalryA(defenceLocation);
+        } else {
+            losses[1] = Army.getCavalryA(attacker, army_id);
+            losses[5] = Army.getCavalryA(attacker, army_id);
+        }
+
+        if (Army.getCavalryB(attacker, army_id) >= Capital.getCavalryB(defenceLocation)) {
+            losses[2] = Capital.getCavalryB(defenceLocation);
+            losses[6] = Capital.getCavalryB(defenceLocation);
+        } else {
+            losses[2] = Army.getCavalryB(attacker, army_id);
+            losses[6] = Army.getCavalryB(attacker, army_id);
+        }
+
+        if (Army.getCavalryC(attacker, army_id) >= Capital.getCavalryC(defenceLocation)) {
+            losses[3] = Capital.getCavalryC(defenceLocation);
+            losses[7] = Capital.getCavalryC(defenceLocation);
+        } else {
+            losses[3] = Army.getCavalryC(attacker, army_id);
+            losses[7] = Army.getCavalryC(attacker, army_id);
+        }
+        return losses;
+    }
+
+    /**
+     * @dev Attack: If the attacker's army size is greater than the defender's, the attacker wins. Otherwise, the defender wins.
+     * @dev If the attacker wins: All entities become the attacker's, and the last attack time is updated.
+     * @dev If the defender wins: Entities remain unchanged.
+     * @dev Regardless of the outcome, the armies are destroyed.
+     * @dev The side with greater combat power wins the battle.
+     * @dev Both sides lose soldiers, with a minimum of 0.
+     * @dev Record the battle report.
+     * @param army_id The ID of the attacking army.
      */
     function attack(uint8 army_id) public {
         require(army_id > 0 && army_id <= 9, "invalid army id");
-        bytes32 owner = Utility.addressToEntityKey(address(_msgSender()));
-        uint256 attack_power = Army.getInfantry(owner, army_id) * 5 + Army.getCavalryA(owner, army_id) * 10 + Army.getCavalryB(owner, army_id) * 10 + Army.getCavalryC(owner, army_id) * 10;
-        uint16 destination = Army.getDestination(owner, army_id);
-        uint256 defence_power = Capital.getInfantry(destination) * 5 + Capital.getCavalryA(destination) * 10 + Capital.getCavalryB(destination) * 10 + Capital.getCavalryC(destination) * 10;
+        bytes32 attacker = Utility.addressToEntityKey(address(_msgSender()));
+        uint256 attackPower = getArmyPower(attacker, army_id);
+        uint16 defenceLocation = Army.getDestination(attacker, army_id);
+        bytes32 defender = Capital.getOwner(defenceLocation);
+        uint256 defensePower = getCapitalPower(defenceLocation);
 
-        require(Army.getDestination(owner, army_id) != 0, "this army not marching");
-        require(owner != Capital.getOwner(destination), "can't attack your own capital");
-        require(block.timestamp - Army.getLastTime(owner, army_id) >= 60 * 5, "not ready yet");
+        require(Army.getDestination(attacker, army_id) != 0, "this army is not marching");
+        require(attacker != Capital.getOwner(defenceLocation), "cannot attack your own capital");
+        require(block.timestamp - Army.getLastTime(attacker, army_id) >= 60 * 5, "not ready yet");
 
-        uint256 attacker_infantry_loss = 0;
-        uint256 defender_infantry_loss = 0;
-        if (Army.getInfantry(owner, army_id) > Capital.getInfantry(destination)) {
-            attacker_infantry_loss = Army.getInfantry(owner, army_id) - Capital.getInfantry(destination);
+        uint256[8] memory losses = _calculateLosses(attacker, army_id, defenceLocation);
+
+        if (attackPower > defensePower) {
+            Capital.setOwner(defenceLocation, attacker);
+            Capital.setLastTime(defenceLocation, block.timestamp);
+            Capital.setInfantry(defenceLocation, Army.getCavalryC(attacker, army_id) - losses[0]);
+            Capital.setCavalryA(defenceLocation, Army.getCavalryA(attacker, army_id) - losses[1]);
+            Capital.setCavalryB(defenceLocation, Army.getCavalryB(attacker, army_id) - losses[2]);
+            Capital.setCavalryC(defenceLocation, Army.getCavalryC(attacker, army_id) - losses[3]);
         } else {
-            defender_infantry_loss = Capital.getInfantry(destination) - Army.getInfantry(owner, army_id);
+            Capital.setInfantry(defenceLocation, Capital.getInfantry(defenceLocation) - losses[4]);
+            Capital.setCavalryA(defenceLocation, Capital.getCavalryA(defenceLocation) - losses[5]);
+            Capital.setCavalryB(defenceLocation, Capital.getCavalryB(defenceLocation) - losses[6]);
+            Capital.setCavalryC(defenceLocation, Capital.getCavalryC(defenceLocation) - losses[7]);
         }
 
-        if (attack_power > defence_power) {
-            Capital.setOwner(destination, owner);
-            Capital.setLastTime(destination, block.timestamp);
-            // Attacker wins
-            BattleReport.setAttacker(destination, block.timestamp, _msgSender());
-            BattleReport.setDefender(destination, block.timestamp, Utility.entityKeyToAddress(Capital.getOwner(destination)));
-            BattleReport.setWin(destination, block.timestamp, true);
-            BattleReport.setAttackOrDefence(destination, block.timestamp, true);
-            BattleReport.setLossInfantry(destination, block.timestamp, Capital.getInfantry(destination));
+        BattleReport.setAttackWin(defenceLocation, block.timestamp, attackPower > defensePower);
+        BattleReport.setAttacker(defenceLocation, block.timestamp, _msgSender());
+        BattleReport.setDefender(defenceLocation, block.timestamp, Utility.entityKeyToAddress(defender));
+        BattleReport.setLosses(defenceLocation, block.timestamp, losses);
 
-            // Defender loses
-            uint256 defenderLoss = Capital.getInfantry(destination) + Capital.getCavalryA(destination) + Capital.getCavalryB(destination) + Capital.getCavalryC(destination);
-
-            BattleReport.setLossInfantry(destination, block.timestamp, defenderLoss);
-        } else {
-            // Attacker loses
-            BattleReport.setAttacker(destination, block.timestamp, _msgSender());
-            BattleReport.setDefender(destination, block.timestamp, Utility.entityKeyToAddress(Capital.getOwner(destination)));
-            BattleReport.setWin(destination, block.timestamp, false);
-            BattleReport.setAttackOrDefence(destination, block.timestamp, true);
-            BattleReport.setLossInfantry(destination, block.timestamp, Army.getInfantry(owner, army_id));
-
-            // Defender wins
-            uint256 attackerLoss = Army.getInfantry(owner, army_id) + Army.getCavalryA(owner, army_id) + Army.getCavalryB(owner, army_id) + Army.getCavalryC(owner, army_id);
-
-            BattleReport.setLossInfantry(destination, block.timestamp, attackerLoss);
-        }
-
-        //销毁军队
-        Army.setDestination(owner, army_id, 0);
-        Army.setLastTime(owner, army_id, 0);
-        Army.setInfantry(owner, army_id, 0);
-        Army.setCavalryA(owner, army_id, 0);
-        Army.setCavalryB(owner, army_id, 0);
-        Army.setCavalryC(owner, army_id, 0);
+        // Destroy the armies
+        destroyArmy(attacker, army_id);
     }
 
     /**

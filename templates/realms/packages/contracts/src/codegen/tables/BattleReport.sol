@@ -19,9 +19,8 @@ import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 struct BattleReportData {
   address attacker;
   address defender;
-  bool win;
-  bool attackOrDefence;
-  uint256 lossInfantry;
+  bool attackWin;
+  uint256[8] losses;
 }
 
 library BattleReport {
@@ -29,12 +28,12 @@ library BattleReport {
   ResourceId constant _tableId = ResourceId.wrap(0x74620000000000000000000000000000426174746c655265706f727400000000);
 
   FieldLayout constant _fieldLayout =
-    FieldLayout.wrap(0x004a050014140101200000000000000000000000000000000000000000000000);
+    FieldLayout.wrap(0x0029030114140100000000000000000000000000000000000000000000000000);
 
   // Hex-encoded key schema of (uint16, uint256)
   Schema constant _keySchema = Schema.wrap(0x00220200011f0000000000000000000000000000000000000000000000000000);
-  // Hex-encoded value schema of (address, address, bool, bool, uint256)
-  Schema constant _valueSchema = Schema.wrap(0x004a0500616160601f0000000000000000000000000000000000000000000000);
+  // Hex-encoded value schema of (address, address, bool, uint256[])
+  Schema constant _valueSchema = Schema.wrap(0x0029030161616081000000000000000000000000000000000000000000000000);
 
   /**
    * @notice Get the table's key field names.
@@ -51,12 +50,11 @@ library BattleReport {
    * @return fieldNames An array of strings with the names of value fields.
    */
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
-    fieldNames = new string[](5);
+    fieldNames = new string[](4);
     fieldNames[0] = "attacker";
     fieldNames[1] = "defender";
-    fieldNames[2] = "win";
-    fieldNames[3] = "attackOrDefence";
-    fieldNames[4] = "lossInfantry";
+    fieldNames[2] = "attackWin";
+    fieldNames[3] = "losses";
   }
 
   /**
@@ -166,9 +164,9 @@ library BattleReport {
   }
 
   /**
-   * @notice Get win.
+   * @notice Get attackWin.
    */
-  function getWin(uint16 capitalId, uint256 timestamp) internal view returns (bool win) {
+  function getAttackWin(uint16 capitalId, uint256 timestamp) internal view returns (bool attackWin) {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
@@ -178,9 +176,9 @@ library BattleReport {
   }
 
   /**
-   * @notice Get win.
+   * @notice Get attackWin.
    */
-  function _getWin(uint16 capitalId, uint256 timestamp) internal view returns (bool win) {
+  function _getAttackWin(uint16 capitalId, uint256 timestamp) internal view returns (bool attackWin) {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
@@ -190,117 +188,148 @@ library BattleReport {
   }
 
   /**
-   * @notice Set win.
+   * @notice Set attackWin.
    */
-  function setWin(uint16 capitalId, uint256 timestamp, bool win) internal {
+  function setAttackWin(uint16 capitalId, uint256 timestamp, bool attackWin) internal {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((win)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((attackWin)), _fieldLayout);
   }
 
   /**
-   * @notice Set win.
+   * @notice Set attackWin.
    */
-  function _setWin(uint16 capitalId, uint256 timestamp, bool win) internal {
+  function _setAttackWin(uint16 capitalId, uint256 timestamp, bool attackWin) internal {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((win)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((attackWin)), _fieldLayout);
   }
 
   /**
-   * @notice Get attackOrDefence.
+   * @notice Get losses.
    */
-  function getAttackOrDefence(uint16 capitalId, uint256 timestamp) internal view returns (bool attackOrDefence) {
+  function getLosses(uint16 capitalId, uint256 timestamp) internal view returns (uint256[8] memory losses) {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
 
-    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 3, _fieldLayout);
-    return (_toBool(uint8(bytes1(_blob))));
+    bytes memory _blob = StoreSwitch.getDynamicField(_tableId, _keyTuple, 0);
+    return toStaticArray_uint256_8(SliceLib.getSubslice(_blob, 0, _blob.length).decodeArray_uint256());
   }
 
   /**
-   * @notice Get attackOrDefence.
+   * @notice Get losses.
    */
-  function _getAttackOrDefence(uint16 capitalId, uint256 timestamp) internal view returns (bool attackOrDefence) {
+  function _getLosses(uint16 capitalId, uint256 timestamp) internal view returns (uint256[8] memory losses) {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
 
-    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 3, _fieldLayout);
-    return (_toBool(uint8(bytes1(_blob))));
+    bytes memory _blob = StoreCore.getDynamicField(_tableId, _keyTuple, 0);
+    return toStaticArray_uint256_8(SliceLib.getSubslice(_blob, 0, _blob.length).decodeArray_uint256());
   }
 
   /**
-   * @notice Set attackOrDefence.
+   * @notice Set losses.
    */
-  function setAttackOrDefence(uint16 capitalId, uint256 timestamp, bool attackOrDefence) internal {
+  function setLosses(uint16 capitalId, uint256 timestamp, uint256[8] memory losses) internal {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((attackOrDefence)), _fieldLayout);
+    StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode(fromStaticArray_uint256_8(losses)));
   }
 
   /**
-   * @notice Set attackOrDefence.
+   * @notice Set losses.
    */
-  function _setAttackOrDefence(uint16 capitalId, uint256 timestamp, bool attackOrDefence) internal {
+  function _setLosses(uint16 capitalId, uint256 timestamp, uint256[8] memory losses) internal {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((attackOrDefence)), _fieldLayout);
+    StoreCore.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode(fromStaticArray_uint256_8(losses)));
+  }
+
+  // The length of losses
+  uint256 constant lengthLosses = 8;
+
+  /**
+   * @notice Get an item of losses.
+   * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
+   */
+  function getItemLosses(uint16 capitalId, uint256 timestamp, uint256 _index) internal view returns (uint256) {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = bytes32(uint256(capitalId));
+    _keyTuple[1] = bytes32(uint256(timestamp));
+
+    uint256 _byteLength = StoreSwitch.getDynamicFieldLength(_tableId, _keyTuple, 0);
+    uint256 dynamicLength = _byteLength / 32;
+    uint256 staticLength = 8;
+
+    if (_index < staticLength && _index >= dynamicLength) {
+      return (uint256(bytes32(new bytes(0))));
+    }
+
+    unchecked {
+      bytes memory _blob = StoreSwitch.getDynamicFieldSlice(_tableId, _keyTuple, 0, _index * 32, (_index + 1) * 32);
+      return (uint256(bytes32(_blob)));
+    }
   }
 
   /**
-   * @notice Get lossInfantry.
+   * @notice Get an item of losses.
+   * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
-  function getLossInfantry(uint16 capitalId, uint256 timestamp) internal view returns (uint256 lossInfantry) {
+  function _getItemLosses(uint16 capitalId, uint256 timestamp, uint256 _index) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
 
-    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 4, _fieldLayout);
-    return (uint256(bytes32(_blob)));
+    uint256 _byteLength = StoreCore.getDynamicFieldLength(_tableId, _keyTuple, 0);
+    uint256 dynamicLength = _byteLength / 32;
+    uint256 staticLength = 8;
+
+    if (_index < staticLength && _index >= dynamicLength) {
+      return (uint256(bytes32(new bytes(0))));
+    }
+
+    unchecked {
+      bytes memory _blob = StoreCore.getDynamicFieldSlice(_tableId, _keyTuple, 0, _index * 32, (_index + 1) * 32);
+      return (uint256(bytes32(_blob)));
+    }
   }
 
   /**
-   * @notice Get lossInfantry.
+   * @notice Update an element of losses at `_index`.
    */
-  function _getLossInfantry(uint16 capitalId, uint256 timestamp) internal view returns (uint256 lossInfantry) {
+  function updateLosses(uint16 capitalId, uint256 timestamp, uint256 _index, uint256 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
 
-    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 4, _fieldLayout);
-    return (uint256(bytes32(_blob)));
+    unchecked {
+      bytes memory _encoded = abi.encodePacked((_element));
+      StoreSwitch.spliceDynamicData(_tableId, _keyTuple, 0, uint40(_index * 32), uint40(_encoded.length), _encoded);
+    }
   }
 
   /**
-   * @notice Set lossInfantry.
+   * @notice Update an element of losses at `_index`.
    */
-  function setLossInfantry(uint16 capitalId, uint256 timestamp, uint256 lossInfantry) internal {
+  function _updateLosses(uint16 capitalId, uint256 timestamp, uint256 _index, uint256 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
     _keyTuple[1] = bytes32(uint256(timestamp));
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 4, abi.encodePacked((lossInfantry)), _fieldLayout);
-  }
-
-  /**
-   * @notice Set lossInfantry.
-   */
-  function _setLossInfantry(uint16 capitalId, uint256 timestamp, uint256 lossInfantry) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
-    _keyTuple[0] = bytes32(uint256(capitalId));
-    _keyTuple[1] = bytes32(uint256(timestamp));
-
-    StoreCore.setStaticField(_tableId, _keyTuple, 4, abi.encodePacked((lossInfantry)), _fieldLayout);
+    unchecked {
+      bytes memory _encoded = abi.encodePacked((_element));
+      StoreCore.spliceDynamicData(_tableId, _keyTuple, 0, uint40(_index * 32), uint40(_encoded.length), _encoded);
+    }
   }
 
   /**
@@ -343,14 +372,13 @@ library BattleReport {
     uint256 timestamp,
     address attacker,
     address defender,
-    bool win,
-    bool attackOrDefence,
-    uint256 lossInfantry
+    bool attackWin,
+    uint256[8] memory losses
   ) internal {
-    bytes memory _staticData = encodeStatic(attacker, defender, win, attackOrDefence, lossInfantry);
+    bytes memory _staticData = encodeStatic(attacker, defender, attackWin);
 
-    EncodedLengths _encodedLengths;
-    bytes memory _dynamicData;
+    EncodedLengths _encodedLengths = encodeLengths(losses);
+    bytes memory _dynamicData = encodeDynamic(losses);
 
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
@@ -367,14 +395,13 @@ library BattleReport {
     uint256 timestamp,
     address attacker,
     address defender,
-    bool win,
-    bool attackOrDefence,
-    uint256 lossInfantry
+    bool attackWin,
+    uint256[8] memory losses
   ) internal {
-    bytes memory _staticData = encodeStatic(attacker, defender, win, attackOrDefence, lossInfantry);
+    bytes memory _staticData = encodeStatic(attacker, defender, attackWin);
 
-    EncodedLengths _encodedLengths;
-    bytes memory _dynamicData;
+    EncodedLengths _encodedLengths = encodeLengths(losses);
+    bytes memory _dynamicData = encodeDynamic(losses);
 
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
@@ -387,16 +414,10 @@ library BattleReport {
    * @notice Set the full data using the data struct.
    */
   function set(uint16 capitalId, uint256 timestamp, BattleReportData memory _table) internal {
-    bytes memory _staticData = encodeStatic(
-      _table.attacker,
-      _table.defender,
-      _table.win,
-      _table.attackOrDefence,
-      _table.lossInfantry
-    );
+    bytes memory _staticData = encodeStatic(_table.attacker, _table.defender, _table.attackWin);
 
-    EncodedLengths _encodedLengths;
-    bytes memory _dynamicData;
+    EncodedLengths _encodedLengths = encodeLengths(_table.losses);
+    bytes memory _dynamicData = encodeDynamic(_table.losses);
 
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
@@ -409,16 +430,10 @@ library BattleReport {
    * @notice Set the full data using the data struct.
    */
   function _set(uint16 capitalId, uint256 timestamp, BattleReportData memory _table) internal {
-    bytes memory _staticData = encodeStatic(
-      _table.attacker,
-      _table.defender,
-      _table.win,
-      _table.attackOrDefence,
-      _table.lossInfantry
-    );
+    bytes memory _staticData = encodeStatic(_table.attacker, _table.defender, _table.attackWin);
 
-    EncodedLengths _encodedLengths;
-    bytes memory _dynamicData;
+    EncodedLengths _encodedLengths = encodeLengths(_table.losses);
+    bytes memory _dynamicData = encodeDynamic(_table.losses);
 
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = bytes32(uint256(capitalId));
@@ -430,34 +445,43 @@ library BattleReport {
   /**
    * @notice Decode the tightly packed blob of static data using this table's field layout.
    */
-  function decodeStatic(
-    bytes memory _blob
-  ) internal pure returns (address attacker, address defender, bool win, bool attackOrDefence, uint256 lossInfantry) {
+  function decodeStatic(bytes memory _blob) internal pure returns (address attacker, address defender, bool attackWin) {
     attacker = (address(Bytes.getBytes20(_blob, 0)));
 
     defender = (address(Bytes.getBytes20(_blob, 20)));
 
-    win = (_toBool(uint8(Bytes.getBytes1(_blob, 40))));
+    attackWin = (_toBool(uint8(Bytes.getBytes1(_blob, 40))));
+  }
 
-    attackOrDefence = (_toBool(uint8(Bytes.getBytes1(_blob, 41))));
-
-    lossInfantry = (uint256(Bytes.getBytes32(_blob, 42)));
+  /**
+   * @notice Decode the tightly packed blob of dynamic data using the encoded lengths.
+   */
+  function decodeDynamic(
+    EncodedLengths _encodedLengths,
+    bytes memory _blob
+  ) internal pure returns (uint256[8] memory losses) {
+    uint256 _start;
+    uint256 _end;
+    unchecked {
+      _end = _encodedLengths.atIndex(0);
+    }
+    losses = toStaticArray_uint256_8(SliceLib.getSubslice(_blob, _start, _end).decodeArray_uint256());
   }
 
   /**
    * @notice Decode the tightly packed blobs using this table's field layout.
    * @param _staticData Tightly packed static fields.
-   *
-   *
+   * @param _encodedLengths Encoded lengths of dynamic fields.
+   * @param _dynamicData Tightly packed dynamic fields.
    */
   function decode(
     bytes memory _staticData,
-    EncodedLengths,
-    bytes memory
+    EncodedLengths _encodedLengths,
+    bytes memory _dynamicData
   ) internal pure returns (BattleReportData memory _table) {
-    (_table.attacker, _table.defender, _table.win, _table.attackOrDefence, _table.lossInfantry) = decodeStatic(
-      _staticData
-    );
+    (_table.attacker, _table.defender, _table.attackWin) = decodeStatic(_staticData);
+
+    (_table.losses) = decodeDynamic(_encodedLengths, _dynamicData);
   }
 
   /**
@@ -486,14 +510,27 @@ library BattleReport {
    * @notice Tightly pack static (fixed length) data using this table's schema.
    * @return The static data, encoded into a sequence of bytes.
    */
-  function encodeStatic(
-    address attacker,
-    address defender,
-    bool win,
-    bool attackOrDefence,
-    uint256 lossInfantry
-  ) internal pure returns (bytes memory) {
-    return abi.encodePacked(attacker, defender, win, attackOrDefence, lossInfantry);
+  function encodeStatic(address attacker, address defender, bool attackWin) internal pure returns (bytes memory) {
+    return abi.encodePacked(attacker, defender, attackWin);
+  }
+
+  /**
+   * @notice Tightly pack dynamic data lengths using this table's schema.
+   * @return _encodedLengths The lengths of the dynamic fields (packed into a single bytes32 value).
+   */
+  function encodeLengths(uint256[8] memory losses) internal pure returns (EncodedLengths _encodedLengths) {
+    // Lengths are effectively checked during copy by 2**40 bytes exceeding gas limits
+    unchecked {
+      _encodedLengths = EncodedLengthsLib.pack(losses.length * 32);
+    }
+  }
+
+  /**
+   * @notice Tightly pack dynamic (variable length) data using this table's schema.
+   * @return The dynamic data, encoded into a sequence of bytes.
+   */
+  function encodeDynamic(uint256[8] memory losses) internal pure returns (bytes memory) {
+    return abi.encodePacked(EncodeArray.encode(fromStaticArray_uint256_8(losses)));
   }
 
   /**
@@ -505,14 +542,13 @@ library BattleReport {
   function encode(
     address attacker,
     address defender,
-    bool win,
-    bool attackOrDefence,
-    uint256 lossInfantry
+    bool attackWin,
+    uint256[8] memory losses
   ) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
-    bytes memory _staticData = encodeStatic(attacker, defender, win, attackOrDefence, lossInfantry);
+    bytes memory _staticData = encodeStatic(attacker, defender, attackWin);
 
-    EncodedLengths _encodedLengths;
-    bytes memory _dynamicData;
+    EncodedLengths _encodedLengths = encodeLengths(losses);
+    bytes memory _dynamicData = encodeDynamic(losses);
 
     return (_staticData, _encodedLengths, _dynamicData);
   }
@@ -527,6 +563,45 @@ library BattleReport {
 
     return _keyTuple;
   }
+}
+
+/**
+ * @notice Cast a dynamic array to a static array.
+ * @dev In memory static arrays are just dynamic arrays without the 32 length bytes,
+ * so this function moves the pointer to the first element of the dynamic array.
+ * If the length of the dynamic array is smaller than the static length,
+ * the function returns an uninitialized array to avoid memory corruption.
+ * @param _value The dynamic array to cast.
+ * @return _result The static array.
+ */
+function toStaticArray_uint256_8(uint256[] memory _value) pure returns (uint256[8] memory _result) {
+  if (_value.length < 8) {
+    // return an uninitialized array if the length is smaller than the fixed length to avoid memory corruption
+    return _result;
+  } else {
+    // in memory static arrays are just dynamic arrays without the 32 length bytes
+    // (without the length check this could lead to memory corruption)
+    assembly {
+      _result := add(_value, 0x20)
+    }
+  }
+}
+
+/**
+ * @notice Copy a static array to a dynamic array.
+ * @dev Static arrays don't have a length prefix, so this function copies the memory from the static array to a new dynamic array.
+ * @param _value The static array to copy.
+ * @return _result The dynamic array.
+ */
+function fromStaticArray_uint256_8(uint256[8] memory _value) pure returns (uint256[] memory _result) {
+  _result = new uint256[](8);
+  uint256 fromPointer;
+  uint256 toPointer;
+  assembly {
+    fromPointer := _value
+    toPointer := add(_result, 0x20)
+  }
+  Memory.copy(fromPointer, toPointer, 256);
 }
 
 /**

@@ -197,9 +197,8 @@ export default defineWorld({
         timestamp: "uint256",
         attacker: "address",
         defender: "address",
-        win: "bool",
-        attackOrDefence: "bool",
-        lossInfantry: "uint256",
+        attackWin: "bool",
+        losses: "uint256[8]"
       }
     },
   },
