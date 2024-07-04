@@ -17,11 +17,13 @@ public class CapitalComponent : MUDComponent
             Entity.Toggle(false);
         }
 
-        int len = update.Owner.Length;
-        Debug.Log(">>>>>>> Len is  " + len + " Key Len " + NetworkManager.LocalKey.Length);
-
         Debug.Log("1 Capital.... Update>>>>>>>>>" + update.Owner + " : My : " + NetworkManager.LocalKey + "Tile ID " +
                   update.TileId);
+
+        if (update.Owner.Equals(NetworkManager.LocalKey))
+        {
+            Debug.Log(">>>>>>>>>>> Found My Capital!");
+        }
 
         //position = new Vector3((int)update.X, (int)update.Y, (int)update.Z);
         //transform.position = position;
