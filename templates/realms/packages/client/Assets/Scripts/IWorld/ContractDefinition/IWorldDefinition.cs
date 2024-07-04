@@ -652,6 +652,15 @@ namespace IWorld.ContractDefinition
         public virtual byte[] FieldLayout { get; set; }
     }
 
+    public partial class SetUnStakeFeeFunction : SetUnStakeFeeFunctionBase { }
+
+    [Function("setUnStakeFee")]
+    public class SetUnStakeFeeFunctionBase : FunctionMessage
+    {
+        [Parameter("uint256", "fee", 1)]
+        public virtual BigInteger Fee { get; set; }
+    }
+
     public partial class SpawnCapitalFunction : SpawnCapitalFunctionBase { }
 
     [Function("spawnCapital")]
@@ -703,6 +712,24 @@ namespace IWorld.ContractDefinition
         public virtual byte[] Data { get; set; }
     }
 
+    public partial class StakeTokenBFunction : StakeTokenBFunctionBase { }
+
+    [Function("stakeTokenB")]
+    public class StakeTokenBFunctionBase : FunctionMessage
+    {
+        [Parameter("uint256", "amount", 1)]
+        public virtual BigInteger Amount { get; set; }
+    }
+
+    public partial class StakeTokenCFunction : StakeTokenCFunctionBase { }
+
+    [Function("stakeTokenC")]
+    public class StakeTokenCFunctionBase : FunctionMessage
+    {
+        [Parameter("uint256", "amount", 1)]
+        public virtual BigInteger Amount { get; set; }
+    }
+
     public partial class StoreVersionFunction : StoreVersionFunctionBase { }
 
     [Function("storeVersion", "bytes32")]
@@ -746,6 +773,17 @@ namespace IWorld.ContractDefinition
         public virtual byte[] NamespaceId { get; set; }
         [Parameter("address", "newOwner", 2)]
         public virtual string NewOwner { get; set; }
+    }
+
+    public partial class UnStakeTokenBFunction : UnStakeTokenBFunctionBase { }
+
+    [Function("unStakeTokenB")]
+    public class UnStakeTokenBFunctionBase : FunctionMessage
+    {
+        [Parameter("address", "staker", 1)]
+        public virtual string Staker { get; set; }
+        [Parameter("uint256", "amount", 2)]
+        public virtual BigInteger Amount { get; set; }
     }
 
     public partial class UnregisterDelegationFunction : UnregisterDelegationFunctionBase { }
@@ -1514,6 +1552,12 @@ namespace IWorld.ContractDefinition
 
 
 
+
+
+
+
+
+
     public partial class StoreVersionOutputDTO : StoreVersionOutputDTOBase { }
 
     [FunctionOutput]
@@ -1522,6 +1566,8 @@ namespace IWorld.ContractDefinition
         [Parameter("bytes32", "version", 1)]
         public virtual byte[] Version { get; set; }
     }
+
+
 
 
 

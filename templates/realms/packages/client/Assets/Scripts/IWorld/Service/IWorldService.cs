@@ -1330,6 +1330,32 @@ namespace IWorld.Service
              return ContractHandler.SendRequestAndWaitForReceiptAsync(setStaticFieldFunction, cancellationToken);
         }
 
+        public Task<string> SetUnStakeFeeRequestAsync(SetUnStakeFeeFunction setUnStakeFeeFunction)
+        {
+             return ContractHandler.SendRequestAsync(setUnStakeFeeFunction);
+        }
+
+        public Task<TransactionReceipt> SetUnStakeFeeRequestAndWaitForReceiptAsync(SetUnStakeFeeFunction setUnStakeFeeFunction, CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(setUnStakeFeeFunction, cancellationToken);
+        }
+
+        public Task<string> SetUnStakeFeeRequestAsync(BigInteger fee)
+        {
+            var setUnStakeFeeFunction = new SetUnStakeFeeFunction();
+                setUnStakeFeeFunction.Fee = fee;
+            
+             return ContractHandler.SendRequestAsync(setUnStakeFeeFunction);
+        }
+
+        public Task<TransactionReceipt> SetUnStakeFeeRequestAndWaitForReceiptAsync(BigInteger fee, CancellationTokenSource cancellationToken = null)
+        {
+            var setUnStakeFeeFunction = new SetUnStakeFeeFunction();
+                setUnStakeFeeFunction.Fee = fee;
+            
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(setUnStakeFeeFunction, cancellationToken);
+        }
+
         public Task<string> SpawnCapitalRequestAsync(SpawnCapitalFunction spawnCapitalFunction)
         {
              return ContractHandler.SendRequestAsync(spawnCapitalFunction);
@@ -1444,6 +1470,58 @@ namespace IWorld.Service
              return ContractHandler.SendRequestAndWaitForReceiptAsync(spliceStaticDataFunction, cancellationToken);
         }
 
+        public Task<string> StakeTokenBRequestAsync(StakeTokenBFunction stakeTokenBFunction)
+        {
+             return ContractHandler.SendRequestAsync(stakeTokenBFunction);
+        }
+
+        public Task<TransactionReceipt> StakeTokenBRequestAndWaitForReceiptAsync(StakeTokenBFunction stakeTokenBFunction, CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(stakeTokenBFunction, cancellationToken);
+        }
+
+        public Task<string> StakeTokenBRequestAsync(BigInteger amount)
+        {
+            var stakeTokenBFunction = new StakeTokenBFunction();
+                stakeTokenBFunction.Amount = amount;
+            
+             return ContractHandler.SendRequestAsync(stakeTokenBFunction);
+        }
+
+        public Task<TransactionReceipt> StakeTokenBRequestAndWaitForReceiptAsync(BigInteger amount, CancellationTokenSource cancellationToken = null)
+        {
+            var stakeTokenBFunction = new StakeTokenBFunction();
+                stakeTokenBFunction.Amount = amount;
+            
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(stakeTokenBFunction, cancellationToken);
+        }
+
+        public Task<string> StakeTokenCRequestAsync(StakeTokenCFunction stakeTokenCFunction)
+        {
+             return ContractHandler.SendRequestAsync(stakeTokenCFunction);
+        }
+
+        public Task<TransactionReceipt> StakeTokenCRequestAndWaitForReceiptAsync(StakeTokenCFunction stakeTokenCFunction, CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(stakeTokenCFunction, cancellationToken);
+        }
+
+        public Task<string> StakeTokenCRequestAsync(BigInteger amount)
+        {
+            var stakeTokenCFunction = new StakeTokenCFunction();
+                stakeTokenCFunction.Amount = amount;
+            
+             return ContractHandler.SendRequestAsync(stakeTokenCFunction);
+        }
+
+        public Task<TransactionReceipt> StakeTokenCRequestAndWaitForReceiptAsync(BigInteger amount, CancellationTokenSource cancellationToken = null)
+        {
+            var stakeTokenCFunction = new StakeTokenCFunction();
+                stakeTokenCFunction.Amount = amount;
+            
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(stakeTokenCFunction, cancellationToken);
+        }
+
         public Task<byte[]> StoreVersionQueryAsync(StoreVersionFunction storeVersionFunction, BlockParameter blockParameter = null)
         {
             return ContractHandler.QueryAsync<StoreVersionFunction, byte[]>(storeVersionFunction, blockParameter);
@@ -1541,6 +1619,34 @@ namespace IWorld.Service
                 transferOwnershipFunction.NewOwner = newOwner;
             
              return ContractHandler.SendRequestAndWaitForReceiptAsync(transferOwnershipFunction, cancellationToken);
+        }
+
+        public Task<string> UnStakeTokenBRequestAsync(UnStakeTokenBFunction unStakeTokenBFunction)
+        {
+             return ContractHandler.SendRequestAsync(unStakeTokenBFunction);
+        }
+
+        public Task<TransactionReceipt> UnStakeTokenBRequestAndWaitForReceiptAsync(UnStakeTokenBFunction unStakeTokenBFunction, CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(unStakeTokenBFunction, cancellationToken);
+        }
+
+        public Task<string> UnStakeTokenBRequestAsync(string staker, BigInteger amount)
+        {
+            var unStakeTokenBFunction = new UnStakeTokenBFunction();
+                unStakeTokenBFunction.Staker = staker;
+                unStakeTokenBFunction.Amount = amount;
+            
+             return ContractHandler.SendRequestAsync(unStakeTokenBFunction);
+        }
+
+        public Task<TransactionReceipt> UnStakeTokenBRequestAndWaitForReceiptAsync(string staker, BigInteger amount, CancellationTokenSource cancellationToken = null)
+        {
+            var unStakeTokenBFunction = new UnStakeTokenBFunction();
+                unStakeTokenBFunction.Staker = staker;
+                unStakeTokenBFunction.Amount = amount;
+            
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(unStakeTokenBFunction, cancellationToken);
         }
 
         public Task<string> UnregisterDelegationRequestAsync(UnregisterDelegationFunction unregisterDelegationFunction)

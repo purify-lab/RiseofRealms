@@ -333,11 +333,11 @@ contract SpawnSystem is System {
 
         uint256 last_time = GlobalStake.getLastStakeTime();
         uint256 current_time = block.timestamp;
-        uint256 block = current_time - last_time;
+        uint256 block_delta = current_time - last_time;
 
-        if (block > 0) {
+        if (block_delta > 0) {
             uint256 supply = tokenB.totalSupply();
-            uint256 temp = GlobalStake.getStakeTokenB() * (1 + GlobalStake.getStakeTokenB() / supply) * block * rate / 10000;
+            uint256 temp = GlobalStake.getStakeTokenB() * (1 + GlobalStake.getStakeTokenB() / supply) * block_delta * rate / 10000;
 
             uint256 valueB = GlobalStake.getStakeTokenB() + temp;
 
@@ -362,11 +362,11 @@ contract SpawnSystem is System {
 
         uint256 last_time = GlobalStake.getLastStakeTime();
         uint256 current_time = block.timestamp;
-        uint256 block = current_time - last_time;
+        uint256 block_delta = current_time - last_time;
 
-        if (block > 0) {
+        if (block_delta > 0) {
             uint256 supply = tokenC.totalSupply();
-            uint256 temp = GlobalStake.getStakeTokenC() * (1 + GlobalStake.getStakeTokenC() / supply) * block * rate / 10000;
+            uint256 temp = GlobalStake.getStakeTokenC() * (1 + GlobalStake.getStakeTokenC() / supply) * block_delta * rate / 10000;
 
             uint256 valueC = GlobalStake.getStakeTokenC() + temp;
 
