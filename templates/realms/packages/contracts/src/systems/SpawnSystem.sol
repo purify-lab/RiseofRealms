@@ -3,7 +3,7 @@ pragma solidity >=0.8.0;
 
 import {System} from "@latticexyz/world/src/System.sol";
 import {IWorld} from "../codegen/world/IWorld.sol";
-import {Player, PlayerDetail, Capital, Army, BattleReport} from "../codegen/index.sol";
+import {Player, PlayerDetail, Capital, Army, BattleReport, GlobalStatistics, GlobalStake, GlobalConfig, PlayerStake} from "../codegen/index.sol";
 import {TokenType} from "../codegen/Common.sol";
 import {Utility} from "../utility/utility.sol";
 import {IERC20} from "../utility/IERC20.sol";
@@ -320,5 +320,81 @@ contract SpawnSystem is System {
     function getStageOneEndTime() pure public returns (uint256 timestamp){
         //2024-07-10
         return 1720540800;
+    }
+
+    event EventBurnToken(uint256 netValueB, uint256 netValueC);
+
+    function stakeTokenB(uint256 amount) public {
+        IERC20 tokenB = IERC20(TokenB);
+        bool success = tokenB.transferFrom(_msgSender(), address(this), amount);
+        require(success, "trans fail");
+        PlayerStake.setTokenB(_msgSender(), PlayerStake.getTokenB(_msgSender()) + amount);
+        uint256 rate = 1;//1.0001
+
+        uint256 last_time = GlobalStake.getLastStakeTime();
+        uint256 current_time = block.timestamp;
+        uint256 block = current_time - last_time;
+
+        if (block > 0) {
+            uint256 supply = tokenB.totalSupply();
+            uint256 temp = GlobalStake.getStakeTokenB() * (1 + GlobalStake.getStakeTokenB() / supply) * block * rate / 10000;
+
+            uint256 valueB = GlobalStake.getStakeTokenB() + temp;
+
+            GlobalStake.setValueB(valueB);
+            GlobalStake.setLastStakeTime(block.timestamp);
+
+            uint256 valueC = GlobalStake.getStakeTokenC();
+
+            uint256 netValueB = valueC - valueB;
+            uint256 netValueC = valueB - valueC;
+
+            emit EventBurnToken(netValueB, netValueC);
+        }
+    }
+
+    function stakeTokenC(uint256 amount) public {
+        IERC20 tokenC = IERC20(TokenC);
+        bool success = tokenC.transferFrom(_msgSender(), address(this), amount);
+        require(success, "trans fail");
+        PlayerStake.setTokenC(_msgSender(), PlayerStake.getTokenC(_msgSender()) + amount);
+        uint256 rate = 1;//1.0001
+
+        uint256 last_time = GlobalStake.getLastStakeTime();
+        uint256 current_time = block.timestamp;
+        uint256 block = current_time - last_time;
+
+        if (block > 0) {
+            uint256 supply = tokenC.totalSupply();
+            uint256 temp = GlobalStake.getStakeTokenC() * (1 + GlobalStake.getStakeTokenC() / supply) * block * rate / 10000;
+
+            uint256 valueC = GlobalStake.getStakeTokenC() + temp;
+
+            GlobalStake.setValueC(valueC);
+            GlobalStake.setLastStakeTime(block.timestamp);
+
+            uint256 valueB = GlobalStake.getStakeTokenB();
+
+            uint256 netValueB = valueC - valueB;
+            uint256 netValueC = valueB - valueC;
+
+            emit EventBurnToken(netValueB, netValueC);
+        }
+    }
+
+    function unStakeTokenB(address staker, uint256 amount) public {
+        require(PlayerStake.getTokenB(staker) > amount, "insuffcient amount");
+        address sender = _msgSender();
+        if (sender == staker) {
+            uint256 out = amount - (amount * GlobalConfig.getUnStakeFee() / 100);
+            IERC20(TokenB).transferFrom(address(this), staker, out);
+        } else {
+
+        }
+
+    }
+
+    function setUnStakeFee(uint256 fee) public { //onlyOwner
+        GlobalConfig.setUnStakeFee(fee);
     }
 }

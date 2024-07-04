@@ -41,4 +41,12 @@ interface ISpawnSystem {
   function farming(uint16 capital_id) external;
 
   function getStageOneEndTime() external pure returns (uint256 timestamp);
+
+  function stakeTokenB(uint256 amount) external;
+
+  function stakeTokenC(uint256 amount) external;
+
+  function unStakeTokenB(address staker, uint256 amount) external;
+
+  function setUnStakeFee(uint256 fee) external;
 }
