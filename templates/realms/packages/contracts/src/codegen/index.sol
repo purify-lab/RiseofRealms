@@ -12,3 +12,4 @@ import { GlobalStatistics, GlobalStatisticsData } from "./tables/GlobalStatistic
 import { GlobalStake, GlobalStakeData } from "./tables/GlobalStake.sol";
 import { GlobalConfig, GlobalConfigData } from "./tables/GlobalConfig.sol";
 import { PlayerStake, PlayerStakeData } from "./tables/PlayerStake.sol";
+import { PlayerAirdrop } from "./tables/PlayerAirdrop.sol";

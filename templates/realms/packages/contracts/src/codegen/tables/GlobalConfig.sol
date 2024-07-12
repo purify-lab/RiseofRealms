@@ -20,6 +20,7 @@ struct GlobalConfigData {
   uint256 unStakeFee;
   uint256 passiveUnStakeFee;
   address owner;
+  bytes32 merkleRoot;
 }
 
 library GlobalConfig {
@@ -27,12 +28,12 @@ library GlobalConfig {
   ResourceId constant _tableId = ResourceId.wrap(0x74620000000000000000000000000000476c6f62616c436f6e66696700000000);
 
   FieldLayout constant _fieldLayout =
-    FieldLayout.wrap(0x0054030020201400000000000000000000000000000000000000000000000000);
+    FieldLayout.wrap(0x0074040020201420000000000000000000000000000000000000000000000000);
 
   // Hex-encoded key schema of ()
   Schema constant _keySchema = Schema.wrap(0x0000000000000000000000000000000000000000000000000000000000000000);
-  // Hex-encoded value schema of (uint256, uint256, address)
-  Schema constant _valueSchema = Schema.wrap(0x005403001f1f6100000000000000000000000000000000000000000000000000);
+  // Hex-encoded value schema of (uint256, uint256, address, bytes32)
+  Schema constant _valueSchema = Schema.wrap(0x007404001f1f615f000000000000000000000000000000000000000000000000);
 
   /**
    * @notice Get the table's key field names.
@@ -47,10 +48,11 @@ library GlobalConfig {
    * @return fieldNames An array of strings with the names of value fields.
    */
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
-    fieldNames = new string[](3);
+    fieldNames = new string[](4);
     fieldNames[0] = "unStakeFee";
     fieldNames[1] = "passiveUnStakeFee";
     fieldNames[2] = "owner";
+    fieldNames[3] = "merkleRoot";
   }
 
   /**
@@ -182,6 +184,44 @@ library GlobalConfig {
   }
 
   /**
+   * @notice Get merkleRoot.
+   */
+  function getMerkleRoot() internal view returns (bytes32 merkleRoot) {
+    bytes32[] memory _keyTuple = new bytes32[](0);
+
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 3, _fieldLayout);
+    return (bytes32(_blob));
+  }
+
+  /**
+   * @notice Get merkleRoot.
+   */
+  function _getMerkleRoot() internal view returns (bytes32 merkleRoot) {
+    bytes32[] memory _keyTuple = new bytes32[](0);
+
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 3, _fieldLayout);
+    return (bytes32(_blob));
+  }
+
+  /**
+   * @notice Set merkleRoot.
+   */
+  function setMerkleRoot(bytes32 merkleRoot) internal {
+    bytes32[] memory _keyTuple = new bytes32[](0);
+
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((merkleRoot)), _fieldLayout);
+  }
+
+  /**
+   * @notice Set merkleRoot.
+   */
+  function _setMerkleRoot(bytes32 merkleRoot) internal {
+    bytes32[] memory _keyTuple = new bytes32[](0);
+
+    StoreCore.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((merkleRoot)), _fieldLayout);
+  }
+
+  /**
    * @notice Get the full data.
    */
   function get() internal view returns (GlobalConfigData memory _table) {
@@ -212,8 +252,8 @@ library GlobalConfig {
   /**
    * @notice Set the full data using individual values.
    */
-  function set(uint256 unStakeFee, uint256 passiveUnStakeFee, address owner) internal {
-    bytes memory _staticData = encodeStatic(unStakeFee, passiveUnStakeFee, owner);
+  function set(uint256 unStakeFee, uint256 passiveUnStakeFee, address owner, bytes32 merkleRoot) internal {
+    bytes memory _staticData = encodeStatic(unStakeFee, passiveUnStakeFee, owner, merkleRoot);
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
@@ -226,8 +266,8 @@ library GlobalConfig {
   /**
    * @notice Set the full data using individual values.
    */
-  function _set(uint256 unStakeFee, uint256 passiveUnStakeFee, address owner) internal {
-    bytes memory _staticData = encodeStatic(unStakeFee, passiveUnStakeFee, owner);
+  function _set(uint256 unStakeFee, uint256 passiveUnStakeFee, address owner, bytes32 merkleRoot) internal {
+    bytes memory _staticData = encodeStatic(unStakeFee, passiveUnStakeFee, owner, merkleRoot);
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
@@ -241,7 +281,12 @@ library GlobalConfig {
    * @notice Set the full data using the data struct.
    */
   function set(GlobalConfigData memory _table) internal {
-    bytes memory _staticData = encodeStatic(_table.unStakeFee, _table.passiveUnStakeFee, _table.owner);
+    bytes memory _staticData = encodeStatic(
+      _table.unStakeFee,
+      _table.passiveUnStakeFee,
+      _table.owner,
+      _table.merkleRoot
+    );
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
@@ -255,7 +300,12 @@ library GlobalConfig {
    * @notice Set the full data using the data struct.
    */
   function _set(GlobalConfigData memory _table) internal {
-    bytes memory _staticData = encodeStatic(_table.unStakeFee, _table.passiveUnStakeFee, _table.owner);
+    bytes memory _staticData = encodeStatic(
+      _table.unStakeFee,
+      _table.passiveUnStakeFee,
+      _table.owner,
+      _table.merkleRoot
+    );
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
@@ -270,12 +320,14 @@ library GlobalConfig {
    */
   function decodeStatic(
     bytes memory _blob
-  ) internal pure returns (uint256 unStakeFee, uint256 passiveUnStakeFee, address owner) {
+  ) internal pure returns (uint256 unStakeFee, uint256 passiveUnStakeFee, address owner, bytes32 merkleRoot) {
     unStakeFee = (uint256(Bytes.getBytes32(_blob, 0)));
 
     passiveUnStakeFee = (uint256(Bytes.getBytes32(_blob, 32)));
 
     owner = (address(Bytes.getBytes20(_blob, 64)));
+
+    merkleRoot = (Bytes.getBytes32(_blob, 84));
   }
 
   /**
@@ -289,7 +341,7 @@ library GlobalConfig {
     EncodedLengths,
     bytes memory
   ) internal pure returns (GlobalConfigData memory _table) {
-    (_table.unStakeFee, _table.passiveUnStakeFee, _table.owner) = decodeStatic(_staticData);
+    (_table.unStakeFee, _table.passiveUnStakeFee, _table.owner, _table.merkleRoot) = decodeStatic(_staticData);
   }
 
   /**
@@ -317,9 +369,10 @@ library GlobalConfig {
   function encodeStatic(
     uint256 unStakeFee,
     uint256 passiveUnStakeFee,
-    address owner
+    address owner,
+    bytes32 merkleRoot
   ) internal pure returns (bytes memory) {
-    return abi.encodePacked(unStakeFee, passiveUnStakeFee, owner);
+    return abi.encodePacked(unStakeFee, passiveUnStakeFee, owner, merkleRoot);
   }
 
   /**
@@ -331,9 +384,10 @@ library GlobalConfig {
   function encode(
     uint256 unStakeFee,
     uint256 passiveUnStakeFee,
-    address owner
+    address owner,
+    bytes32 merkleRoot
   ) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
-    bytes memory _staticData = encodeStatic(unStakeFee, passiveUnStakeFee, owner);
+    bytes memory _staticData = encodeStatic(unStakeFee, passiveUnStakeFee, owner, merkleRoot);
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;

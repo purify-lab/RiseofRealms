@@ -2,7 +2,6 @@
 pragma solidity >=0.8.0;
 
 import {System} from "@latticexyz/world/src/System.sol";
-import {IWorld} from "../codegen/world/IWorld.sol";
 import {Player, PlayerDetail, Capital, Army, BattleReport, GlobalStatistics, GlobalStake, GlobalConfig, PlayerStake} from "../codegen/index.sol";
 import {TokenType} from "../codegen/Common.sol";
 import {Utility} from "../utility/utility.sol";
@@ -412,7 +411,7 @@ contract SpawnSystem is System {
             uint256 tokenUnStakedB = (totalStaked - limit) * partB / 100;
             uint256 tokenUnStakedC = (totalStaked - limit) * partC / 100;
             if (tokenUnStakedB > 0) {
-                let feeAmount = tokenUnStakedB * fee / 100;
+                uint256 feeAmount = tokenUnStakedB * fee / 100;
                 IERC20 tokenB = IERC20(TokenB);
                 PlayerStake.setTokenB(defenderAddress, PlayerStake.getTokenB(defenderAddress) - tokenUnStakedB);
                 tokenB.transferFrom(address(this), defenderAddress, tokenUnStakedB - feeAmount);
@@ -420,7 +419,7 @@ contract SpawnSystem is System {
             }
             if (tokenUnStakedC > 0) {
                 IERC20 tokenC = IERC20(TokenC);
-                let feeAmount = tokenUnStakedC * fee / 100;
+                uint256 feeAmount = tokenUnStakedC * fee / 100;
                 PlayerStake.setTokenC(defenderAddress, PlayerStake.getTokenC(defenderAddress) - tokenUnStakedC);
                 tokenC.transferFrom(address(this), defenderAddress, tokenUnStakedC - feeAmount);
                 tokenC.transferFrom(address(this), attackerAddress, feeAmount);

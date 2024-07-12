@@ -90,7 +90,8 @@ export default defineWorld({
       schema: {
         unStakeFee: "uint256",
         passiveUnStakeFee: "uint256",
-        owner: "address"
+        owner: "address",
+        merkleRoot: "bytes32",
       },
       key: [],
 
@@ -100,6 +101,13 @@ export default defineWorld({
         wallet: "address",
         tokenB: "uint256",
         tokenC: "uint256"
+      },
+      key: ['wallet']
+    },
+    PlayerAirdrop: {
+      schema: {
+        wallet: "address",
+        isClaimed: "bool"
       },
       key: ['wallet']
     }
