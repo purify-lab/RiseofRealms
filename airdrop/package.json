@@ -1,0 +1,13 @@
+{
+  "name": "robot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "commonjs",
+  "dependencies": {
+    "ethers": "^6.13.1",
+    "js-merkle": "^0.1.6",
+    "js-sha3": "^0.9.3",
+    "merkletreejs": "^0.4.0"
+  }
+}
