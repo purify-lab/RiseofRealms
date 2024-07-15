@@ -1,13 +1,15 @@
 {
-  "name": "robot",
+  "name": "airdrop",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "type": "commonjs",
   "dependencies": {
     "ethers": "^6.13.1",
-    "js-merkle": "^0.1.6",
+    "fs": "^0.0.1-security",
     "js-sha3": "^0.9.3",
-    "merkletreejs": "^0.4.0"
+    "merkletreejs": "^0.4.0",
+    "path": "^0.12.7",
+    "xlsx": "^0.18.5"
   }
 }
