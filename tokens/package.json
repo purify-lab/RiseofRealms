@@ -1,0 +1,12 @@
+{
+  "name": "tokens",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "commonjs",
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.2",
+    "@uniswap/universal-router": "^1.6.0",
+    "@uniswap/v3-periphery": "^1.4.4"
+  }
+}
