@@ -90,9 +90,9 @@ export function tryParseAmount(value?: string, currency?: Currency): CurrencyAmo
 }
 
 const BAD_RECIPIENT_ADDRESSES: string[] = [
-  DeploymentInfo[4].factory.proxyAddress, // v2 factory
+  DeploymentInfo[17069].factory.proxyAddress, // v2 factory
   '0xf164fC0Ec4E93095b804a4795bBe1e041497b92a', // v2 router 01
-  DeploymentInfo[4].router.proxyAddress // v2 router 02
+  DeploymentInfo[17069].router.proxyAddress // v2 router 02
 ]
 
 /**
