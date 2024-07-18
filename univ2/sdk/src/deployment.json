@@ -17,8 +17,8 @@
       "fromBlock": 10108204
     },
     "router": {
-      "proxyAddress": "0xE1958B244494853203351c2a752883aB76237956",
-      "implAddress": "0xE1958B244494853203351c2a752883aB76237956",
+      "proxyAddress": "0xf9E6284f46E40c91F31dCe60A79d7aEb243afF6B",
+      "implAddress": "0xf9E6284f46E40c91F31dCe60A79d7aEb243afF6B",
       "version": "1.0.0",
       "contract": "UniswapV2Router02",
       "operator": "0x3eA0949424eBB2A3d311a943e53773CB05C4BE3e",
