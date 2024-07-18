@@ -57,7 +57,7 @@ contract SOUL_TOKEN is ERC20, Ownable {
         uniswapPool = IUniswapV3Pool(uniswapFactory.createPool(
             address(this),
             0x4200000000000000000000000000000000000006,//WETH
-            3000  // Fee tier: 0.3%
+            500  // Fee tier: 0.3%
         ));
 
         // Initialize the pool
@@ -111,7 +111,7 @@ contract TITANS is ERC20, Ownable, ERC20Burnable, IERC721Receiver {
         uniswapPool = IUniswapV3Pool(uniswapFactory.createPool(
             address(this),
             WETH_ADDRESS,
-            3000  // Fee tier: 0.3%
+            500  // Fee tier: 0.3%
         ));
 
         TransferHelper.safeApprove(address(this), ROUTER_ADDRESS, type(uint256).max);
@@ -151,53 +151,53 @@ contract TITANS is ERC20, Ownable, ERC20Burnable, IERC721Receiver {
 //        (int256 amount0, int256 amount1) = uniswapPool.swap(to, zeroForOne, amount, 0, data);
 ////        uniswapPool.mint()
 //    }
-
-    function swapExactInputSingle(uint256 titansAmount, uint256 wethAmount) external {
-        uint256 deadline = block.timestamp + 60;
-        // Approve the router contract to spend DAI
-        IERC20(address(this)).approve(ROUTER_ADDRESS, titansAmount);
-
-        // Create an array of commands
-        bytes memory commands = new bytes(2);
-        commands[0] = 0x0a; // PERMIT2_PERMIT
-        commands[1] = 0x00; // V3_SWAP_EXACT_IN
-
-        // Create an array of inputs
-        bytes[] memory inputs = new bytes[](2);
-
-        //PERMIT2_PERMIT
-        inputs[0] = abi.encode()//无法采用合约代替EOA签名，因为没有私钥
-
-        //V3_SWAP_EXACT_IN
-        address recipient = address(msg.sender);//The recipient of the output of the trade
-        uint256 input = titansAmount;// The amount of input tokens for the trade
-        uint256 output = wethAmount;//The minimum amount of output tokens the user wants
-        bytes memory path = abi.encode(address(this), WETH_ADDRESS);
-        bool flag = true; //A flag for whether the input tokens should come from the msg.sender (through Permit2) or whether the funds are already in the UniversalRouter
-        inputs[1] = abi.encode(recipient, input, output, path, flag);
-
-        // Call the execute function of the universal router contract
-        IUniversalRouter universalRouter = IUniversalRouter(ROUTER_ADDRESS);
-        universalRouter.execute(commands, inputs, deadline);
-    }
+//
+//    function swapExactInputSingle(uint256 titansAmount, uint256 wethAmount) external {
+//        uint256 deadline = block.timestamp + 60;
+//        // Approve the router contract to spend DAI
+//        IERC20(address(this)).approve(ROUTER_ADDRESS, titansAmount);
+//
+//        // Create an array of commands
+//        bytes memory commands = new bytes(2);
+//        commands[0] = 0x0a; // PERMIT2_PERMIT
+//        commands[1] = 0x00; // V3_SWAP_EXACT_IN
+//
+//        // Create an array of inputs
+//        bytes[] memory inputs = new bytes[](2);
+//
+//        //PERMIT2_PERMIT
+//        inputs[0] = abi.encode()//无法采用合约代替EOA签名，因为没有私钥
+//
+//        //V3_SWAP_EXACT_IN
+//        address recipient = address(msg.sender);//The recipient of the output of the trade
+//        uint256 input = titansAmount;// The amount of input tokens for the trade
+//        uint256 output = wethAmount;//The minimum amount of output tokens the user wants
+//        bytes memory path = abi.encode(address(this), WETH_ADDRESS);
+//        bool flag = true; //A flag for whether the input tokens should come from the msg.sender (through Permit2) or whether the funds are already in the UniversalRouter
+//        inputs[1] = abi.encode(recipient, input, output, path, flag);
+//
+//        // Call the execute function of the universal router contract
+//        IUniversalRouter universalRouter = IUniversalRouter(ROUTER_ADDRESS);
+//        universalRouter.execute(commands, inputs, deadline);
+//    }
 
     /// @notice Increases liquidity in the current range
     /// @dev Pool must be initialized already to add liquidity
     /// @param tokenId The id of the erc721 token
     /// @param amount0 The amount to add of token0
     /// @param amount1 The amount to add of token1
-    function increaseLiquidityCurrentRange(
-        uint256 tokenId,
-        uint256 amountAdd0,
-        uint256 amountAdd1
-    )
-    external
-    returns (
-        uint128 liquidity,
-        uint256 amount0,
-        uint256 amount1
-    )
-    {
+//    function increaseLiquidityCurrentRange(
+//        uint256 tokenId,
+//        uint256 amountAdd0,
+//        uint256 amountAdd1
+//    )
+//    external
+//    returns (
+//        uint128 liquidity,
+//        uint256 amount0,
+//        uint256 amount1
+//    )
+//    {
 //        INonfungiblePositionManager.IncreaseLiquidityParams memory params = INonfungiblePositionManager.IncreaseLiquidityParams({
 //                tokenId: tokenId,
 //                amount0Desired: amountAdd0,
@@ -208,21 +208,21 @@ contract TITANS is ERC20, Ownable, ERC20Burnable, IERC721Receiver {
 //            });
 //
 //        (liquidity, amount0, amount1) = nonfungiblePositionManager.increaseLiquidity(params);
-    }
+//    }
 
-    function onERC721Received(
-        address operator,
-        address,
-        uint256 tokenId,
-        bytes calldata
-    ) external override returns (bytes4) {
-        // get position information
-
-        //todo
-//        _createDeposit(operator, tokenId);
-
-        return this.onERC721Received.selector;
-    }
+//    function onERC721Received(
+//        address operator,
+//        address,
+//        uint256 tokenId,
+//        bytes calldata
+//    ) external override returns (bytes4) {
+//        // get position information
+//
+//        //todo
+////        _createDeposit(operator, tokenId);
+//
+//        return this.onERC721Received.selector;
+//    }
 
 //    function ultraMint(address to, int256 amount, bool zeroForOne, uint256 userTokenAmount) public {
 //        bytes memory data = new bytes(0);
@@ -258,7 +258,7 @@ contract FURY is ERC20, Ownable, ERC20Burnable {
         uniswapPool = IUniswapV3Pool(uniswapFactory.createPool(
             address(this),
             0x4200000000000000000000000000000000000006,//WETH
-            3000  // Fee tier: 0.3%
+            500  // Fee tier: 0.3%
         ));
     }
 

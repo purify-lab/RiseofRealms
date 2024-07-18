@@ -112,8 +112,6 @@ async function main() {
 
     await usdc_contract.approve(ROUTER, ethers.utils.parseEther('1000'));
 
-    const allow
-
     const WETH_USDC_V3 = await getPool(WETH, USDC, FeeAmount.LOW)
 
 

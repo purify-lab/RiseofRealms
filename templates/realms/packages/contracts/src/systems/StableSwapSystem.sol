@@ -21,7 +21,6 @@ contract StableSwapSystem is System {
         IERC20(TokenC).transfer(msg.sender, amount);
     }
 
-
     bool public paused;
 
     modifier whenNotPaused() {
