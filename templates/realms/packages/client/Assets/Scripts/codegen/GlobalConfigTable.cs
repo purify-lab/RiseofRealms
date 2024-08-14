@@ -15,6 +15,12 @@ namespace mudworld
         {
             public System.Numerics.BigInteger? UnStakeFee;
             public System.Numerics.BigInteger? PreviousUnStakeFee;
+            public System.Numerics.BigInteger? PassiveUnStakeFee;
+            public System.Numerics.BigInteger? PreviousPassiveUnStakeFee;
+            public string? Owner;
+            public string? PreviousOwner;
+            public string? MerkleRoot;
+            public string? PreviousMerkleRoot;
         }
 
         public readonly static string ID = "GlobalConfig";
@@ -29,6 +35,9 @@ namespace mudworld
         }
 
         public System.Numerics.BigInteger? UnStakeFee;
+        public System.Numerics.BigInteger? PassiveUnStakeFee;
+        public string? Owner;
+        public string? MerkleRoot;
 
         public override Type TableType()
         {
@@ -52,12 +61,30 @@ namespace mudworld
             {
                 return false;
             }
+            if (PassiveUnStakeFee != other.PassiveUnStakeFee)
+            {
+                return false;
+            }
+            if (Owner != other.Owner)
+            {
+                return false;
+            }
+            if (MerkleRoot != other.MerkleRoot)
+            {
+                return false;
+            }
             return true;
         }
 
         public override void SetValues(params object[] functionParameters)
         {
             UnStakeFee = (System.Numerics.BigInteger)functionParameters[0];
+
+            PassiveUnStakeFee = (System.Numerics.BigInteger)functionParameters[1];
+
+            Owner = (string)functionParameters[2];
+
+            MerkleRoot = (string)functionParameters[3];
         }
 
         public static IObservable<RecordUpdate> GetGlobalConfigTableUpdates()
@@ -75,6 +102,9 @@ namespace mudworld
         public override void PropertyToTable(Property property)
         {
             UnStakeFee = (System.Numerics.BigInteger)property["unStakeFee"];
+            PassiveUnStakeFee = (System.Numerics.BigInteger)property["passiveUnStakeFee"];
+            Owner = (string)property["owner"];
+            MerkleRoot = (string)property["merkleRoot"];
         }
 
         public override RecordUpdate RecordUpdateToTyped(RecordUpdate recordUpdate)
@@ -93,6 +123,44 @@ namespace mudworld
             {
                 previousUnStakeFeeTyped = (System.Numerics.BigInteger)previousValue["unstakefee"];
             }
+            System.Numerics.BigInteger? currentPassiveUnStakeFeeTyped = null;
+            System.Numerics.BigInteger? previousPassiveUnStakeFeeTyped = null;
+
+            if (currentValue != null && currentValue.ContainsKey("passiveunstakefee"))
+            {
+                currentPassiveUnStakeFeeTyped = (System.Numerics.BigInteger)
+                    currentValue["passiveunstakefee"];
+            }
+
+            if (previousValue != null && previousValue.ContainsKey("passiveunstakefee"))
+            {
+                previousPassiveUnStakeFeeTyped = (System.Numerics.BigInteger)
+                    previousValue["passiveunstakefee"];
+            }
+            string? currentOwnerTyped = null;
+            string? previousOwnerTyped = null;
+
+            if (currentValue != null && currentValue.ContainsKey("owner"))
+            {
+                currentOwnerTyped = (string)currentValue["owner"];
+            }
+
+            if (previousValue != null && previousValue.ContainsKey("owner"))
+            {
+                previousOwnerTyped = (string)previousValue["owner"];
+            }
+            string? currentMerkleRootTyped = null;
+            string? previousMerkleRootTyped = null;
+
+            if (currentValue != null && currentValue.ContainsKey("merkleroot"))
+            {
+                currentMerkleRootTyped = (string)currentValue["merkleroot"];
+            }
+
+            if (previousValue != null && previousValue.ContainsKey("merkleroot"))
+            {
+                previousMerkleRootTyped = (string)previousValue["merkleroot"];
+            }
 
             return new GlobalConfigTableUpdate
             {
@@ -104,6 +172,12 @@ namespace mudworld
                 Type = recordUpdate.Type,
                 UnStakeFee = currentUnStakeFeeTyped,
                 PreviousUnStakeFee = previousUnStakeFeeTyped,
+                PassiveUnStakeFee = currentPassiveUnStakeFeeTyped,
+                PreviousPassiveUnStakeFee = previousPassiveUnStakeFeeTyped,
+                Owner = currentOwnerTyped,
+                PreviousOwner = previousOwnerTyped,
+                MerkleRoot = currentMerkleRootTyped,
+                PreviousMerkleRoot = previousMerkleRootTyped,
             };
         }
     }

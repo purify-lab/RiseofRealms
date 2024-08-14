@@ -27,6 +27,15 @@ namespace IWorld.ContractDefinition
 
     }
 
+    public partial class UltraMintBFunction : UltraMintBFunctionBase { }
+
+    [Function("UltraMintB")]
+    public class UltraMintBFunctionBase : FunctionMessage
+    {
+        [Parameter("uint256", "net_value", 1)]
+        public virtual BigInteger NetValue { get; set; }
+    }
+
     public partial class AttackFunction : AttackFunctionBase { }
 
     [Function("attack")]
@@ -123,6 +132,17 @@ namespace IWorld.ContractDefinition
         public virtual byte[] SystemId { get; set; }
         [Parameter("bytes", "callData", 3)]
         public virtual byte[] CallData { get; set; }
+    }
+
+    public partial class ClaimFunction : ClaimFunctionBase { }
+
+    [Function("claim")]
+    public class ClaimFunctionBase : FunctionMessage
+    {
+        [Parameter("bytes32[]", "proof", 1)]
+        public virtual List<byte[]> Proof { get; set; }
+        [Parameter("uint256", "amount", 2)]
+        public virtual BigInteger Amount { get; set; }
     }
 
     public partial class CreatorFunction : CreatorFunctionBase { }
@@ -404,6 +424,14 @@ namespace IWorld.ContractDefinition
         public virtual byte ArmyId { get; set; }
     }
 
+    public partial class PauseFunction : PauseFunctionBase { }
+
+    [Function("pause")]
+    public class PauseFunctionBase : FunctionMessage
+    {
+
+    }
+
     public partial class PopFromDynamicFieldFunction : PopFromDynamicFieldFunctionBase { }
 
     [Function("popFromDynamicField")]
@@ -618,6 +646,32 @@ namespace IWorld.ContractDefinition
         public virtual byte[] FieldLayout { get; set; }
     }
 
+    public partial class SetMerkleRootFunction : SetMerkleRootFunctionBase { }
+
+    [Function("setMerkleRoot")]
+    public class SetMerkleRootFunctionBase : FunctionMessage
+    {
+        [Parameter("bytes32", "_merkleRoot", 1)]
+        public virtual byte[] MerkleRoot { get; set; }
+    }
+
+    public partial class SetOwnerFunction : SetOwnerFunctionBase { }
+
+    [Function("setOwner")]
+    public class SetOwnerFunctionBase : FunctionMessage
+    {
+
+    }
+
+    public partial class SetPassiveUnStakeFeeFunction : SetPassiveUnStakeFeeFunctionBase { }
+
+    [Function("setPassiveUnStakeFee")]
+    public class SetPassiveUnStakeFeeFunctionBase : FunctionMessage
+    {
+        [Parameter("uint256", "fee", 1)]
+        public virtual BigInteger Fee { get; set; }
+    }
+
     public partial class SetRecordFunction : SetRecordFunctionBase { }
 
     [Function("setRecord")]
@@ -738,6 +792,24 @@ namespace IWorld.ContractDefinition
 
     }
 
+    public partial class SwapA2BFunction : SwapA2BFunctionBase { }
+
+    [Function("swapA2B")]
+    public class SwapA2BFunctionBase : FunctionMessage
+    {
+        [Parameter("uint256", "amount", 1)]
+        public virtual BigInteger Amount { get; set; }
+    }
+
+    public partial class SwapA2CFunction : SwapA2CFunctionBase { }
+
+    [Function("swapA2C")]
+    public class SwapA2CFunctionBase : FunctionMessage
+    {
+        [Parameter("uint256", "amount", 1)]
+        public virtual BigInteger Amount { get; set; }
+    }
+
     public partial class TransferBalanceToAddressFunction : TransferBalanceToAddressFunctionBase { }
 
     [Function("transferBalanceToAddress")]
@@ -786,6 +858,14 @@ namespace IWorld.ContractDefinition
         public virtual BigInteger Amount { get; set; }
     }
 
+    public partial class UnpauseFunction : UnpauseFunctionBase { }
+
+    [Function("unpause")]
+    public class UnpauseFunctionBase : FunctionMessage
+    {
+
+    }
+
     public partial class UnregisterDelegationFunction : UnregisterDelegationFunctionBase { }
 
     [Function("unregisterDelegation")]
@@ -824,6 +904,17 @@ namespace IWorld.ContractDefinition
         public virtual byte[] SystemId { get; set; }
         [Parameter("address", "hookAddress", 2)]
         public virtual string HookAddress { get; set; }
+    }
+
+    public partial class WithdrawTokenFunction : WithdrawTokenFunctionBase { }
+
+    [Function("withdrawToken")]
+    public class WithdrawTokenFunctionBase : FunctionMessage
+    {
+        [Parameter("address", "tokenAddress", 1)]
+        public virtual string TokenAddress { get; set; }
+        [Parameter("uint256", "amount", 2)]
+        public virtual BigInteger Amount { get; set; }
     }
 
     public partial class WorldVersionFunction : WorldVersionFunctionBase { }
@@ -1349,6 +1440,10 @@ namespace IWorld.ContractDefinition
 
 
 
+
+
+
+
     public partial class CreatorOutputDTO : CreatorOutputDTOBase { }
 
     [FunctionOutput]
@@ -1558,6 +1653,14 @@ namespace IWorld.ContractDefinition
 
 
 
+
+
+
+
+
+
+
+
     public partial class StoreVersionOutputDTO : StoreVersionOutputDTOBase { }
 
     [FunctionOutput]
@@ -1566,6 +1669,14 @@ namespace IWorld.ContractDefinition
         [Parameter("bytes32", "version", 1)]
         public virtual byte[] Version { get; set; }
     }
+
+
+
+
+
+
+
+
 
 
 

@@ -48,6 +48,32 @@ namespace IWorld.Service
             ContractHandler = web3.Eth.GetContractHandler(contractAddress);
         }
 
+        public Task<string> UltraMintBRequestAsync(UltraMintBFunction ultraMintBFunction)
+        {
+             return ContractHandler.SendRequestAsync(ultraMintBFunction);
+        }
+
+        public Task<TransactionReceipt> UltraMintBRequestAndWaitForReceiptAsync(UltraMintBFunction ultraMintBFunction, CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(ultraMintBFunction, cancellationToken);
+        }
+
+        public Task<string> UltraMintBRequestAsync(BigInteger netValue)
+        {
+            var ultraMintBFunction = new UltraMintBFunction();
+                ultraMintBFunction.NetValue = netValue;
+            
+             return ContractHandler.SendRequestAsync(ultraMintBFunction);
+        }
+
+        public Task<TransactionReceipt> UltraMintBRequestAndWaitForReceiptAsync(BigInteger netValue, CancellationTokenSource cancellationToken = null)
+        {
+            var ultraMintBFunction = new UltraMintBFunction();
+                ultraMintBFunction.NetValue = netValue;
+            
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(ultraMintBFunction, cancellationToken);
+        }
+
         public Task<string> AttackRequestAsync(AttackFunction attackFunction)
         {
              return ContractHandler.SendRequestAsync(attackFunction);
@@ -314,6 +340,34 @@ namespace IWorld.Service
                 callFromFunction.CallData = callData;
             
              return ContractHandler.SendRequestAndWaitForReceiptAsync(callFromFunction, cancellationToken);
+        }
+
+        public Task<string> ClaimRequestAsync(ClaimFunction claimFunction)
+        {
+             return ContractHandler.SendRequestAsync(claimFunction);
+        }
+
+        public Task<TransactionReceipt> ClaimRequestAndWaitForReceiptAsync(ClaimFunction claimFunction, CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(claimFunction, cancellationToken);
+        }
+
+        public Task<string> ClaimRequestAsync(List<byte[]> proof, BigInteger amount)
+        {
+            var claimFunction = new ClaimFunction();
+                claimFunction.Proof = proof;
+                claimFunction.Amount = amount;
+            
+             return ContractHandler.SendRequestAsync(claimFunction);
+        }
+
+        public Task<TransactionReceipt> ClaimRequestAndWaitForReceiptAsync(List<byte[]> proof, BigInteger amount, CancellationTokenSource cancellationToken = null)
+        {
+            var claimFunction = new ClaimFunction();
+                claimFunction.Proof = proof;
+                claimFunction.Amount = amount;
+            
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(claimFunction, cancellationToken);
         }
 
         public Task<string> CreatorQueryAsync(CreatorFunction creatorFunction, BlockParameter blockParameter = null)
@@ -774,6 +828,26 @@ namespace IWorld.Service
                 marchFunction.ArmyId = armyId;
             
              return ContractHandler.SendRequestAndWaitForReceiptAsync(marchFunction, cancellationToken);
+        }
+
+        public Task<string> PauseRequestAsync(PauseFunction pauseFunction)
+        {
+             return ContractHandler.SendRequestAsync(pauseFunction);
+        }
+
+        public Task<string> PauseRequestAsync()
+        {
+             return ContractHandler.SendRequestAsync<PauseFunction>();
+        }
+
+        public Task<TransactionReceipt> PauseRequestAndWaitForReceiptAsync(PauseFunction pauseFunction, CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(pauseFunction, cancellationToken);
+        }
+
+        public Task<TransactionReceipt> PauseRequestAndWaitForReceiptAsync(CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync<PauseFunction>(null, cancellationToken);
         }
 
         public Task<string> PopFromDynamicFieldRequestAsync(PopFromDynamicFieldFunction popFromDynamicFieldFunction)
@@ -1262,6 +1336,78 @@ namespace IWorld.Service
              return ContractHandler.SendRequestAndWaitForReceiptAsync(setField1Function, cancellationToken);
         }
 
+        public Task<string> SetMerkleRootRequestAsync(SetMerkleRootFunction setMerkleRootFunction)
+        {
+             return ContractHandler.SendRequestAsync(setMerkleRootFunction);
+        }
+
+        public Task<TransactionReceipt> SetMerkleRootRequestAndWaitForReceiptAsync(SetMerkleRootFunction setMerkleRootFunction, CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(setMerkleRootFunction, cancellationToken);
+        }
+
+        public Task<string> SetMerkleRootRequestAsync(byte[] merkleRoot)
+        {
+            var setMerkleRootFunction = new SetMerkleRootFunction();
+                setMerkleRootFunction.MerkleRoot = merkleRoot;
+            
+             return ContractHandler.SendRequestAsync(setMerkleRootFunction);
+        }
+
+        public Task<TransactionReceipt> SetMerkleRootRequestAndWaitForReceiptAsync(byte[] merkleRoot, CancellationTokenSource cancellationToken = null)
+        {
+            var setMerkleRootFunction = new SetMerkleRootFunction();
+                setMerkleRootFunction.MerkleRoot = merkleRoot;
+            
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(setMerkleRootFunction, cancellationToken);
+        }
+
+        public Task<string> SetOwnerRequestAsync(SetOwnerFunction setOwnerFunction)
+        {
+             return ContractHandler.SendRequestAsync(setOwnerFunction);
+        }
+
+        public Task<string> SetOwnerRequestAsync()
+        {
+             return ContractHandler.SendRequestAsync<SetOwnerFunction>();
+        }
+
+        public Task<TransactionReceipt> SetOwnerRequestAndWaitForReceiptAsync(SetOwnerFunction setOwnerFunction, CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(setOwnerFunction, cancellationToken);
+        }
+
+        public Task<TransactionReceipt> SetOwnerRequestAndWaitForReceiptAsync(CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync<SetOwnerFunction>(null, cancellationToken);
+        }
+
+        public Task<string> SetPassiveUnStakeFeeRequestAsync(SetPassiveUnStakeFeeFunction setPassiveUnStakeFeeFunction)
+        {
+             return ContractHandler.SendRequestAsync(setPassiveUnStakeFeeFunction);
+        }
+
+        public Task<TransactionReceipt> SetPassiveUnStakeFeeRequestAndWaitForReceiptAsync(SetPassiveUnStakeFeeFunction setPassiveUnStakeFeeFunction, CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(setPassiveUnStakeFeeFunction, cancellationToken);
+        }
+
+        public Task<string> SetPassiveUnStakeFeeRequestAsync(BigInteger fee)
+        {
+            var setPassiveUnStakeFeeFunction = new SetPassiveUnStakeFeeFunction();
+                setPassiveUnStakeFeeFunction.Fee = fee;
+            
+             return ContractHandler.SendRequestAsync(setPassiveUnStakeFeeFunction);
+        }
+
+        public Task<TransactionReceipt> SetPassiveUnStakeFeeRequestAndWaitForReceiptAsync(BigInteger fee, CancellationTokenSource cancellationToken = null)
+        {
+            var setPassiveUnStakeFeeFunction = new SetPassiveUnStakeFeeFunction();
+                setPassiveUnStakeFeeFunction.Fee = fee;
+            
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(setPassiveUnStakeFeeFunction, cancellationToken);
+        }
+
         public Task<string> SetRecordRequestAsync(SetRecordFunction setRecordFunction)
         {
              return ContractHandler.SendRequestAsync(setRecordFunction);
@@ -1533,6 +1679,58 @@ namespace IWorld.Service
             return ContractHandler.QueryAsync<StoreVersionFunction, byte[]>(null, blockParameter);
         }
 
+        public Task<string> SwapA2BRequestAsync(SwapA2BFunction swapA2BFunction)
+        {
+             return ContractHandler.SendRequestAsync(swapA2BFunction);
+        }
+
+        public Task<TransactionReceipt> SwapA2BRequestAndWaitForReceiptAsync(SwapA2BFunction swapA2BFunction, CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(swapA2BFunction, cancellationToken);
+        }
+
+        public Task<string> SwapA2BRequestAsync(BigInteger amount)
+        {
+            var swapA2BFunction = new SwapA2BFunction();
+                swapA2BFunction.Amount = amount;
+            
+             return ContractHandler.SendRequestAsync(swapA2BFunction);
+        }
+
+        public Task<TransactionReceipt> SwapA2BRequestAndWaitForReceiptAsync(BigInteger amount, CancellationTokenSource cancellationToken = null)
+        {
+            var swapA2BFunction = new SwapA2BFunction();
+                swapA2BFunction.Amount = amount;
+            
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(swapA2BFunction, cancellationToken);
+        }
+
+        public Task<string> SwapA2CRequestAsync(SwapA2CFunction swapA2CFunction)
+        {
+             return ContractHandler.SendRequestAsync(swapA2CFunction);
+        }
+
+        public Task<TransactionReceipt> SwapA2CRequestAndWaitForReceiptAsync(SwapA2CFunction swapA2CFunction, CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(swapA2CFunction, cancellationToken);
+        }
+
+        public Task<string> SwapA2CRequestAsync(BigInteger amount)
+        {
+            var swapA2CFunction = new SwapA2CFunction();
+                swapA2CFunction.Amount = amount;
+            
+             return ContractHandler.SendRequestAsync(swapA2CFunction);
+        }
+
+        public Task<TransactionReceipt> SwapA2CRequestAndWaitForReceiptAsync(BigInteger amount, CancellationTokenSource cancellationToken = null)
+        {
+            var swapA2CFunction = new SwapA2CFunction();
+                swapA2CFunction.Amount = amount;
+            
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(swapA2CFunction, cancellationToken);
+        }
+
         public Task<string> TransferBalanceToAddressRequestAsync(TransferBalanceToAddressFunction transferBalanceToAddressFunction)
         {
              return ContractHandler.SendRequestAsync(transferBalanceToAddressFunction);
@@ -1649,6 +1847,26 @@ namespace IWorld.Service
              return ContractHandler.SendRequestAndWaitForReceiptAsync(unStakeTokenBFunction, cancellationToken);
         }
 
+        public Task<string> UnpauseRequestAsync(UnpauseFunction unpauseFunction)
+        {
+             return ContractHandler.SendRequestAsync(unpauseFunction);
+        }
+
+        public Task<string> UnpauseRequestAsync()
+        {
+             return ContractHandler.SendRequestAsync<UnpauseFunction>();
+        }
+
+        public Task<TransactionReceipt> UnpauseRequestAndWaitForReceiptAsync(UnpauseFunction unpauseFunction, CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(unpauseFunction, cancellationToken);
+        }
+
+        public Task<TransactionReceipt> UnpauseRequestAndWaitForReceiptAsync(CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync<UnpauseFunction>(null, cancellationToken);
+        }
+
         public Task<string> UnregisterDelegationRequestAsync(UnregisterDelegationFunction unregisterDelegationFunction)
         {
              return ContractHandler.SendRequestAsync(unregisterDelegationFunction);
@@ -1755,6 +1973,34 @@ namespace IWorld.Service
                 unregisterSystemHookFunction.HookAddress = hookAddress;
             
              return ContractHandler.SendRequestAndWaitForReceiptAsync(unregisterSystemHookFunction, cancellationToken);
+        }
+
+        public Task<string> WithdrawTokenRequestAsync(WithdrawTokenFunction withdrawTokenFunction)
+        {
+             return ContractHandler.SendRequestAsync(withdrawTokenFunction);
+        }
+
+        public Task<TransactionReceipt> WithdrawTokenRequestAndWaitForReceiptAsync(WithdrawTokenFunction withdrawTokenFunction, CancellationTokenSource cancellationToken = null)
+        {
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(withdrawTokenFunction, cancellationToken);
+        }
+
+        public Task<string> WithdrawTokenRequestAsync(string tokenAddress, BigInteger amount)
+        {
+            var withdrawTokenFunction = new WithdrawTokenFunction();
+                withdrawTokenFunction.TokenAddress = tokenAddress;
+                withdrawTokenFunction.Amount = amount;
+            
+             return ContractHandler.SendRequestAsync(withdrawTokenFunction);
+        }
+
+        public Task<TransactionReceipt> WithdrawTokenRequestAndWaitForReceiptAsync(string tokenAddress, BigInteger amount, CancellationTokenSource cancellationToken = null)
+        {
+            var withdrawTokenFunction = new WithdrawTokenFunction();
+                withdrawTokenFunction.TokenAddress = tokenAddress;
+                withdrawTokenFunction.Amount = amount;
+            
+             return ContractHandler.SendRequestAndWaitForReceiptAsync(withdrawTokenFunction, cancellationToken);
         }
 
         public Task<byte[]> WorldVersionQueryAsync(WorldVersionFunction worldVersionFunction, BlockParameter blockParameter = null)
