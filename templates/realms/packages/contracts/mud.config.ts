@@ -11,6 +11,10 @@ export default defineWorld({
       name: "spwan",
       openAccess: true,
     },
+    TokenManagerSystem: {
+      name: "tokenManager",
+      openAccess: false,
+    }
   },
   tables: {
     Player: "bool",

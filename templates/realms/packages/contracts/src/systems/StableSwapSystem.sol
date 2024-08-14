@@ -23,7 +23,7 @@ contract StableSwapSystem is System {
         IERC20(TokenC).transfer(msg.sender, amount);
     }
 
-    function addLiq(){
+//    function addLiq(){
 //        IUniswapV2Router02(UniswapV2Router02Address).addLiquidityETH(
 //
 //        );
@@ -36,7 +36,7 @@ contract StableSwapSystem is System {
 //
 //        );
 
-    }
+//    }
 
     bool public paused;
 

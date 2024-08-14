@@ -277,7 +277,7 @@ contract SpawnSystem is System {
             PlayerDetail.setCapitals(attacker, PlayerDetail.getCapitals(attacker) + 1);
             if (defender != 0) {
                 PlayerDetail.setCapitals(defender, PlayerDetail.getCapitals(defender) - 1);
-                passiveUnStake(defender);
+//                passiveUnStake(defender);
             }
         } else {
             Capital.setInfantry(defenceLocation, Capital.getInfantry(defenceLocation) - losses[4]);
@@ -399,32 +399,32 @@ contract SpawnSystem is System {
         }
     }
 
-    function passiveUnStake(bytes32 defender, bytes32 attaker) private {
-        address defenderAddress = Utility.entityKeyToAddress(defender);
-        address attackerAddress = Utility.entityKeyToAddress(attacker);
-        uint256 limit = getStakeLimit(defenderAddress);
-        uint256 totalStaked = PlayerStake.getTokenB() + PlayerStake.setTokenC();
-        uint256 fee = GlobalConfig.getPassiveUnStakeFee();
-        if (totalStaked > limit) {
-            uint256 partB = PlayerStake.getTokenB() * 100 / totalStaked * 100;
-            uint256 partC = PlayerStake.getTokenC() * 100 / totalStaked * 100;
-            uint256 tokenUnStakedB = (totalStaked - limit) * partB / 100;
-            uint256 tokenUnStakedC = (totalStaked - limit) * partC / 100;
-            if (tokenUnStakedB > 0) {
-                uint256 feeAmount = tokenUnStakedB * fee / 100;
-                IERC20 tokenB = IERC20(TokenB);
-                PlayerStake.setTokenB(defenderAddress, PlayerStake.getTokenB(defenderAddress) - tokenUnStakedB);
-                tokenB.transferFrom(address(this), defenderAddress, tokenUnStakedB - feeAmount);
-                tokenB.transferFrom(address(this), attackerAddress, feeAmount);
-            }
-            if (tokenUnStakedC > 0) {
-                IERC20 tokenC = IERC20(TokenC);
-                uint256 feeAmount = tokenUnStakedC * fee / 100;
-                PlayerStake.setTokenC(defenderAddress, PlayerStake.getTokenC(defenderAddress) - tokenUnStakedC);
-                tokenC.transferFrom(address(this), defenderAddress, tokenUnStakedC - feeAmount);
-                tokenC.transferFrom(address(this), attackerAddress, feeAmount);
-            }
-        }
+    function passiveUnStake(bytes32 defender, bytes32 attacker) private {
+//        address defenderAddress = Utility.entityKeyToAddress(defender);
+//        address attackerAddress = Utility.entityKeyToAddress(attacker);
+//        uint256 limit = getStakeLimit(defenderAddress);
+//        uint256 totalStaked = PlayerStake.getTokenB() + PlayerStake.setTokenC();
+//        uint256 fee = GlobalConfig.getPassiveUnStakeFee();
+//        if (totalStaked > limit) {
+//            uint256 partB = PlayerStake.getTokenB() * 100 / totalStaked * 100;
+//            uint256 partC = PlayerStake.getTokenC() * 100 / totalStaked * 100;
+//            uint256 tokenUnStakedB = (totalStaked - limit) * partB / 100;
+//            uint256 tokenUnStakedC = (totalStaked - limit) * partC / 100;
+//            if (tokenUnStakedB > 0) {
+//                uint256 feeAmount = tokenUnStakedB * fee / 100;
+//                IERC20 tokenB = IERC20(TokenB);
+//                PlayerStake.setTokenB(defenderAddress, PlayerStake.getTokenB(defenderAddress) - tokenUnStakedB);
+//                tokenB.transferFrom(address(this), defenderAddress, tokenUnStakedB - feeAmount);
+//                tokenB.transferFrom(address(this), attackerAddress, feeAmount);
+//            }
+//            if (tokenUnStakedC > 0) {
+//                IERC20 tokenC = IERC20(TokenC);
+//                uint256 feeAmount = tokenUnStakedC * fee / 100;
+//                PlayerStake.setTokenC(defenderAddress, PlayerStake.getTokenC(defenderAddress) - tokenUnStakedC);
+//                tokenC.transferFrom(address(this), defenderAddress, tokenUnStakedC - feeAmount);
+//                tokenC.transferFrom(address(this), attackerAddress, feeAmount);
+//            }
+//        }
     }
 
     modifier onlyOwner() {
