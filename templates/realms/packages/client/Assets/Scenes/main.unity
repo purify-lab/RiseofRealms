@@ -33485,6 +33485,7 @@ MonoBehaviour:
   building: {fileID: 0}
   buildingCursor: {x: 0, y: 0, z: 0}
   tapPos: {x: 0, y: 0, z: 0}
+  LocationUI: {fileID: 1647718281}
 --- !u!4 &712079195
 Transform:
   m_ObjectHideFlags: 0
@@ -58345,13 +58346,14 @@ GameObject:
   - component: {fileID: 1647718282}
   - component: {fileID: 1647718284}
   - component: {fileID: 1647718283}
+  - component: {fileID: 1647718285}
   m_Layer: 5
   m_Name: LandInfo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1647718282
 RectTransform:
   m_ObjectHideFlags: 0
@@ -58410,6 +58412,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1647718281}
   m_CullTransparentMesh: 1
+--- !u!114 &1647718285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1647718281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cedc28110e0b26947bdf812706cdfa18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coordText: {fileID: 1893752201}
+  attackBtn: {fileID: 1234577355}
+  closeBtn: {fileID: 723167234}
+  defText: {fileID: 1863973044}
+  goldOutputText: {fileID: 1657952171}
 --- !u!1 &1651148791
 GameObject:
   m_ObjectHideFlags: 0
@@ -84214,7 +84233,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2098653661
 RectTransform:
   m_ObjectHideFlags: 0

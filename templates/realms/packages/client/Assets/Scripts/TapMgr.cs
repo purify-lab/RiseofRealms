@@ -18,6 +18,8 @@ public class TapMgr : MonoBehaviour
 
     public static TapMgr inst;
 
+    public GameObject LocationUI;
+
     private void Awake()
     {
         inst = this;
@@ -78,6 +80,11 @@ public class TapMgr : MonoBehaviour
                 BuildingMgr.Inst.EndPlace();
                 MainPageUI.inst.state = GameState.Game;
                 PurchaseLandUI.inst.Show(buildingCursor);
+            }
+            else
+            {
+                LocationUI.SetActive(true);
+                Debug.Log(">>>>> Tap Pos: " + tapPos);
             }
         }
         if(Input.GetMouseButtonDown(1))
