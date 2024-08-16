@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class LandInfoPanel : MonoBehaviour
 {
-    public GameObject ChooseSolderPanel;
+    public SelectArmy1Page selectPage;
     public Text coordText;
 
     public Button attackBtn;
@@ -13,17 +13,19 @@ public class LandInfoPanel : MonoBehaviour
 
     public Text defText;
     public Text goldOutputText;
+    public Vector3Int currentPos;
 
     public void onClickAttack()
     {
         gameObject.SetActive(false);
-        ChooseSolderPanel.SetActive(true);
+        selectPage.Open(currentPos);
         Debug.Log("Onclekc Attack");
     }
 
     public void FillInfo(Vector3Int pos)
     {
         coordText.text = pos.ToString();
+        currentPos = pos;
     }
     
     // Start is called before the first frame update

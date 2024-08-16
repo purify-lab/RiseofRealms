@@ -11408,8 +11408,8 @@ RectTransform:
   - {fileID: 244185955}
   - {fileID: 1776688454}
   - {fileID: 949349165}
-  - {fileID: 2098653661}
   - {fileID: 806811642}
+  - {fileID: 2098653661}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -34733,7 +34733,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &806811642
 RectTransform:
   m_ObjectHideFlags: 0
@@ -34807,6 +34807,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d03b9c6c8efa823489272ea6228b9a1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dest_pos: {x: 0, y: 0, z: 0}
   coordsText: {fileID: 563109126}
   WarriorNum: {fileID: 908272453}
   CavalryNum: {fileID: 1799444219}
@@ -49484,7 +49485,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -52432,7 +52433,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 2, y: 2}
   m_UseGraphicAlpha: 1
 --- !u!114 &1443242475
@@ -52806,7 +52807,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 2, y: 2}
   m_UseGraphicAlpha: 1
 --- !u!114 &1451357603
@@ -59895,12 +59896,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cedc28110e0b26947bdf812706cdfa18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ChooseSolderPanel: {fileID: 0}
+  selectPage: {fileID: 806811645}
   coordText: {fileID: 1893752201}
   attackBtn: {fileID: 1234577355}
   closeBtn: {fileID: 723167234}
   defText: {fileID: 1863973044}
   goldOutputText: {fileID: 1657952171}
+  currentPos: {x: 0, y: 0, z: 0}
 --- !u!1 &1651148791
 GameObject:
   m_ObjectHideFlags: 0

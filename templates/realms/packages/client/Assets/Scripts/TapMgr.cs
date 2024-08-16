@@ -13,7 +13,7 @@ public class TapMgr : MonoBehaviour
 {
     public bool isPlacing;
     public GameObject building;
-
+    
     public Vector3Int buildingCursor;
     public Vector3Int tapPos;
 
@@ -35,26 +35,27 @@ public class TapMgr : MonoBehaviour
     
     void OnEnable()
     {
-        Lean.Touch.LeanTouch.OnFingerTap += HandleFingerTap;
+        Lean.Touch.LeanTouch.OnFingerDown += HandleFingerTap;
     }
 
     void OnDisable()
     {
-        Lean.Touch.LeanTouch.OnFingerTap -= HandleFingerTap;
+        Lean.Touch.LeanTouch.OnFingerDown -= HandleFingerTap;
     }
 
     void HandleFingerTap(Lean.Touch.LeanFinger finger)
     {
         if (finger.IsOverGui)
         {
+            Debug.Log("Is Over UI");
             return;
         }
         tapPos = buildingCursor;
-        
+
         LocationUI.SetActive(true);
         Debug.Log(">>>>> Tap Pos: " + tapPos);
         var tt = LocationUI.GetComponent<LandInfoPanel>();
-        tt.FillInfo(tapPos);
+        tt.FillInfo(tapPos);    
     }
 
     // Update is called once per frame
