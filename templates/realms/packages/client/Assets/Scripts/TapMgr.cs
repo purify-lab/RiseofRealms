@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class EventTapMap : EventParam
 {
@@ -24,7 +25,7 @@ public class TapMgr : MonoBehaviour
     {
         inst = this;
     }
-
+    
     Plane m_Plane;
     // Start is called before the first frame update
     void Start()
@@ -48,8 +49,12 @@ public class TapMgr : MonoBehaviour
         {
             return;
         }
-
         tapPos = buildingCursor;
+        
+        LocationUI.SetActive(true);
+        Debug.Log(">>>>> Tap Pos: " + tapPos);
+        var tt = LocationUI.GetComponent<LandInfoPanel>();
+        tt.FillInfo(tapPos);
     }
 
     // Update is called once per frame
@@ -81,11 +86,7 @@ public class TapMgr : MonoBehaviour
                 MainPageUI.inst.state = GameState.Game;
                 PurchaseLandUI.inst.Show(buildingCursor);
             }
-            else
-            {
-                LocationUI.SetActive(true);
-                Debug.Log(">>>>> Tap Pos: " + tapPos);
-            }
+                
         }
         if(Input.GetMouseButtonDown(1))
         {
