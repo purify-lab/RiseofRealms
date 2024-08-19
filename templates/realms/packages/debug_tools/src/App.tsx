@@ -9,7 +9,8 @@ export const App = () => {
     systemCalls: {
       spawnPlayer, spawnCapital,
       marchArmy, attack, garrison,
-      buyInfantry, buyCavalryA, buyCavalryB, buyCavalryC
+      buyInfantry, buyCavalryA, buyCavalryB, buyCavalryC,
+      stakeTokenB
     },
   } = useMUD();
 
@@ -149,8 +150,22 @@ export const App = () => {
   }
 
   const handleSpawnCapital = () => {
-    console.log(garrisonData);
+    console.log(spawnCapitalData);
     spawnCapital(Number(spawnCapitalData.capital_id));
+  }
+
+  const [stakeTokenBData, setStakeTokenBData] = useState({
+    amount: '',
+  });
+
+  const handleStakeTokenBInputChange = (event: any) => {
+    const {name, value} = event.target;
+    setStakeTokenBData((prevData) => ({...prevData, [name]: value}));
+  }
+
+  const handleStakeTokenB = () => {
+    console.log(stakeTokenBData);
+    stakeTokenB(Number(stakeTokenBData.amount));
   }
 
   return (
@@ -284,6 +299,15 @@ export const App = () => {
             onChange={handleSpawnCapitalInputChange}
           />
           <button onClick={handleSpawnCapital}>Spawn Capital</button>
+        </div>
+        <div style={{backgroundColor: "gray", padding: "5px"}}>
+          <input
+            name="amount"
+            placeholder="amount"
+            value={stakeTokenBData.amount}
+            onChange={handleStakeTokenBInputChange}
+          />
+          <button onClick={handleStakeTokenB}>Stake Token B</button>
         </div>
       </div>
     </>
