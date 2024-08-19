@@ -2,7 +2,8 @@ Depoly on Garnet Holesky
 JSON RPC HOST: https://rpc.garnet.qry.live/
 WS RPC HOST: wss://rpc.garnet.qry.live/ 
 FAUCET HOST:  
-https://explorer.garnetchain.com
+EXPLORE:https://explorer.garnetchain.com
+Indexer:http://44.214.29.84:8089/
 
 
 CHAIN CODE:17069
