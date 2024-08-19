@@ -14,6 +14,8 @@ export RPC_HTTP_URL="https://rpc.garnet.qry.live/"
 export STORE_ADDRESS="0x79f1ab0281c930cb7e1c8ad4bcd4c8ef1817e2d3"
 export START_BLOCK="5721283"
 export PORT="8089"
+export POLLING_INTERVAL="1"
+export RPC_WS_URL ="wss://rpc.garnet.qry.live/"
 
 # Change to the working directory
 cd /www/wwwroot/ror_indexer

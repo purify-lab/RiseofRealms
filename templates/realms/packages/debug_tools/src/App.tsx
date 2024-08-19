@@ -6,7 +6,7 @@ const styleUnset = {all: "unset"} as const;
 export const App = () => {
   const {
     network: {useStore},
-    systemCalls: {spawnPlayer, marchArmy, attack, garrison, buyInfantry},
+    systemCalls: {spawnPlayer, marchArmy, attack, garrison, buyInfantry, buyCavalryA, buyCavalryB, buyCavalryC},
   } = useMUD();
 
   const [marchData, setMarchData] = useState({
@@ -92,100 +92,163 @@ export const App = () => {
     buyInfantry(Number(buyInfantryData.amount));
   };
 
+
+  const [buyCavalryAData, setBuyCavalryAData] = useState({
+    amount: '',
+  });
+
+  const [buyCavalryBData, setBuyCavalryBData] = useState({
+    amount: '',
+  });
+
+  const [buyCavalryCData, setBuyCavalryCData] = useState({
+    amount: '',
+  });
+
+  const handleBuyCavalryAInputChange = (event: any) => {
+    const {name, value} = event.target;
+    setBuyCavalryAData((prevData) => ({...prevData, [name]: value}));
+  }
+
+  const handleBuyCavalryBInputChange = (event: any) => {
+    const {name, value} = event.target;
+    setBuyCavalryBData((prevData) => ({...prevData, [name]: value}));
+  }
+
+  const handleBuyCavalryCInputChange = (event: any) => {
+    const {name, value} = event.target;
+    setBuyCavalryCData((prevData) => ({...prevData, [name]: value}));
+  }
+
+  const handleBuyCavalryA = () => {
+    console.log(buyCavalryAData);
+    buyCavalryA(Number(buyCavalryAData.amount));
+  };
+
+  const handleBuyCavalryB = () => {
+    console.log(buyCavalryBData);
+    buyCavalryB(Number(buyCavalryBData.amount));
+  };
+
+  const handleBuyCavalryC = () => {
+    console.log(buyCavalryCData);
+    buyCavalryC(Number(buyCavalryCData.amount));
+  };
+
   return (
     <>
-      <div style={{border: "red 1px solid"}}>
-        <button onClick={handleSpawnPlayer}>Spawn Player</button>
-      </div>
-      <div style={{border: "red 1px solid"}}>
-        <input
-          name="destination"
-          placeholder="destination"
-          value={marchData.destination}
-          onChange={handleMarchInputChange}
-        />
-        <input
-          name="infantry"
-          placeholder="infantry"
-          value={marchData.infantry}
-          onChange={handleMarchInputChange}
-        />
-        <input
-          name="cavalryA"
-          placeholder="cavalryA"
-          value={marchData.cavalryA}
-          onChange={handleMarchInputChange}
-        />
-        <input
-          name="cavalryB"
-          placeholder="cavalryB"
-          value={marchData.cavalryB}
-          onChange={handleMarchInputChange}
-        />
-        <input
-          name="cavalryC"
-          placeholder="cavalryC"
-          value={marchData.cavalryC}
-          onChange={handleMarchInputChange}
-        />
-        <input
-          name="army_id"
-          placeholder="army_id"
-          value={marchData.army_id}
-          onChange={handleMarchInputChange}
-        />
-        <button onClick={handleMarch}>March</button>
-      </div>
-      <div style={{border: "red 1px solid"}}>
-        <input
-          name="army_id"
-          placeholder="army_id"
-          value={attackData.army_id}
-          onChange={handleAttackInputChange}
-        />
-        <button onClick={handleAttack}>Attack</button>
-      </div>
-      <div style={{border: "red 1px solid"}}>
-        <input
-          name="capital_id"
-          placeholder="capital_id"
-          value={garrisonData.capital_id}
-          onChange={handleGarrisonInputChange}
-        />
-        <input
-          name="infantry"
-          placeholder="infantry"
-          value={garrisonData.infantry}
-          onChange={handleGarrisonInputChange}
-        />
-        <input
-          name="cavalryA"
-          placeholder="cavalryA"
-          value={garrisonData.cavalryA}
-          onChange={handleGarrisonInputChange}
-        />
-        <input
-          name="cavalryB"
-          placeholder="cavalryB"
-          value={garrisonData.cavalryB}
-          onChange={handleGarrisonInputChange}
-        />
-        <input
-          name="cavalryC"
-          placeholder="cavalryC"
-          value={garrisonData.cavalryC}
-          onChange={handleGarrisonInputChange}
-        />
-        <button onClick={handleGarrison}>Garrison</button>
-      </div>
-      <div style={{border: "red 1px solid"}}>
-        <input
-          name="amount"
-          placeholder="amount"
-          value={buyInfantryData.amount}
-          onChange={handleBuyInfantryAmontInputChange}
-        />
-        <button onClick={handleBuyInfantry}>buyInfantry</button>
+      <div style={{gridRowGap: "10px", display: "grid"}}>
+        <div style={{backgroundColor: "gray", padding: "5px"}}>
+          <button onClick={handleSpawnPlayer}>Spawn Player</button>
+        </div>
+        <div style={{backgroundColor: "gray", padding: "5px"}}>
+          <input
+            name="destination"
+            placeholder="destination"
+            value={marchData.destination}
+            onChange={handleMarchInputChange}
+          />
+          <input
+            name="infantry"
+            placeholder="infantry"
+            value={marchData.infantry}
+            onChange={handleMarchInputChange}
+          />
+          <input
+            name="cavalryA"
+            placeholder="cavalryA"
+            value={marchData.cavalryA}
+            onChange={handleMarchInputChange}
+          />
+          <input
+            name="cavalryB"
+            placeholder="cavalryB"
+            value={marchData.cavalryB}
+            onChange={handleMarchInputChange}
+          />
+          <input
+            name="cavalryC"
+            placeholder="cavalryC"
+            value={marchData.cavalryC}
+            onChange={handleMarchInputChange}
+          />
+          <input
+            name="army_id"
+            placeholder="army_id"
+            value={marchData.army_id}
+            onChange={handleMarchInputChange}
+          />
+          <button onClick={handleMarch}>March</button>
+        </div>
+        <div style={{backgroundColor: "gray", padding: "5px"}}>
+          <input
+            name="army_id"
+            placeholder="army_id"
+            value={attackData.army_id}
+            onChange={handleAttackInputChange}
+          />
+          <button onClick={handleAttack}>Attack</button>
+        </div>
+        <div style={{backgroundColor: "gray", padding: "5px"}}>
+          <input
+            name="capital_id"
+            placeholder="capital_id"
+            value={garrisonData.capital_id}
+            onChange={handleGarrisonInputChange}
+          />
+          <input
+            name="infantry"
+            placeholder="infantry"
+            value={garrisonData.infantry}
+            onChange={handleGarrisonInputChange}
+          />
+          <input
+            name="cavalryA"
+            placeholder="cavalryA"
+            value={garrisonData.cavalryA}
+            onChange={handleGarrisonInputChange}
+          />
+          <input
+            name="cavalryB"
+            placeholder="cavalryB"
+            value={garrisonData.cavalryB}
+            onChange={handleGarrisonInputChange}
+          />
+          <input
+            name="cavalryC"
+            placeholder="cavalryC"
+            value={garrisonData.cavalryC}
+            onChange={handleGarrisonInputChange}
+          />
+          <button onClick={handleGarrison}>Garrison</button>
+        </div>
+        <div style={{backgroundColor: "gray", padding: "5px"}}>
+          <input
+            name="amount"
+            placeholder="amount"
+            value={buyInfantryData.amount}
+            onChange={handleBuyInfantryAmontInputChange}
+          />
+          <button onClick={handleBuyInfantry}>buyInfantry</button>
+        </div>
+        <div style={{backgroundColor: "gray", padding: "5px"}}>
+          <input
+            name="amount"
+            placeholder="amount"
+            value={buyCavalryAData.amount}
+            onChange={handleBuyCavalryAInputChange}
+          />
+          <button onClick={handleBuyCavalryA}>buyCavalryA</button>
+        </div>
+        <div style={{backgroundColor: "gray", padding: "5px"}}>
+          <input
+            name="amount"
+            placeholder="amount"
+            value={buyCavalryBData.amount}
+            onChange={handleBuyCavalryBInputChange}
+          />
+          <button onClick={handleBuyCavalryB}>buyCavalryB</button>
+        </div>
       </div>
     </>
   );

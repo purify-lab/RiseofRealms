@@ -46,13 +46,28 @@ export function createSystemCalls(
     await waitForTransaction(tx);
   }
 
-  const garrison=async( capital_id:number,  infantry:number,  cavalryA:number,  cavalryB:number,  cavalryC:number)=>{
-    const tx = await worldContract.write.garrison([capital_id,  infantry,  cavalryA,  cavalryB,  cavalryC]);
+  const garrison = async (capital_id: number, infantry: number, cavalryA: number, cavalryB: number, cavalryC: number) => {
+    const tx = await worldContract.write.garrison([capital_id, infantry, cavalryA, cavalryB, cavalryC]);
     await waitForTransaction(tx);
   }
 
-  const buyInfantry = async(amount:number)=>{
+  const buyInfantry = async (amount: number) => {
     const tx = await worldContract.write.buyInfantry([amount]);
+    await waitForTransaction(tx);
+  }
+
+  const buyCavalryA = async (amount: number) => {
+    const tx = await worldContract.write.buyCavalryA([amount]);
+    await waitForTransaction(tx);
+  }
+
+  const buyCavalryB = async (amount: number) => {
+    const tx = await worldContract.write.buyCavalryB([amount]);
+    await waitForTransaction(tx);
+  }
+
+  const buyCavalryC = async (amount: number) => {
+    const tx = await worldContract.write.buyCavalryC([amount]);
     await waitForTransaction(tx);
   }
 
@@ -61,6 +76,9 @@ export function createSystemCalls(
     marchArmy,
     attack,
     garrison,
-    buyInfantry
+    buyInfantry,
+    buyCavalryA,
+    buyCavalryB,
+    buyCavalryC
   };
 }
