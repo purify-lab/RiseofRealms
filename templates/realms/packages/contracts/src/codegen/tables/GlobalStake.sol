@@ -25,8 +25,8 @@ struct GlobalStakeData {
 }
 
 library GlobalStake {
-  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "", name: "GlobalStake", typeId: RESOURCE_TABLE });`
-  ResourceId constant _tableId = ResourceId.wrap(0x74620000000000000000000000000000476c6f62616c5374616b650000000000);
+  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "app", name: "GlobalStake", typeId: RESOURCE_TABLE });`
+  ResourceId constant _tableId = ResourceId.wrap(0x74626170700000000000000000000000476c6f62616c5374616b650000000000);
 
   FieldLayout constant _fieldLayout =
     FieldLayout.wrap(0x00a0050020202020200000000000000000000000000000000000000000000000);

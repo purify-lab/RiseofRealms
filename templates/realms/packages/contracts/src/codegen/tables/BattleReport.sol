@@ -26,8 +26,8 @@ struct BattleReportData {
 }
 
 library BattleReport {
-  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "", name: "BattleReport", typeId: RESOURCE_TABLE });`
-  ResourceId constant _tableId = ResourceId.wrap(0x74620000000000000000000000000000426174746c655265706f727400000000);
+  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "app", name: "BattleReport", typeId: RESOURCE_TABLE });`
+  ResourceId constant _tableId = ResourceId.wrap(0x74626170700000000000000000000000426174746c655265706f727400000000);
 
   FieldLayout constant _fieldLayout =
     FieldLayout.wrap(0x002f050102041414010000000000000000000000000000000000000000000000);

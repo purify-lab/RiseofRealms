@@ -35,6 +35,7 @@ export type SetupNetworkResult = Awaited<ReturnType<typeof setupNetwork>>;
 export async function setupNetwork() {
   const networkConfig = await getNetworkConfig();
 
+  console.log("chain",networkConfig.chain)
   /*
    * Create a viem public (read only) client
    * (https://viem.sh/docs/clients/public.html)
@@ -73,6 +74,8 @@ export async function setupNetwork() {
     abi: IWorldAbi,
     client: { public: publicClient, wallet: burnerWalletClient },
   });
+
+  console.log("mudConfig",mudConfig)
 
   /*
    * Sync on-chain state into RECS and keeps our client in sync.

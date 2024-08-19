@@ -9,13 +9,13 @@ pragma solidity >=0.8.24;
  * @dev This interface is automatically generated from the corresponding system contract. Do not edit manually.
  */
 interface IStableSwapSystem {
-  function swapA2B(uint256 amount) external;
+  function app__swapA2B(uint256 amount) external;
 
-  function swapA2C(uint256 amount) external;
+  function app__swapA2C(uint256 amount) external;
 
-  function pause() external;
+  function app__pause() external;
 
-  function unpause() external;
+  function app__unpause() external;
 
-  function withdrawToken(address tokenAddress, uint256 amount) external;
+  function app__withdrawToken(address tokenAddress, uint256 amount) external;
 }

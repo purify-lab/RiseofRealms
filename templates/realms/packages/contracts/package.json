@@ -24,11 +24,10 @@
     "csTables": "rimraf ../client/Assets/Scripts/codegen && tsx unity/csDataStore.ts ../client/Assets/Scripts/codegen"
   },
   "dependencies": {
-    "@latticexyz/cli": "2.0.13-main-a04761b63",
-    "@latticexyz/schema-type": "2.0.13-main-a04761b63",
-    "@latticexyz/store": "2.0.13-main-a04761b63",
-    "@latticexyz/world": "2.0.13-main-a04761b63",
-    "@latticexyz/world-modules": "2.0.13-main-a04761b63",
+    "@latticexyz/cli": "2.1.0",
+    "@latticexyz/schema-type": "2.1.0",
+    "@latticexyz/store": "2.1.0",
+    "@latticexyz/world": "2.1.0",
     "@openzeppelin/contracts": "^5.0.2",
     "contracts": "link:",
     "mkdirp": "^3.0.1"

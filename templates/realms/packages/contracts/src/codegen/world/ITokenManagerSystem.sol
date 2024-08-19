@@ -9,5 +9,5 @@ pragma solidity >=0.8.24;
  * @dev This interface is automatically generated from the corresponding system contract. Do not edit manually.
  */
 interface ITokenManagerSystem {
-  function UltraMintB(uint256 net_value) external;
+  function app__UltraMintB(uint256 net_value) external;
 }

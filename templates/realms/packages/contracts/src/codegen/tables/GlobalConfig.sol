@@ -24,8 +24,8 @@ struct GlobalConfigData {
 }
 
 library GlobalConfig {
-  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "", name: "GlobalConfig", typeId: RESOURCE_TABLE });`
-  ResourceId constant _tableId = ResourceId.wrap(0x74620000000000000000000000000000476c6f62616c436f6e66696700000000);
+  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "app", name: "GlobalConfig", typeId: RESOURCE_TABLE });`
+  ResourceId constant _tableId = ResourceId.wrap(0x74626170700000000000000000000000476c6f62616c436f6e66696700000000);
 
   FieldLayout constant _fieldLayout =
     FieldLayout.wrap(0x0074040020201420000000000000000000000000000000000000000000000000);

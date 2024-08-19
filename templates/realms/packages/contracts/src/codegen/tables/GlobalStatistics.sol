@@ -22,8 +22,8 @@ struct GlobalStatisticsData {
 }
 
 library GlobalStatistics {
-  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "", name: "GlobalStatistics", typeId: RESOURCE_TABLE });`
-  ResourceId constant _tableId = ResourceId.wrap(0x74620000000000000000000000000000476c6f62616c53746174697374696373);
+  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "app", name: "GlobalStatistics", typeId: RESOURCE_TABLE });`
+  ResourceId constant _tableId = ResourceId.wrap(0x74626170700000000000000000000000476c6f62616c53746174697374696373);
 
   FieldLayout constant _fieldLayout =
     FieldLayout.wrap(0x0040020020200000000000000000000000000000000000000000000000000000);
