@@ -249,6 +249,15 @@ export const App = () => {
           />
           <button onClick={handleBuyCavalryB}>buyCavalryB</button>
         </div>
+        <div style={{backgroundColor: "gray", padding: "5px"}}>
+          <input
+            name="amount"
+            placeholder="amount"
+            value={buyCavalryCData.amount}
+            onChange={handleBuyCavalryCInputChange}
+          />
+          <button onClick={handleBuyCavalryC}>buyCavalryC</button>
+        </div>
       </div>
     </>
   );
