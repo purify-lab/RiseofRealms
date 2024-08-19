@@ -81,6 +81,11 @@ export function createSystemCalls(
     await waitForTransaction(tx);
   }
 
+  const farming = async (capital_id: number) => {
+    const tx = await worldContract.write.farming([capital_id]);
+    await waitForTransaction(tx);
+  }
+
   return {
     spawnPlayer,
     marchArmy,
@@ -91,6 +96,7 @@ export function createSystemCalls(
     buyCavalryB,
     buyCavalryC,
     spawnCapital,
-    stakeTokenB
+    stakeTokenB,
+    farming,
   };
 }

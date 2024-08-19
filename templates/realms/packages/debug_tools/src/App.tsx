@@ -10,7 +10,7 @@ export const App = () => {
       spawnPlayer, spawnCapital,
       marchArmy, attack, garrison,
       buyInfantry, buyCavalryA, buyCavalryB, buyCavalryC,
-      stakeTokenB
+      stakeTokenB, farming
     },
   } = useMUD();
 
@@ -168,6 +168,20 @@ export const App = () => {
     stakeTokenB(Number(stakeTokenBData.amount));
   }
 
+  const [farmingData, setSetFarmingData] = useState({
+    capital_id: ""
+  });
+
+  const handleSetFarmingInputChange = (event: any) => {
+    const {name, value} = event.target;
+    setSetFarmingData((prevData) => ({...prevData, [name]: value}));
+  }
+
+  const handleFarming = () => {
+    console.log(farmingData);
+    farming(Number(farmingData.capital_id));
+  }
+
   return (
     <>
       <div style={{gridRowGap: "10px", display: "grid"}}>
@@ -308,6 +322,15 @@ export const App = () => {
             onChange={handleStakeTokenBInputChange}
           />
           <button onClick={handleStakeTokenB}>Stake Token B</button>
+        </div>
+        <div style={{backgroundColor: "gray", padding: "5px"}}>
+          <input
+            name="capital_id"
+            placeholder="capital_id"
+            value={farmingData.capital_id}
+            onChange={handleSetFarmingInputChange}
+          />
+          <button onClick={handleFarming}>Farming</button>
         </div>
       </div>
     </>
