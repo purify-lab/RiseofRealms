@@ -66,8 +66,11 @@ export async function getNetworkConfig() {
     ? Number(params.get("initialBlockNumber"))
     : world?.blockNumber ?? 0n;
 
+  console.log(getBurnerPrivateKey());
+  //0x28af15e0e81af73b189d3351ae0687db34de71aaf9e14f3f5b7e46ace41cb5c4
+  //0x000000000000000000000000832cce0f0faef94f242adad051e015bed9ffa7d4
   return {
-    privateKey: getBurnerPrivateKey(),
+    privateKey:"0x000000000000000000000000832cce0f0faef94f242adad051e015bed9ffa7d4",// getBurnerPrivateKey(),
     chainId,
     chain,
     worldAddress,
