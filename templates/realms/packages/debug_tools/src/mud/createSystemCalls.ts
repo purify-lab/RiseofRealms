@@ -41,9 +41,14 @@ export function createSystemCalls(
     await waitForTransaction(tx);
   }
 
+  const attack = async (army_id: number) => {
+    const tx = await worldContract.write.attack([army_id]);
+    await waitForTransaction(tx);
+  }
 
   return {
     spawnPlayer,
-    marchArmy
+    marchArmy,
+    attack
   };
 }

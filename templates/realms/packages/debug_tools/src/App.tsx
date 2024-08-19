@@ -1,12 +1,12 @@
-import {useMUD} from "./MUDContext";
-import {useState} from 'react';
+import { useMUD } from "./MUDContext";
+import { useState } from 'react';
 
-const styleUnset = {all: "unset"} as const;
+const styleUnset = { all: "unset" } as const;
 
 export const App = () => {
   const {
-    network: {useStore},
-    systemCalls: {spawnPlayer, marchArmy},
+    network: { useStore },
+    systemCalls: { spawnPlayer, marchArmy, attack },
   } = useMUD();
 
   const [marchData, setMarchData] = useState({
@@ -18,33 +18,47 @@ export const App = () => {
     army_id: '',
   });
 
+  const [attackData, setAttackData] = useState({
+    army_id: '',
+  });
+
   const handleSpawnPlayer = () => {
     spawnPlayer();
   };
 
   const handleMarchInputChange = (event: any) => {
-    const {name, value} = event.target;
-    setMarchData((prevData) => ({...prevData, [name]: value}));
+    const { name, value } = event.target;
+    setMarchData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleAttackInputChange = (event: any) => {
+    const { name, value } = event.target;
+    setAttackData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const handleMarch = () => {
     console.log(marchData);
     marchArmy(
-      (Number)(marchData.destination),
-      (Number)(marchData.infantry),
-      (Number)(marchData.cavalryA),
-      (Number)(marchData.cavalryB),
-      (Number)(marchData.cavalryC),
-      (Number)(marchData.army_id)
+      Number(marchData.destination),
+      Number(marchData.infantry),
+      Number(marchData.cavalryA),
+      Number(marchData.cavalryB),
+      Number(marchData.cavalryC),
+      Number(marchData.army_id)
     );
+  };
+
+  const handleAttack = () => {
+    console.log(attackData);
+    attack(Number(attackData.army_id));
   };
 
   return (
     <>
-      <div style={{border: "red 1px solid"}}>
+      <div style={{ border: "red 1px solid" }}>
         <button onClick={handleSpawnPlayer}>Spawn Player</button>
       </div>
-      <div style={{border: "red 1px solid"}}>
+      <div style={{ border: "red 1px solid" }}>
         <input
           name="destination"
           placeholder="destination"
@@ -82,6 +96,15 @@ export const App = () => {
           onChange={handleMarchInputChange}
         />
         <button onClick={handleMarch}>March</button>
+      </div>
+      <div style={{ border: "red 1px solid" }}>
+        <input
+          name="army_id"
+          placeholder="army_id"
+          value={attackData.army_id}
+          onChange={handleAttackInputChange}
+        />
+        <button onClick={handleAttack}>Attack</button>
       </div>
     </>
   );
