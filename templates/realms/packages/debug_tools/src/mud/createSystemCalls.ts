@@ -51,10 +51,16 @@ export function createSystemCalls(
     await waitForTransaction(tx);
   }
 
+  const buyInfantry = async(amount:number)=>{
+    const tx = await worldContract.write.buyInfantry([amount]);
+    await waitForTransaction(tx);
+  }
+
   return {
     spawnPlayer,
     marchArmy,
     attack,
-    garrison
+    garrison,
+    buyInfantry
   };
 }

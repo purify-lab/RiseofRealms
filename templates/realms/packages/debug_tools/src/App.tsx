@@ -1,12 +1,12 @@
-import { useMUD } from "./MUDContext";
-import { useState } from 'react';
+import {useMUD} from "./MUDContext";
+import {useState} from 'react';
 
-const styleUnset = { all: "unset" } as const;
+const styleUnset = {all: "unset"} as const;
 
 export const App = () => {
   const {
-    network: { useStore },
-    systemCalls: { spawnPlayer, marchArmy, attack ,garrison},
+    network: {useStore},
+    systemCalls: {spawnPlayer, marchArmy, attack, garrison, buyInfantry},
   } = useMUD();
 
   const [marchData, setMarchData] = useState({
@@ -27,13 +27,22 @@ export const App = () => {
   };
 
   const handleMarchInputChange = (event: any) => {
-    const { name, value } = event.target;
-    setMarchData((prevData) => ({ ...prevData, [name]: value }));
+    const {name, value} = event.target;
+    setMarchData((prevData) => ({...prevData, [name]: value}));
   };
 
+  const [buyInfantryData, setBuyInfantryData] = useState({
+    amount: '',
+  });
+
+  const handleBuyInfantryAmontInputChange = (event: any) => {
+    const {name, value} = event.target;
+    setBuyInfantryData((prevData) => ({...prevData, [name]: value}));
+  }
+
   const handleAttackInputChange = (event: any) => {
-    const { name, value } = event.target;
-    setAttackData((prevData) => ({ ...prevData, [name]: value }));
+    const {name, value} = event.target;
+    setAttackData((prevData) => ({...prevData, [name]: value}));
   };
 
   const handleMarch = () => {
@@ -62,8 +71,8 @@ export const App = () => {
   });
 
   const handleGarrisonInputChange = (event: any) => {
-    const { name, value } = event.target;
-    setGarrisonData((prevData) => ({ ...prevData, [name]: value }));
+    const {name, value} = event.target;
+    setGarrisonData((prevData) => ({...prevData, [name]: value}));
   };
 
   const handleGarrison = () => {
@@ -75,6 +84,12 @@ export const App = () => {
       Number(garrisonData.cavalryB),
       Number(garrisonData.cavalryC)
     );
+  };
+
+
+  const handleBuyInfantry = () => {
+    console.log(buyInfantryData);
+    buyInfantry(Number(buyInfantryData.amount));
   };
 
   return (
@@ -162,6 +177,15 @@ export const App = () => {
           onChange={handleGarrisonInputChange}
         />
         <button onClick={handleGarrison}>Garrison</button>
+      </div>
+      <div style={{border: "red 1px solid"}}>
+        <input
+          name="amount"
+          placeholder="amount"
+          value={buyInfantryData.amount}
+          onChange={handleBuyInfantryAmontInputChange}
+        />
+        <button onClick={handleBuyInfantry}>buyInfantry</button>
       </div>
     </>
   );
