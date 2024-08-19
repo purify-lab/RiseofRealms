@@ -46,9 +46,15 @@ export function createSystemCalls(
     await waitForTransaction(tx);
   }
 
+  const garrison=async( capital_id:number,  infantry:number,  cavalryA:number,  cavalryB:number,  cavalryC:number)=>{
+    const tx = await worldContract.write.garrison([capital_id,  infantry,  cavalryA,  cavalryB,  cavalryC]);
+    await waitForTransaction(tx);
+  }
+
   return {
     spawnPlayer,
     marchArmy,
-    attack
+    attack,
+    garrison
   };
 }
