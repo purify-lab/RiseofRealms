@@ -1,5 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
+using IWorld.ContractDefinition;
+using mud;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -45,9 +48,19 @@ public class SelectArmy1Page : MonoBehaviour
         AtkButton.onClick.AddListener(onAttack);
     }
 
-    void onAttack()
+    async void onAttack()
     {
+        var wn = int.Parse(WarriorNum.text);
+        var cn = int.Parse(CavalryNum.text);
+
+        var tile_id = MapDrawer.inst.cellByPosDic[dest_pos];
+        
+        Debug.Log("Attack Tile : " + dest_pos + " army :" + WarriorNum.text + " cavalry: " + CavalryNum.text);
+        Debug.Log("Tile ID: " + MapDrawer.inst.cellByPosDic[dest_pos]);
         gameObject.SetActive(false);
+
+        await TxManager.SendUntilPasses<MarchFunction>((ushort)tile_id, new BigInteger(wn), new BigInteger(cn), BigInteger.Zero, BigInteger.Zero,
+            (byte)2);
     }
 
     public void SetCoords(Vector3Int pos)
