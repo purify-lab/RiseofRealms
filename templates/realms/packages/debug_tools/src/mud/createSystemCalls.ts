@@ -71,8 +71,13 @@ export function createSystemCalls(
     await waitForTransaction(tx);
   }
 
-  const spawnCapital = async (capital_id:number) =>{
+  const spawnCapital = async (capital_id: number) => {
     const tx = await worldContract.write.spawnCapital([capital_id]);
+    await waitForTransaction(tx);
+  }
+
+  const stakeTokenB = async (amount: number) => {
+    const tx = await worldContract.write.stakeTokenB([amount]);
     await waitForTransaction(tx);
   }
 
@@ -85,6 +90,7 @@ export function createSystemCalls(
     buyCavalryA,
     buyCavalryB,
     buyCavalryC,
-    spawnCapital
+    spawnCapital,
+    stakeTokenB
   };
 }
