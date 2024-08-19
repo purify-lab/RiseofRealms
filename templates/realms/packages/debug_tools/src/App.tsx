@@ -6,7 +6,7 @@ const styleUnset = { all: "unset" } as const;
 export const App = () => {
   const {
     network: { useStore },
-    systemCalls: { spawnPlayer, marchArmy, attack },
+    systemCalls: { spawnPlayer, marchArmy, attack ,garrison},
   } = useMUD();
 
   const [marchData, setMarchData] = useState({
@@ -53,12 +53,36 @@ export const App = () => {
     attack(Number(attackData.army_id));
   };
 
+  const [garrisonData, setGarrisonData] = useState({
+    capital_id: '',
+    infantry: '',
+    cavalryA: '',
+    cavalryB: '',
+    cavalryC: '',
+  });
+
+  const handleGarrisonInputChange = (event: any) => {
+    const { name, value } = event.target;
+    setGarrisonData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleGarrison = () => {
+    console.log(garrisonData);
+    garrison(
+      Number(garrisonData.capital_id),
+      Number(garrisonData.infantry),
+      Number(garrisonData.cavalryA),
+      Number(garrisonData.cavalryB),
+      Number(garrisonData.cavalryC)
+    );
+  };
+
   return (
     <>
-      <div style={{ border: "red 1px solid" }}>
+      <div style={{border: "red 1px solid"}}>
         <button onClick={handleSpawnPlayer}>Spawn Player</button>
       </div>
-      <div style={{ border: "red 1px solid" }}>
+      <div style={{border: "red 1px solid"}}>
         <input
           name="destination"
           placeholder="destination"
@@ -97,7 +121,7 @@ export const App = () => {
         />
         <button onClick={handleMarch}>March</button>
       </div>
-      <div style={{ border: "red 1px solid" }}>
+      <div style={{border: "red 1px solid"}}>
         <input
           name="army_id"
           placeholder="army_id"
@@ -105,6 +129,39 @@ export const App = () => {
           onChange={handleAttackInputChange}
         />
         <button onClick={handleAttack}>Attack</button>
+      </div>
+      <div style={{border: "red 1px solid"}}>
+        <input
+          name="capital_id"
+          placeholder="capital_id"
+          value={garrisonData.capital_id}
+          onChange={handleGarrisonInputChange}
+        />
+        <input
+          name="infantry"
+          placeholder="infantry"
+          value={garrisonData.infantry}
+          onChange={handleGarrisonInputChange}
+        />
+        <input
+          name="cavalryA"
+          placeholder="cavalryA"
+          value={garrisonData.cavalryA}
+          onChange={handleGarrisonInputChange}
+        />
+        <input
+          name="cavalryB"
+          placeholder="cavalryB"
+          value={garrisonData.cavalryB}
+          onChange={handleGarrisonInputChange}
+        />
+        <input
+          name="cavalryC"
+          placeholder="cavalryC"
+          value={garrisonData.cavalryC}
+          onChange={handleGarrisonInputChange}
+        />
+        <button onClick={handleGarrison}>Garrison</button>
       </div>
     </>
   );
