@@ -28,8 +28,8 @@ struct ArmyData {
 }
 
 library Army {
-  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "app", name: "Army", typeId: RESOURCE_TABLE });`
-  ResourceId constant _tableId = ResourceId.wrap(0x7462617070000000000000000000000041726d79000000000000000000000000);
+  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "", name: "Army", typeId: RESOURCE_TABLE });`
+  ResourceId constant _tableId = ResourceId.wrap(0x7462000000000000000000000000000041726d79000000000000000000000000);
 
   FieldLayout constant _fieldLayout =
     FieldLayout.wrap(0x00a7080020012020202004020000000000000000000000000000000000000000);

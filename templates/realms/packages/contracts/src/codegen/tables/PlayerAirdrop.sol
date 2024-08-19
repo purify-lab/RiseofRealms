@@ -17,8 +17,8 @@ import { EncodedLengths, EncodedLengthsLib } from "@latticexyz/store/src/Encoded
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 
 library PlayerAirdrop {
-  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "app", name: "PlayerAirdrop", typeId: RESOURCE_TABLE });`
-  ResourceId constant _tableId = ResourceId.wrap(0x74626170700000000000000000000000506c6179657241697264726f70000000);
+  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "", name: "PlayerAirdrop", typeId: RESOURCE_TABLE });`
+  ResourceId constant _tableId = ResourceId.wrap(0x74620000000000000000000000000000506c6179657241697264726f70000000);
 
   FieldLayout constant _fieldLayout =
     FieldLayout.wrap(0x0001010001000000000000000000000000000000000000000000000000000000);

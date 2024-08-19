@@ -30,8 +30,8 @@ struct CapitalData {
 }
 
 library Capital {
-  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "app", name: "Capital", typeId: RESOURCE_TABLE });`
-  ResourceId constant _tableId = ResourceId.wrap(0x746261707000000000000000000000004361706974616c000000000000000000);
+  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "", name: "Capital", typeId: RESOURCE_TABLE });`
+  ResourceId constant _tableId = ResourceId.wrap(0x746200000000000000000000000000004361706974616c000000000000000000);
 
   FieldLayout constant _fieldLayout =
     FieldLayout.wrap(0x00fa0a0002201420202020042020000000000000000000000000000000000000);

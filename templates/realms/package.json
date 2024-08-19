@@ -5,6 +5,7 @@
     "build": "pnpm recursive run build",
     "dev": "concurrently -n contracts,unity -c cyan,magenta \"cd packages/contracts && pnpm run dev\" \"cd packages/contracts && pnpm run dev:unity\"",
     "dev:client": "pnpm --filter 'client' run dev",
+    "dev:debug": "pnpm --filter 'debug_tools' run start",
     "dev:contracts": "pnpm --filter 'contracts' dev",
     "foundry:up": "curl -L https://foundry.paradigm.xyz | bash && bash $HOME/.foundry/bin/foundryup",
     "mud:up": "pnpm mud set-version --tag main && pnpm install",

@@ -2,7 +2,6 @@ import {defineWorld} from "@latticexyz/world";
 
 export default defineWorld({
   worldContractName: "RoR",
-  namespace: "app",
   enums: {
     TokenType: ["TokenA", "TokenB", "TokenC"],
   },

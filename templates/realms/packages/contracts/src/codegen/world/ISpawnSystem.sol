@@ -11,29 +11,23 @@ import { TokenType } from "../Common.sol";
  * @dev This interface is automatically generated from the corresponding system contract. Do not edit manually.
  */
 interface ISpawnSystem {
-  function app__spawnPlayer() external;
+  function spawnPlayer() external;
 
-  function app__buyInfantry(uint256 amount) external;
+  function buyInfantry(uint256 amount) external;
 
-  function app__buyInfantryByToken(TokenType token_type, uint256 amount) external;
+  function buyInfantryByToken(TokenType token_type, uint256 amount) external;
 
-  function app__buyCavalryA(uint256 amount) external;
+  function buyCavalryA(uint256 amount) external;
 
-  function app__buyCavalryB(uint256 amount) external;
+  function buyCavalryB(uint256 amount) external;
 
-  function app__buyCavalryC(uint256 amount) external;
+  function buyCavalryC(uint256 amount) external;
 
-  function app__spawnCapital(uint16 capital_id) external payable;
+  function spawnCapital(uint16 capital_id) external payable;
 
-  function app__garrison(
-    uint16 capital_id,
-    uint256 infantry,
-    uint256 cavalryA,
-    uint256 cavalryB,
-    uint256 cavalryC
-  ) external;
+  function garrison(uint16 capital_id, uint256 infantry, uint256 cavalryA, uint256 cavalryB, uint256 cavalryC) external;
 
-  function app__march(
+  function march(
     uint16 destination,
     uint256 infantry,
     uint256 cavalryA,
@@ -42,21 +36,21 @@ interface ISpawnSystem {
     uint8 army_id
   ) external;
 
-  function app__attack(uint8 army_id) external;
+  function attack(uint8 army_id) external;
 
-  function app__farming(uint16 capital_id) external;
+  function farming(uint16 capital_id) external;
 
-  function app__getStageOneEndTime() external pure returns (uint256 timestamp);
+  function getStageOneEndTime() external pure returns (uint256 timestamp);
 
-  function app__stakeTokenB(uint256 amount) external;
+  function stakeTokenB(uint256 amount) external;
 
-  function app__stakeTokenC(uint256 amount) external;
+  function stakeTokenC(uint256 amount) external;
 
-  function app__unStakeTokenB(address staker, uint256 amount) external;
+  function unStakeTokenB(address staker, uint256 amount) external;
 
-  function app__setUnStakeFee(uint256 fee) external;
+  function setUnStakeFee(uint256 fee) external;
 
-  function app__setPassiveUnStakeFee(uint256 fee) external;
+  function setPassiveUnStakeFee(uint256 fee) external;
 
-  function app__setOwner() external;
+  function setOwner() external;
 }
