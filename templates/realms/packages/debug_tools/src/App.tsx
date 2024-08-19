@@ -29,7 +29,14 @@ export const App = () => {
 
   const handleMarch = () => {
     console.log(marchData);
-    // marchArmy(marchData);
+    marchArmy(
+      (Number)(marchData.destination),
+      (Number)(marchData.infantry),
+      (Number)(marchData.cavalryA),
+      (Number)(marchData.cavalryB),
+      (Number)(marchData.cavalryC),
+      (Number)(marchData.army_id)
+    );
   };
 
   return (
