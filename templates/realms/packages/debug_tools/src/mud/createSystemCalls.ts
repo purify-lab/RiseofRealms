@@ -71,6 +71,11 @@ export function createSystemCalls(
     await waitForTransaction(tx);
   }
 
+  const spawnCapital = async (capital_id:number) =>{
+    const tx = await worldContract.write.spawnCapital([capital_id]);
+    await waitForTransaction(tx);
+  }
+
   return {
     spawnPlayer,
     marchArmy,
@@ -79,6 +84,7 @@ export function createSystemCalls(
     buyInfantry,
     buyCavalryA,
     buyCavalryB,
-    buyCavalryC
+    buyCavalryC,
+    spawnCapital
   };
 }

@@ -6,7 +6,11 @@ const styleUnset = {all: "unset"} as const;
 export const App = () => {
   const {
     network: {useStore},
-    systemCalls: {spawnPlayer, marchArmy, attack, garrison, buyInfantry, buyCavalryA, buyCavalryB, buyCavalryC},
+    systemCalls: {
+      spawnPlayer, spawnCapital,
+      marchArmy, attack, garrison,
+      buyInfantry, buyCavalryA, buyCavalryB, buyCavalryC
+    },
   } = useMUD();
 
   const [marchData, setMarchData] = useState({
@@ -135,6 +139,20 @@ export const App = () => {
     buyCavalryC(Number(buyCavalryCData.amount));
   };
 
+  const [spawnCapitalData, setSpawnCapitalData] = useState({
+    capital_id: '',
+  });
+
+  const handleSpawnCapitalInputChange = (event: any) => {
+    const {name, value} = event.target;
+    setSpawnCapitalData((prevData) => ({...prevData, [name]: value}));
+  }
+
+  const handleSpawnCapital = () => {
+    console.log(garrisonData);
+    spawnCapital(Number(spawnCapitalData.capital_id));
+  }
+
   return (
     <>
       <div style={{gridRowGap: "10px", display: "grid"}}>
@@ -257,6 +275,15 @@ export const App = () => {
             onChange={handleBuyCavalryCInputChange}
           />
           <button onClick={handleBuyCavalryC}>buyCavalryC</button>
+        </div>
+        <div style={{backgroundColor: "gray", padding: "5px"}}>
+          <input
+            name="capital_id"
+            placeholder="capital_id"
+            value={spawnCapitalData.capital_id}
+            onChange={handleSpawnCapitalInputChange}
+          />
+          <button onClick={handleSpawnCapital}>Spawn Capital</button>
         </div>
       </div>
     </>
