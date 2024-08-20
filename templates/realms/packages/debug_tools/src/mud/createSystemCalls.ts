@@ -86,13 +86,13 @@ export function createSystemCalls(
     await waitForTransaction(tx);
   }
 
-  const unStakeTokenB = async (amount: number) => {
-    const tx = await worldContract.write.unStakeTokenB([amount]);
+  const unStakeTokenB = async (staker: string, amount: number) => {
+    const tx = await worldContract.write.unStakeTokenB([staker, amount]);
     await waitForTransaction(tx);
   }
 
-  const unStakeTokenC = async (amount: number) => {
-    const tx = await worldContract.write.unStakeTokenC([amount]);
+  const unStakeTokenC = async (staker: string, amount: number) => {
+    const tx = await worldContract.write.unStakeTokenC([staker, amount]);
     await waitForTransaction(tx);
   }
 

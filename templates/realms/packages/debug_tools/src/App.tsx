@@ -10,7 +10,7 @@ export const App = () => {
       spawnPlayer, spawnCapital,
       marchArmy, attack, garrison,
       buyInfantry, buyCavalryA, buyCavalryB, buyCavalryC,
-      stakeTokenB, farming,
+      stakeTokenB, stakeTokenC, unStakeTokenB, unStakeTokenC, farming,
       setMerkleRoot, claim, swapA2B, swapA2C, withdrawToken
     },
   } = useMUD();
@@ -169,6 +169,21 @@ export const App = () => {
     stakeTokenB(Number(stakeTokenBData.amount));
   }
 
+  const [stakeTokenCData, setStakeTokenCData] = useState({
+    amount: '',
+  });
+
+  const handleStakeTokenCInputChange = (event: any) => {
+    const {name, value} = event.target;
+    setStakeTokenCData((prevData) => ({...prevData, [name]: value}));
+  }
+
+  const handleStakeTokenC = () => {
+    console.log(stakeTokenCData);
+    stakeTokenC(Number(stakeTokenCData.amount));
+  }
+
+
   const [farmingData, setSetFarmingData] = useState({
     capital_id: ""
   });
@@ -241,7 +256,7 @@ export const App = () => {
   }
 
   const [withdrawTokenData, setWithdrawTokenData] = useState({
-    token_address:"",
+    token_address: "",
     amount: ""
   });
 
@@ -395,6 +410,15 @@ export const App = () => {
             onChange={handleStakeTokenBInputChange}
           />
           <button onClick={handleStakeTokenB}>Stake Token B</button>
+        </div>
+        <div style={{backgroundColor: "gray", padding: "5px"}}>
+          <input
+            name="amount"
+            placeholder="amount"
+            value={stakeTokenCData.amount}
+            onChange={handleStakeTokenCInputChange}
+          />
+          <button onClick={handleStakeTokenC}>Stake Token C</button>
         </div>
         <div style={{backgroundColor: "gray", padding: "5px"}}>
           <input
