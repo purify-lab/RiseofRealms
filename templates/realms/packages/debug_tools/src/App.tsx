@@ -11,7 +11,8 @@ export const App = () => {
       marchArmy, attack, garrison,
       buyInfantry, buyCavalryA, buyCavalryB, buyCavalryC,
       stakeTokenB, stakeTokenC, unStakeTokenB, unStakeTokenC, farming,
-      setMerkleRoot, claim, swapA2B, swapA2C, withdrawToken
+      setMerkleRoot, claim, swapA2B, swapA2C, withdrawToken,
+      // getCapitalPower
     },
   } = useMUD();
 

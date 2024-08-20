@@ -3,7 +3,6 @@
  * for changes in the World state (using the System contracts).
  */
 
-import {Hex} from "viem";
 import {SetupNetworkResult} from "./setupNetwork";
 
 export type SystemCalls = ReturnType<typeof createSystemCalls>;
@@ -125,6 +124,11 @@ export function createSystemCalls(
     const tx = await worldContract.write.withdrawToken([token_address, amount]);
     await waitForTransaction(tx);
   }
+
+  // const getCapitalPower = async (capital_id: number) => {
+  //   const result = await worldContract.read.getCapitalPower([capital_id]);
+  //   return result[0];
+  // }
 
   return {
     spawnPlayer,
