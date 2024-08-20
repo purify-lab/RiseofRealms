@@ -212,6 +212,34 @@ export const App = () => {
     setMerkleRoot(merkleRootData.merkleRoot);
   }
 
+  const [swapA2BData , setSwapA2BData] = useState({
+    amount:""
+  });
+
+  const handleSwapA2BInputChange = (event: any) => {
+    const {name, value} = event.target;
+    setSwapA2BData((prevData) => ({...prevData, [name]: value}));
+  }
+
+  const handleSwapA2B = () => {
+    console.log(swapA2BData);
+    swapA2B(Number(swapA2BData.amount));
+  }
+
+  const [swapA2CData , setSwapA2CData] = useState({
+    amount:""
+  });
+
+  const handleSwapA2CInputChange = (event: any) => {
+    const {name, value} = event.target;
+    setSwapA2CData((prevData) => ({...prevData, [name]: value}));
+  }
+
+  const handleSwapA2C = () => {
+    console.log(swapA2CData);
+    swapA2C(Number(swapA2CData.amount));
+  }
+
   return (
     <>
       <div style={{gridRowGap: "10px", display: "grid"}}>
@@ -385,6 +413,24 @@ export const App = () => {
             onChange={handleSetMerkleRootInputChange}
           />
           <button onClick={handleSetMerkleRoot}>Set Merkle Root</button>
+        </div>
+        <div style={{backgroundColor: "gray", padding: "5px"}}>
+          <input
+            name="amount"
+            placeholder="amount"
+            value={swapA2BData.amount}
+            onChange={handleSwapA2BInputChange}
+          />
+          <button onClick={handleSwapA2B}>Swap A2B</button>
+        </div>
+        <div style={{backgroundColor: "gray", padding: "5px"}}>
+          <input
+            name="amount"
+            placeholder="amount"
+            value={swapA2CData.amount}
+            onChange={handleSwapA2CInputChange}
+          />
+          <button onClick={handleSwapA2C}>Swap A2C</button>
         </div>
       </div>
     </>
