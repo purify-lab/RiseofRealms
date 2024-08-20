@@ -11,7 +11,7 @@ export const App = () => {
       marchArmy, attack, garrison,
       buyInfantry, buyCavalryA, buyCavalryB, buyCavalryC,
       stakeTokenB, farming,
-      setMerkleRoot, claim, swapA2B, swapA2C
+      setMerkleRoot, claim, swapA2B, swapA2C, withdrawToken
     },
   } = useMUD();
 
@@ -212,8 +212,8 @@ export const App = () => {
     setMerkleRoot(merkleRootData.merkleRoot);
   }
 
-  const [swapA2BData , setSwapA2BData] = useState({
-    amount:""
+  const [swapA2BData, setSwapA2BData] = useState({
+    amount: ""
   });
 
   const handleSwapA2BInputChange = (event: any) => {
@@ -226,8 +226,8 @@ export const App = () => {
     swapA2B(Number(swapA2BData.amount));
   }
 
-  const [swapA2CData , setSwapA2CData] = useState({
-    amount:""
+  const [swapA2CData, setSwapA2CData] = useState({
+    amount: ""
   });
 
   const handleSwapA2CInputChange = (event: any) => {
@@ -238,6 +238,21 @@ export const App = () => {
   const handleSwapA2C = () => {
     console.log(swapA2CData);
     swapA2C(Number(swapA2CData.amount));
+  }
+
+  const [withdrawTokenData, setWithdrawTokenData] = useState({
+    token_address:"",
+    amount: ""
+  });
+
+  const handleWithdrawTokenInputChange = (event: any) => {
+    const {name, value} = event.target;
+    setWithdrawTokenData((prevData) => ({...prevData, [name]: value}));
+  }
+
+  const handleWithdrawToken = () => {
+    console.log(withdrawTokenData);
+    withdrawToken(withdrawTokenData.token_address, Number(withdrawTokenData.amount));
   }
 
   return (
@@ -431,6 +446,21 @@ export const App = () => {
             onChange={handleSwapA2CInputChange}
           />
           <button onClick={handleSwapA2C}>Swap A2C</button>
+        </div>
+        <div style={{backgroundColor: "gray", padding: "5px"}}>
+          <input
+            name="token_address"
+            placeholder="token_address"
+            value={withdrawTokenData.token_address}
+            onChange={handleWithdrawTokenInputChange}
+          />
+          <input
+            name="amount"
+            placeholder="amount"
+            value={withdrawTokenData.amount}
+            onChange={handleWithdrawTokenInputChange}
+          />
+          <button onClick={handleWithdrawToken}>Withdraw Token</button>
         </div>
       </div>
     </>

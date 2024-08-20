@@ -106,6 +106,11 @@ export function createSystemCalls(
     await waitForTransaction(tx);
   }
 
+  const withdrawToken = async (token_address: string, amount: number) => {
+    const tx = await worldContract.write.withdrawToken([token_address, amount]);
+    await waitForTransaction(tx);
+  }
+
   return {
     spawnPlayer,
     marchArmy,
@@ -121,6 +126,7 @@ export function createSystemCalls(
     setMerkleRoot,
     claim,
     swapA2B,
-    swapA2C
+    swapA2C,
+    withdrawToken,
   };
 }
