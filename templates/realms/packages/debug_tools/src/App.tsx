@@ -270,6 +270,36 @@ export const App = () => {
     withdrawToken(withdrawTokenData.token_address, Number(withdrawTokenData.amount));
   }
 
+  const [unStakeTokenBData, setUnStakeTokenBData] = useState({
+    staker: "",
+    amount: ""
+  });
+
+  const handleUnStakeTokenBInputChange = (event: any) => {
+    const {name, value} = event.target;
+    setUnStakeTokenBData((prevData) => ({...prevData, [name]: value}));
+  }
+
+  const handleUnStakeTokenB = () => {
+    console.log(unStakeTokenBData);
+    unStakeTokenB(unStakeTokenBData.staker, Number(unStakeTokenBData.amount));
+  }
+
+  const [unStakeTokenCData, setUnStakeTokenCData] = useState({
+    staker: "",
+    amount: ""
+  });
+
+  const handleUnStakeTokenCInputChange = (event: any) => {
+    const {name, value} = event.target;
+    setUnStakeTokenCData((prevData) => ({...prevData, [name]: value}));
+  }
+
+  const handleUnStakeTokenC = () => {
+    console.log(unStakeTokenCData);
+    unStakeTokenC(unStakeTokenCData.staker, Number(unStakeTokenCData.amount));
+  }
+
   return (
     <>
       <div style={{gridRowGap: "10px", display: "grid"}}>
@@ -419,6 +449,36 @@ export const App = () => {
             onChange={handleStakeTokenCInputChange}
           />
           <button onClick={handleStakeTokenC}>Stake Token C</button>
+        </div>
+        <div style={{backgroundColor: "gray", padding: "5px"}}>
+          <input
+            name="staker"
+            placeholder="staker"
+            value={unStakeTokenBData.staker}
+            onChange={handleUnStakeTokenBInputChange}
+          />
+          <input
+            name="amount"
+            placeholder="amount"
+            value={unStakeTokenBData.amount}
+            onChange={handleUnStakeTokenBInputChange}
+          />
+          <button onClick={handleUnStakeTokenB}>UnStake Token B</button>
+        </div>
+        <div style={{backgroundColor: "gray", padding: "5px"}}>
+          <input
+            name="staker"
+            placeholder="staker"
+            value={unStakeTokenCData.staker}
+            onChange={handleUnStakeTokenCInputChange}
+          />
+          <input
+            name="amount"
+            placeholder="amount"
+            value={unStakeTokenCData.amount}
+            onChange={handleUnStakeTokenCInputChange}
+          />
+          <button onClick={handleUnStakeTokenC}>UnStake Token C</button>
         </div>
         <div style={{backgroundColor: "gray", padding: "5px"}}>
           <input
