@@ -81,6 +81,21 @@ export function createSystemCalls(
     await waitForTransaction(tx);
   }
 
+  const stakeTokenC = async (amount: number) => {
+    const tx = await worldContract.write.stakeTokenC([amount]);
+    await waitForTransaction(tx);
+  }
+
+  const unStakeTokenB = async (amount: number) => {
+    const tx = await worldContract.write.unStakeTokenB([amount]);
+    await waitForTransaction(tx);
+  }
+
+  const unStakeTokenC = async (amount: number) => {
+    const tx = await worldContract.write.unStakeTokenC([amount]);
+    await waitForTransaction(tx);
+  }
+
   const farming = async (capital_id: number) => {
     const tx = await worldContract.write.farming([capital_id]);
     await waitForTransaction(tx);
@@ -122,6 +137,9 @@ export function createSystemCalls(
     buyCavalryC,
     spawnCapital,
     stakeTokenB,
+    stakeTokenC,
+    unStakeTokenB,
+    unStakeTokenC,
     farming,
     setMerkleRoot,
     claim,
