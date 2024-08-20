@@ -10,7 +10,8 @@ export const App = () => {
       spawnPlayer, spawnCapital,
       marchArmy, attack, garrison,
       buyInfantry, buyCavalryA, buyCavalryB, buyCavalryC,
-      stakeTokenB, farming
+      stakeTokenB, farming,
+      setMerkleRoot, claim, swapA2B, swapA2C
     },
   } = useMUD();
 
@@ -182,6 +183,35 @@ export const App = () => {
     farming(Number(farmingData.capital_id));
   }
 
+  const [claimData, setClaimData] = useState({
+    proof: "",
+    amount: ""
+  });
+
+  const handleClaimInputChange = (event: any) => {
+    const {name, value} = event.target;
+    setClaimData((prevData) => ({...prevData, [name]: value}));
+  }
+
+  const handleClaim = () => {
+    console.log(claimData);
+    claim(claimData.proof.split(','), Number(claimData.amount));
+  }
+
+  const [merkleRootData, setMerkleRootData] = useState({
+    merkleRoot: ""
+  });
+
+  const handleSetMerkleRootInputChange = (event: any) => {
+    const {name, value} = event.target;
+    setMerkleRootData((prevData) => ({...prevData, [name]: value}));
+  }
+
+  const handleSetMerkleRoot = () => {
+    console.log(merkleRootData);
+    setMerkleRoot(merkleRootData.merkleRoot);
+  }
+
   return (
     <>
       <div style={{gridRowGap: "10px", display: "grid"}}>
@@ -331,6 +361,30 @@ export const App = () => {
             onChange={handleSetFarmingInputChange}
           />
           <button onClick={handleFarming}>Farming</button>
+        </div>
+        <div style={{backgroundColor: "gray", padding: "5px"}}>
+          <input
+            name="proof"
+            placeholder="proof"
+            value={claimData.proof}
+            onChange={handleClaimInputChange}
+          />
+          <input
+            name="amount"
+            placeholder="amount"
+            value={claimData.amount}
+            onChange={handleClaimInputChange}
+          />
+          <button onClick={handleClaim}>Claim Airdrop</button>
+        </div>
+        <div style={{backgroundColor: "gray", padding: "5px"}}>
+          <input
+            name="merkleRoot"
+            placeholder="merkleRoot"
+            value={merkleRootData.merkleRoot}
+            onChange={handleSetMerkleRootInputChange}
+          />
+          <button onClick={handleSetMerkleRoot}>Set Merkle Root</button>
         </div>
       </div>
     </>
