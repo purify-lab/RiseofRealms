@@ -86,6 +86,26 @@ export function createSystemCalls(
     await waitForTransaction(tx);
   }
 
+  const setMerkleRoot = async (root: string) => {
+    const tx = await worldContract.write.setMerkleRoot([root]);
+    await waitForTransaction(tx);
+  }
+
+  const claim = async (proof: string[], amount: number) => {
+    const tx = await worldContract.write.claim([proof, amount]);
+    await waitForTransaction(tx);
+  }
+
+  const swapA2B = async (amount: number) => {
+    const tx = await worldContract.write.swapA2B([amount]);
+    await waitForTransaction(tx);
+  }
+
+  const swapA2C = async (amount: number) => {
+    const tx = await worldContract.write.swapA2C([amount]);
+    await waitForTransaction(tx);
+  }
+
   return {
     spawnPlayer,
     marchArmy,
@@ -98,5 +118,9 @@ export function createSystemCalls(
     spawnCapital,
     stakeTokenB,
     farming,
+    setMerkleRoot,
+    claim,
+    swapA2B,
+    swapA2C
   };
 }
