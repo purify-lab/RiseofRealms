@@ -2,7 +2,7 @@
 pragma solidity >=0.8.0;
 
 import {System} from "@latticexyz/world/src/System.sol";
-import {Player, PlayerDetail, Capital, Army, BattleReport, GlobalStatistics, GlobalStake, GlobalConfig, PlayerStake} from "../codegen/index.sol";
+import {Player, PlayerDetail, Capital, Army, BattleReport, GlobalStatistics, GlobalStake, GlobalConfig, PlayerStake, Land} from "../codegen/index.sol";
 import {TokenType} from "../codegen/Common.sol";
 import {Utility} from "../utility/utility.sol";
 import {IERC20} from "../utility/IERC20.sol";
@@ -25,7 +25,7 @@ contract SpawnSystem is System {
         require(Player.get(entity) == false, "Already spawned");
 
         Player.set(entity, true);
-        PlayerDetail.set(entity, _msgSender(), 1000000000, 1000000000, 1000000000, 1000000000, 1000000000, 0);
+        PlayerDetail.set(entity, _msgSender(), 1000000000, 1000000000, 1000000000, 1000000000, 1000000000, 0, false);
 //        PlayerDetail.setWallet(entity, _msgSender());
 //        PlayerDetail.setGold(entity, 1000000000);
 //        PlayerDetail.setInfantry(entity, 1000000000);
@@ -89,8 +89,8 @@ contract SpawnSystem is System {
     }
 
     /**
-    * @dev 生成领地
-    * @param capital_id 领地id
+    * @dev 生成城池
+    * @param capital_id 城池id
     */
     function spawnCapital(uint16 capital_id) public payable {
         //price 0.0005 eth
@@ -98,13 +98,12 @@ contract SpawnSystem is System {
         require(msg.value == 500000000000000, "No eth");
         bytes32 owner = Utility.addressToEntityKey(address(_msgSender()));
         require(Capital.getOwner(capital_id) == 0, "this capital already spawned");
-        require(PlayerDetail.getCapitals(owner) == 0, "you already spawned capital");
+        require(PlayerDetail.getIsSpawnCapital(owner) == true, "you already spawned capital");
 
-        PlayerDetail.setCapitals(owner, PlayerDetail.getCapitals(owner) + 1);
-        Capital.set(capital_id, capital_id, owner, address(0), 0, 0, 0, 0, (uint32)(block.timestamp), 0, 0);
-//        Capital.setTileId(capital_id, capital_id);
-//        Capital.setOwner(capital_id, owner);
-//        Capital.setLastTime(capital_id, (uint32)(block.timestamp));
+        PlayerDetail.setLands(owner, PlayerDetail.getLands(owner) + 1);
+        PlayerDetail.setIsSpawnCapital(owner, true);
+        Capital.set(capital_id, capital_id, owner, (uint32)(block.timestamp));
+        Land.set(capital_id, capital_id, owner, 0, 0, 0, 0, (uint32)(block.timestamp), false);
 
         //eth转账给收款人
         payable(Recipient).transfer(msg.value);
@@ -112,15 +111,15 @@ contract SpawnSystem is System {
 
     /**
     * @dev 驻守
-    * @param capital_id 要驻守的领地id
+    * @param land_id 要驻守的领地id
     * @param infantry 步兵数量
     * @param cavalryA 骑兵A数量
     * @param cavalryB 骑兵B数量
     * @param cavalryC 骑兵C数量
     */
-    function garrison(uint16 capital_id, uint256 infantry, uint256 cavalryA, uint256 cavalryB, uint256 cavalryC) public {
+    function garrison(uint16 land_id, uint256 infantry, uint256 cavalryA, uint256 cavalryB, uint256 cavalryC) public {
         bytes32 owner = Utility.addressToEntityKey(address(_msgSender()));
-        require(Capital.getOwner(capital_id) == owner, "this capital not yours");
+        require(Capital.getOwner(land_id) == owner, "this land_id not yours");
 
         require(PlayerDetail.getInfantry(owner) >= infantry, "not enough infantry");
         require(PlayerDetail.getCavalryA(owner) >= cavalryA, "not enough cavalryA");
@@ -135,10 +134,10 @@ contract SpawnSystem is System {
         PlayerDetail.setCavalryB(owner, PlayerDetail.getCavalryB(owner) - cavalryB);
         PlayerDetail.setCavalryC(owner, PlayerDetail.getCavalryC(owner) - cavalryC);
 
-        Capital.setInfantry(capital_id, Capital.getInfantry(capital_id) + infantry);
-        Capital.setCavalryA(capital_id, Capital.getCavalryA(capital_id) + cavalryA);
-        Capital.setCavalryB(capital_id, Capital.getCavalryB(capital_id) + cavalryB);
-        Capital.setCavalryC(capital_id, Capital.getCavalryC(capital_id) + cavalryC);
+        Land.setInfantry(land_id, Land.getInfantry(land_id) + infantry);
+        Land.setCavalryA(land_id, Land.getCavalryA(land_id) + cavalryA);
+        Land.setCavalryB(land_id, Land.getCavalryB(land_id) + cavalryB);
+        Land.setCavalryC(land_id, Land.getCavalryC(land_id) + cavalryC);
     }
 
     /**
@@ -185,17 +184,17 @@ contract SpawnSystem is System {
      * @param entityKey The entity key of the army owner.
      * @return The total combat power of the army.
      */
-    function getArmyPower(bytes32 entityKey) private view returns (uint256) {
+    function getArmyPower(bytes32 entityKey) public view returns (uint256) {
         return Army.getInfantry(entityKey) * 5 + Army.getCavalryA(entityKey) * 10 + Army.getCavalryB(entityKey) * 10 + Army.getCavalryC(entityKey) * 10;
     }
 
     /**
      * @dev Calculate the total combat power of a capital.
-     * @param locationId The ID of the capital.
+     * @param land_id The ID of the capital.
      * @return The total combat power of the capital.
      */
-    function getCapitalPower(uint16 locationId) private view returns (uint256) {
-        return Capital.getInfantry(locationId) * 5 + Capital.getCavalryA(locationId) * 10 + Capital.getCavalryB(locationId) * 10 + Capital.getCavalryC(locationId) * 10;
+    function getLandPower(uint16 land_id) public view returns (uint256) {
+        return Land.getInfantry(land_id) * 5 + Land.getCavalryA(land_id) * 10 + Land.getCavalryB(land_id) * 10 + Land.getCavalryC(land_id) * 10;
     }
 
     /**
@@ -204,36 +203,36 @@ contract SpawnSystem is System {
     function _calculateLosses(
         bytes32 armyKey,
         uint16 defenceLocation
-    ) private view returns (uint256[8] memory) {
+    ) public view returns (uint256[8] memory) {
         uint256[8] memory losses;
 
-        if (Army.getInfantry(armyKey) >= Capital.getInfantry(defenceLocation)) {
-            losses[0] = Capital.getInfantry(defenceLocation);
-            losses[4] = Capital.getInfantry(defenceLocation);
+        if (Army.getInfantry(armyKey) >= Land.getInfantry(defenceLocation)) {
+            losses[0] = Land.getInfantry(defenceLocation);
+            losses[4] = Land.getInfantry(defenceLocation);
         } else {
             losses[0] = Army.getInfantry(armyKey);
             losses[4] = Army.getInfantry(armyKey);
         }
 
-        if (Army.getCavalryA(armyKey) >= Capital.getCavalryA(defenceLocation)) {
-            losses[1] = Capital.getCavalryA(defenceLocation);
-            losses[5] = Capital.getCavalryA(defenceLocation);
+        if (Army.getCavalryA(armyKey) >= Land.getCavalryA(defenceLocation)) {
+            losses[1] = Land.getCavalryA(defenceLocation);
+            losses[5] = Land.getCavalryA(defenceLocation);
         } else {
             losses[1] = Army.getCavalryA(armyKey);
             losses[5] = Army.getCavalryA(armyKey);
         }
 
-        if (Army.getCavalryB(armyKey) >= Capital.getCavalryB(defenceLocation)) {
-            losses[2] = Capital.getCavalryB(defenceLocation);
-            losses[6] = Capital.getCavalryB(defenceLocation);
+        if (Army.getCavalryB(armyKey) >= Land.getCavalryB(defenceLocation)) {
+            losses[2] = Land.getCavalryB(defenceLocation);
+            losses[6] = Land.getCavalryB(defenceLocation);
         } else {
             losses[2] = Army.getCavalryB(armyKey);
             losses[6] = Army.getCavalryB(armyKey);
         }
 
-        if (Army.getCavalryC(armyKey) >= Capital.getCavalryC(defenceLocation)) {
-            losses[3] = Capital.getCavalryC(defenceLocation);
-            losses[7] = Capital.getCavalryC(defenceLocation);
+        if (Army.getCavalryC(armyKey) >= Land.getCavalryC(defenceLocation)) {
+            losses[3] = Land.getCavalryC(defenceLocation);
+            losses[7] = Land.getCavalryC(defenceLocation);
         } else {
             losses[3] = Army.getCavalryC(armyKey);
             losses[7] = Army.getCavalryC(armyKey);
@@ -257,8 +256,8 @@ contract SpawnSystem is System {
         bytes32 armyKey = Utility.armyToEntityKey(attacker, army_id);
         uint256 attackPower = getArmyPower(armyKey);
         uint16 defenceLocation = Army.getDestination(armyKey);
-        bytes32 defender = Capital.getOwner(defenceLocation);
-        uint256 defensePower = getCapitalPower(defenceLocation);
+        bytes32 defender = Land.getOwner(defenceLocation);
+        uint256 defensePower = getLandPower(defenceLocation);
 
         require(Army.getDestination(armyKey) != 0, "this army is not marching");
         require(attacker != Capital.getOwner(defenceLocation), "cannot attack your own capital");
@@ -267,23 +266,23 @@ contract SpawnSystem is System {
         uint256[8] memory losses = _calculateLosses(armyKey, defenceLocation);
 
         if (attackPower > defensePower) {
-            Capital.setOwner(defenceLocation, attacker);
-            Capital.setLastTime(defenceLocation, (uint32)(block.timestamp));
-            Capital.setInfantry(defenceLocation, Army.getCavalryC(armyKey) - losses[0]);
-            Capital.setCavalryA(defenceLocation, Army.getCavalryA(armyKey) - losses[1]);
-            Capital.setCavalryB(defenceLocation, Army.getCavalryB(armyKey) - losses[2]);
-            Capital.setCavalryC(defenceLocation, Army.getCavalryC(armyKey) - losses[3]);
+            Land.setOwner(defenceLocation, attacker);
+            Land.setLastTime(defenceLocation, (uint32)(block.timestamp));
+            Land.setInfantry(defenceLocation, Army.getCavalryC(armyKey) - losses[0]);
+            Land.setCavalryA(defenceLocation, Army.getCavalryA(armyKey) - losses[1]);
+            Land.setCavalryB(defenceLocation, Army.getCavalryB(armyKey) - losses[2]);
+            Land.setCavalryC(defenceLocation, Army.getCavalryC(armyKey) - losses[3]);
 
-            PlayerDetail.setCapitals(attacker, PlayerDetail.getCapitals(attacker) + 1);
+            PlayerDetail.setLands(attacker, PlayerDetail.getLands(attacker) + 1);
             if (defender != 0) {
-                PlayerDetail.setCapitals(defender, PlayerDetail.getCapitals(defender) - 1);
+                PlayerDetail.setLands(defender, PlayerDetail.getLands(defender) - 1);
 //                passiveUnStake(defender);
             }
         } else {
-            Capital.setInfantry(defenceLocation, Capital.getInfantry(defenceLocation) - losses[4]);
-            Capital.setCavalryA(defenceLocation, Capital.getCavalryA(defenceLocation) - losses[5]);
-            Capital.setCavalryB(defenceLocation, Capital.getCavalryB(defenceLocation) - losses[6]);
-            Capital.setCavalryC(defenceLocation, Capital.getCavalryC(defenceLocation) - losses[7]);
+            Land.setInfantry(defenceLocation, Land.getInfantry(defenceLocation) - losses[4]);
+            Land.setCavalryA(defenceLocation, Land.getCavalryA(defenceLocation) - losses[5]);
+            Land.setCavalryB(defenceLocation, Land.getCavalryB(defenceLocation) - losses[6]);
+            Land.setCavalryC(defenceLocation, Land.getCavalryC(defenceLocation) - losses[7]);
         }
 
         bytes32 reportKey = Utility.battleReportToEntityKey(defenceLocation, (uint32)(block.timestamp));
@@ -322,10 +321,10 @@ contract SpawnSystem is System {
         return 1720540800;
     }
 
-    function getStakeLimit(address owner) view private returns (uint256 amount){
+    function getStakeLimit(address owner) view public returns (uint256 amount){
         uint256 amount = 50000;
         bytes32 id = Utility.addressToEntityKey(owner);
-        return amount + PlayerDetail.getCapitals(id) * 50000;
+        return amount + PlayerDetail.getLands(id) * 50000;
     }
 
     event EventBurnToken(uint256 netValueB, uint256 netValueC);

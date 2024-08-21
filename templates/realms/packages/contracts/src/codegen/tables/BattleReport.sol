@@ -17,7 +17,7 @@ import { EncodedLengths, EncodedLengthsLib } from "@latticexyz/store/src/Encoded
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 
 struct BattleReportData {
-  uint16 capitalId;
+  uint16 landId;
   uint32 timestamp;
   address attacker;
   address defender;
@@ -52,7 +52,7 @@ library BattleReport {
    */
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
     fieldNames = new string[](6);
-    fieldNames[0] = "capitalId";
+    fieldNames[0] = "landId";
     fieldNames[1] = "timestamp";
     fieldNames[2] = "attacker";
     fieldNames[3] = "defender";
@@ -75,9 +75,9 @@ library BattleReport {
   }
 
   /**
-   * @notice Get capitalId.
+   * @notice Get landId.
    */
-  function getCapitalId(bytes32 key) internal view returns (uint16 capitalId) {
+  function getLandId(bytes32 key) internal view returns (uint16 landId) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = key;
 
@@ -86,9 +86,9 @@ library BattleReport {
   }
 
   /**
-   * @notice Get capitalId.
+   * @notice Get landId.
    */
-  function _getCapitalId(bytes32 key) internal view returns (uint16 capitalId) {
+  function _getLandId(bytes32 key) internal view returns (uint16 landId) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = key;
 
@@ -97,23 +97,23 @@ library BattleReport {
   }
 
   /**
-   * @notice Set capitalId.
+   * @notice Set landId.
    */
-  function setCapitalId(bytes32 key, uint16 capitalId) internal {
+  function setLandId(bytes32 key, uint16 landId) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = key;
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((capitalId)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((landId)), _fieldLayout);
   }
 
   /**
-   * @notice Set capitalId.
+   * @notice Set landId.
    */
-  function _setCapitalId(bytes32 key, uint16 capitalId) internal {
+  function _setLandId(bytes32 key, uint16 landId) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = key;
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((capitalId)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((landId)), _fieldLayout);
   }
 
   /**
@@ -434,14 +434,14 @@ library BattleReport {
    */
   function set(
     bytes32 key,
-    uint16 capitalId,
+    uint16 landId,
     uint32 timestamp,
     address attacker,
     address defender,
     bool attackWin,
     uint256[8] memory losses
   ) internal {
-    bytes memory _staticData = encodeStatic(capitalId, timestamp, attacker, defender, attackWin);
+    bytes memory _staticData = encodeStatic(landId, timestamp, attacker, defender, attackWin);
 
     EncodedLengths _encodedLengths = encodeLengths(losses);
     bytes memory _dynamicData = encodeDynamic(losses);
@@ -457,14 +457,14 @@ library BattleReport {
    */
   function _set(
     bytes32 key,
-    uint16 capitalId,
+    uint16 landId,
     uint32 timestamp,
     address attacker,
     address defender,
     bool attackWin,
     uint256[8] memory losses
   ) internal {
-    bytes memory _staticData = encodeStatic(capitalId, timestamp, attacker, defender, attackWin);
+    bytes memory _staticData = encodeStatic(landId, timestamp, attacker, defender, attackWin);
 
     EncodedLengths _encodedLengths = encodeLengths(losses);
     bytes memory _dynamicData = encodeDynamic(losses);
@@ -480,7 +480,7 @@ library BattleReport {
    */
   function set(bytes32 key, BattleReportData memory _table) internal {
     bytes memory _staticData = encodeStatic(
-      _table.capitalId,
+      _table.landId,
       _table.timestamp,
       _table.attacker,
       _table.defender,
@@ -501,7 +501,7 @@ library BattleReport {
    */
   function _set(bytes32 key, BattleReportData memory _table) internal {
     bytes memory _staticData = encodeStatic(
-      _table.capitalId,
+      _table.landId,
       _table.timestamp,
       _table.attacker,
       _table.defender,
@@ -522,8 +522,8 @@ library BattleReport {
    */
   function decodeStatic(
     bytes memory _blob
-  ) internal pure returns (uint16 capitalId, uint32 timestamp, address attacker, address defender, bool attackWin) {
-    capitalId = (uint16(Bytes.getBytes2(_blob, 0)));
+  ) internal pure returns (uint16 landId, uint32 timestamp, address attacker, address defender, bool attackWin) {
+    landId = (uint16(Bytes.getBytes2(_blob, 0)));
 
     timestamp = (uint32(Bytes.getBytes4(_blob, 2)));
 
@@ -560,9 +560,7 @@ library BattleReport {
     EncodedLengths _encodedLengths,
     bytes memory _dynamicData
   ) internal pure returns (BattleReportData memory _table) {
-    (_table.capitalId, _table.timestamp, _table.attacker, _table.defender, _table.attackWin) = decodeStatic(
-      _staticData
-    );
+    (_table.landId, _table.timestamp, _table.attacker, _table.defender, _table.attackWin) = decodeStatic(_staticData);
 
     (_table.losses) = decodeDynamic(_encodedLengths, _dynamicData);
   }
@@ -592,13 +590,13 @@ library BattleReport {
    * @return The static data, encoded into a sequence of bytes.
    */
   function encodeStatic(
-    uint16 capitalId,
+    uint16 landId,
     uint32 timestamp,
     address attacker,
     address defender,
     bool attackWin
   ) internal pure returns (bytes memory) {
-    return abi.encodePacked(capitalId, timestamp, attacker, defender, attackWin);
+    return abi.encodePacked(landId, timestamp, attacker, defender, attackWin);
   }
 
   /**
@@ -627,14 +625,14 @@ library BattleReport {
    * @return The dynamic (variable length) data, encoded into a sequence of bytes.
    */
   function encode(
-    uint16 capitalId,
+    uint16 landId,
     uint32 timestamp,
     address attacker,
     address defender,
     bool attackWin,
     uint256[8] memory losses
   ) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
-    bytes memory _staticData = encodeStatic(capitalId, timestamp, attacker, defender, attackWin);
+    bytes memory _staticData = encodeStatic(landId, timestamp, attacker, defender, attackWin);
 
     EncodedLengths _encodedLengths = encodeLengths(losses);
     bytes memory _dynamicData = encodeDynamic(losses);

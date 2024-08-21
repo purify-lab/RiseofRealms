@@ -7,6 +7,7 @@ import { Player } from "./tables/Player.sol";
 import { PlayerDetail, PlayerDetailData } from "./tables/PlayerDetail.sol";
 import { Army, ArmyData } from "./tables/Army.sol";
 import { Capital, CapitalData } from "./tables/Capital.sol";
+import { Land, LandData } from "./tables/Land.sol";
 import { BattleReport, BattleReportData } from "./tables/BattleReport.sol";
 import { GlobalStatistics, GlobalStatisticsData } from "./tables/GlobalStatistics.sol";
 import { GlobalStake, GlobalStakeData } from "./tables/GlobalStake.sol";

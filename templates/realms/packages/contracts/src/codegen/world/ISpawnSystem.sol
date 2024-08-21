@@ -25,7 +25,7 @@ interface ISpawnSystem {
 
   function spawnCapital(uint16 capital_id) external payable;
 
-  function garrison(uint16 capital_id, uint256 infantry, uint256 cavalryA, uint256 cavalryB, uint256 cavalryC) external;
+  function garrison(uint16 land_id, uint256 infantry, uint256 cavalryA, uint256 cavalryB, uint256 cavalryC) external;
 
   function march(
     uint16 destination,
@@ -35,6 +35,12 @@ interface ISpawnSystem {
     uint256 cavalryC,
     uint8 army_id
   ) external;
+
+  function getArmyPower(bytes32 entityKey) external view returns (uint256);
+
+  function getLandPower(uint16 land_id) external view returns (uint256);
+
+  function _calculateLosses(bytes32 armyKey, uint16 defenceLocation) external view returns (uint256[8] memory);
 
   function attack(uint8 army_id) external;
 

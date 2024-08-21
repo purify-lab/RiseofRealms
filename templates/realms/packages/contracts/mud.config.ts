@@ -26,7 +26,8 @@ export default defineWorld({
         cavalryA: "uint256",
         cavalryB: "uint256",
         cavalryC: "uint256",
-        capitals: "uint16",
+        lands: "uint16",
+        isSpawnCapital: "bool"
       },
       key: ['id']
     },
@@ -50,21 +51,28 @@ export default defineWorld({
         id: "uint16",
         tileId: "uint16",
         owner: "bytes32",
-        occupation: "address",
+        lastTime: "uint32",
+      }
+    },
+    Land: {
+      key: ["id"],
+      schema: {
+        id: "uint16",
+        tileId: "uint16",
+        owner: "bytes32",
         infantry: "uint256",
         cavalryA: "uint256",
         cavalryB: "uint256",
         cavalryC: "uint256",
         lastTime: "uint32",
-        pledgedTokenB: "uint256",
-        pledgedTokenC: "uint256",
+        attackAble: "bool"
       }
     },
     BattleReport: {
       key: ["key"],
       schema: {
         key: "bytes32",
-        capitalId: "uint16",
+        landId: "uint16",
         timestamp: "uint32",
         attacker: "address",
         defender: "address",

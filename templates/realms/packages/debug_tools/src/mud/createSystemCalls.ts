@@ -71,7 +71,9 @@ export function createSystemCalls(
   }
 
   const spawnCapital = async (capital_id: number) => {
-    const tx = await worldContract.write.spawnCapital([capital_id]);
+    const tx = await worldContract.write.spawnCapital([capital_id], {
+      value: 500000000000000//ethers.utils.parseEther("0.5"),
+    });
     await waitForTransaction(tx);
   }
 

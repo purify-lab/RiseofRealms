@@ -23,7 +23,8 @@ struct PlayerDetailData {
   uint256 cavalryA;
   uint256 cavalryB;
   uint256 cavalryC;
-  uint16 capitals;
+  uint16 lands;
+  bool isSpawnCapital;
 }
 
 library PlayerDetail {
@@ -31,12 +32,12 @@ library PlayerDetail {
   ResourceId constant _tableId = ResourceId.wrap(0x74620000000000000000000000000000506c6179657244657461696c00000000);
 
   FieldLayout constant _fieldLayout =
-    FieldLayout.wrap(0x00b6070014202020202002000000000000000000000000000000000000000000);
+    FieldLayout.wrap(0x00b7080014202020202002010000000000000000000000000000000000000000);
 
   // Hex-encoded key schema of (bytes32)
   Schema constant _keySchema = Schema.wrap(0x002001005f000000000000000000000000000000000000000000000000000000);
-  // Hex-encoded value schema of (address, uint256, uint256, uint256, uint256, uint256, uint16)
-  Schema constant _valueSchema = Schema.wrap(0x00b60700611f1f1f1f1f01000000000000000000000000000000000000000000);
+  // Hex-encoded value schema of (address, uint256, uint256, uint256, uint256, uint256, uint16, bool)
+  Schema constant _valueSchema = Schema.wrap(0x00b70800611f1f1f1f1f01600000000000000000000000000000000000000000);
 
   /**
    * @notice Get the table's key field names.
@@ -52,14 +53,15 @@ library PlayerDetail {
    * @return fieldNames An array of strings with the names of value fields.
    */
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
-    fieldNames = new string[](7);
+    fieldNames = new string[](8);
     fieldNames[0] = "wallet";
     fieldNames[1] = "gold";
     fieldNames[2] = "infantry";
     fieldNames[3] = "cavalryA";
     fieldNames[4] = "cavalryB";
     fieldNames[5] = "cavalryC";
-    fieldNames[6] = "capitals";
+    fieldNames[6] = "lands";
+    fieldNames[7] = "isSpawnCapital";
   }
 
   /**
@@ -329,9 +331,9 @@ library PlayerDetail {
   }
 
   /**
-   * @notice Get capitals.
+   * @notice Get lands.
    */
-  function getCapitals(bytes32 id) internal view returns (uint16 capitals) {
+  function getLands(bytes32 id) internal view returns (uint16 lands) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = id;
 
@@ -340,9 +342,9 @@ library PlayerDetail {
   }
 
   /**
-   * @notice Get capitals.
+   * @notice Get lands.
    */
-  function _getCapitals(bytes32 id) internal view returns (uint16 capitals) {
+  function _getLands(bytes32 id) internal view returns (uint16 lands) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = id;
 
@@ -351,23 +353,65 @@ library PlayerDetail {
   }
 
   /**
-   * @notice Set capitals.
+   * @notice Set lands.
    */
-  function setCapitals(bytes32 id, uint16 capitals) internal {
+  function setLands(bytes32 id, uint16 lands) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = id;
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 6, abi.encodePacked((capitals)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 6, abi.encodePacked((lands)), _fieldLayout);
   }
 
   /**
-   * @notice Set capitals.
+   * @notice Set lands.
    */
-  function _setCapitals(bytes32 id, uint16 capitals) internal {
+  function _setLands(bytes32 id, uint16 lands) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = id;
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 6, abi.encodePacked((capitals)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 6, abi.encodePacked((lands)), _fieldLayout);
+  }
+
+  /**
+   * @notice Get isSpawnCapital.
+   */
+  function getIsSpawnCapital(bytes32 id) internal view returns (bool isSpawnCapital) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = id;
+
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 7, _fieldLayout);
+    return (_toBool(uint8(bytes1(_blob))));
+  }
+
+  /**
+   * @notice Get isSpawnCapital.
+   */
+  function _getIsSpawnCapital(bytes32 id) internal view returns (bool isSpawnCapital) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = id;
+
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 7, _fieldLayout);
+    return (_toBool(uint8(bytes1(_blob))));
+  }
+
+  /**
+   * @notice Set isSpawnCapital.
+   */
+  function setIsSpawnCapital(bytes32 id, bool isSpawnCapital) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = id;
+
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 7, abi.encodePacked((isSpawnCapital)), _fieldLayout);
+  }
+
+  /**
+   * @notice Set isSpawnCapital.
+   */
+  function _setIsSpawnCapital(bytes32 id, bool isSpawnCapital) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = id;
+
+    StoreCore.setStaticField(_tableId, _keyTuple, 7, abi.encodePacked((isSpawnCapital)), _fieldLayout);
   }
 
   /**
@@ -411,9 +455,19 @@ library PlayerDetail {
     uint256 cavalryA,
     uint256 cavalryB,
     uint256 cavalryC,
-    uint16 capitals
+    uint16 lands,
+    bool isSpawnCapital
   ) internal {
-    bytes memory _staticData = encodeStatic(wallet, gold, infantry, cavalryA, cavalryB, cavalryC, capitals);
+    bytes memory _staticData = encodeStatic(
+      wallet,
+      gold,
+      infantry,
+      cavalryA,
+      cavalryB,
+      cavalryC,
+      lands,
+      isSpawnCapital
+    );
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
@@ -435,9 +489,19 @@ library PlayerDetail {
     uint256 cavalryA,
     uint256 cavalryB,
     uint256 cavalryC,
-    uint16 capitals
+    uint16 lands,
+    bool isSpawnCapital
   ) internal {
-    bytes memory _staticData = encodeStatic(wallet, gold, infantry, cavalryA, cavalryB, cavalryC, capitals);
+    bytes memory _staticData = encodeStatic(
+      wallet,
+      gold,
+      infantry,
+      cavalryA,
+      cavalryB,
+      cavalryC,
+      lands,
+      isSpawnCapital
+    );
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
@@ -459,7 +523,8 @@ library PlayerDetail {
       _table.cavalryA,
       _table.cavalryB,
       _table.cavalryC,
-      _table.capitals
+      _table.lands,
+      _table.isSpawnCapital
     );
 
     EncodedLengths _encodedLengths;
@@ -482,7 +547,8 @@ library PlayerDetail {
       _table.cavalryA,
       _table.cavalryB,
       _table.cavalryC,
-      _table.capitals
+      _table.lands,
+      _table.isSpawnCapital
     );
 
     EncodedLengths _encodedLengths;
@@ -509,7 +575,8 @@ library PlayerDetail {
       uint256 cavalryA,
       uint256 cavalryB,
       uint256 cavalryC,
-      uint16 capitals
+      uint16 lands,
+      bool isSpawnCapital
     )
   {
     wallet = (address(Bytes.getBytes20(_blob, 0)));
@@ -524,7 +591,9 @@ library PlayerDetail {
 
     cavalryC = (uint256(Bytes.getBytes32(_blob, 148)));
 
-    capitals = (uint16(Bytes.getBytes2(_blob, 180)));
+    lands = (uint16(Bytes.getBytes2(_blob, 180)));
+
+    isSpawnCapital = (_toBool(uint8(Bytes.getBytes1(_blob, 182))));
   }
 
   /**
@@ -545,7 +614,8 @@ library PlayerDetail {
       _table.cavalryA,
       _table.cavalryB,
       _table.cavalryC,
-      _table.capitals
+      _table.lands,
+      _table.isSpawnCapital
     ) = decodeStatic(_staticData);
   }
 
@@ -580,9 +650,10 @@ library PlayerDetail {
     uint256 cavalryA,
     uint256 cavalryB,
     uint256 cavalryC,
-    uint16 capitals
+    uint16 lands,
+    bool isSpawnCapital
   ) internal pure returns (bytes memory) {
-    return abi.encodePacked(wallet, gold, infantry, cavalryA, cavalryB, cavalryC, capitals);
+    return abi.encodePacked(wallet, gold, infantry, cavalryA, cavalryB, cavalryC, lands, isSpawnCapital);
   }
 
   /**
@@ -598,9 +669,19 @@ library PlayerDetail {
     uint256 cavalryA,
     uint256 cavalryB,
     uint256 cavalryC,
-    uint16 capitals
+    uint16 lands,
+    bool isSpawnCapital
   ) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
-    bytes memory _staticData = encodeStatic(wallet, gold, infantry, cavalryA, cavalryB, cavalryC, capitals);
+    bytes memory _staticData = encodeStatic(
+      wallet,
+      gold,
+      infantry,
+      cavalryA,
+      cavalryB,
+      cavalryC,
+      lands,
+      isSpawnCapital
+    );
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
@@ -616,5 +697,17 @@ library PlayerDetail {
     _keyTuple[0] = id;
 
     return _keyTuple;
+  }
+}
+
+/**
+ * @notice Cast a value to a bool.
+ * @dev Boolean values are encoded as uint8 (1 = true, 0 = false), but Solidity doesn't allow casting between uint8 and bool.
+ * @param value The uint8 value to convert.
+ * @return result The boolean value.
+ */
+function _toBool(uint8 value) pure returns (bool result) {
+  assembly {
+    result := value
   }
 }
