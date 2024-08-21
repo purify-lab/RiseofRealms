@@ -51,6 +51,7 @@ export function createSystemCalls(
   }
 
   const buyInfantry = async (amount: number) => {
+    console.log("worldContract",worldContract)
     const tx = await worldContract.write.buyInfantry([amount]);
     await waitForTransaction(tx);
   }

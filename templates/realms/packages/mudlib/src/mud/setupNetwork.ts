@@ -24,7 +24,7 @@ export type SetupNetworkResult = Awaited<ReturnType<typeof setupNetwork>>;
 export async function setupNetwork() {
   const networkConfig = await getNetworkConfig();
 
-  console.log("chain",networkConfig.chain)
+  console.log("chain", networkConfig.chain)
 
   const clientOptions = {
     chain: networkConfig.chain,
@@ -41,8 +41,8 @@ export async function setupNetwork() {
     ...clientOptions,
     account: burnerAccount,
   });
-  console.log("burnerAccount",burnerAccount);
-  console.log("burnerWalletClient",burnerWalletClient);
+  console.log("burnerAccount", burnerAccount);
+  console.log("burnerWalletClient", burnerWalletClient);
 
   const write$ = new Subject<ContractWrite>();
   // const worldContract = createContract({
@@ -56,12 +56,12 @@ export async function setupNetwork() {
   const worldContract = getContract({
     address: networkConfig.worldAddress as Hex,
     abi: IWorldAbi,
-    client: { public: publicClient, wallet: burnerWalletClient },
+    client: {public: publicClient, wallet: burnerWalletClient},
   });
 
   console.log("worldContract", worldContract);
 
-  const {components, latestBlock$, storedBlockLogs$, waitForTransaction} = await syncToRecs({
+  const {useStore, components, latestBlock$, storedBlockLogs$, waitForTransaction} = await syncToRecs({
     world,
     config: mudConfig,
     address: networkConfig.worldAddress as Hex,
@@ -106,5 +106,6 @@ export async function setupNetwork() {
     waitForTransaction,
     worldContract,
     write$: write$.asObservable().pipe(share()),
+    useStore
   };
 }

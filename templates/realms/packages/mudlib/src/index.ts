@@ -1,16 +1,44 @@
-import { setup } from "./mud/setup";
+import {setup} from "./mud/setup";
 import mudConfig from "../../contracts/mud.config";
-import { mount as mountDevTools } from "@latticexyz/dev-tools";
+import {mount as mountDevTools} from "@latticexyz/dev-tools";
 
-class MudLib{
+class MudLib {
   increment: any
 
   async setup() {
     const {
       components,
-      systemCalls: {  },
+      systemCalls: {
+        spawnPlayer, spawnCapital,
+        marchArmy, attack, garrison,
+        buyInfantry, buyCavalryA, buyCavalryB, buyCavalryC,
+        stakeTokenB, stakeTokenC, unStakeTokenB, unStakeTokenC, farming,
+        setMerkleRoot, claim, swapA2B, swapA2C, withdrawToken,
+      },
       network,
     } = await setup();
+
+    this.spawnPlayer = spawnPlayer;
+    this.spawnCapital = spawnCapital;
+    this.marchArmy = marchArmy;
+    this.attack = attack;
+    this.garrison = garrison;
+    this.buyInfantry = buyInfantry;
+    this.buyCavalryA = buyCavalryA;
+    this.buyCavalryB = buyCavalryB;
+    this.buyCavalryC = buyCavalryC;
+    this.stakeTokenB = stakeTokenB;
+    this.stakeTokenC = stakeTokenC;
+    this.unStakeTokenB = unStakeTokenB;
+    this.unStakeTokenC = unStakeTokenC;
+    this.farming = farming;
+    this.setMerkleRoot = setMerkleRoot;
+    this.claim = claim;
+    this.swapA2B = swapA2B;
+    this.swapA2C = swapA2C;
+    this.withdrawToken = withdrawToken;
+
+
     // this.increment = increment
     // mountDevTools({
     //   config: mudConfig,
@@ -36,12 +64,17 @@ class MudLib{
       useStore: network.useStore,
     });
 
+    components.PlayerDetail.update$.subscribe((update) => {
+      console.log("PlayerDetails updated", update)
+    });
+
     // Components expose a stream that triggers when the component is updated.
     // components.Counter.update$.subscribe((update) => {
     //   console.log("Counter updated", update)
     //   this.counter_updated(update)
     // });
   }
+
   //
   // async increment() {
   //   console.log("new counter value:", await this.increment());
