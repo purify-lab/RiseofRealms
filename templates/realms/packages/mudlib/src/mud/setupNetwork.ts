@@ -17,7 +17,8 @@ import IWorldAbi from "../../../contracts/out/IWorld.sol/IWorld.abi.json";
 import {createBurnerAccount, transportObserver, ContractWrite, createContract} from "@latticexyz/common";
 import {Subject, share} from "rxjs";
 import mudConfig from "../../../contracts/mud.config";
-import { transactionQueue, writeObserver } from "@latticexyz/common/actions";
+import {transactionQueue, writeObserver} from "@latticexyz/common/actions";
+import {syncToZustand} from "@latticexyz/store-sync/zustand";
 
 export type SetupNetworkResult = Awaited<ReturnType<typeof setupNetwork>>;
 
@@ -32,7 +33,7 @@ export async function setupNetwork() {
     pollingInterval: 1000,
   } as const satisfies ClientConfig;
 
-  console.log("clientOptions",clientOptions)
+  console.log("clientOptions", clientOptions)
 
   // const publicClient = createPublicClient(clientOptions);
   const publicClient = createPublicClient(clientOptions);
@@ -72,12 +73,20 @@ export async function setupNetwork() {
 
   console.log("worldContract", worldContract);
 
-  const {tables, components, latestBlock$, storedBlockLogs$, waitForTransaction} = await syncToRecs({
+  const {components, latestBlock$, storedBlockLogs$, waitForTransaction} = await syncToRecs({
     world,
     config: mudConfig,
     address: networkConfig.worldAddress as Hex,
     publicClient,
     startBlock: BigInt(networkConfig.initialBlockNumber),
+  });
+
+  const {useStore} = await syncToZustand({
+    world,
+    config: mudConfig,
+    address: networkConfig.worldAddress as Hex,
+    publicClient,
+    startBlock: BigInt(networkConfig.initialBlockNumber)
   });
 
   // Request drip from faucet
@@ -106,6 +115,7 @@ export async function setupNetwork() {
 
   console.log("components", components)
 
+  console.log("useStore", useStore)
   return {
     world,
     components,
@@ -117,6 +127,7 @@ export async function setupNetwork() {
     waitForTransaction,
     worldContract,
     write$: write$.asObservable().pipe(share()),
-    tables
+    useStore
+    // tables
   };
 }

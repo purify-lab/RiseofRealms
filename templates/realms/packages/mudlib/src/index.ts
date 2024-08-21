@@ -52,6 +52,8 @@ class MudLib {
     //   recsWorld: network.world,
     // });
 
+    // console.log("mudConfig",mudConfig)
+
     mountDevTools({
       config: mudConfig,
       publicClient: network.publicClient,
@@ -61,7 +63,8 @@ class MudLib {
       worldAddress: network.worldContract.address,
       worldAbi: network.worldContract.abi,
       write$: network.write$,
-      // useStore: network.useStore,
+      // tables:mudConfig.tables
+      useStore: network.useStore,
     });
 
     this.network = network
@@ -91,6 +94,10 @@ class MudLib {
     components.Army.update$.subscribe((update) => {
       console.log("Army updated", update)
       this.army_updated(update)
+    });
+
+    network.storedBlockLogs$.subscribe((update) => {
+      console.log("Stored block logs", update)
     });
   }
 
