@@ -61,28 +61,33 @@ class MudLib {
       worldAddress: network.worldContract.address,
       worldAbi: network.worldContract.abi,
       write$: network.write$,
-      useStore: network.useStore,
+      // useStore: network.useStore,
     });
+
+    this.network = network
+
+    // Components expose a stream that triggers when the component is updated.
+
+    components.Player.update$.subscribe((update) => {
+      console.log("Player updated", update)
+      this.player_updated(update)
+    })
 
     components.PlayerDetail.update$.subscribe((update) => {
       console.log("PlayerDetails updated", update)
+      this.player_detail_updated(update)
     });
 
-    // Components expose a stream that triggers when the component is updated.
-    // components.Counter.update$.subscribe((update) => {
-    //   console.log("Counter updated", update)
-    //   this.counter_updated(update)
-    // });
+
   }
 
-  //
-  // async increment() {
-  //   console.log("new counter value:", await this.increment());
-  // };
 
   // To be overwritten by Godot callback
-  // counter_updated(update: any) {/**/}
+  player_updated(update: any) {
+  }
 
+  player_detail_updated(update: any) {
+  }
 }
 
 (window as any).mud = new MudLib()
