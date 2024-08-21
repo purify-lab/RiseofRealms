@@ -22,6 +22,7 @@ export const App = () => {
     return records;
   });
 
+
   (window as any).mud = {
     // state:state,
     data:{
@@ -581,6 +582,9 @@ export const App = () => {
         <div style={{backgroundColor: "gray", padding: "5px"}}>
         </div>
 
+
+        <div>
+        </div>
       </div>
     </>
   );
