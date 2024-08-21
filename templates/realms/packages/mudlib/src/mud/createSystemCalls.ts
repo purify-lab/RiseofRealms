@@ -27,7 +27,7 @@ export function createSystemCalls(
    *   syncToRecs
    *   (https://github.com/latticexyz/mud/blob/main/templates/react/packages/client/src/mud/setupNetwork.ts#L77-L83).
    */
-  {tables, useStore, worldContract, waitForTransaction}: SetupNetworkResult,
+  {tables, worldContract, waitForTransaction}: SetupNetworkResult,
 ) {
 
   const spawnPlayer = async () => {

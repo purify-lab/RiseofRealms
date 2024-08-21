@@ -61,7 +61,7 @@ export async function setupNetwork() {
 
   console.log("worldContract", worldContract);
 
-  const {useStore, components, latestBlock$, storedBlockLogs$, waitForTransaction} = await syncToRecs({
+  const {tables, components, latestBlock$, storedBlockLogs$, waitForTransaction} = await syncToRecs({
     world,
     config: mudConfig,
     address: networkConfig.worldAddress as Hex,
@@ -106,6 +106,6 @@ export async function setupNetwork() {
     waitForTransaction,
     worldContract,
     write$: write$.asObservable().pipe(share()),
-    useStore
+    tables
   };
 }
