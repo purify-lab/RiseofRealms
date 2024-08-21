@@ -78,7 +78,20 @@ class MudLib {
       this.player_detail_updated(update)
     });
 
+    components.Land.update$.subscribe((update) => {
+      console.log("Land updated", update)
+      this.land_updated(update)
+    });
 
+    components.Capital.update$.subscribe((update) => {
+      console.log("Capital updated", update)
+      this.capital_updated(update)
+    });
+
+    components.Army.update$.subscribe((update) => {
+      console.log("Army updated", update)
+      this.army_updated(update)
+    });
   }
 
 
@@ -87,6 +100,15 @@ class MudLib {
   }
 
   player_detail_updated(update: any) {
+  }
+
+  land_updated(update: any) {
+  }
+
+  capital_updated(update: any) {
+  }
+
+  army_updated(update: any) {
   }
 }
 
