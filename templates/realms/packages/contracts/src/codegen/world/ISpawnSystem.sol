@@ -48,6 +48,8 @@ interface ISpawnSystem {
 
   function getStageOneEndTime() external pure returns (uint256 timestamp);
 
+  function getStakeLimit(address owner) external view returns (uint256 amount);
+
   function stakeTokenB(uint256 amount) external;
 
   function stakeTokenC(uint256 amount) external;

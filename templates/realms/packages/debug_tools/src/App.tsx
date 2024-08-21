@@ -16,6 +16,14 @@ export const App = () => {
     },
   } = useMUD();
 
+
+  (window as any).mud={
+    method:{
+      spawnPlayer:spawnPlayer,
+      buyInfantry:buyInfantry
+    }
+  }
+
   const [marchData, setMarchData] = useState({
     destination: '',
     infantry: '',
