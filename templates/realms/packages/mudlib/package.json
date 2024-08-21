@@ -24,7 +24,7 @@
     "contracts": "workspace:*",
     "ethers": "5.7.2",
     "rxjs": "7.5.5",
-    "viem": "1.6.0"
+    "viem": "2.9.20"
   },
   "devDependencies": {
     "vite": "^4.2.1",
