@@ -85,6 +85,17 @@ public class MapDrawer : MonoBehaviour
         return (Mathf.Abs(vec.x) + Mathf.Abs(vec.y) + Mathf.Abs(vec.z)) / 2;
     }
 
+    public Vector3Int GetTilePosById(int id)
+    {
+        return cellDics[id].pos;
+    }
+
+    public Vector3 GetScenePosById(uint id)
+    {
+        var coords = cellDics[(int)id];
+        return GetSceneByCoords(coords.pos);
+    }
+
     public CubeCell pixel_to_pointy_hex(Vector2 point)
     {
         /*

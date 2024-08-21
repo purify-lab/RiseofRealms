@@ -21575,6 +21575,7 @@ GameObject:
   - component: {fileID: 171695452}
   - component: {fileID: 171695454}
   - component: {fileID: 171695453}
+  - component: {fileID: 171695455}
   m_Layer: 5
   m_Name: OwnedTerritoryPage
   m_TagString: Untagged
@@ -21640,6 +21641,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 171695451}
   m_CullTransparentMesh: 1
+--- !u!114 &171695455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 171695451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bac9a47175cb07741ba50f88cf1fbcbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CloseBtn: {fileID: 1243324475}
 --- !u!1 &173966009
 GameObject:
   m_ObjectHideFlags: 0
@@ -23183,6 +23197,8 @@ MonoBehaviour:
   TokenCText: {fileID: 315654683}
   AddSoldierBtn: {fileID: 1800502231}
   OnPurchaseBtn: {fileID: 2100747567}
+  armyPage: {fileID: 171695455}
+  openArmyBtn: {fileID: 1225384806}
   PurchaseLandPage: {fileID: 949349164}
   purchaseSolcer1: {fileID: 1776688455}
   purchaseSolcer2: {fileID: 244185958}
