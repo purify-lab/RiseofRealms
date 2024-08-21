@@ -5,7 +5,7 @@ const styleUnset = {all: "unset"} as const;
 
 export const App = () => {
   const {
-    network: {useStore},
+    network: { tables, useStore },
     systemCalls: {
       spawnPlayer, spawnCapital,
       marchArmy, attack, garrison,
@@ -13,14 +13,24 @@ export const App = () => {
       stakeTokenB, stakeTokenC, unStakeTokenB, unStakeTokenC, farming,
       setMerkleRoot, claim, swapA2B, swapA2C, withdrawToken,
       // getCapitalPower
-    },
+    }
   } = useMUD();
 
 
-  (window as any).mud={
-    method:{
-      spawnPlayer:spawnPlayer,
-      buyInfantry:buyInfantry
+  const PlayerDetail = useStore((state) => {
+    const records = Object.values(state.getRecords(tables.PlayerDetail));
+    return records;
+  });
+
+  (window as any).mud = {
+    // state:state,
+    data:{
+      PlayerDetail
+    },
+    tables: tables,
+    method: {
+      spawnPlayer: spawnPlayer,
+      buyInfantry: buyInfantry
     }
   }
 
