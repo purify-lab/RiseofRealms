@@ -31,6 +31,9 @@ public class MainPageUI : MonoBehaviour
 
     public Button OnPurchaseBtn;
 
+    public ArmyPage armyPage;
+    public Button openArmyBtn;
+
     public GameObject PurchaseLandPage;
 
     //第一阶段
@@ -74,6 +77,11 @@ public class MainPageUI : MonoBehaviour
         {
             purchaseSolcer1.Show();
         });
+        
+        openArmyBtn.onClick.AddListener(() =>
+        {
+            armyPage.Open();
+        });
     }
     
     public void onclickPurchase()
@@ -84,21 +92,23 @@ public class MainPageUI : MonoBehaviour
     
     void SpawnPlayer() {
         Debug.Log("SpawnPlayer Key : " + NetworkManager.LocalKey);
-        PlayerTable player = MUDTable.GetTable<PlayerTable>(NetworkManager.LocalKey);
-        if(player == null || player.Value == false) {
+        PlayerTable player = MUDTable.GetTable<PlayerTable>(NetworkManager.LocalKey.ToLower());
+        if(player == null || player.Value == false)
+        {
+            Debug.Log("Player Not Found!");
             SendSpawnTx();
         } else {
             Debug.Log("Player found");
         }
         
-
+        Debug.Log("SpawnPlayer");
         AddressText.text = Utils.GetAddressText(NetworkManager.Account.Address) ;
         
         //SendBuySoldierTx();
         
         if (player != null && player.Value != false)
         {
-            PlayerDetailTable pdt = MUDTable.GetTable<PlayerDetailTable>(NetworkManager.LocalKey);
+            PlayerDetailTable pdt = MUDTable.GetTable<PlayerDetailTable>(NetworkManager.LocalKey.ToLower());
             CoinText.text = pdt.Gold.ToString();
             var soldier = pdt.CavalryA + pdt.CavalryB + pdt.CavalryC + pdt.Infantry;
             SoldierText.text = soldier.ToString();
@@ -118,6 +128,7 @@ public class MainPageUI : MonoBehaviour
     }
     
     async void SendSpawnTx() {
+        Debug.Log(">>>>>>>>>>>>>>>> SpawnPlayerFunc Called");
         await TxManager.SendUntilPasses<SpawnPlayerFunction>();
     }
     

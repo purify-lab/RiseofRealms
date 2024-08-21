@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
     {
         standPos = standTilePos;
         transform.position = MapDrawer.inst.GetSceneByCoords(standTilePos);
+        Debug.Log(">>>>>>> Stands on Tile: " + standTilePos);
     }
 
     public void MoveTo(Vector3Int pos)
@@ -54,7 +55,6 @@ public class Player : MonoBehaviour
     void Start()
     {
         inst = this;
-        Stand(Vector3Int.zero);
     }
 
     // Update is called once per frame
