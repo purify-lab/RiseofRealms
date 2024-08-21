@@ -40,7 +40,6 @@ export async function setupNetwork() {
   console.log("publicClient", publicClient);
   const write$ = new Subject<ContractWrite>();
 
-
   const burnerAccount = createBurnerAccount(networkConfig.privateKey as Hex);
   // const burnerWalletClient = createWalletClient({
   //   ...clientOptions,

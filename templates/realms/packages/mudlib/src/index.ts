@@ -98,7 +98,11 @@ class MudLib {
 
     network.storedBlockLogs$.subscribe((update) => {
       console.log("Stored block logs", update)
+      this.stored_block_logs(update)
     });
+
+    const blockNumber = await network.publicClient.getBlockNumber()
+    return blockNumber;
   }
 
 
@@ -116,6 +120,9 @@ class MudLib {
   }
 
   army_updated(update: any) {
+  }
+
+  stored_block_logs(update: any) {
   }
 }
 
