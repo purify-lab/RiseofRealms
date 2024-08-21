@@ -13,11 +13,11 @@ import {createFaucetService} from "@latticexyz/services/faucet";
 import {encodeEntity, syncToRecs} from "@latticexyz/store-sync/recs";
 import {getNetworkConfig} from "./getNetworkConfig";
 import {world} from "./world";
-// import { IWorld__factory } from "../../../contracts/types/ethers-contracts/factories/IWorld__factory";
 import IWorldAbi from "../../../contracts/out/IWorld.sol/IWorld.abi.json";
-import {createBurnerAccount, get, transportObserver, ContractWrite} from "@latticexyz/common";
+import {createBurnerAccount, transportObserver, ContractWrite} from "@latticexyz/common";
 import {Subject, share} from "rxjs";
 import mudConfig from "../../../contracts/mud.config";
+import { transactionQueue, writeObserver } from "@latticexyz/common/actions";
 
 export type SetupNetworkResult = Awaited<ReturnType<typeof setupNetwork>>;
 
@@ -32,19 +32,30 @@ export async function setupNetwork() {
     pollingInterval: 1000,
   } as const satisfies ClientConfig;
 
+  console.log("clientOptions",clientOptions)
+
   // const publicClient = createPublicClient(clientOptions);
   const publicClient = createPublicClient(clientOptions);
   console.log("publicClient", publicClient);
+  const write$ = new Subject<ContractWrite>();
+
 
   const burnerAccount = createBurnerAccount(networkConfig.privateKey as Hex);
+  // const burnerWalletClient = createWalletClient({
+  //   ...clientOptions,
+  //   account: burnerAccount,
+  // });
+
   const burnerWalletClient = createWalletClient({
     ...clientOptions,
     account: burnerAccount,
-  });
+  })
+    .extend(transactionQueue())
+    .extend(writeObserver({onWrite: (write) => write$.next(write)}));
+
   console.log("burnerAccount", burnerAccount);
   console.log("burnerWalletClient", burnerWalletClient);
 
-  const write$ = new Subject<ContractWrite>();
   // const worldContract = createContract({
   //   address: networkConfig.worldAddress as Hex,
   //   abi: IWorldAbi,
