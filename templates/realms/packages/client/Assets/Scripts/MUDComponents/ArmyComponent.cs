@@ -35,6 +35,11 @@ public class ArmyComponent : MUDComponent
         Debug.Log(">>>>>> Destination : " + Destination.Value);
         var p = GetComponent<Player>();
         p.Stand(pos);
-        Debug.Log("Got Army : " + Owner + " Id is" + Id + " Account: " + account);
+        
+        Debug.Log("Create Army : " + NetworkManager.LocalKey.ToLower() + " Owner: " + Owner);
+        if (NetworkManager.LocalKey.ToLower().Equals(Owner))
+        {
+            ArmyMgr.Inst.AddArmy((int)Id.Value, this);
+        }
     }
 }
