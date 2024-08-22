@@ -79,6 +79,18 @@ export async function setupNetwork() {
     client: {public: publicClient, wallet: burnerWalletClient},
   });
 
+  const tokenBContract = getContract({
+    address: "0x6f780376B0b9C47b45fae617d74c5a0359cbBA11" as Hex,
+    abi: IERC20Abi,
+    client: {public: publicClient, wallet: burnerWalletClient},
+  });
+
+  const tokenCContract = getContract({
+    address: "0x6f780376B0b9C47b45fae617d74c5a0359cbBA11" as Hex,
+    abi: IERC20Abi,
+    client: {public: publicClient, wallet: burnerWalletClient},
+  });
+
   const {components, latestBlock$, storedBlockLogs$, waitForTransaction} = await syncToRecs({
     world,
     config: mudConfig,
@@ -134,7 +146,9 @@ export async function setupNetwork() {
     worldContract,
     write$: write$.asObservable().pipe(share()),
     useStore,
-    tokenAContract
+    tokenAContract,
+    tokenBContract,
+    tokenCContract
     // tables
   };
 }
