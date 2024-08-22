@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=3 uid="uid://cy0pn8wrtole5"]
+
+[ext_resource type="Texture2D" uid="uid://mceu26oo2tda" path="res://art/Game/TaV0dga.jpeg" id="1_t4p18"]
+
+[node name="main" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_t4p18")
+
+[node name="Button" type="Button" parent="CanvasLayer"]
+offset_right = 270.0
+offset_bottom = 92.0
+theme_override_font_sizes/font_size = 40
+text = "SpawnPlayer"
+
+[node name="Game" type="Node2D" parent="."]
