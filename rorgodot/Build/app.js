@@ -2,11 +2,12 @@
 // const path = require('path');
 
 import express from "express";
-import path from "path";
+import path from "node:path";
 
 const app = express();
 
 const port = 3110;
+const __dirname = path.resolve();
 
 app.use(express.static(path.join(__dirname, 'public')));
 
