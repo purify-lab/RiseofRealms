@@ -1,0 +1,20 @@
+[gd_scene load_steps=7 format=3 uid="uid://hjhk5wdqidwc"]
+
+[ext_resource type="Script" path="res://scripts/tile.gd" id="1_226x8"]
+[ext_resource type="Texture2D" uid="uid://iwdbfvw4w2jk" path="res://art/Game/cloudsTiles/clouds_0.png" id="2_8j2mr"]
+[ext_resource type="Texture2D" uid="uid://cm5l6tt21rcv4" path="res://art/Game/Desert/desert_clearing_0.png" id="2_ok3wd"]
+[ext_resource type="Texture2D" uid="uid://cs7cj40f337tw" path="res://art/Game/Forrest/mixed_forest_clearing_1.png" id="3_7luvo"]
+[ext_resource type="Texture2D" uid="uid://bi66qk6w5blgi" path="res://art/Game/hills/hills_dense_0.png" id="4_67eam"]
+[ext_resource type="Texture2D" uid="uid://bgidodufw3ljl" path="res://art/Game/border_thin_0.png" id="6_csdww"]
+
+[node name="Tile" type="Node2D"]
+script = ExtResource("1_226x8")
+texture = [ExtResource("2_ok3wd"), ExtResource("3_7luvo"), ExtResource("4_67eam")]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.125, 0.125)
+texture = ExtResource("2_8j2mr")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+scale = Vector2(0.125, 0.125)
+texture = ExtResource("6_csdww")

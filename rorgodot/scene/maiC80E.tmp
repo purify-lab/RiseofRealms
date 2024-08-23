@@ -1,0 +1,655 @@
+[gd_scene load_steps=36 format=3 uid="uid://cy0pn8wrtole5"]
+
+[ext_resource type="Texture2D" uid="uid://mceu26oo2tda" path="res://art/Game/TaV0dga.jpeg" id="1_t4p18"]
+[ext_resource type="Texture2D" uid="uid://cdyeyjsa1kt40" path="res://art/UI/common/common_top_frame.png" id="2_yvpgi"]
+[ext_resource type="Texture2D" uid="uid://cqgky4d5306j8" path="res://art/UI/common/common_top_date_frame.png" id="3_448d2"]
+[ext_resource type="Texture2D" uid="uid://q78ivpcw7jlr" path="res://art/UI/common/common_icon_wallet.png" id="4_ijwae"]
+[ext_resource type="Texture2D" uid="uid://dxuhvrark4idx" path="res://art/UI/common/common_button_copy_n.png" id="5_7jx24"]
+[ext_resource type="Texture2D" uid="uid://c7yw0ub6ccyl" path="res://art/UI/common/common_button_copy_h.png" id="6_73g54"]
+[ext_resource type="FontFile" uid="uid://ddfu6x1obc5vf" path="res://art/UI/font/HONORSansCN-Bold.ttf" id="7_q3o5x"]
+[ext_resource type="Texture2D" uid="uid://85te3tka8b80" path="res://art/UI/common/common_icon_land.png" id="7_xsnea"]
+[ext_resource type="Texture2D" uid="uid://cxi8ajh2p6nwu" path="res://art/UI/common/common_icon_coin_s.png" id="9_r8her"]
+[ext_resource type="Texture2D" uid="uid://j063beqj33gf" path="res://art/UI/common/common_button_add_n.png" id="10_edpoi"]
+[ext_resource type="Texture2D" uid="uid://ckt7rwngk1tdm" path="res://art/UI/common/common_button_add_c.png" id="10_u8k2v"]
+[ext_resource type="Texture2D" uid="uid://d00uxha5nc0dv" path="res://art/UI/common/common_button_add_h.png" id="11_c0ik4"]
+[ext_resource type="Texture2D" uid="uid://j0ajw2vs784q" path="res://art/UI/common/common_icon_armyn.png" id="12_dwrav"]
+[ext_resource type="Texture2D" uid="uid://cf8ixkjl2vhc1" path="res://art/UI/common/common_coin_A_s.png" id="13_kmhq7"]
+[ext_resource type="Texture2D" uid="uid://c83q6gsc6s2qb" path="res://art/UI/common/common_coin_B_s.png" id="14_qe5e8"]
+[ext_resource type="Texture2D" uid="uid://dpv0i4d6rr43a" path="res://art/UI/common/common_coin_C_s.png" id="15_0dlu4"]
+[ext_resource type="Texture2D" uid="uid://dyw7yjbc7ek1f" path="res://art/UI/common/common_icon_shop_n.png" id="16_e5fuu"]
+[ext_resource type="Texture2D" uid="uid://cy2mdbeelq561" path="res://art/UI/common/common_icon_shop_c.png" id="17_nulcg"]
+[ext_resource type="Texture2D" uid="uid://ctjt50gouo4ty" path="res://art/UI/common/common_icon_result_n.png" id="18_haoxf"]
+[ext_resource type="Texture2D" uid="uid://b71yg4i4et4mu" path="res://art/UI/common/common_icon_result_c.png" id="19_h6l0n"]
+[ext_resource type="Texture2D" uid="uid://cv60b2xgruhmk" path="res://art/UI/common/common_icon_rank_n.png" id="20_04ke3"]
+[ext_resource type="Texture2D" uid="uid://winw11si2lhu" path="res://art/UI/common/common_icon_rank_c.png" id="21_ft1bf"]
+[ext_resource type="Texture2D" uid="uid://e4fqq1583n7y" path="res://art/UI/common/common_icon_set_n.png" id="22_1khei"]
+[ext_resource type="Texture2D" uid="uid://dy4gqy0ll3pos" path="res://art/UI/common/common_icon_set_c.png" id="23_rvlbg"]
+[ext_resource type="Texture2D" uid="uid://vl8aehsutqrh" path="res://art/UI/common/common_button_purchase_n.png" id="24_uge5g"]
+[ext_resource type="Texture2D" uid="uid://dakpw5ew2kbpl" path="res://art/UI/common/common_button_purchase_c.png" id="25_1fhht"]
+[ext_resource type="Texture2D" uid="uid://bjyc6tesnvjxc" path="res://art/UI/common/common_button_purchase_h.png" id="26_kivw4"]
+[ext_resource type="Texture2D" uid="uid://u8qp0upluffc" path="res://art/UI/common/common_home_date_frame.png" id="27_irert"]
+[ext_resource type="FontFile" uid="uid://k0ms3ncx8lib" path="res://art/UI/font/HONORSansCN-ExtraBold.ttf" id="28_nyh6n"]
+[ext_resource type="Texture2D" uid="uid://civl651q1hn7x" path="res://art/UI/common/common_season_flag.png" id="29_gri0n"]
+[ext_resource type="Texture2D" uid="uid://chs81keb2evos" path="res://art/UI/common/common_button_chest_01_n.png" id="30_p7pwx"]
+[ext_resource type="Texture2D" uid="uid://ymq6yv38ktur" path="res://art/UI/common/common_button_chest_01_c.png" id="31_plklu"]
+[ext_resource type="Texture2D" uid="uid://d14a6ck4jl7in" path="res://art/UI/common/common_button_chest_01_h.png" id="32_k1q78"]
+[ext_resource type="Script" path="res://scripts/game.gd" id="34_8wai5"]
+[ext_resource type="Script" path="res://scripts/DragMoveCam.gd" id="35_5hpa3"]
+
+[node name="main" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_t4p18")
+
+[node name="Hud" type="Panel" parent="CanvasLayer"]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Top" type="NinePatchRect" parent="CanvasLayer/Hud"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 72.0
+grow_horizontal = 2
+texture = ExtResource("2_yvpgi")
+patch_margin_left = 181
+patch_margin_right = 221
+
+[node name="Address" type="NinePatchRect" parent="CanvasLayer/Hud/Top"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 21.0
+offset_top = -25.0
+offset_right = 285.0
+offset_bottom = 24.0
+grow_vertical = 2
+texture = ExtResource("3_448d2")
+patch_margin_left = 12
+patch_margin_top = 12
+patch_margin_right = 13
+patch_margin_bottom = 11
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Hud/Top/Address"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 4.0
+offset_top = -17.0
+offset_right = 49.0
+offset_bottom = 23.0
+grow_vertical = 2
+texture = ExtResource("4_ijwae")
+stretch_mode = 2
+
+[node name="BtnCopyAddress" type="TextureButton" parent="CanvasLayer/Hud/Top/Address"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -20.0
+offset_right = -8.0
+offset_bottom = 23.0
+grow_horizontal = 0
+grow_vertical = 2
+texture_normal = ExtResource("5_7jx24")
+texture_pressed = ExtResource("6_73g54")
+
+[node name="addr" type="Label" parent="CanvasLayer/Hud/Top/Address"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -71.5
+offset_top = -11.5
+offset_right = 71.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("7_q3o5x")
+theme_override_font_sizes/font_size = 24
+text = "wwwe...2d9c"
+
+[node name="Lands" type="NinePatchRect" parent="CanvasLayer/Hud/Top"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 317.0
+offset_top = -25.0
+offset_right = 519.0
+offset_bottom = 24.0
+grow_vertical = 2
+texture = ExtResource("3_448d2")
+patch_margin_left = 12
+patch_margin_top = 12
+patch_margin_right = 13
+patch_margin_bottom = 11
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Hud/Top/Lands"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 4.0
+offset_top = -22.0
+offset_right = 49.0
+offset_bottom = 22.0
+grow_vertical = 2
+texture = ExtResource("7_xsnea")
+stretch_mode = 2
+
+[node name="BtnCopyAddress" type="TextureButton" parent="CanvasLayer/Hud/Top/Lands"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -20.0
+offset_right = -8.0
+offset_bottom = 23.0
+grow_horizontal = 0
+grow_vertical = 2
+texture_normal = ExtResource("10_edpoi")
+texture_pressed = ExtResource("10_u8k2v")
+texture_hover = ExtResource("11_c0ik4")
+
+[node name="Label" type="Label" parent="CanvasLayer/Hud/Top/Lands"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -54.0
+offset_top = -11.5
+offset_right = 51.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("7_q3o5x")
+theme_override_font_sizes/font_size = 24
+text = "2527389"
+
+[node name="Coins" type="NinePatchRect" parent="CanvasLayer/Hud/Top"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 529.0
+offset_top = -25.0
+offset_right = 731.0
+offset_bottom = 24.0
+grow_vertical = 2
+texture = ExtResource("3_448d2")
+patch_margin_left = 12
+patch_margin_top = 12
+patch_margin_right = 13
+patch_margin_bottom = 11
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Hud/Top/Coins"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 4.0
+offset_top = -22.0
+offset_right = 49.0
+offset_bottom = 22.0
+grow_vertical = 2
+texture = ExtResource("9_r8her")
+stretch_mode = 2
+
+[node name="BtnCopyAddress" type="TextureButton" parent="CanvasLayer/Hud/Top/Coins"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -20.0
+offset_right = -8.0
+offset_bottom = 23.0
+grow_horizontal = 0
+grow_vertical = 2
+texture_normal = ExtResource("10_edpoi")
+texture_pressed = ExtResource("11_c0ik4")
+
+[node name="Label" type="Label" parent="CanvasLayer/Hud/Top/Coins"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -54.0
+offset_top = -11.5
+offset_right = 51.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("7_q3o5x")
+theme_override_font_sizes/font_size = 24
+text = "2527389"
+
+[node name="Soldier" type="NinePatchRect" parent="CanvasLayer/Hud/Top"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 739.0
+offset_top = -25.0
+offset_right = 941.0
+offset_bottom = 24.0
+grow_vertical = 2
+texture = ExtResource("3_448d2")
+patch_margin_left = 12
+patch_margin_top = 12
+patch_margin_right = 13
+patch_margin_bottom = 11
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Hud/Top/Soldier"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 4.0
+offset_top = -22.0
+offset_right = 49.0
+offset_bottom = 22.0
+grow_vertical = 2
+texture = ExtResource("12_dwrav")
+stretch_mode = 2
+
+[node name="BtnCopyAddress" type="TextureButton" parent="CanvasLayer/Hud/Top/Soldier"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -20.0
+offset_right = -8.0
+offset_bottom = 23.0
+grow_horizontal = 0
+grow_vertical = 2
+texture_normal = ExtResource("10_edpoi")
+texture_pressed = ExtResource("11_c0ik4")
+
+[node name="Label" type="Label" parent="CanvasLayer/Hud/Top/Soldier"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -54.0
+offset_top = -11.5
+offset_right = 51.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("7_q3o5x")
+theme_override_font_sizes/font_size = 24
+text = "2527389"
+
+[node name="currencyA" type="NinePatchRect" parent="CanvasLayer/Hud/Top"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -930.0
+offset_top = -24.5
+offset_right = -728.0
+offset_bottom = 24.5
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("3_448d2")
+patch_margin_left = 12
+patch_margin_top = 12
+patch_margin_right = 13
+patch_margin_bottom = 11
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Hud/Top/currencyA"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 4.0
+offset_top = -19.0
+offset_right = 49.0
+offset_bottom = 25.0
+grow_vertical = 2
+texture = ExtResource("13_kmhq7")
+stretch_mode = 2
+
+[node name="BtnCopyAddress" type="TextureButton" parent="CanvasLayer/Hud/Top/currencyA"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -20.0
+offset_right = -8.0
+offset_bottom = 23.0
+grow_horizontal = 0
+grow_vertical = 2
+texture_normal = ExtResource("10_edpoi")
+texture_pressed = ExtResource("11_c0ik4")
+
+[node name="Label" type="Label" parent="CanvasLayer/Hud/Top/currencyA"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -54.0
+offset_top = -11.5
+offset_right = 51.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("7_q3o5x")
+theme_override_font_sizes/font_size = 24
+text = "2527389"
+
+[node name="currencyB" type="NinePatchRect" parent="CanvasLayer/Hud/Top"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -714.0
+offset_top = -24.5
+offset_right = -512.0
+offset_bottom = 24.5
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("3_448d2")
+patch_margin_left = 12
+patch_margin_top = 12
+patch_margin_right = 13
+patch_margin_bottom = 11
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Hud/Top/currencyB"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 4.0
+offset_top = -22.0
+offset_right = 49.0
+offset_bottom = 22.0
+grow_vertical = 2
+texture = ExtResource("14_qe5e8")
+stretch_mode = 2
+
+[node name="BtnCopyAddress" type="TextureButton" parent="CanvasLayer/Hud/Top/currencyB"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -20.0
+offset_right = -8.0
+offset_bottom = 23.0
+grow_horizontal = 0
+grow_vertical = 2
+texture_normal = ExtResource("10_edpoi")
+texture_pressed = ExtResource("11_c0ik4")
+
+[node name="Label" type="Label" parent="CanvasLayer/Hud/Top/currencyB"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -54.0
+offset_top = -11.5
+offset_right = 51.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("7_q3o5x")
+theme_override_font_sizes/font_size = 24
+text = "2527389"
+
+[node name="currencyC" type="NinePatchRect" parent="CanvasLayer/Hud/Top"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -498.0
+offset_top = -24.5
+offset_right = -296.0
+offset_bottom = 24.5
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("3_448d2")
+patch_margin_left = 12
+patch_margin_top = 12
+patch_margin_right = 13
+patch_margin_bottom = 11
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Hud/Top/currencyC"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 4.0
+offset_top = -22.0
+offset_right = 49.0
+offset_bottom = 22.0
+grow_vertical = 2
+texture = ExtResource("15_0dlu4")
+stretch_mode = 2
+
+[node name="BtnCopyAddress" type="TextureButton" parent="CanvasLayer/Hud/Top/currencyC"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -20.0
+offset_right = -8.0
+offset_bottom = 23.0
+grow_horizontal = 0
+grow_vertical = 2
+texture_normal = ExtResource("10_edpoi")
+texture_pressed = ExtResource("11_c0ik4")
+
+[node name="Label" type="Label" parent="CanvasLayer/Hud/Top/currencyC"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -54.0
+offset_top = -11.5
+offset_right = 51.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("7_q3o5x")
+theme_override_font_sizes/font_size = 24
+text = "2527389"
+
+[node name="BtnBag" type="TextureButton" parent="CanvasLayer/Hud/Top"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -277.0
+offset_top = -25.5
+offset_right = -232.0
+offset_bottom = 25.5
+grow_horizontal = 0
+grow_vertical = 2
+texture_normal = ExtResource("16_e5fuu")
+texture_pressed = ExtResource("17_nulcg")
+
+[node name="BtnPaper" type="TextureButton" parent="CanvasLayer/Hud/Top"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -212.0
+offset_top = -26.0
+offset_right = -160.0
+offset_bottom = 26.0
+grow_horizontal = 0
+grow_vertical = 2
+texture_normal = ExtResource("18_haoxf")
+texture_pressed = ExtResource("19_h6l0n")
+
+[node name="BtnPaper2" type="TextureButton" parent="CanvasLayer/Hud/Top"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -148.0
+offset_top = -26.0
+offset_right = -96.0
+offset_bottom = 26.0
+grow_horizontal = 0
+grow_vertical = 2
+texture_normal = ExtResource("20_04ke3")
+texture_pressed = ExtResource("21_ft1bf")
+
+[node name="BtnPaper3" type="TextureButton" parent="CanvasLayer/Hud/Top"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -76.0
+offset_top = -26.0
+offset_right = -24.0
+offset_bottom = 26.0
+grow_horizontal = 0
+grow_vertical = 2
+texture_normal = ExtResource("22_1khei")
+texture_pressed = ExtResource("23_rvlbg")
+
+[node name="BtnBuyCapital" type="TextureButton" parent="CanvasLayer/Hud"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 94.0
+offset_right = 120.0
+offset_bottom = 191.0
+texture_normal = ExtResource("24_uge5g")
+texture_pressed = ExtResource("25_1fhht")
+texture_hover = ExtResource("26_kivw4")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer/Hud"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -336.0
+offset_top = 96.0
+offset_right = 144.0
+offset_bottom = 157.0
+grow_horizontal = 2
+texture = ExtResource("27_irert")
+patch_margin_left = 17
+patch_margin_top = 18
+patch_margin_right = 19
+patch_margin_bottom = 18
+
+[node name="Label" type="Label" parent="CanvasLayer/Hud/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -77.5
+offset_top = -11.5
+offset_right = 77.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("28_nyh6n")
+theme_override_font_sizes/font_size = 26
+text = "Expedition limit: 0/10"
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Hud"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -254.0
+offset_top = 108.0
+offset_right = -35.0
+offset_bottom = 361.0
+grow_horizontal = 0
+texture = ExtResource("29_gri0n")
+
+[node name="TextureButton" type="TextureButton" parent="CanvasLayer/Hud"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -172.0
+offset_top = -170.0
+offset_right = -30.0
+offset_bottom = -27.0
+grow_horizontal = 0
+grow_vertical = 0
+texture_normal = ExtResource("30_p7pwx")
+texture_pressed = ExtResource("31_plklu")
+texture_hover = ExtResource("32_k1q78")
+
+[node name="Game" type="Node2D" parent="."]
+script = ExtResource("34_8wai5")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("35_5hpa3")
