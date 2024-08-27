@@ -1,0 +1,91 @@
+[gd_scene load_steps=5 format=3 uid="uid://bkhp3r24qiwsk"]
+
+[ext_resource type="Texture2D" uid="uid://c3g4pmnnf07v5" path="res://art/UI/common/common_popup_frame_01.png" id="1_ro1ss"]
+[ext_resource type="Texture2D" uid="uid://bmkfekfju2j8k" path="res://art/UI/common/common_popoup_title_01.png" id="2_kredh"]
+[ext_resource type="FontFile" uid="uid://d26g6ohny0dmm" path="res://art/UI/font/Montserrat-Black.otf" id="4_20ded"]
+[ext_resource type="Texture2D" uid="uid://csnf5lskouimf" path="res://art/UI/common/common_icon_land_01.png" id="4_wviiy"]
+
+[node name="OwneTiles" type="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Content" type="NinePatchRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -568.0
+offset_top = -311.0
+offset_right = 568.0
+offset_bottom = 311.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_ro1ss")
+patch_margin_left = 104
+patch_margin_top = 117
+patch_margin_right = 112
+patch_margin_bottom = 94
+
+[node name="title" type="NinePatchRect" parent="Content"]
+offset_left = -19.0
+offset_top = -28.0
+offset_right = 532.0
+offset_bottom = 86.0
+texture = ExtResource("2_kredh")
+patch_margin_left = 175
+patch_margin_right = 196
+
+[node name="Label" type="Label" parent="Content/title"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 80.0
+offset_top = -21.0
+offset_right = 450.0
+offset_bottom = 21.0
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("4_20ded")
+theme_override_font_sizes/font_size = 34
+text = "Owned Territories"
+
+[node name="TextureRect" type="TextureRect" parent="Content"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -535.0
+offset_top = -145.0
+offset_right = -233.0
+offset_bottom = 145.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_wviiy")
+stretch_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Content"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -246.0
+offset_top = -214.0
+offset_right = 492.0
+offset_bottom = 210.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="Content/ScrollContainer"]
+layout_mode = 2
+columns = 2

@@ -1,0 +1,192 @@
+[gd_scene load_steps=8 format=3 uid="uid://82iabq3behmh"]
+
+[ext_resource type="Texture2D" uid="uid://c3g4pmnnf07v5" path="res://art/UI/common/common_popup_frame_01.png" id="1_rfw0f"]
+[ext_resource type="Texture2D" uid="uid://wwd6775bvvyu" path="res://art/UI/common/common_icon_land_02.png" id="2_ih0g0"]
+[ext_resource type="Texture2D" uid="uid://bmkfekfju2j8k" path="res://art/UI/common/common_popoup_title_01.png" id="3_qpjcj"]
+[ext_resource type="Texture2D" uid="uid://d4mrhjx4okvhk" path="res://art/UI/common/common_button_small01_n.png" id="5_0wgj0"]
+[ext_resource type="FontFile" uid="uid://d26g6ohny0dmm" path="res://art/UI/font/Montserrat-Black.otf" id="5_ghlmf"]
+[ext_resource type="Texture2D" uid="uid://cf8ixkjl2vhc1" path="res://art/UI/common/common_coin_A_s.png" id="6_fgolr"]
+[ext_resource type="Texture2D" uid="uid://w3vsn4hsx0c0" path="res://art/UI/common/common_button_blue_n-2.png" id="7_ljbtv"]
+
+[node name="PurchaseLandPanel" type="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Content" type="NinePatchRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -399.0
+offset_top = -269.0
+offset_right = 399.0
+offset_bottom = 269.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_rfw0f")
+patch_margin_left = 98
+patch_margin_top = 120
+patch_margin_right = 113
+patch_margin_bottom = 94
+
+[node name="TextureRect" type="TextureRect" parent="Content"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -358.0
+offset_top = -154.5
+offset_right = -74.0
+offset_bottom = 154.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_ih0g0")
+stretch_mode = 2
+
+[node name="title" type="NinePatchRect" parent="Content"]
+layout_mode = 1
+offset_left = -18.0
+offset_top = -32.0
+offset_right = 533.0
+offset_bottom = 83.0
+texture = ExtResource("3_qpjcj")
+patch_margin_left = 175
+patch_margin_right = 196
+
+[node name="Label" type="Label" parent="Content/title"]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 33.0
+offset_right = 401.0
+offset_bottom = 75.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("5_ghlmf")
+theme_override_font_sizes/font_size = 34
+text = "Purchse Land"
+
+[node name="CoordLab" type="Label" parent="Content"]
+layout_mode = 0
+offset_left = 393.0
+offset_top = 140.0
+offset_right = 551.0
+offset_bottom = 163.0
+theme_override_fonts/font = ExtResource("5_ghlmf")
+theme_override_font_sizes/font_size = 24
+text = "Coordinate: 123, 123"
+
+[node name="SelectBtn" type="TextureButton" parent="Content"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 47.0
+offset_top = -77.0
+offset_right = 192.0
+offset_bottom = -19.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Content/SelectBtn"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_0wgj0")
+patch_margin_left = 16
+patch_margin_right = 16
+
+[node name="Label" type="Label" parent="Content/SelectBtn"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("5_ghlmf")
+theme_override_font_sizes/font_size = 24
+text = "Select"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Icon" type="TextureRect" parent="Content"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 26.0
+offset_top = 34.0
+offset_right = 66.0
+offset_bottom = 76.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_fgolr")
+
+[node name="Label" type="Label" parent="Content/Icon"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 56.0
+offset_top = -14.0
+offset_right = 137.0
+offset_bottom = 14.0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_ghlmf")
+theme_override_font_sizes/font_size = 22
+text = "0.0005
+"
+
+[node name="ConfirmBtn" type="TextureButton" parent="Content/Icon"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = 46.0
+offset_right = 178.0
+offset_bottom = 126.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Content/Icon/ConfirmBtn"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_ljbtv")
+patch_margin_left = 28
+patch_margin_right = 34
+
+[node name="Label" type="Label" parent="Content/Icon/ConfirmBtn"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0.257272, 0.51627, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("5_ghlmf")
+theme_override_font_sizes/font_size = 28
+text = "Buy"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -1,0 +1,62 @@
+[gd_scene load_steps=6 format=3 uid="uid://caaqq45l8ksrh"]
+
+[ext_resource type="Texture2D" uid="uid://d4mrhjx4okvhk" path="res://art/UI/common/common_button_small01_n.png" id="1_4uyv5"]
+[ext_resource type="FontFile" uid="uid://dckl122n5h7by" path="res://art/UI/font/Montserrat-SemiBold.otf" id="2_1hx3b"]
+[ext_resource type="Texture2D" uid="uid://dhcclioe5cw3j" path="res://art/UI/common/common_icon_position.png" id="3_ch00u"]
+[ext_resource type="FontFile" uid="uid://d26g6ohny0dmm" path="res://art/UI/font/Montserrat-Black.otf" id="4_34lft"]
+[ext_resource type="Texture2D" uid="uid://btc74mv62ehd0" path="res://art/UI/common/common_arrow01_n.png" id="5_wosdn"]
+
+[node name="cityItem" type="NinePatchRect"]
+custom_minimum_size = Vector2(360, 48)
+texture = ExtResource("1_4uyv5")
+patch_margin_left = 15
+patch_margin_right = 17
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 16.0
+offset_top = -15.5
+offset_right = 68.0
+offset_bottom = 15.5
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_1hx3b")
+theme_override_font_sizes/font_size = 24
+text = "City"
+
+[node name="Loc" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 96.0
+offset_top = -15.5
+offset_right = 121.0
+offset_bottom = 15.5
+grow_vertical = 2
+texture = ExtResource("3_ch00u")
+stretch_mode = 2
+
+[node name="Label" type="Label" parent="Loc"]
+layout_mode = 0
+offset_left = 40.0
+offset_right = 126.0
+offset_bottom = 31.0
+theme_override_fonts/font = ExtResource("4_34lft")
+theme_override_font_sizes/font_size = 24
+text = "123,123"
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 320.0
+offset_top = -17.5
+offset_right = 344.0
+offset_bottom = 17.5
+grow_vertical = 2
+texture = ExtResource("5_wosdn")
+stretch_mode = 2
