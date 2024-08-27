@@ -73,32 +73,32 @@ class MudLib {
 
     components.Player.update$.subscribe((update) => {
       console.log("Player updated", update)
-      this.player_updated(update)
+      this.player_updated(JSON.stringify(update))
     })
 
     components.PlayerDetail.update$.subscribe((update) => {
       console.log("PlayerDetails updated", update)
-      this.player_detail_updated(update)
+      this.player_detail_updated(JSON.stringify(update))
     });
 
     components.Land.update$.subscribe((update) => {
       console.log("Land updated", update)
-      this.land_updated(update)
+      this.land_updated(JSON.stringify(update))
     });
 
     components.Capital.update$.subscribe((update) => {
       console.log("Capital updated", update)
-      this.capital_updated(update)
+      this.capital_updated(JSON.stringify(update))
     });
 
     components.Army.update$.subscribe((update) => {
       console.log("Army updated", update)
-      this.army_updated(update)
+      this.army_updated(JSON.stringify(update))
     });
 
     network.storedBlockLogs$.subscribe((update) => {
       console.log("Stored block logs", update)
-      this.stored_block_logs(update)
+      this.stored_block_logs(JSON.stringify(update))
     });
 
     const blockNumber = await network.publicClient.getBlockNumber()
