@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 MapDrawer="*res://scripts/MapDrawer.gd"
+UiMgr="*res://scripts/UIMgr.gd"
 
 [display]
 

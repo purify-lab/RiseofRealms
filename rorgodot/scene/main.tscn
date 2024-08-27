@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://cy0pn8wrtole5"]
+[gd_scene load_steps=37 format=3 uid="uid://cy0pn8wrtole5"]
 
 [ext_resource type="Texture2D" uid="uid://mceu26oo2tda" path="res://art/Game/TaV0dga.jpeg" id="1_t4p18"]
 [ext_resource type="Texture2D" uid="uid://cdyeyjsa1kt40" path="res://art/UI/common/common_top_frame.png" id="2_yvpgi"]
@@ -33,6 +33,7 @@
 [ext_resource type="Texture2D" uid="uid://chs81keb2evos" path="res://art/UI/common/common_button_chest_01_n.png" id="30_p7pwx"]
 [ext_resource type="Texture2D" uid="uid://ymq6yv38ktur" path="res://art/UI/common/common_button_chest_01_c.png" id="31_plklu"]
 [ext_resource type="Texture2D" uid="uid://d14a6ck4jl7in" path="res://art/UI/common/common_button_chest_01_h.png" id="32_k1q78"]
+[ext_resource type="PackedScene" uid="uid://ckr0q2l01nmp0" path="res://scene/selecting_soldier_page.tscn" id="34_00jel"]
 [ext_resource type="Script" path="res://scripts/game.gd" id="34_8wai5"]
 [ext_resource type="Script" path="res://scripts/DragMoveCam.gd" id="35_5hpa3"]
 
@@ -647,6 +648,11 @@ grow_vertical = 0
 texture_normal = ExtResource("30_p7pwx")
 texture_pressed = ExtResource("31_plklu")
 texture_hover = ExtResource("32_k1q78")
+
+[node name="SelectingSoldierPage" parent="CanvasLayer" instance=ExtResource("34_00jel")]
+visible = false
+offset_top = 849.0
+offset_right = -880.0
 
 [node name="Game" type="Node2D" parent="."]
 script = ExtResource("34_8wai5")

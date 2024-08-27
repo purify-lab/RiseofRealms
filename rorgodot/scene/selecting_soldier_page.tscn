@@ -1,0 +1,230 @@
+[gd_scene load_steps=12 format=3 uid="uid://ckr0q2l01nmp0"]
+
+[ext_resource type="Texture2D" uid="uid://dg7l1nimns1nr" path="res://art/UI/common/common_bottom_fence.png" id="1_eex1g"]
+[ext_resource type="Texture2D" uid="uid://dnkd8tvc48vho" path="res://art/UI/common/common_button_close_n.png" id="2_2bsvh"]
+[ext_resource type="FontFile" uid="uid://d26g6ohny0dmm" path="res://art/UI/font/Montserrat-Black.otf" id="3_740s4"]
+[ext_resource type="Texture2D" uid="uid://0i3uaaxorl5p" path="res://art/UI/soldier/Soldier_warrior_A_n.png" id="4_ee3br"]
+[ext_resource type="Texture2D" uid="uid://3wam7etjt308" path="res://art/UI/common/common_enterbox_01.png" id="5_jkrtv"]
+[ext_resource type="Texture2D" uid="uid://44ivxmrqwjx7" path="res://art/UI/soldier/Soldier_koight_A_n.png" id="6_8srky"]
+[ext_resource type="FontFile" uid="uid://ddfu6x1obc5vf" path="res://art/UI/font/HONORSansCN-Bold.ttf" id="6_qsfxk"]
+[ext_resource type="Texture2D" uid="uid://dhcclioe5cw3j" path="res://art/UI/common/common_icon_position.png" id="7_1powe"]
+[ext_resource type="Texture2D" uid="uid://do3wi5ddjgddh" path="res://art/UI/common/common_button_blue_n-1.png" id="7_xwikv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1fowg"]
+
+[sub_resource type="Theme" id="Theme_yopuw"]
+TextEdit/colors/background_color = Color(0, 0, 0, 0)
+TextEdit/colors/caret_background_color = Color(0.860369, 0.860369, 0.860369, 1)
+TextEdit/icons/space = null
+TextEdit/styles/normal = SubResource("StyleBoxEmpty_1fowg")
+
+[node name="SelectingSoldierPage" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Bg" type="NinePatchRect" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -228.0
+offset_right = 1041.0
+grow_vertical = 0
+texture = ExtResource("1_eex1g")
+patch_margin_left = 8
+patch_margin_top = 25
+patch_margin_right = 25
+patch_margin_bottom = 8
+
+[node name="BtnClose" type="TextureButton" parent="Bg"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -39.0
+offset_top = -27.0
+offset_right = 23.0
+offset_bottom = 38.0
+grow_horizontal = 0
+texture_normal = ExtResource("2_2bsvh")
+
+[node name="Label" type="Label" parent="Bg"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 19.0
+offset_right = 97.0
+offset_bottom = 64.0
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("3_740s4")
+theme_override_font_sizes/font_size = 28
+text = "Selecting
+Soldiers"
+
+[node name="Item1" type="TextureRect" parent="Bg"]
+layout_mode = 0
+offset_left = 208.0
+offset_top = -80.0
+offset_right = 388.0
+offset_bottom = 120.0
+texture = ExtResource("4_ee3br")
+
+[node name="Label" type="Label" parent="Bg/Item1"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -44.0
+offset_top = 1.0
+offset_right = 44.0
+offset_bottom = 27.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("3_740s4")
+theme_override_font_sizes/font_size = 20
+text = "Infantry"
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Bg/Item1"]
+offset_left = 17.0
+offset_top = 233.0
+offset_right = 162.0
+offset_bottom = 266.0
+texture = ExtResource("5_jkrtv")
+patch_margin_left = 9
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="TextEdit" type="TextEdit" parent="Bg/Item1/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_right = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_yopuw")
+theme_override_fonts/font = ExtResource("6_qsfxk")
+placeholder_text = "Input Number"
+
+[node name="Item2" type="TextureRect" parent="Bg"]
+layout_mode = 0
+offset_left = 496.0
+offset_top = -80.0
+offset_right = 676.0
+offset_bottom = 120.0
+texture = ExtResource("6_8srky")
+
+[node name="Label" type="Label" parent="Bg/Item2"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -44.0
+offset_top = 1.0
+offset_right = 44.0
+offset_bottom = 27.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("3_740s4")
+theme_override_font_sizes/font_size = 20
+text = "Cavalry"
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Bg/Item2"]
+offset_left = 17.0
+offset_top = 233.0
+offset_right = 162.0
+offset_bottom = 266.0
+texture = ExtResource("5_jkrtv")
+patch_margin_left = 9
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="TextEdit" type="TextEdit" parent="Bg/Item2/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_right = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_yopuw")
+theme_override_fonts/font = ExtResource("6_qsfxk")
+placeholder_text = "Input Number"
+
+[node name="BtnAtk" type="TextureButton" parent="Bg"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -272.0
+offset_top = -111.0
+offset_right = -96.0
+offset_bottom = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Bg/BtnAtk"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_xwikv")
+patch_margin_left = 27
+patch_margin_right = 22
+
+[node name="Label" type="Label" parent="Bg/BtnAtk"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0.461335, 2.04556e-07, 0.230136, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("3_740s4")
+theme_override_font_sizes/font_size = 30
+text = "Attack"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="loc" type="TextureRect" parent="Bg"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -261.0
+offset_top = 56.0
+offset_right = -236.0
+offset_bottom = 87.0
+grow_horizontal = 0
+texture = ExtResource("7_1powe")
+stretch_mode = 2
+
+[node name="Label" type="Label" parent="Bg/loc"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 32.0
+offset_top = -11.5
+offset_right = 72.0
+offset_bottom = 11.5
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_740s4")
+theme_override_font_sizes/font_size = 32
+text = "123,123"

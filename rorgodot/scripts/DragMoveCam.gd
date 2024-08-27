@@ -13,7 +13,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
-func _input(event):
+func _unhandled_input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:

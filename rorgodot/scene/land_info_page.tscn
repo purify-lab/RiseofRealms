@@ -1,0 +1,267 @@
+[gd_scene load_steps=14 format=3 uid="uid://bfldqieibwe4g"]
+
+[ext_resource type="Texture2D" uid="uid://c3g4pmnnf07v5" path="res://art/UI/common/common_popup_frame_01.png" id="1_g5enh"]
+[ext_resource type="Texture2D" uid="uid://bmkfekfju2j8k" path="res://art/UI/common/common_popoup_title_01.png" id="2_8hkos"]
+[ext_resource type="Texture2D" uid="uid://qdmjbicjnfp" path="res://art/UI/common/common_title_icon_land.png" id="3_dqqlf"]
+[ext_resource type="FontFile" uid="uid://d26g6ohny0dmm" path="res://art/UI/font/Montserrat-Black.otf" id="4_1qone"]
+[ext_resource type="Texture2D" uid="uid://u8qp0upluffc" path="res://art/UI/common/common_home_date_frame.png" id="5_2rvbu"]
+[ext_resource type="Texture2D" uid="uid://e0b1d0812da" path="res://art/UI/common/common_icon_occupied.png" id="6_ei40i"]
+[ext_resource type="Texture2D" uid="uid://dmm6oy5ubo245" path="res://art/UI/common/common_icon_land_03.png" id="7_xi8x2"]
+[ext_resource type="Texture2D" uid="uid://c520fw4wah1tu" path="res://art/UI/common/common_icon_defense.png" id="8_i22m1"]
+[ext_resource type="Texture2D" uid="uid://jwyeu43rnit5" path="res://art/UI/common/common_progress_01_empty.png" id="9_lewec"]
+[ext_resource type="Texture2D" uid="uid://cegf0lb0w7t6o" path="res://art/UI/common/common_progress_01_full.png" id="10_clqws"]
+[ext_resource type="Texture2D" uid="uid://cxi8ajh2p6nwu" path="res://art/UI/common/common_icon_coin_s.png" id="11_3yk4u"]
+[ext_resource type="Texture2D" uid="uid://do3wi5ddjgddh" path="res://art/UI/common/common_button_blue_n-1.png" id="12_esnxp"]
+[ext_resource type="Texture2D" uid="uid://dnkd8tvc48vho" path="res://art/UI/common/common_button_close_n.png" id="13_3l34r"]
+
+[node name="LandInfoPage" type="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Content" type="NinePatchRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -559.0
+offset_top = -329.5
+offset_right = 559.0
+offset_bottom = 329.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_g5enh")
+patch_margin_left = 92
+patch_margin_top = 117
+patch_margin_right = 96
+patch_margin_bottom = 104
+
+[node name="title" type="NinePatchRect" parent="Content"]
+layout_mode = 0
+offset_left = -19.0
+offset_top = -29.0
+offset_right = 532.0
+offset_bottom = 86.0
+texture = ExtResource("2_8hkos")
+patch_margin_left = 175
+patch_margin_right = 196
+
+[node name="TextureRect" type="TextureRect" parent="Content/title"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 24.0
+offset_top = -48.5
+offset_right = 119.0
+offset_bottom = 32.5
+grow_vertical = 2
+texture = ExtResource("3_dqqlf")
+
+[node name="Label" type="Label" parent="Content/title"]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 33.0
+offset_right = 441.0
+offset_bottom = 75.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("4_1qone")
+theme_override_font_sizes/font_size = 34
+text = "Land Information"
+
+[node name="LandStatus" type="NinePatchRect" parent="Content"]
+layout_mode = 0
+offset_left = 89.0
+offset_top = 97.0
+offset_right = 433.0
+offset_bottom = 185.0
+texture = ExtResource("5_2rvbu")
+region_rect = Rect2(0, 0, 48, 48)
+patch_margin_left = 15
+patch_margin_top = 15
+patch_margin_right = 15
+patch_margin_bottom = 13
+
+[node name="TextureRect" type="TextureRect" parent="Content/LandStatus"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 23.0
+offset_right = 56.0
+offset_bottom = 70.0
+texture = ExtResource("6_ei40i")
+
+[node name="Label" type="Label" parent="Content/LandStatus"]
+layout_mode = 0
+offset_left = 86.0
+offset_top = 8.0
+offset_right = 300.0
+offset_bottom = 39.0
+theme_override_colors/font_color = Color(0.6651, 0.796302, 0.993716, 1)
+theme_override_fonts/font = ExtResource("4_1qone")
+theme_override_font_sizes/font_size = 24
+text = "Occupied Status"
+
+[node name="status" type="Label" parent="Content/LandStatus"]
+layout_mode = 0
+offset_left = 62.0
+offset_top = 41.0
+offset_right = 325.0
+offset_bottom = 75.0
+theme_override_fonts/font = ExtResource("4_1qone")
+theme_override_font_sizes/font_size = 20
+text = "Unoccupied"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UnocuppiedPanel" type="Panel" parent="Content"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Content/UnocuppiedPanel"]
+offset_left = 104.0
+offset_top = 192.0
+offset_right = 406.0
+offset_bottom = 490.0
+texture = ExtResource("7_xi8x2")
+
+[node name="TextureRect2" type="TextureRect" parent="Content/UnocuppiedPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -52.0
+offset_top = -118.5
+offset_right = -12.0
+offset_bottom = -73.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_i22m1")
+
+[node name="DefenceProgress" type="TextureProgressBar" parent="Content/UnocuppiedPanel"]
+layout_mode = 0
+offset_left = 563.0
+offset_top = 212.0
+offset_right = 1005.0
+offset_bottom = 248.0
+value = 12.0
+nine_patch_stretch = true
+stretch_margin_left = 15
+stretch_margin_top = 5
+stretch_margin_right = 15
+stretch_margin_bottom = 5
+texture_under = ExtResource("9_lewec")
+texture_progress = ExtResource("10_clqws")
+
+[node name="Label" type="Label" parent="Content/UnocuppiedPanel/DefenceProgress"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("4_1qone")
+theme_override_font_sizes/font_size = 20
+text = "Defence: 13/2000
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Content/UnocuppiedPanel"]
+layout_mode = 0
+offset_left = 537.0
+offset_top = 275.0
+offset_right = 998.0
+offset_bottom = 361.0
+texture = ExtResource("5_2rvbu")
+patch_margin_left = 17
+patch_margin_top = 13
+patch_margin_right = 17
+patch_margin_bottom = 19
+
+[node name="TextureRect" type="TextureRect" parent="Content/UnocuppiedPanel/NinePatchRect"]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 22.0
+offset_right = 61.0
+offset_bottom = 66.0
+texture = ExtResource("11_3yk4u")
+
+[node name="Label" type="Label" parent="Content/UnocuppiedPanel/NinePatchRect"]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 8.0
+offset_right = 286.0
+offset_bottom = 36.0
+theme_override_colors/font_color = Color(0.634804, 0.779713, 0.995093, 1)
+theme_override_fonts/font = ExtResource("4_1qone")
+theme_override_font_sizes/font_size = 22
+text = "Gold Coin Output"
+
+[node name="Label2" type="Label" parent="Content/UnocuppiedPanel/NinePatchRect"]
+layout_mode = 0
+offset_left = 83.0
+offset_top = 41.5
+offset_right = 165.0
+offset_bottom = 69.5
+theme_override_fonts/font = ExtResource("4_1qone")
+theme_override_font_sizes/font_size = 22
+text = "200 / h"
+
+[node name="BtnAtk" type="TextureButton" parent="Content/UnocuppiedPanel"]
+layout_mode = 0
+offset_left = 645.0
+offset_top = 409.0
+offset_right = 821.0
+offset_bottom = 480.0
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Content/UnocuppiedPanel/BtnAtk"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("12_esnxp")
+patch_margin_left = 27
+patch_margin_right = 22
+
+[node name="Label" type="Label" parent="Content/UnocuppiedPanel/BtnAtk"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0.461335, 2.04556e-07, 0.230136, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("4_1qone")
+theme_override_font_sizes/font_size = 30
+text = "Attack"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnClose" type="TextureButton" parent="Content"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -52.0
+offset_top = -11.5
+offset_right = 10.0
+offset_bottom = 53.5
+grow_horizontal = 0
+texture_normal = ExtResource("13_3l34r")
