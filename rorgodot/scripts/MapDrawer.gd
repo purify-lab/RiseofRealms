@@ -14,15 +14,19 @@ var nowId = 1
 #地图大小六边形边界 递归深度
 var mapSize = 60
 
+#地块场景
 var tileScene = preload("res://scene/tile.tscn")
+
+#建筑场景
+var buildingScene = preload("res://scene/building.tscn")
 
 #地图根节点
 var GameNode
 
 # 根据场景内的坐标获得Hex坐标
 func SnapToHexGrid(pos):
-	var q = roundi((sqrt(3.0) / 3.0 * pos.x - pos.y / 3.0) / tileSize)
-	var r = roundi((2.0 / 3.0 * pos.y) / tileSize)
+	var q = roundi((sqrt(3.0) / 3.0 * pos.x + pos.y / 3.0) / tileSize)
+	var r = -roundi((2.0 / 3.0 * pos.y) / tileSize)
 	var s = -q - r
 	var res = Vector3i(q, r, s)
 	return res
@@ -50,6 +54,14 @@ func GetScenePosByCoords(coords):
 	var t = qAxies * coords.x + rAxies * coords.y + sAxies * coords.z
 	return Vector2(t.x, t.z)
 
+func PlaceBuildingOnTile(pos):
+	var scene_pos = GetScenePosByCoords(pos)
+	var t = buildingScene.instantiate()
+	t.set_position(scene_pos)
+	GameNode.add_child(t)
+	
+	return t
+	
 #生成一个单块Tile
 func create_tile(pos):
 	var new_tile = tileScene.instantiate()
