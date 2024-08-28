@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://ckr0q2l01nmp0"]
+[gd_scene load_steps=13 format=3 uid="uid://ckr0q2l01nmp0"]
 
 [ext_resource type="Texture2D" uid="uid://dg7l1nimns1nr" path="res://art/UI/common/common_bottom_fence.png" id="1_eex1g"]
 [ext_resource type="Texture2D" uid="uid://dnkd8tvc48vho" path="res://art/UI/common/common_button_close_n.png" id="2_2bsvh"]
@@ -9,6 +9,7 @@
 [ext_resource type="FontFile" uid="uid://ddfu6x1obc5vf" path="res://art/UI/font/HONORSansCN-Bold.ttf" id="6_qsfxk"]
 [ext_resource type="Texture2D" uid="uid://dhcclioe5cw3j" path="res://art/UI/common/common_icon_position.png" id="7_1powe"]
 [ext_resource type="Texture2D" uid="uid://do3wi5ddjgddh" path="res://art/UI/common/common_button_blue_n-1.png" id="7_xwikv"]
+[ext_resource type="Script" path="res://scripts/UI/SetCoords.gd" id="10_df421"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1fowg"]
 
@@ -214,6 +215,7 @@ offset_bottom = 87.0
 grow_horizontal = 0
 texture = ExtResource("7_1powe")
 stretch_mode = 2
+script = ExtResource("10_df421")
 
 [node name="Label" type="Label" parent="Bg/loc"]
 layout_mode = 1

@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://bx2vfu0oecevg"]
+[gd_scene load_steps=15 format=3 uid="uid://bx2vfu0oecevg"]
 
 [ext_resource type="Texture2D" uid="uid://c3g4pmnnf07v5" path="res://art/UI/common/common_popup_frame_01.png" id="1_05lfr"]
+[ext_resource type="Script" path="res://scripts/UI/buy_sodier_panel.gd" id="1_e73vb"]
 [ext_resource type="Texture2D" uid="uid://bmkfekfju2j8k" path="res://art/UI/common/common_popoup_title_01.png" id="2_0rj41"]
 [ext_resource type="Texture2D" uid="uid://dbrq7b87xl8yj" path="res://art/UI/common/common_title_icon_force.png" id="3_f4wnh"]
 [ext_resource type="FontFile" uid="uid://d26g6ohny0dmm" path="res://art/UI/font/Montserrat-Black.otf" id="4_h01bn"]
@@ -10,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://44ivxmrqwjx7" path="res://art/UI/soldier/Soldier_koight_A_n.png" id="9_mn666"]
 [ext_resource type="Texture2D" uid="uid://3wam7etjt308" path="res://art/UI/common/common_enterbox_01.png" id="9_nqnou"]
 [ext_resource type="Texture2D" uid="uid://w3vsn4hsx0c0" path="res://art/UI/common/common_button_blue_n-2.png" id="10_mgj8n"]
+[ext_resource type="Texture2D" uid="uid://dnkd8tvc48vho" path="res://art/UI/common/common_button_close_n.png" id="12_6alde"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j4dy3"]
 
@@ -25,8 +27,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_e73vb")
 
-[node name="common_button_close_n" type="NinePatchRect" parent="."]
+[node name="Content" type="NinePatchRect" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -45,7 +48,7 @@ patch_margin_top = 117
 patch_margin_right = 96
 patch_margin_bottom = 104
 
-[node name="title" type="NinePatchRect" parent="common_button_close_n"]
+[node name="title" type="NinePatchRect" parent="Content"]
 offset_left = -19.0
 offset_top = -29.0
 offset_right = 475.0
@@ -54,7 +57,7 @@ texture = ExtResource("2_0rj41")
 patch_margin_left = 175
 patch_margin_right = 196
 
-[node name="TextureRect" type="TextureRect" parent="common_button_close_n/title"]
+[node name="TextureRect" type="TextureRect" parent="Content/title"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -66,7 +69,7 @@ offset_bottom = 32.5
 grow_vertical = 2
 texture = ExtResource("3_f4wnh")
 
-[node name="Label" type="Label" parent="common_button_close_n/title"]
+[node name="Label" type="Label" parent="Content/title"]
 layout_mode = 0
 offset_left = 128.0
 offset_top = 33.0
@@ -78,7 +81,7 @@ theme_override_fonts/font = ExtResource("4_h01bn")
 theme_override_font_sizes/font_size = 34
 text = "Buy Soldiers"
 
-[node name="Item1" type="NinePatchRect" parent="common_button_close_n"]
+[node name="Item1" type="NinePatchRect" parent="Content"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -98,7 +101,7 @@ patch_margin_top = 18
 patch_margin_right = 16
 patch_margin_bottom = 19
 
-[node name="Label" type="Label" parent="common_button_close_n/Item1"]
+[node name="Label" type="Label" parent="Content/Item1"]
 layout_mode = 0
 offset_left = 9.0
 offset_right = 271.0
@@ -108,7 +111,7 @@ theme_override_font_sizes/font_size = 24
 text = "Infantry"
 vertical_alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="common_button_close_n/Item1"]
+[node name="TextureRect" type="TextureRect" parent="Content/Item1"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -123,7 +126,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("7_i2g7v")
 
-[node name="TextureRect2" type="TextureRect" parent="common_button_close_n/Item1"]
+[node name="TextureRect2" type="TextureRect" parent="Content/Item1"]
 layout_mode = 0
 offset_left = 80.0
 offset_top = 256.0
@@ -131,7 +134,7 @@ offset_right = 120.0
 offset_bottom = 300.0
 texture = ExtResource("8_3t7iq")
 
-[node name="Label2" type="Label" parent="common_button_close_n/Item1/TextureRect2"]
+[node name="Label2" type="Label" parent="Content/Item1/TextureRect2"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -148,7 +151,7 @@ theme_override_fonts/font = ExtResource("4_h01bn")
 theme_override_font_sizes/font_size = 24
 text = "200"
 
-[node name="NinePatchRect" type="NinePatchRect" parent="common_button_close_n/Item1"]
+[node name="NinePatchRect" type="NinePatchRect" parent="Content/Item1"]
 layout_mode = 0
 offset_left = 42.0
 offset_top = 306.0
@@ -160,7 +163,7 @@ patch_margin_top = 10
 patch_margin_right = 10
 patch_margin_bottom = 10
 
-[node name="TextEdit" type="TextEdit" parent="common_button_close_n/Item1/NinePatchRect"]
+[node name="TextEdit" type="TextEdit" parent="Content/Item1/NinePatchRect"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -171,7 +174,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_cxie6")
 
-[node name="Item2" type="NinePatchRect" parent="common_button_close_n"]
+[node name="Item2" type="NinePatchRect" parent="Content"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -191,7 +194,7 @@ patch_margin_top = 18
 patch_margin_right = 16
 patch_margin_bottom = 19
 
-[node name="Label" type="Label" parent="common_button_close_n/Item2"]
+[node name="Label" type="Label" parent="Content/Item2"]
 layout_mode = 0
 offset_left = 9.0
 offset_right = 271.0
@@ -201,7 +204,7 @@ theme_override_font_sizes/font_size = 24
 text = "Cavalry"
 vertical_alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="common_button_close_n/Item2"]
+[node name="TextureRect" type="TextureRect" parent="Content/Item2"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -216,7 +219,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("9_mn666")
 
-[node name="TextureRect2" type="TextureRect" parent="common_button_close_n/Item2"]
+[node name="TextureRect2" type="TextureRect" parent="Content/Item2"]
 layout_mode = 0
 offset_left = 80.0
 offset_top = 256.0
@@ -224,7 +227,7 @@ offset_right = 120.0
 offset_bottom = 300.0
 texture = ExtResource("8_3t7iq")
 
-[node name="Label2" type="Label" parent="common_button_close_n/Item2/TextureRect2"]
+[node name="Label2" type="Label" parent="Content/Item2/TextureRect2"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -241,7 +244,7 @@ theme_override_fonts/font = ExtResource("4_h01bn")
 theme_override_font_sizes/font_size = 24
 text = "200"
 
-[node name="NinePatchRect" type="NinePatchRect" parent="common_button_close_n/Item2"]
+[node name="NinePatchRect" type="NinePatchRect" parent="Content/Item2"]
 layout_mode = 0
 offset_left = 42.0
 offset_top = 306.0
@@ -253,7 +256,7 @@ patch_margin_top = 10
 patch_margin_right = 10
 patch_margin_bottom = 10
 
-[node name="TextEdit" type="TextEdit" parent="common_button_close_n/Item2/NinePatchRect"]
+[node name="TextEdit" type="TextEdit" parent="Content/Item2/NinePatchRect"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -264,7 +267,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_cxie6")
 
-[node name="Currency" type="TextureRect" parent="common_button_close_n"]
+[node name="Currency" type="TextureRect" parent="Content"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -279,7 +282,7 @@ grow_horizontal = 2
 grow_vertical = 0
 texture = ExtResource("8_3t7iq")
 
-[node name="Label" type="Label" parent="common_button_close_n/Currency"]
+[node name="Label" type="Label" parent="Content/Currency"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -293,7 +296,7 @@ theme_override_fonts/font = ExtResource("4_h01bn")
 theme_override_font_sizes/font_size = 32
 text = "999999999"
 
-[node name="TextureButton" type="TextureButton" parent="common_button_close_n"]
+[node name="TextureButton" type="TextureButton" parent="Content"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -307,7 +310,7 @@ offset_bottom = -48.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="NinePatchRect" type="NinePatchRect" parent="common_button_close_n/TextureButton"]
+[node name="NinePatchRect" type="NinePatchRect" parent="Content/TextureButton"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -318,7 +321,7 @@ texture = ExtResource("10_mgj8n")
 patch_margin_left = 31
 patch_margin_right = 30
 
-[node name="Label" type="Label" parent="common_button_close_n/TextureButton"]
+[node name="Label" type="Label" parent="Content/TextureButton"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -336,3 +339,15 @@ theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("4_h01bn")
 theme_override_font_sizes/font_size = 32
 text = "Buy"
+
+[node name="BtnClose" type="TextureButton" parent="Content"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -52.0
+offset_top = -12.0
+offset_right = 10.0
+offset_bottom = 53.0
+grow_horizontal = 0
+texture_normal = ExtResource("12_6alde")

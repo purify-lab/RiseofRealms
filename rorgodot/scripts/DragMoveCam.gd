@@ -12,6 +12,8 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
+	
+
 
 func _unhandled_input(event):
 	if event is InputEventMouseButton:
@@ -22,7 +24,11 @@ func _unhandled_input(event):
 				last_mouse_position = event.position
 			else:
 				is_dragging = false
-
+		if event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+			var t = get_global_mouse_position()
+			var coord = MapDrawer.SnapToHexGrid(t)
+			print("Mouse Clicked At: ", t, coord)
+			
 	if event is InputEventMouseMotion and is_dragging:
 		# 计算鼠标移动的偏移量
 		var delta = event.position - last_mouse_position

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bfldqieibwe4g"]
+[gd_scene load_steps=15 format=3 uid="uid://bfldqieibwe4g"]
 
 [ext_resource type="Texture2D" uid="uid://c3g4pmnnf07v5" path="res://art/UI/common/common_popup_frame_01.png" id="1_g5enh"]
 [ext_resource type="Texture2D" uid="uid://bmkfekfju2j8k" path="res://art/UI/common/common_popoup_title_01.png" id="2_8hkos"]
@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://cxi8ajh2p6nwu" path="res://art/UI/common/common_icon_coin_s.png" id="11_3yk4u"]
 [ext_resource type="Texture2D" uid="uid://do3wi5ddjgddh" path="res://art/UI/common/common_button_blue_n-1.png" id="12_esnxp"]
 [ext_resource type="Texture2D" uid="uid://dnkd8tvc48vho" path="res://art/UI/common/common_button_close_n.png" id="13_3l34r"]
+[ext_resource type="Texture2D" uid="uid://wwd6775bvvyu" path="res://art/UI/common/common_icon_land_02.png" id="14_51lje"]
 
 [node name="LandInfoPage" type="Panel"]
 anchors_preset = 15
@@ -39,40 +40,6 @@ patch_margin_left = 92
 patch_margin_top = 117
 patch_margin_right = 96
 patch_margin_bottom = 104
-
-[node name="title" type="NinePatchRect" parent="Content"]
-layout_mode = 0
-offset_left = -19.0
-offset_top = -29.0
-offset_right = 532.0
-offset_bottom = 86.0
-texture = ExtResource("2_8hkos")
-patch_margin_left = 175
-patch_margin_right = 196
-
-[node name="TextureRect" type="TextureRect" parent="Content/title"]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 24.0
-offset_top = -48.5
-offset_right = 119.0
-offset_bottom = 32.5
-grow_vertical = 2
-texture = ExtResource("3_dqqlf")
-
-[node name="Label" type="Label" parent="Content/title"]
-layout_mode = 0
-offset_left = 120.0
-offset_top = 33.0
-offset_right = 441.0
-offset_bottom = 75.0
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 10
-theme_override_fonts/font = ExtResource("4_1qone")
-theme_override_font_sizes/font_size = 34
-text = "Land Information"
 
 [node name="LandStatus" type="NinePatchRect" parent="Content"]
 layout_mode = 0
@@ -118,7 +85,42 @@ text = "Unoccupied"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="title" type="NinePatchRect" parent="Content"]
+layout_mode = 0
+offset_left = -19.0
+offset_top = -29.0
+offset_right = 532.0
+offset_bottom = 86.0
+texture = ExtResource("2_8hkos")
+patch_margin_left = 175
+patch_margin_right = 196
+
+[node name="TextureRect" type="TextureRect" parent="Content/title"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 24.0
+offset_top = -48.5
+offset_right = 119.0
+offset_bottom = 32.5
+grow_vertical = 2
+texture = ExtResource("3_dqqlf")
+
+[node name="Label" type="Label" parent="Content/title"]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 33.0
+offset_right = 441.0
+offset_bottom = 75.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("4_1qone")
+theme_override_font_sizes/font_size = 34
+text = "Land Information"
+
 [node name="UnocuppiedPanel" type="Panel" parent="Content"]
+visible = false
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 15
@@ -265,3 +267,27 @@ offset_right = 10.0
 offset_bottom = 53.5
 grow_horizontal = 0
 texture_normal = ExtResource("13_3l34r")
+
+[node name="OccupiedPanel" type="Panel" parent="Content"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Content/OccupiedPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -454.0
+offset_top = -154.5
+offset_right = -170.0
+offset_bottom = 154.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("14_51lje")
