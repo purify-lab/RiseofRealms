@@ -20,6 +20,10 @@ func OpenMyLandsPage(parent):
 	parent.add_child(t)
 	return t
 
+func OpenLandInfo(parent):
+	var t = land_info_page.instantiate()
+	parent.add_child(t)	
+	return t
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

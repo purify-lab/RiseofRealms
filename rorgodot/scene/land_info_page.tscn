@@ -1,6 +1,7 @@
-[gd_scene load_steps=31 format=3 uid="uid://bfldqieibwe4g"]
+[gd_scene load_steps=32 format=3 uid="uid://bfldqieibwe4g"]
 
 [ext_resource type="Texture2D" uid="uid://c3g4pmnnf07v5" path="res://art/UI/common/common_popup_frame_01.png" id="1_g5enh"]
+[ext_resource type="Script" path="res://scripts/UI/land_info_page.gd" id="1_rfhpt"]
 [ext_resource type="Texture2D" uid="uid://bmkfekfju2j8k" path="res://art/UI/common/common_popoup_title_01.png" id="2_8hkos"]
 [ext_resource type="Texture2D" uid="uid://qdmjbicjnfp" path="res://art/UI/common/common_title_icon_land.png" id="3_dqqlf"]
 [ext_resource type="FontFile" uid="uid://d26g6ohny0dmm" path="res://art/UI/font/Montserrat-Black.otf" id="4_1qone"]
@@ -37,6 +38,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_rfhpt")
 
 [node name="Content" type="NinePatchRect" parent="."]
 layout_mode = 1
@@ -271,18 +273,6 @@ theme_override_font_sizes/font_size = 30
 text = "Attack"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="BtnClose" type="TextureButton" parent="Content"]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -52.0
-offset_top = -11.5
-offset_right = 10.0
-offset_bottom = 53.5
-grow_horizontal = 0
-texture_normal = ExtResource("13_3l34r")
 
 [node name="OccupiedPanel" type="Panel" parent="Content"]
 self_modulate = Color(1, 1, 1, 0)
@@ -722,3 +712,15 @@ grow_vertical = 2
 theme_override_fonts/font = ExtResource("19_vbll0")
 theme_override_font_sizes/font_size = 22
 text = "2000"
+
+[node name="BtnClose" type="TextureButton" parent="Content"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -52.0
+offset_top = -11.5
+offset_right = 10.0
+offset_bottom = 53.5
+grow_horizontal = 0
+texture_normal = ExtResource("13_3l34r")

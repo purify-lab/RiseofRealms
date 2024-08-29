@@ -8,16 +8,20 @@ extends TextureButton
 var texture : NinePatchRect
 
 func OnMouseDown():
-	texture.texture = Pressed
+	if Pressed:
+		texture.texture = Pressed
 
 func OnMouseUp():
-	texture.texture = Normal
+	if Normal:
+		texture.texture = Normal
 
 func onMouseEnter():
-	texture.texture = Hover
+	if Hover:
+		texture.texture = Hover
 	
 func onMouseLeave():
-	texture.texture = Normal
+	if Normal:
+		texture.texture = Normal
 	
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
