@@ -7,7 +7,8 @@ extends Panel
 func _ready() -> void:
 	BtnBuySoldier.pressed.connect(self.OnBuySoldier)
 	BtnShowMyLands.pressed.connect(self.OnShowMyLands)
-	if not GameConfig.isDev:
+	print("OS: ", OS.get_name())
+	if not OS.get_name() == "Windows":
 		MudMgr.Setup()
 
 func OnBuySoldier():

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bx2vfu0oecevg"]
+[gd_scene load_steps=18 format=3 uid="uid://bx2vfu0oecevg"]
 
 [ext_resource type="Texture2D" uid="uid://c3g4pmnnf07v5" path="res://art/UI/common/common_popup_frame_01.png" id="1_05lfr"]
 [ext_resource type="Script" path="res://scripts/UI/buy_sodier_panel.gd" id="1_e73vb"]
@@ -11,7 +11,10 @@
 [ext_resource type="Texture2D" uid="uid://44ivxmrqwjx7" path="res://art/UI/soldier/Soldier_koight_A_n.png" id="9_mn666"]
 [ext_resource type="Texture2D" uid="uid://3wam7etjt308" path="res://art/UI/common/common_enterbox_01.png" id="9_nqnou"]
 [ext_resource type="Texture2D" uid="uid://w3vsn4hsx0c0" path="res://art/UI/common/common_button_blue_n-2.png" id="10_mgj8n"]
+[ext_resource type="Script" path="res://scripts/NineBtn.gd" id="11_2mdsp"]
 [ext_resource type="Texture2D" uid="uid://dnkd8tvc48vho" path="res://art/UI/common/common_button_close_n.png" id="12_6alde"]
+[ext_resource type="Texture2D" uid="uid://b5vhh8om57t2u" path="res://art/UI/common/common_button_blue_c-2.png" id="13_x5ykv"]
+[ext_resource type="Texture2D" uid="uid://cddp401q0gyqy" path="res://art/UI/common/common_button_blue_h-2.png" id="14_66h8g"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j4dy3"]
 
@@ -296,7 +299,7 @@ theme_override_fonts/font = ExtResource("4_h01bn")
 theme_override_font_sizes/font_size = 32
 text = "999999999"
 
-[node name="TextureButton" type="TextureButton" parent="Content"]
+[node name="BtnBuy" type="TextureButton" parent="Content"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -309,8 +312,13 @@ offset_right = 127.0
 offset_bottom = -48.0
 grow_horizontal = 2
 grow_vertical = 0
+script = ExtResource("11_2mdsp")
+Normal = ExtResource("10_mgj8n")
+Pressed = ExtResource("13_x5ykv")
+Hover = ExtResource("14_66h8g")
+image = NodePath("NinePatchRect")
 
-[node name="NinePatchRect" type="NinePatchRect" parent="Content/TextureButton"]
+[node name="NinePatchRect" type="NinePatchRect" parent="Content/BtnBuy"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -321,7 +329,7 @@ texture = ExtResource("10_mgj8n")
 patch_margin_left = 31
 patch_margin_right = 30
 
-[node name="Label" type="Label" parent="Content/TextureButton"]
+[node name="Label" type="Label" parent="Content/BtnBuy"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
