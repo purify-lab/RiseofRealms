@@ -97,8 +97,32 @@ contract TokenManagerSystem is System {
         GlobalStake.setLastStakeTime(block.timestamp);
     }
 
-    function claimRewardB(){
+    function unstakeB(uint256 amount){
+        //验证用户质押量是否足够提取
+        require(PlayerStake.getTokenB(msg.sender) >= amount, "Not enough B tokens to unstake.");
+        //先将上一阶段奖励发掉
+        claimRewardB();
+        //todo 收取手续费 需求待确认
+        //转移资产
+        IERC20(Addresses.TokenA).transferFrom(address(this), msg.sender, amount);
+        //修改个人质押数据
+        PlayerStake.setTokenB(msg.sender, PlayerStake.getTokenB(msg.sender) - amount);
+        //修改全局质押数据
+        GlobalStake.setTokenB(GlobalStake.getTokenB() - amount);
+    }
 
+    function claimRewardB(){
+        uint256 lastClaimedTime = PlayerStake.getLastRewardTimeB(msg.sender);
+        //先计算出奖励周期范围
+        uint256 timeDelta = block.timestamp - lastClaimedTime;
+        if (timeDelta > 0) {
+            //奖励金额 = 质押时间 * 每秒奖励金额 * 用户的质押占比
+            uint256 reward = timeDelta * GlobalStake.getPerSecondReward() * PlayerStake.getTokenB(msg.sender) / GlobalStake.getTokenB();
+            //发放资产
+            IERC20(Addresses.TokenB).transferFrom(address(this), msg.sender, reward);
+            //记录用户领奖时间
+            PlayerStake.setLastRewardTimeB(msg.sender, block.timestamp);
+        }
     }
 
 
