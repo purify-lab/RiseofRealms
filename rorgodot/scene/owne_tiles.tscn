@@ -35,6 +35,7 @@ patch_margin_right = 112
 patch_margin_bottom = 94
 
 [node name="title" type="NinePatchRect" parent="Content"]
+layout_mode = 0
 offset_left = -19.0
 offset_top = -28.0
 offset_right = 532.0

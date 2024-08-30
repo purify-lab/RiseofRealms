@@ -91,6 +91,7 @@ theme_override_font_sizes/font_size = 20
 text = "Infantry"
 
 [node name="NinePatchRect" type="NinePatchRect" parent="Bg/Item1"]
+layout_mode = 0
 offset_left = 17.0
 offset_top = 233.0
 offset_right = 162.0
@@ -140,6 +141,7 @@ theme_override_font_sizes/font_size = 20
 text = "Cavalry"
 
 [node name="NinePatchRect" type="NinePatchRect" parent="Bg/Item2"]
+layout_mode = 0
 offset_left = 17.0
 offset_top = 233.0
 offset_right = 162.0

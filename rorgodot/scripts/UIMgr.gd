@@ -23,6 +23,7 @@ func OpenMyLandsPage(parent):
 func OpenLandInfo(parent):
 	var t = land_info_page.instantiate()
 	parent.add_child(t)	
+	t.OpenAnim()
 	return t
 
 

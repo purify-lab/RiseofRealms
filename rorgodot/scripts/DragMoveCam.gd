@@ -26,7 +26,8 @@ func _unhandled_input(event):
 			var t = get_global_mouse_position()
 			var coord = MapDrawer.SnapToHexGrid(t)
 			#MapDrawer.PlaceBuildingOnTile(coord)
-			UiMgr.OpenLandInfo($"../CanvasLayer")
+			var page = UiMgr.OpenLandInfo($"../CanvasLayer")
+			page.SetLocation(coord)
 			print("Mouse Clicked At: ", t, coord)
 			
 	if event is InputEventMouseMotion and is_dragging:

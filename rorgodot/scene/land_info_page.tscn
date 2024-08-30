@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://bfldqieibwe4g"]
+[gd_scene load_steps=38 format=3 uid="uid://bfldqieibwe4g"]
 
 [ext_resource type="Texture2D" uid="uid://c3g4pmnnf07v5" path="res://art/UI/common/common_popup_frame_01.png" id="1_g5enh"]
 [ext_resource type="Script" path="res://scripts/UI/land_info_page.gd" id="1_rfhpt"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://u8qp0upluffc" path="res://art/UI/common/common_home_date_frame.png" id="5_2rvbu"]
 [ext_resource type="Texture2D" uid="uid://e0b1d0812da" path="res://art/UI/common/common_icon_occupied.png" id="6_ei40i"]
 [ext_resource type="Texture2D" uid="uid://dmm6oy5ubo245" path="res://art/UI/common/common_icon_land_03.png" id="7_xi8x2"]
+[ext_resource type="Script" path="res://scripts/UI/unocuppied_panel.gd" id="8_fdqq8"]
 [ext_resource type="Texture2D" uid="uid://c520fw4wah1tu" path="res://art/UI/common/common_icon_defense.png" id="8_i22m1"]
 [ext_resource type="Texture2D" uid="uid://jwyeu43rnit5" path="res://art/UI/common/common_progress_01_empty.png" id="9_lewec"]
 [ext_resource type="Texture2D" uid="uid://cegf0lb0w7t6o" path="res://art/UI/common/common_progress_01_full.png" id="10_clqws"]
@@ -15,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://do3wi5ddjgddh" path="res://art/UI/common/common_button_blue_n-1.png" id="12_esnxp"]
 [ext_resource type="Texture2D" uid="uid://dnkd8tvc48vho" path="res://art/UI/common/common_button_close_n.png" id="13_3l34r"]
 [ext_resource type="Texture2D" uid="uid://wwd6775bvvyu" path="res://art/UI/common/common_icon_land_02.png" id="14_51lje"]
+[ext_resource type="Script" path="res://scripts/UI/occupied_panel.gd" id="15_dthv6"]
 [ext_resource type="Texture2D" uid="uid://dhcclioe5cw3j" path="res://art/UI/common/common_icon_position.png" id="15_nv82t"]
 [ext_resource type="Script" path="res://scripts/UI/SetCoords.gd" id="16_ppkrk"]
 [ext_resource type="Texture2D" uid="uid://c7brdejtjrewf" path="res://art/UI/common/common_popup_date_frame_01.png" id="17_s4ggh"]
@@ -32,6 +34,159 @@
 [ext_resource type="Texture2D" uid="uid://bvveyr3clysit" path="res://art/UI/common/common_button_out_h.png" id="25_s24qk"]
 [ext_resource type="Texture2D" uid="uid://dpv0i4d6rr43a" path="res://art/UI/common/common_coin_C_s.png" id="29_u0fhm"]
 
+[sub_resource type="Animation" id="Animation_ayyxm"]
+resource_name = "open"
+length = 0.4
+step = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Content:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.154, 0.251),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.25, 0.25), Vector2(1.25, 1.25), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Content:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.053, 0.248),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.117647), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Content/UnocuppiedPanel/TextureRect:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.23, 0.367),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Content/OccupiedPanel/TextureRect:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.238, 0.375),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_11qla"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Content:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Content:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Content/UnocuppiedPanel/TextureRect:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Content/OccupiedPanel/TextureRect:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_j8fgd"]
+resource_name = "close"
+step = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Content:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.119, 0.234),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.25, 1.25), Vector2(0.5, 0.5)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Content:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.004, 0.224),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.443137)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.266),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"onClose"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xk3mr"]
+_data = {
+"RESET": SubResource("Animation_11qla"),
+"close": SubResource("Animation_j8fgd"),
+"open": SubResource("Animation_ayyxm")
+}
+
 [node name="LandInfoPage" type="Panel"]
 anchors_preset = 15
 anchor_right = 1.0
@@ -47,12 +202,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -559.0
+offset_left = -558.0
 offset_top = -329.5
-offset_right = 559.0
+offset_right = 560.0
 offset_bottom = 329.5
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(559, 329)
 texture = ExtResource("1_g5enh")
 patch_margin_left = 92
 patch_margin_top = 117
@@ -138,7 +294,6 @@ theme_override_font_sizes/font_size = 34
 text = "Land Information"
 
 [node name="UnocuppiedPanel" type="Panel" parent="Content"]
-visible = false
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 15
@@ -146,8 +301,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("8_fdqq8")
 
 [node name="TextureRect" type="TextureRect" parent="Content/UnocuppiedPanel"]
+layout_mode = 0
 offset_left = 104.0
 offset_top = 192.0
 offset_right = 406.0
@@ -275,6 +432,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="OccupiedPanel" type="Panel" parent="Content"]
+visible = false
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 15
@@ -282,6 +440,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("15_dthv6")
 
 [node name="TextureRect" type="TextureRect" parent="Content/OccupiedPanel"]
 layout_mode = 1
@@ -342,6 +501,7 @@ grow_vertical = 2
 texture = ExtResource("8_i22m1")
 
 [node name="DefenceProgress" type="TextureProgressBar" parent="Content/OccupiedPanel"]
+layout_mode = 0
 offset_left = 563.0
 offset_top = 116.0
 offset_right = 1005.0
@@ -724,3 +884,36 @@ offset_right = 10.0
 offset_bottom = 53.5
 grow_horizontal = 0
 texture_normal = ExtResource("13_3l34r")
+
+[node name="loc" type="TextureRect" parent="Content"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -942.0
+offset_top = 483.5
+offset_right = -917.0
+offset_bottom = 514.5
+grow_horizontal = 0
+texture = ExtResource("15_nv82t")
+stretch_mode = 2
+script = ExtResource("16_ppkrk")
+
+[node name="Label" type="Label" parent="Content/loc"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 32.0
+offset_top = -11.5
+offset_right = 72.0
+offset_bottom = 11.5
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_1qone")
+theme_override_font_sizes/font_size = 32
+text = "123,123"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_xk3mr")
+}

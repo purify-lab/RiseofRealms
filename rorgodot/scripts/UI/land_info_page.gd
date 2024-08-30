@@ -6,14 +6,29 @@ extends Panel
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	BtnClose.connect("pressed", self.onClose)
+	BtnClose.connect("pressed", CloseAnim)
 
 func onClose():
-	print("Close")
 	queue_free()
+
+func OpenAnim():
+	$AnimationPlayer.play("open")
+
+func CloseAnim():
+	$AnimationPlayer.play("close")
+	
+func SetLocation(pos):
+	$Content/loc.SetTilePos(pos)
+	
 	
 func InitData(data):
-	pass
+	if data:
+		UnocuppiedPanel.visible = false
+		OccupiedPanel.visible = true
+	else:
+		UnocuppiedPanel.visible = true
+		OccupiedPanel.visible = false
+		
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
