@@ -1,18 +1,191 @@
-[gd_scene load_steps=14 format=3 uid="uid://bfldqieibwe4g"]
+[gd_scene load_steps=38 format=3 uid="uid://bfldqieibwe4g"]
 
 [ext_resource type="Texture2D" uid="uid://c3g4pmnnf07v5" path="res://art/UI/common/common_popup_frame_01.png" id="1_g5enh"]
+[ext_resource type="Script" path="res://scripts/UI/land_info_page.gd" id="1_rfhpt"]
 [ext_resource type="Texture2D" uid="uid://bmkfekfju2j8k" path="res://art/UI/common/common_popoup_title_01.png" id="2_8hkos"]
 [ext_resource type="Texture2D" uid="uid://qdmjbicjnfp" path="res://art/UI/common/common_title_icon_land.png" id="3_dqqlf"]
 [ext_resource type="FontFile" uid="uid://d26g6ohny0dmm" path="res://art/UI/font/Montserrat-Black.otf" id="4_1qone"]
 [ext_resource type="Texture2D" uid="uid://u8qp0upluffc" path="res://art/UI/common/common_home_date_frame.png" id="5_2rvbu"]
 [ext_resource type="Texture2D" uid="uid://e0b1d0812da" path="res://art/UI/common/common_icon_occupied.png" id="6_ei40i"]
 [ext_resource type="Texture2D" uid="uid://dmm6oy5ubo245" path="res://art/UI/common/common_icon_land_03.png" id="7_xi8x2"]
+[ext_resource type="Script" path="res://scripts/UI/unocuppied_panel.gd" id="8_fdqq8"]
 [ext_resource type="Texture2D" uid="uid://c520fw4wah1tu" path="res://art/UI/common/common_icon_defense.png" id="8_i22m1"]
 [ext_resource type="Texture2D" uid="uid://jwyeu43rnit5" path="res://art/UI/common/common_progress_01_empty.png" id="9_lewec"]
 [ext_resource type="Texture2D" uid="uid://cegf0lb0w7t6o" path="res://art/UI/common/common_progress_01_full.png" id="10_clqws"]
 [ext_resource type="Texture2D" uid="uid://cxi8ajh2p6nwu" path="res://art/UI/common/common_icon_coin_s.png" id="11_3yk4u"]
 [ext_resource type="Texture2D" uid="uid://do3wi5ddjgddh" path="res://art/UI/common/common_button_blue_n-1.png" id="12_esnxp"]
 [ext_resource type="Texture2D" uid="uid://dnkd8tvc48vho" path="res://art/UI/common/common_button_close_n.png" id="13_3l34r"]
+[ext_resource type="Texture2D" uid="uid://wwd6775bvvyu" path="res://art/UI/common/common_icon_land_02.png" id="14_51lje"]
+[ext_resource type="Script" path="res://scripts/UI/occupied_panel.gd" id="15_dthv6"]
+[ext_resource type="Texture2D" uid="uid://dhcclioe5cw3j" path="res://art/UI/common/common_icon_position.png" id="15_nv82t"]
+[ext_resource type="Script" path="res://scripts/UI/SetCoords.gd" id="16_ppkrk"]
+[ext_resource type="Texture2D" uid="uid://c7brdejtjrewf" path="res://art/UI/common/common_popup_date_frame_01.png" id="17_s4ggh"]
+[ext_resource type="Texture2D" uid="uid://c83q6gsc6s2qb" path="res://art/UI/common/common_coin_B_s.png" id="18_d03wj"]
+[ext_resource type="Texture2D" uid="uid://cpq1fd2s4e7se" path="res://art/UI/soldier/Soldier_warrior_A_avatar_n.png" id="18_jppm8"]
+[ext_resource type="Texture2D" uid="uid://1jnu45qw68j4" path="res://art/UI/soldier/Soldier_knight_A_avatar_n.png" id="19_j46fe"]
+[ext_resource type="FontFile" uid="uid://dckl122n5h7by" path="res://art/UI/font/Montserrat-SemiBold.otf" id="19_vbll0"]
+[ext_resource type="Texture2D" uid="uid://bsmctav464y6" path="res://art/UI/common/common_button_blue_n.png" id="20_lwo5e"]
+[ext_resource type="Texture2D" uid="uid://j063beqj33gf" path="res://art/UI/common/common_button_add_n.png" id="20_o0gkp"]
+[ext_resource type="Script" path="res://scripts/NineBtn.gd" id="20_uy5s6"]
+[ext_resource type="Texture2D" uid="uid://ckt7rwngk1tdm" path="res://art/UI/common/common_button_add_c.png" id="21_6gu4c"]
+[ext_resource type="Texture2D" uid="uid://d00uxha5nc0dv" path="res://art/UI/common/common_button_add_h.png" id="22_i4awt"]
+[ext_resource type="Texture2D" uid="uid://bwh85frg8uapp" path="res://art/UI/common/common_button_out_n.png" id="23_vevqr"]
+[ext_resource type="Texture2D" uid="uid://drst27nhhofc1" path="res://art/UI/common/common_button_out_c.png" id="24_smxtj"]
+[ext_resource type="Texture2D" uid="uid://bvveyr3clysit" path="res://art/UI/common/common_button_out_h.png" id="25_s24qk"]
+[ext_resource type="Texture2D" uid="uid://dpv0i4d6rr43a" path="res://art/UI/common/common_coin_C_s.png" id="29_u0fhm"]
+
+[sub_resource type="Animation" id="Animation_ayyxm"]
+resource_name = "open"
+length = 0.4
+step = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Content:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.154, 0.251),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.25, 0.25), Vector2(1.25, 1.25), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Content:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.053, 0.248),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.117647), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Content/UnocuppiedPanel/TextureRect:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.23, 0.367),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Content/OccupiedPanel/TextureRect:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.238, 0.375),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_11qla"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Content:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Content:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Content/UnocuppiedPanel/TextureRect:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Content/OccupiedPanel/TextureRect:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_j8fgd"]
+resource_name = "close"
+step = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Content:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.119, 0.234),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.25, 1.25), Vector2(0.5, 0.5)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Content:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.004, 0.224),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.443137)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.266),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"onClose"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xk3mr"]
+_data = {
+"RESET": SubResource("Animation_11qla"),
+"close": SubResource("Animation_j8fgd"),
+"open": SubResource("Animation_ayyxm")
+}
 
 [node name="LandInfoPage" type="Panel"]
 anchors_preset = 15
@@ -20,6 +193,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_rfhpt")
 
 [node name="Content" type="NinePatchRect" parent="."]
 layout_mode = 1
@@ -28,51 +202,18 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -559.0
+offset_left = -558.0
 offset_top = -329.5
-offset_right = 559.0
+offset_right = 560.0
 offset_bottom = 329.5
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(559, 329)
 texture = ExtResource("1_g5enh")
 patch_margin_left = 92
 patch_margin_top = 117
 patch_margin_right = 96
 patch_margin_bottom = 104
-
-[node name="title" type="NinePatchRect" parent="Content"]
-layout_mode = 0
-offset_left = -19.0
-offset_top = -29.0
-offset_right = 532.0
-offset_bottom = 86.0
-texture = ExtResource("2_8hkos")
-patch_margin_left = 175
-patch_margin_right = 196
-
-[node name="TextureRect" type="TextureRect" parent="Content/title"]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 24.0
-offset_top = -48.5
-offset_right = 119.0
-offset_bottom = 32.5
-grow_vertical = 2
-texture = ExtResource("3_dqqlf")
-
-[node name="Label" type="Label" parent="Content/title"]
-layout_mode = 0
-offset_left = 120.0
-offset_top = 33.0
-offset_right = 441.0
-offset_bottom = 75.0
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 10
-theme_override_fonts/font = ExtResource("4_1qone")
-theme_override_font_sizes/font_size = 34
-text = "Land Information"
 
 [node name="LandStatus" type="NinePatchRect" parent="Content"]
 layout_mode = 0
@@ -118,6 +259,40 @@ text = "Unoccupied"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="title" type="NinePatchRect" parent="Content"]
+layout_mode = 0
+offset_left = -19.0
+offset_top = -29.0
+offset_right = 532.0
+offset_bottom = 86.0
+texture = ExtResource("2_8hkos")
+patch_margin_left = 175
+patch_margin_right = 196
+
+[node name="TextureRect" type="TextureRect" parent="Content/title"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 24.0
+offset_top = -48.5
+offset_right = 119.0
+offset_bottom = 32.5
+grow_vertical = 2
+texture = ExtResource("3_dqqlf")
+
+[node name="Label" type="Label" parent="Content/title"]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 33.0
+offset_right = 441.0
+offset_bottom = 75.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("4_1qone")
+theme_override_font_sizes/font_size = 34
+text = "Land Information"
+
 [node name="UnocuppiedPanel" type="Panel" parent="Content"]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 1
@@ -126,8 +301,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("8_fdqq8")
 
 [node name="TextureRect" type="TextureRect" parent="Content/UnocuppiedPanel"]
+layout_mode = 0
 offset_left = 104.0
 offset_top = 192.0
 offset_right = 406.0
@@ -254,6 +431,448 @@ text = "Attack"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="OccupiedPanel" type="Panel" parent="Content"]
+visible = false
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("15_dthv6")
+
+[node name="TextureRect" type="TextureRect" parent="Content/OccupiedPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -454.0
+offset_top = -154.5
+offset_right = -170.0
+offset_bottom = 154.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("14_51lje")
+
+[node name="loc" type="TextureRect" parent="Content/OccupiedPanel"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -949.0
+offset_top = 480.0
+offset_right = -924.0
+offset_bottom = 511.0
+grow_horizontal = 0
+texture = ExtResource("15_nv82t")
+stretch_mode = 2
+script = ExtResource("16_ppkrk")
+
+[node name="Label" type="Label" parent="Content/OccupiedPanel/loc"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 32.0
+offset_top = -11.5
+offset_right = 72.0
+offset_bottom = 11.5
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_1qone")
+theme_override_font_sizes/font_size = 32
+text = "123,123"
+
+[node name="DefIcon" type="TextureRect" parent="Content/OccupiedPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -52.0
+offset_top = -214.5
+offset_right = -12.0
+offset_bottom = -169.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_i22m1")
+
+[node name="DefenceProgress" type="TextureProgressBar" parent="Content/OccupiedPanel"]
+layout_mode = 0
+offset_left = 563.0
+offset_top = 116.0
+offset_right = 1005.0
+offset_bottom = 152.0
+value = 12.0
+nine_patch_stretch = true
+stretch_margin_left = 15
+stretch_margin_top = 5
+stretch_margin_right = 15
+stretch_margin_bottom = 5
+texture_under = ExtResource("9_lewec")
+texture_progress = ExtResource("10_clqws")
+
+[node name="Label" type="Label" parent="Content/OccupiedPanel/DefenceProgress"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("4_1qone")
+theme_override_font_sizes/font_size = 20
+text = "Defence: 13/2000
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="Content/OccupiedPanel"]
+layout_mode = 0
+offset_left = 557.0
+offset_top = 171.5
+offset_right = 765.0
+offset_bottom = 202.5
+theme_override_colors/font_color = Color(0.783641, 0.868386, 0.988728, 1)
+theme_override_fonts/font = ExtResource("4_1qone")
+theme_override_font_sizes/font_size = 24
+text = "Defense Forces:"
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Content/OccupiedPanel"]
+layout_mode = 0
+offset_left = 514.0
+offset_top = 213.0
+offset_right = 999.0
+offset_bottom = 370.0
+texture = ExtResource("17_s4ggh")
+patch_margin_left = 20
+patch_margin_top = 22
+patch_margin_right = 19
+patch_margin_bottom = 21
+
+[node name="Soldier1" type="TextureRect" parent="Content/OccupiedPanel/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 16.0
+offset_top = -71.0
+offset_right = 122.0
+offset_bottom = 39.0
+grow_vertical = 2
+texture = ExtResource("18_jppm8")
+stretch_mode = 2
+
+[node name="Label" type="Label" parent="Content/OccupiedPanel/NinePatchRect/Soldier1"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = 9.0
+offset_right = 20.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("4_1qone")
+theme_override_font_sizes/font_size = 24
+text = "1000"
+
+[node name="Soldier2" type="TextureRect" parent="Content/OccupiedPanel/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 144.0
+offset_top = -71.0
+offset_right = 250.0
+offset_bottom = 39.0
+grow_vertical = 2
+texture = ExtResource("19_j46fe")
+stretch_mode = 2
+
+[node name="Label" type="Label" parent="Content/OccupiedPanel/NinePatchRect/Soldier2"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = 9.0
+offset_right = 20.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("4_1qone")
+theme_override_font_sizes/font_size = 24
+text = "1000"
+
+[node name="BtnReinforce" type="TextureButton" parent="Content/OccupiedPanel/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -202.0
+offset_top = -35.5
+offset_right = -24.0
+offset_bottom = 35.5
+grow_horizontal = 0
+grow_vertical = 2
+script = ExtResource("20_uy5s6")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Content/OccupiedPanel/NinePatchRect/BtnReinforce"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("20_lwo5e")
+patch_margin_left = 28
+patch_margin_right = 34
+
+[node name="Label" type="Label" parent="Content/OccupiedPanel/NinePatchRect/BtnReinforce"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0.0139311, 0.226804, 0.546834, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("4_1qone")
+theme_override_font_sizes/font_size = 22
+text = "Reinforce"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Curreny1" type="NinePatchRect" parent="Content/OccupiedPanel"]
+layout_mode = 0
+offset_left = 515.0
+offset_top = 381.0
+offset_right = 999.0
+offset_bottom = 442.0
+texture = ExtResource("17_s4ggh")
+patch_margin_left = 20
+patch_margin_top = 22
+patch_margin_right = 19
+patch_margin_bottom = 21
+
+[node name="TextureRect" type="TextureRect" parent="Content/OccupiedPanel/Curreny1"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 16.0
+offset_top = -20.5
+offset_right = 55.0
+offset_bottom = 21.5
+grow_vertical = 2
+texture = ExtResource("18_d03wj")
+stretch_mode = 2
+
+[node name="Label" type="Label" parent="Content/OccupiedPanel/Curreny1"]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 7.0
+offset_right = 271.0
+offset_bottom = 30.0
+theme_override_colors/font_color = Color(0.662745, 0.796078, 0.992157, 1)
+theme_override_fonts/font = ExtResource("19_vbll0")
+theme_override_font_sizes/font_size = 18
+text = "Pledged currency B"
+
+[node name="Num" type="Label" parent="Content/OccupiedPanel/Curreny1"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 83.0
+offset_top = -1.0
+offset_right = 140.0
+offset_bottom = 27.0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("19_vbll0")
+theme_override_font_sizes/font_size = 22
+text = "2000"
+
+[node name="BtnAdd" type="TextureButton" parent="Content/OccupiedPanel/Curreny1"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -154.0
+offset_top = -21.5
+offset_right = -112.0
+offset_bottom = 21.5
+grow_horizontal = 0
+grow_vertical = 2
+texture_normal = ExtResource("20_o0gkp")
+texture_pressed = ExtResource("21_6gu4c")
+texture_hover = ExtResource("22_i4awt")
+
+[node name="BtnOut" type="TextureButton" parent="Content/OccupiedPanel/Curreny1"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -74.0
+offset_top = -21.5
+offset_right = -32.0
+offset_bottom = 21.5
+grow_horizontal = 0
+grow_vertical = 2
+texture_normal = ExtResource("23_vevqr")
+texture_pressed = ExtResource("24_smxtj")
+texture_hover = ExtResource("25_s24qk")
+
+[node name="Curreny2" type="NinePatchRect" parent="Content/OccupiedPanel"]
+layout_mode = 0
+offset_left = 516.0
+offset_top = 453.0
+offset_right = 999.0
+offset_bottom = 514.0
+texture = ExtResource("17_s4ggh")
+patch_margin_left = 20
+patch_margin_top = 22
+patch_margin_right = 19
+patch_margin_bottom = 21
+
+[node name="TextureRect" type="TextureRect" parent="Content/OccupiedPanel/Curreny2"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 16.0
+offset_top = -20.5
+offset_right = 55.0
+offset_bottom = 21.5
+grow_vertical = 2
+texture = ExtResource("29_u0fhm")
+stretch_mode = 2
+
+[node name="Label" type="Label" parent="Content/OccupiedPanel/Curreny2"]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 7.0
+offset_right = 271.0
+offset_bottom = 30.0
+theme_override_colors/font_color = Color(0.662745, 0.796078, 0.992157, 1)
+theme_override_fonts/font = ExtResource("19_vbll0")
+theme_override_font_sizes/font_size = 18
+text = "Pledged currency C"
+
+[node name="Num" type="Label" parent="Content/OccupiedPanel/Curreny2"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 83.0
+offset_top = -1.0
+offset_right = 140.0
+offset_bottom = 27.0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("19_vbll0")
+theme_override_font_sizes/font_size = 22
+text = "2000"
+
+[node name="BtnAdd" type="TextureButton" parent="Content/OccupiedPanel/Curreny2"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -154.0
+offset_top = -21.5
+offset_right = -112.0
+offset_bottom = 21.5
+grow_horizontal = 0
+grow_vertical = 2
+texture_normal = ExtResource("20_o0gkp")
+texture_pressed = ExtResource("21_6gu4c")
+texture_hover = ExtResource("22_i4awt")
+
+[node name="BtnOut" type="TextureButton" parent="Content/OccupiedPanel/Curreny2"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -74.0
+offset_top = -21.5
+offset_right = -32.0
+offset_bottom = 21.5
+grow_horizontal = 0
+grow_vertical = 2
+texture_normal = ExtResource("23_vevqr")
+texture_pressed = ExtResource("24_smxtj")
+texture_hover = ExtResource("25_s24qk")
+
+[node name="Curreny3" type="NinePatchRect" parent="Content/OccupiedPanel"]
+layout_mode = 0
+offset_left = 516.0
+offset_top = 524.0
+offset_right = 999.0
+offset_bottom = 585.0
+texture = ExtResource("17_s4ggh")
+patch_margin_left = 20
+patch_margin_top = 22
+patch_margin_right = 19
+patch_margin_bottom = 21
+
+[node name="TextureRect" type="TextureRect" parent="Content/OccupiedPanel/Curreny3"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 16.0
+offset_top = -20.5
+offset_right = 55.0
+offset_bottom = 21.5
+grow_vertical = 2
+texture = ExtResource("11_3yk4u")
+stretch_mode = 2
+
+[node name="Label" type="Label" parent="Content/OccupiedPanel/Curreny3"]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 7.0
+offset_right = 271.0
+offset_bottom = 30.0
+theme_override_colors/font_color = Color(0.662745, 0.796078, 0.992157, 1)
+theme_override_fonts/font = ExtResource("19_vbll0")
+theme_override_font_sizes/font_size = 18
+text = "Gold Coin Output"
+
+[node name="Num" type="Label" parent="Content/OccupiedPanel/Curreny3"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 83.0
+offset_top = -1.0
+offset_right = 140.0
+offset_bottom = 27.0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("19_vbll0")
+theme_override_font_sizes/font_size = 22
+text = "2000"
+
 [node name="BtnClose" type="TextureButton" parent="Content"]
 layout_mode = 1
 anchors_preset = 1
@@ -265,3 +884,36 @@ offset_right = 10.0
 offset_bottom = 53.5
 grow_horizontal = 0
 texture_normal = ExtResource("13_3l34r")
+
+[node name="loc" type="TextureRect" parent="Content"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -942.0
+offset_top = 483.5
+offset_right = -917.0
+offset_bottom = 514.5
+grow_horizontal = 0
+texture = ExtResource("15_nv82t")
+stretch_mode = 2
+script = ExtResource("16_ppkrk")
+
+[node name="Label" type="Label" parent="Content/loc"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 32.0
+offset_top = -11.5
+offset_right = 72.0
+offset_bottom = 11.5
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_1qone")
+theme_override_font_sizes/font_size = 32
+text = "123,123"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_xk3mr")
+}

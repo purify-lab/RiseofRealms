@@ -8,13 +8,37 @@ var tileSize = 45.0
 var HalfSize = tileSize / 2.0
 var SideRadius
 
+#当前生成的ID
+var nowId = 1
+
 #地图大小六边形边界 递归深度
 var mapSize = 60
 
+#地块场景
 var tileScene = preload("res://scene/tile.tscn")
+
+#建筑场景
+var buildingScene = preload("res://scene/building.tscn")
+
+#地图根节点
 var GameNode
 
+# 根据场景内的坐标获得Hex坐标
+func SnapToHexGrid(pos):
+	var q = roundi((sqrt(3.0) / 3.0 * pos.x + pos.y / 3.0) / tileSize)
+	var r = -roundi((2.0 / 3.0 * pos.y) / tileSize)
+	var s = -q - r
+	var res = Vector3i(q, r, s)
+	return res
+
+#坐标地块对应字典 生成过程会作为检查重复的依据
 var Maps = {}
+
+#Id地块对应字典
+var TileByID = {}
+
+#坐标地块对应字典
+var TileByPos = {}
 
 func Init(_game_node):
 	SideRadius = HalfSize * sqrt(3.0)
@@ -29,17 +53,34 @@ func Init(_game_node):
 func GetScenePosByCoords(coords):
 	var t = qAxies * coords.x + rAxies * coords.y + sAxies * coords.z
 	return Vector2(t.x, t.z)
+
+func PlaceBuildingOnTile(pos):
+	var scene_pos = GetScenePosByCoords(pos)
+	var t = buildingScene.instantiate()
+	t.set_position(scene_pos)
+	GameNode.add_child(t)
 	
+	return t
+	
+#生成一个单块Tile
 func create_tile(pos):
 	var new_tile = tileScene.instantiate()
 	var scene_pos = GetScenePosByCoords(pos)
 	new_tile.SetCoord(pos)
+	new_tile.SetId(nowId)
+	
+	TileByID[nowId] = new_tile
+	TileByPos[pos] = new_tile
+	nowId = nowId + 1
 	new_tile.set_position(scene_pos)
 	GameNode.add_child(new_tile)
 	return new_tile
 	
 func create():
 	Maps = {}
+	TileByID = {}
+	TileByPos = {}
+	nowId = 1
 	var start = create_tile(Vector3i(0, 0, 0))
 	var open = []
 	open.append(start)
@@ -58,8 +99,6 @@ func create():
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	print("MapDrawer is Ready")
-
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

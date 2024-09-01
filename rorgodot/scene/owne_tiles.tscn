@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://bkhp3r24qiwsk"]
+[gd_scene load_steps=7 format=3 uid="uid://bkhp3r24qiwsk"]
 
 [ext_resource type="Texture2D" uid="uid://c3g4pmnnf07v5" path="res://art/UI/common/common_popup_frame_01.png" id="1_ro1ss"]
+[ext_resource type="Script" path="res://scripts/UI/owne_tiles.gd" id="1_u0xdd"]
 [ext_resource type="Texture2D" uid="uid://bmkfekfju2j8k" path="res://art/UI/common/common_popoup_title_01.png" id="2_kredh"]
 [ext_resource type="FontFile" uid="uid://d26g6ohny0dmm" path="res://art/UI/font/Montserrat-Black.otf" id="4_20ded"]
 [ext_resource type="Texture2D" uid="uid://csnf5lskouimf" path="res://art/UI/common/common_icon_land_01.png" id="4_wviiy"]
+[ext_resource type="Texture2D" uid="uid://dnkd8tvc48vho" path="res://art/UI/common/common_button_close_n.png" id="5_yrmjr"]
 
 [node name="OwneTiles" type="Panel"]
 anchors_preset = 15
@@ -11,6 +13,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_u0xdd")
 
 [node name="Content" type="NinePatchRect" parent="."]
 layout_mode = 1
@@ -32,6 +35,7 @@ patch_margin_right = 112
 patch_margin_bottom = 94
 
 [node name="title" type="NinePatchRect" parent="Content"]
+layout_mode = 0
 offset_left = -19.0
 offset_top = -28.0
 offset_right = 532.0
@@ -89,3 +93,15 @@ grow_vertical = 2
 [node name="GridContainer" type="GridContainer" parent="Content/ScrollContainer"]
 layout_mode = 2
 columns = 2
+
+[node name="BtnClose" type="TextureButton" parent="Content"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -52.0
+offset_top = -12.0
+offset_right = 10.0
+offset_bottom = 53.0
+grow_horizontal = 0
+texture_normal = ExtResource("5_yrmjr")

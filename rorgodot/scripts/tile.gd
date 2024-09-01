@@ -3,6 +3,7 @@ extends Node2D
 @onready var sprite = $Sprite2D
 
 var coord
+var id = -1
 
 @export var texture : Array[Texture2D]
 
@@ -18,6 +19,10 @@ func GetNeighbours():
 	
 func SetCoord(pos):
 	coord = pos
+	
+func SetId(Id):
+	id = Id
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	sprite.texture = texture[randi_range(0, texture.size() - 1)]

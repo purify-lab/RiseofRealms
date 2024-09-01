@@ -22,7 +22,14 @@ func _unhandled_input(event):
 				last_mouse_position = event.position
 			else:
 				is_dragging = false
-
+		if event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+			var t = get_global_mouse_position()
+			var coord = MapDrawer.SnapToHexGrid(t)
+			#MapDrawer.PlaceBuildingOnTile(coord)
+			var page = UiMgr.OpenLandInfo($"../CanvasLayer")
+			page.SetLocation(coord)
+			print("Mouse Clicked At: ", t, coord)
+			
 	if event is InputEventMouseMotion and is_dragging:
 		# 计算鼠标移动的偏移量
 		var delta = event.position - last_mouse_position

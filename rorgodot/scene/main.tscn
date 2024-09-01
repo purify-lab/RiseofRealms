@@ -1,6 +1,6 @@
 [gd_scene load_steps=37 format=3 uid="uid://cy0pn8wrtole5"]
 
-[ext_resource type="Texture2D" uid="uid://mceu26oo2tda" path="res://art/Game/TaV0dga.jpeg" id="1_t4p18"]
+[ext_resource type="Script" path="res://scripts/UI/hud.gd" id="2_4qf0b"]
 [ext_resource type="Texture2D" uid="uid://cdyeyjsa1kt40" path="res://art/UI/common/common_top_frame.png" id="2_yvpgi"]
 [ext_resource type="Texture2D" uid="uid://cqgky4d5306j8" path="res://art/UI/common/common_top_date_frame.png" id="3_448d2"]
 [ext_resource type="Texture2D" uid="uid://q78ivpcw7jlr" path="res://art/UI/common/common_icon_wallet.png" id="4_ijwae"]
@@ -41,15 +41,6 @@
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
-visible = false
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("1_t4p18")
-
 [node name="Hud" type="Panel" parent="CanvasLayer"]
 self_modulate = Color(1, 1, 1, 0)
 anchors_preset = 15
@@ -58,6 +49,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+script = ExtResource("2_4qf0b")
 
 [node name="Top" type="NinePatchRect" parent="CanvasLayer/Hud"]
 layout_mode = 1
@@ -160,7 +152,7 @@ grow_vertical = 2
 texture = ExtResource("7_xsnea")
 stretch_mode = 2
 
-[node name="BtnCopyAddress" type="TextureButton" parent="CanvasLayer/Hud/Top/Lands"]
+[node name="BtnShowMyLands" type="TextureButton" parent="CanvasLayer/Hud/Top/Lands"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -285,7 +277,7 @@ grow_vertical = 2
 texture = ExtResource("12_dwrav")
 stretch_mode = 2
 
-[node name="BtnCopyAddress" type="TextureButton" parent="CanvasLayer/Hud/Top/Soldier"]
+[node name="BtnBuySoldier" type="TextureButton" parent="CanvasLayer/Hud/Top/Soldier"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
