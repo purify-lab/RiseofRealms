@@ -96,6 +96,11 @@ class MudLib {
       this.army_updated(JSON.stringify(update))
     });
 
+    components.BattleReport.update$.subscribe((update) => {
+      console.log("BattleReport updated", update)
+      this.battle_report_updated(JSON.stringify(update))
+    })
+
     network.storedBlockLogs$.subscribe((update) => {
       console.log("Stored block logs", update)
       this.stored_block_logs(JSON.stringify(update))
@@ -120,6 +125,9 @@ class MudLib {
   }
 
   army_updated(update: any) {
+  }
+
+  battle_report_updated(update:any){
   }
 
   stored_block_logs(update: any) {
