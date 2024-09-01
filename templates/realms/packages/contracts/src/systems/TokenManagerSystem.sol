@@ -125,5 +125,61 @@ contract TokenManagerSystem is System {
         }
     }
 
+    function ultraMintTokenB(uint256 net_value, uint256 stake_reward) public {
+        IToken(Addresses.TokenB).mint(address(this), net_value);
+
+        IUniswapV2Router02 router = IUniswapV2Router02(Addresses.UniswapV2Router02Address);
+
+        address[] memory path = new address[](2);
+        path[0] = Addresses.TokenB;
+        path[1] = router.WETH();
+
+        // 60% swap to WETH, 40% remain as stake reward
+        router.swapExactTokensForTokensSupportingFeeOnTransferTokens(
+            net_value * 6 / 10, 0, path, address(this), block.timestamp);
+
+        // uint256 ethAmount = payable(address(this)).balance;
+        uint256 tokenBalance = IERC20(Addresses.TokenB).balanceOf(address(this));
+        uint256 ethAmount = IERC20(router.WETH()).balanceOf(address(this));
+
+        address LP = Addresses.PairTokenA();
+
+        // get liqudity balance to calcualte price
+        uint256 liqEth = IERC20(router.WETH()).balanceOf(LP);
+        uint256 liqToken = IERC20(Addresses.TokenB).balanceOf(LP);
+        uint256 price = liqToken * (1000000) / (liqEth);
+
+        // calcualte available token that can add to LP
+        uint256 expToken = tokenBalance >= stake_reward ? tokenBalance - stake_reward : 0;
+
+        // executed add Liquidity
+        if (expToken > 0) {
+            // calcualte equivalent ETH pair to expect token (with 20% buffer)
+            uint256 expETH = expToken * (120) * (10000) / (price);       //expETH  = expToken * 120/100 * 1000000 /price
+
+//            emit liquidity(ethAmount, tokenBalance, price);
+
+            // only Add liquidity when there are enough ETH
+            if (ethAmount >= expETH) {
+                (uint256 tokenBAmount,uint256 ethAmount, uint256 liqAmount) = router.addLiquidity(
+                    address(Addresses.TokenB),
+                    router.WETH(),
+                    expToken,
+                    expETH,
+                    0, // slippage is unavoidable
+                    0, // slippage is unavoidable
+                    address(this),
+                    block.timestamp
+                );
+//                net_value = net_value + liqAmount;
+            } else {
+//                emit text_return("no available ETH to add");
+            }
+//            emit safe_check(tokenBalance, expToken, expETH, ethAmount);
+        } else {
+//            emit text_return("no available token to add");
+        }
+
+    }
 
 }
