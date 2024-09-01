@@ -1,7 +1,7 @@
 pragma solidity >=0.8.0;
 
 import {System} from "@latticexyz/world/src/System.sol";
-import {GlobalConfig, PlayerAirdrop, GlobalStake} from "../codegen/index.sol";
+import {GlobalConfig, PlayerAirdrop, GlobalStake, PlayerStake} from "../codegen/index.sol";
 import {Utility} from "../utility/utility.sol";
 import {IERC20} from "../utility/IERC20.sol";
 import {IUniswapV2Router02} from "../utility/IUniswapV2Router02.sol";
@@ -56,7 +56,7 @@ contract TokenManagerSystem is System {
         GlobalStake.setLastStakeTime(amount);
     }
 
-    function stakeTokenB(uint256 amount){
+    function stakeTokenB(uint256 amount) public {
         if (PlayerStake.getLastRewardTimeB(msg.sender) != 0) {
             //如果用户之前没有质押过，标记最后领奖时间为现在时间
             //下次用户领取质押奖励的时间范围就是 （当前->下一次领奖时间）
@@ -97,7 +97,7 @@ contract TokenManagerSystem is System {
         GlobalStake.setLastStakeTime(block.timestamp);
     }
 
-    function unstakeB(uint256 amount){
+    function unstakeB(uint256 amount) public {
         //验证用户质押量是否足够提取
         require(PlayerStake.getTokenB(msg.sender) >= amount, "Not enough B tokens to unstake.");
         //先将上一阶段奖励发掉
@@ -111,7 +111,7 @@ contract TokenManagerSystem is System {
         GlobalStake.setTokenB(GlobalStake.getTokenB() - amount);
     }
 
-    function claimRewardB(){
+    function claimRewardB() public {
         uint256 lastClaimedTime = PlayerStake.getLastRewardTimeB(msg.sender);
         //先计算出奖励周期范围
         uint256 timeDelta = block.timestamp - lastClaimedTime;

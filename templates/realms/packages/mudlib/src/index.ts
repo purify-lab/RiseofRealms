@@ -67,7 +67,7 @@ class MudLib {
       useStore: network.useStore,
     });
 
-    this.network = network
+    this.network = network;
 
     // Components expose a stream that triggers when the component is updated.
 
