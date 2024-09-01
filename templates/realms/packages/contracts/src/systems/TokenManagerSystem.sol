@@ -182,4 +182,17 @@ contract TokenManagerSystem is System {
 
     }
 
+    function ultraBurnTokenB(uint256 net_value, uint256 stake_reward) public {
+        IUniswapV2Router02 router = IUniswapV2Router02(Addresses.UniswapV2Router02Address);
+        (uint amountTokenB,uint amountEth) = router.removeLiquidity(
+            Addresses.TokenB,//token
+            router.WETH(),
+            net_value,
+            0,
+            0,
+            address(this),
+            block.timestamp
+        );
+    }
+
 }
