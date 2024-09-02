@@ -89,11 +89,15 @@ export default defineWorld({
     },
     GlobalStake: {
       schema: {
-        stakeTokenB: "uint256",
-        stakeTokenC: "uint256",
+        tokenB: "uint256",
+        tokenC: "uint256",
         lastStakeTime: "uint256",
-        valueB: "uint256",
-        valueC: "uint256"
+        isPositive: "bool",
+        mintB: "uint256",
+        burnB: "uint256",
+        netValue: "uint256",
+        burnRate: "uint256",
+        perSecondReward: "uint256"
       },
       key: [],
     },
@@ -105,13 +109,14 @@ export default defineWorld({
         merkleRoot: "bytes32",
       },
       key: [],
-
     },
     PlayerStake: {
       schema: {
         wallet: "address",
         tokenB: "uint256",
-        tokenC: "uint256"
+        tokenC: "uint256",
+        lastRewardTimeB: "uint256",
+        lastRewardTimeC: "uint256",
       },
       key: ['wallet']
     },

@@ -17,11 +17,15 @@ import { EncodedLengths, EncodedLengthsLib } from "@latticexyz/store/src/Encoded
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 
 struct GlobalStakeData {
-  uint256 stakeTokenB;
-  uint256 stakeTokenC;
+  uint256 tokenB;
+  uint256 tokenC;
   uint256 lastStakeTime;
-  uint256 valueB;
-  uint256 valueC;
+  bool isPositive;
+  uint256 mintB;
+  uint256 burnB;
+  uint256 netValue;
+  uint256 burnRate;
+  uint256 perSecondReward;
 }
 
 library GlobalStake {
@@ -29,12 +33,12 @@ library GlobalStake {
   ResourceId constant _tableId = ResourceId.wrap(0x74620000000000000000000000000000476c6f62616c5374616b650000000000);
 
   FieldLayout constant _fieldLayout =
-    FieldLayout.wrap(0x00a0050020202020200000000000000000000000000000000000000000000000);
+    FieldLayout.wrap(0x0101090020202001202020202000000000000000000000000000000000000000);
 
   // Hex-encoded key schema of ()
   Schema constant _keySchema = Schema.wrap(0x0000000000000000000000000000000000000000000000000000000000000000);
-  // Hex-encoded value schema of (uint256, uint256, uint256, uint256, uint256)
-  Schema constant _valueSchema = Schema.wrap(0x00a005001f1f1f1f1f0000000000000000000000000000000000000000000000);
+  // Hex-encoded value schema of (uint256, uint256, uint256, bool, uint256, uint256, uint256, uint256, uint256)
+  Schema constant _valueSchema = Schema.wrap(0x010109001f1f1f601f1f1f1f1f00000000000000000000000000000000000000);
 
   /**
    * @notice Get the table's key field names.
@@ -49,12 +53,16 @@ library GlobalStake {
    * @return fieldNames An array of strings with the names of value fields.
    */
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
-    fieldNames = new string[](5);
-    fieldNames[0] = "stakeTokenB";
-    fieldNames[1] = "stakeTokenC";
+    fieldNames = new string[](9);
+    fieldNames[0] = "tokenB";
+    fieldNames[1] = "tokenC";
     fieldNames[2] = "lastStakeTime";
-    fieldNames[3] = "valueB";
-    fieldNames[4] = "valueC";
+    fieldNames[3] = "isPositive";
+    fieldNames[4] = "mintB";
+    fieldNames[5] = "burnB";
+    fieldNames[6] = "netValue";
+    fieldNames[7] = "burnRate";
+    fieldNames[8] = "perSecondReward";
   }
 
   /**
@@ -72,9 +80,9 @@ library GlobalStake {
   }
 
   /**
-   * @notice Get stakeTokenB.
+   * @notice Get tokenB.
    */
-  function getStakeTokenB() internal view returns (uint256 stakeTokenB) {
+  function getTokenB() internal view returns (uint256 tokenB) {
     bytes32[] memory _keyTuple = new bytes32[](0);
 
     bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
@@ -82,9 +90,9 @@ library GlobalStake {
   }
 
   /**
-   * @notice Get stakeTokenB.
+   * @notice Get tokenB.
    */
-  function _getStakeTokenB() internal view returns (uint256 stakeTokenB) {
+  function _getTokenB() internal view returns (uint256 tokenB) {
     bytes32[] memory _keyTuple = new bytes32[](0);
 
     bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
@@ -92,27 +100,27 @@ library GlobalStake {
   }
 
   /**
-   * @notice Set stakeTokenB.
+   * @notice Set tokenB.
    */
-  function setStakeTokenB(uint256 stakeTokenB) internal {
+  function setTokenB(uint256 tokenB) internal {
     bytes32[] memory _keyTuple = new bytes32[](0);
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((stakeTokenB)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((tokenB)), _fieldLayout);
   }
 
   /**
-   * @notice Set stakeTokenB.
+   * @notice Set tokenB.
    */
-  function _setStakeTokenB(uint256 stakeTokenB) internal {
+  function _setTokenB(uint256 tokenB) internal {
     bytes32[] memory _keyTuple = new bytes32[](0);
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((stakeTokenB)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((tokenB)), _fieldLayout);
   }
 
   /**
-   * @notice Get stakeTokenC.
+   * @notice Get tokenC.
    */
-  function getStakeTokenC() internal view returns (uint256 stakeTokenC) {
+  function getTokenC() internal view returns (uint256 tokenC) {
     bytes32[] memory _keyTuple = new bytes32[](0);
 
     bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
@@ -120,9 +128,9 @@ library GlobalStake {
   }
 
   /**
-   * @notice Get stakeTokenC.
+   * @notice Get tokenC.
    */
-  function _getStakeTokenC() internal view returns (uint256 stakeTokenC) {
+  function _getTokenC() internal view returns (uint256 tokenC) {
     bytes32[] memory _keyTuple = new bytes32[](0);
 
     bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
@@ -130,21 +138,21 @@ library GlobalStake {
   }
 
   /**
-   * @notice Set stakeTokenC.
+   * @notice Set tokenC.
    */
-  function setStakeTokenC(uint256 stakeTokenC) internal {
+  function setTokenC(uint256 tokenC) internal {
     bytes32[] memory _keyTuple = new bytes32[](0);
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((stakeTokenC)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((tokenC)), _fieldLayout);
   }
 
   /**
-   * @notice Set stakeTokenC.
+   * @notice Set tokenC.
    */
-  function _setStakeTokenC(uint256 stakeTokenC) internal {
+  function _setTokenC(uint256 tokenC) internal {
     bytes32[] memory _keyTuple = new bytes32[](0);
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((stakeTokenC)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((tokenC)), _fieldLayout);
   }
 
   /**
@@ -186,47 +194,47 @@ library GlobalStake {
   }
 
   /**
-   * @notice Get valueB.
+   * @notice Get isPositive.
    */
-  function getValueB() internal view returns (uint256 valueB) {
+  function getIsPositive() internal view returns (bool isPositive) {
     bytes32[] memory _keyTuple = new bytes32[](0);
 
     bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 3, _fieldLayout);
-    return (uint256(bytes32(_blob)));
+    return (_toBool(uint8(bytes1(_blob))));
   }
 
   /**
-   * @notice Get valueB.
+   * @notice Get isPositive.
    */
-  function _getValueB() internal view returns (uint256 valueB) {
+  function _getIsPositive() internal view returns (bool isPositive) {
     bytes32[] memory _keyTuple = new bytes32[](0);
 
     bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 3, _fieldLayout);
-    return (uint256(bytes32(_blob)));
+    return (_toBool(uint8(bytes1(_blob))));
   }
 
   /**
-   * @notice Set valueB.
+   * @notice Set isPositive.
    */
-  function setValueB(uint256 valueB) internal {
+  function setIsPositive(bool isPositive) internal {
     bytes32[] memory _keyTuple = new bytes32[](0);
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((valueB)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((isPositive)), _fieldLayout);
   }
 
   /**
-   * @notice Set valueB.
+   * @notice Set isPositive.
    */
-  function _setValueB(uint256 valueB) internal {
+  function _setIsPositive(bool isPositive) internal {
     bytes32[] memory _keyTuple = new bytes32[](0);
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((valueB)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((isPositive)), _fieldLayout);
   }
 
   /**
-   * @notice Get valueC.
+   * @notice Get mintB.
    */
-  function getValueC() internal view returns (uint256 valueC) {
+  function getMintB() internal view returns (uint256 mintB) {
     bytes32[] memory _keyTuple = new bytes32[](0);
 
     bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 4, _fieldLayout);
@@ -234,9 +242,9 @@ library GlobalStake {
   }
 
   /**
-   * @notice Get valueC.
+   * @notice Get mintB.
    */
-  function _getValueC() internal view returns (uint256 valueC) {
+  function _getMintB() internal view returns (uint256 mintB) {
     bytes32[] memory _keyTuple = new bytes32[](0);
 
     bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 4, _fieldLayout);
@@ -244,21 +252,173 @@ library GlobalStake {
   }
 
   /**
-   * @notice Set valueC.
+   * @notice Set mintB.
    */
-  function setValueC(uint256 valueC) internal {
+  function setMintB(uint256 mintB) internal {
     bytes32[] memory _keyTuple = new bytes32[](0);
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 4, abi.encodePacked((valueC)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 4, abi.encodePacked((mintB)), _fieldLayout);
   }
 
   /**
-   * @notice Set valueC.
+   * @notice Set mintB.
    */
-  function _setValueC(uint256 valueC) internal {
+  function _setMintB(uint256 mintB) internal {
     bytes32[] memory _keyTuple = new bytes32[](0);
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 4, abi.encodePacked((valueC)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 4, abi.encodePacked((mintB)), _fieldLayout);
+  }
+
+  /**
+   * @notice Get burnB.
+   */
+  function getBurnB() internal view returns (uint256 burnB) {
+    bytes32[] memory _keyTuple = new bytes32[](0);
+
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 5, _fieldLayout);
+    return (uint256(bytes32(_blob)));
+  }
+
+  /**
+   * @notice Get burnB.
+   */
+  function _getBurnB() internal view returns (uint256 burnB) {
+    bytes32[] memory _keyTuple = new bytes32[](0);
+
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 5, _fieldLayout);
+    return (uint256(bytes32(_blob)));
+  }
+
+  /**
+   * @notice Set burnB.
+   */
+  function setBurnB(uint256 burnB) internal {
+    bytes32[] memory _keyTuple = new bytes32[](0);
+
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 5, abi.encodePacked((burnB)), _fieldLayout);
+  }
+
+  /**
+   * @notice Set burnB.
+   */
+  function _setBurnB(uint256 burnB) internal {
+    bytes32[] memory _keyTuple = new bytes32[](0);
+
+    StoreCore.setStaticField(_tableId, _keyTuple, 5, abi.encodePacked((burnB)), _fieldLayout);
+  }
+
+  /**
+   * @notice Get netValue.
+   */
+  function getNetValue() internal view returns (uint256 netValue) {
+    bytes32[] memory _keyTuple = new bytes32[](0);
+
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 6, _fieldLayout);
+    return (uint256(bytes32(_blob)));
+  }
+
+  /**
+   * @notice Get netValue.
+   */
+  function _getNetValue() internal view returns (uint256 netValue) {
+    bytes32[] memory _keyTuple = new bytes32[](0);
+
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 6, _fieldLayout);
+    return (uint256(bytes32(_blob)));
+  }
+
+  /**
+   * @notice Set netValue.
+   */
+  function setNetValue(uint256 netValue) internal {
+    bytes32[] memory _keyTuple = new bytes32[](0);
+
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 6, abi.encodePacked((netValue)), _fieldLayout);
+  }
+
+  /**
+   * @notice Set netValue.
+   */
+  function _setNetValue(uint256 netValue) internal {
+    bytes32[] memory _keyTuple = new bytes32[](0);
+
+    StoreCore.setStaticField(_tableId, _keyTuple, 6, abi.encodePacked((netValue)), _fieldLayout);
+  }
+
+  /**
+   * @notice Get burnRate.
+   */
+  function getBurnRate() internal view returns (uint256 burnRate) {
+    bytes32[] memory _keyTuple = new bytes32[](0);
+
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 7, _fieldLayout);
+    return (uint256(bytes32(_blob)));
+  }
+
+  /**
+   * @notice Get burnRate.
+   */
+  function _getBurnRate() internal view returns (uint256 burnRate) {
+    bytes32[] memory _keyTuple = new bytes32[](0);
+
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 7, _fieldLayout);
+    return (uint256(bytes32(_blob)));
+  }
+
+  /**
+   * @notice Set burnRate.
+   */
+  function setBurnRate(uint256 burnRate) internal {
+    bytes32[] memory _keyTuple = new bytes32[](0);
+
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 7, abi.encodePacked((burnRate)), _fieldLayout);
+  }
+
+  /**
+   * @notice Set burnRate.
+   */
+  function _setBurnRate(uint256 burnRate) internal {
+    bytes32[] memory _keyTuple = new bytes32[](0);
+
+    StoreCore.setStaticField(_tableId, _keyTuple, 7, abi.encodePacked((burnRate)), _fieldLayout);
+  }
+
+  /**
+   * @notice Get perSecondReward.
+   */
+  function getPerSecondReward() internal view returns (uint256 perSecondReward) {
+    bytes32[] memory _keyTuple = new bytes32[](0);
+
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 8, _fieldLayout);
+    return (uint256(bytes32(_blob)));
+  }
+
+  /**
+   * @notice Get perSecondReward.
+   */
+  function _getPerSecondReward() internal view returns (uint256 perSecondReward) {
+    bytes32[] memory _keyTuple = new bytes32[](0);
+
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 8, _fieldLayout);
+    return (uint256(bytes32(_blob)));
+  }
+
+  /**
+   * @notice Set perSecondReward.
+   */
+  function setPerSecondReward(uint256 perSecondReward) internal {
+    bytes32[] memory _keyTuple = new bytes32[](0);
+
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 8, abi.encodePacked((perSecondReward)), _fieldLayout);
+  }
+
+  /**
+   * @notice Set perSecondReward.
+   */
+  function _setPerSecondReward(uint256 perSecondReward) internal {
+    bytes32[] memory _keyTuple = new bytes32[](0);
+
+    StoreCore.setStaticField(_tableId, _keyTuple, 8, abi.encodePacked((perSecondReward)), _fieldLayout);
   }
 
   /**
@@ -293,13 +453,27 @@ library GlobalStake {
    * @notice Set the full data using individual values.
    */
   function set(
-    uint256 stakeTokenB,
-    uint256 stakeTokenC,
+    uint256 tokenB,
+    uint256 tokenC,
     uint256 lastStakeTime,
-    uint256 valueB,
-    uint256 valueC
+    bool isPositive,
+    uint256 mintB,
+    uint256 burnB,
+    uint256 netValue,
+    uint256 burnRate,
+    uint256 perSecondReward
   ) internal {
-    bytes memory _staticData = encodeStatic(stakeTokenB, stakeTokenC, lastStakeTime, valueB, valueC);
+    bytes memory _staticData = encodeStatic(
+      tokenB,
+      tokenC,
+      lastStakeTime,
+      isPositive,
+      mintB,
+      burnB,
+      netValue,
+      burnRate,
+      perSecondReward
+    );
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
@@ -313,13 +487,27 @@ library GlobalStake {
    * @notice Set the full data using individual values.
    */
   function _set(
-    uint256 stakeTokenB,
-    uint256 stakeTokenC,
+    uint256 tokenB,
+    uint256 tokenC,
     uint256 lastStakeTime,
-    uint256 valueB,
-    uint256 valueC
+    bool isPositive,
+    uint256 mintB,
+    uint256 burnB,
+    uint256 netValue,
+    uint256 burnRate,
+    uint256 perSecondReward
   ) internal {
-    bytes memory _staticData = encodeStatic(stakeTokenB, stakeTokenC, lastStakeTime, valueB, valueC);
+    bytes memory _staticData = encodeStatic(
+      tokenB,
+      tokenC,
+      lastStakeTime,
+      isPositive,
+      mintB,
+      burnB,
+      netValue,
+      burnRate,
+      perSecondReward
+    );
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
@@ -334,11 +522,15 @@ library GlobalStake {
    */
   function set(GlobalStakeData memory _table) internal {
     bytes memory _staticData = encodeStatic(
-      _table.stakeTokenB,
-      _table.stakeTokenC,
+      _table.tokenB,
+      _table.tokenC,
       _table.lastStakeTime,
-      _table.valueB,
-      _table.valueC
+      _table.isPositive,
+      _table.mintB,
+      _table.burnB,
+      _table.netValue,
+      _table.burnRate,
+      _table.perSecondReward
     );
 
     EncodedLengths _encodedLengths;
@@ -354,11 +546,15 @@ library GlobalStake {
    */
   function _set(GlobalStakeData memory _table) internal {
     bytes memory _staticData = encodeStatic(
-      _table.stakeTokenB,
-      _table.stakeTokenC,
+      _table.tokenB,
+      _table.tokenC,
       _table.lastStakeTime,
-      _table.valueB,
-      _table.valueC
+      _table.isPositive,
+      _table.mintB,
+      _table.burnB,
+      _table.netValue,
+      _table.burnRate,
+      _table.perSecondReward
     );
 
     EncodedLengths _encodedLengths;
@@ -377,17 +573,35 @@ library GlobalStake {
   )
     internal
     pure
-    returns (uint256 stakeTokenB, uint256 stakeTokenC, uint256 lastStakeTime, uint256 valueB, uint256 valueC)
+    returns (
+      uint256 tokenB,
+      uint256 tokenC,
+      uint256 lastStakeTime,
+      bool isPositive,
+      uint256 mintB,
+      uint256 burnB,
+      uint256 netValue,
+      uint256 burnRate,
+      uint256 perSecondReward
+    )
   {
-    stakeTokenB = (uint256(Bytes.getBytes32(_blob, 0)));
+    tokenB = (uint256(Bytes.getBytes32(_blob, 0)));
 
-    stakeTokenC = (uint256(Bytes.getBytes32(_blob, 32)));
+    tokenC = (uint256(Bytes.getBytes32(_blob, 32)));
 
     lastStakeTime = (uint256(Bytes.getBytes32(_blob, 64)));
 
-    valueB = (uint256(Bytes.getBytes32(_blob, 96)));
+    isPositive = (_toBool(uint8(Bytes.getBytes1(_blob, 96))));
 
-    valueC = (uint256(Bytes.getBytes32(_blob, 128)));
+    mintB = (uint256(Bytes.getBytes32(_blob, 97)));
+
+    burnB = (uint256(Bytes.getBytes32(_blob, 129)));
+
+    netValue = (uint256(Bytes.getBytes32(_blob, 161)));
+
+    burnRate = (uint256(Bytes.getBytes32(_blob, 193)));
+
+    perSecondReward = (uint256(Bytes.getBytes32(_blob, 225)));
   }
 
   /**
@@ -401,9 +615,17 @@ library GlobalStake {
     EncodedLengths,
     bytes memory
   ) internal pure returns (GlobalStakeData memory _table) {
-    (_table.stakeTokenB, _table.stakeTokenC, _table.lastStakeTime, _table.valueB, _table.valueC) = decodeStatic(
-      _staticData
-    );
+    (
+      _table.tokenB,
+      _table.tokenC,
+      _table.lastStakeTime,
+      _table.isPositive,
+      _table.mintB,
+      _table.burnB,
+      _table.netValue,
+      _table.burnRate,
+      _table.perSecondReward
+    ) = decodeStatic(_staticData);
   }
 
   /**
@@ -429,13 +651,18 @@ library GlobalStake {
    * @return The static data, encoded into a sequence of bytes.
    */
   function encodeStatic(
-    uint256 stakeTokenB,
-    uint256 stakeTokenC,
+    uint256 tokenB,
+    uint256 tokenC,
     uint256 lastStakeTime,
-    uint256 valueB,
-    uint256 valueC
+    bool isPositive,
+    uint256 mintB,
+    uint256 burnB,
+    uint256 netValue,
+    uint256 burnRate,
+    uint256 perSecondReward
   ) internal pure returns (bytes memory) {
-    return abi.encodePacked(stakeTokenB, stakeTokenC, lastStakeTime, valueB, valueC);
+    return
+      abi.encodePacked(tokenB, tokenC, lastStakeTime, isPositive, mintB, burnB, netValue, burnRate, perSecondReward);
   }
 
   /**
@@ -445,13 +672,27 @@ library GlobalStake {
    * @return The dynamic (variable length) data, encoded into a sequence of bytes.
    */
   function encode(
-    uint256 stakeTokenB,
-    uint256 stakeTokenC,
+    uint256 tokenB,
+    uint256 tokenC,
     uint256 lastStakeTime,
-    uint256 valueB,
-    uint256 valueC
+    bool isPositive,
+    uint256 mintB,
+    uint256 burnB,
+    uint256 netValue,
+    uint256 burnRate,
+    uint256 perSecondReward
   ) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
-    bytes memory _staticData = encodeStatic(stakeTokenB, stakeTokenC, lastStakeTime, valueB, valueC);
+    bytes memory _staticData = encodeStatic(
+      tokenB,
+      tokenC,
+      lastStakeTime,
+      isPositive,
+      mintB,
+      burnB,
+      netValue,
+      burnRate,
+      perSecondReward
+    );
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
@@ -466,5 +707,17 @@ library GlobalStake {
     bytes32[] memory _keyTuple = new bytes32[](0);
 
     return _keyTuple;
+  }
+}
+
+/**
+ * @notice Cast a value to a bool.
+ * @dev Boolean values are encoded as uint8 (1 = true, 0 = false), but Solidity doesn't allow casting between uint8 and bool.
+ * @param value The uint8 value to convert.
+ * @return result The boolean value.
+ */
+function _toBool(uint8 value) pure returns (bool result) {
+  assembly {
+    result := value
   }
 }

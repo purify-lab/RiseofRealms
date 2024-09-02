@@ -308,7 +308,6 @@ contract mud {
 
     }
 
-
     event EventUltraBurn(uint amountTokenB, uint amountEth);
 
     function ultraBurn(uint256 net_value, uint256 stake_reward) public {

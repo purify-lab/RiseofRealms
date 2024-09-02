@@ -321,110 +321,110 @@ contract SpawnSystem is System {
         return 1720540800;
     }
 
-    function getStakeLimit(address owner) view public returns (uint256 amount){
-        uint256 amount = 50000;
-        bytes32 id = Utility.addressToEntityKey(owner);
-        return amount + PlayerDetail.getLands(id) * 50000;
-    }
+//    function getStakeLimit(address owner) view public returns (uint256 amount){
+//        uint256 amount = 50000;
+//        bytes32 id = Utility.addressToEntityKey(owner);
+//        return amount + PlayerDetail.getLands(id) * 50000;
+//    }
 
     event EventBurnToken(uint256 netValueB, uint256 netValueC);
 
-    function stakeTokenB(uint256 amount) public {
-        require(amount + PlayerStake.getTokenB(_msgSender()) + PlayerStake.getTokenC(_msgSender()) >= getStakeLimit(_msgSender()), "exceed the limit");
-        IERC20 tokenB = IERC20(TokenB);
-        bool success = tokenB.transferFrom(_msgSender(), address(this), amount);
-        require(success, "trans fail");
-        PlayerStake.setTokenB(_msgSender(), PlayerStake.getTokenB(_msgSender()) + amount);
-        uint256 rate = 1;//0.0001
-
-        uint256 last_time = GlobalStake.getLastStakeTime();
-        uint256 current_time = block.timestamp;
-        uint256 block_delta = current_time - last_time;
-
-        if (block_delta > 0) {
-            uint256 supply = tokenB.totalSupply();
-            uint256 temp = GlobalStake.getStakeTokenB() * (1 + GlobalStake.getStakeTokenB() / supply) * block_delta * rate / 10000;
-
-            uint256 valueB = GlobalStake.getStakeTokenB() + temp;
-
-            GlobalStake.setValueB(valueB);
-            GlobalStake.setLastStakeTime(block.timestamp);
-
-            uint256 valueC = GlobalStake.getStakeTokenC();
-
-            uint256 netValueB = valueC - valueB;
-            uint256 netValueC = valueB - valueC;
-
-            emit EventBurnToken(netValueB, netValueC);
-        }
-    }
-
-    function stakeTokenC(uint256 amount) public {
-        require(amount + PlayerStake.getTokenB(_msgSender()) + PlayerStake.getTokenC(_msgSender()) >= getStakeLimit(_msgSender()), "exceed the limit");
-        IERC20 tokenC = IERC20(TokenC);
-        bool success = tokenC.transferFrom(_msgSender(), address(this), amount);
-        require(success, "trans fail");
-        PlayerStake.setTokenC(_msgSender(), PlayerStake.getTokenC(_msgSender()) + amount);
-        uint256 rate = 1;//0.0001
-
-        uint256 last_time = GlobalStake.getLastStakeTime();
-        uint256 current_time = block.timestamp;
-        uint256 block_delta = current_time - last_time;
-
-        if (block_delta > 0) {
-            uint256 supply = tokenC.totalSupply();
-            uint256 temp = GlobalStake.getStakeTokenC() * (1 + GlobalStake.getStakeTokenC() / supply) * block_delta * rate / 10000;
-
-            uint256 valueC = GlobalStake.getStakeTokenC() + temp;
-
-            GlobalStake.setValueC(valueC);
-            GlobalStake.setLastStakeTime(block.timestamp);
-
-            uint256 valueB = GlobalStake.getStakeTokenB();
-
-            uint256 netValueB = valueC - valueB;
-            uint256 netValueC = valueB - valueC;
-
-            emit EventBurnToken(netValueB, netValueC);
-        }
-    }
-
-    function unStakeTokenB(address staker, uint256 amount) public {
-        require(PlayerStake.getTokenB(staker) > amount, "insuffcient amount");
-        address sender = _msgSender();
-        if (sender == staker) {
-            uint256 out = amount - (amount * GlobalConfig.getUnStakeFee() / 100);
-            IERC20(TokenB).transferFrom(address(this), staker, out);
-        }
-    }
-
-    function passiveUnStake(bytes32 defender, bytes32 attacker) private {
-//        address defenderAddress = Utility.entityKeyToAddress(defender);
-//        address attackerAddress = Utility.entityKeyToAddress(attacker);
-//        uint256 limit = getStakeLimit(defenderAddress);
-//        uint256 totalStaked = PlayerStake.getTokenB() + PlayerStake.setTokenC();
-//        uint256 fee = GlobalConfig.getPassiveUnStakeFee();
-//        if (totalStaked > limit) {
-//            uint256 partB = PlayerStake.getTokenB() * 100 / totalStaked * 100;
-//            uint256 partC = PlayerStake.getTokenC() * 100 / totalStaked * 100;
-//            uint256 tokenUnStakedB = (totalStaked - limit) * partB / 100;
-//            uint256 tokenUnStakedC = (totalStaked - limit) * partC / 100;
-//            if (tokenUnStakedB > 0) {
-//                uint256 feeAmount = tokenUnStakedB * fee / 100;
-//                IERC20 tokenB = IERC20(TokenB);
-//                PlayerStake.setTokenB(defenderAddress, PlayerStake.getTokenB(defenderAddress) - tokenUnStakedB);
-//                tokenB.transferFrom(address(this), defenderAddress, tokenUnStakedB - feeAmount);
-//                tokenB.transferFrom(address(this), attackerAddress, feeAmount);
-//            }
-//            if (tokenUnStakedC > 0) {
-//                IERC20 tokenC = IERC20(TokenC);
-//                uint256 feeAmount = tokenUnStakedC * fee / 100;
-//                PlayerStake.setTokenC(defenderAddress, PlayerStake.getTokenC(defenderAddress) - tokenUnStakedC);
-//                tokenC.transferFrom(address(this), defenderAddress, tokenUnStakedC - feeAmount);
-//                tokenC.transferFrom(address(this), attackerAddress, feeAmount);
-//            }
+//    function stakeTokenB(uint256 amount) public {
+//        require(amount + PlayerStake.getTokenB(_msgSender()) + PlayerStake.getTokenC(_msgSender()) >= getStakeLimit(_msgSender()), "exceed the limit");
+//        IERC20 tokenB = IERC20(TokenB);
+//        bool success = tokenB.transferFrom(_msgSender(), address(this), amount);
+//        require(success, "trans fail");
+//        PlayerStake.setTokenB(_msgSender(), PlayerStake.getTokenB(_msgSender()) + amount);
+//        uint256 rate = 1;//0.0001
+//
+//        uint256 last_time = GlobalStake.getLastStakeTime();
+//        uint256 current_time = block.timestamp;
+//        uint256 block_delta = current_time - last_time;
+//
+//        if (block_delta > 0) {
+//            uint256 supply = tokenB.totalSupply();
+//            uint256 temp = GlobalStake.getStakeTokenB() * (1 + GlobalStake.getStakeTokenB() / supply) * block_delta * rate / 10000;
+//
+//            uint256 valueB = GlobalStake.getStakeTokenB() + temp;
+//
+//            GlobalStake.setValueB(valueB);
+//            GlobalStake.setLastStakeTime(block.timestamp);
+//
+//            uint256 valueC = GlobalStake.getStakeTokenC();
+//
+//            uint256 netValueB = valueC - valueB;
+//            uint256 netValueC = valueB - valueC;
+//
+//            emit EventBurnToken(netValueB, netValueC);
 //        }
-    }
+//    }
+//
+//    function stakeTokenC(uint256 amount) public {
+//        require(amount + PlayerStake.getTokenB(_msgSender()) + PlayerStake.getTokenC(_msgSender()) >= getStakeLimit(_msgSender()), "exceed the limit");
+//        IERC20 tokenC = IERC20(TokenC);
+//        bool success = tokenC.transferFrom(_msgSender(), address(this), amount);
+//        require(success, "trans fail");
+//        PlayerStake.setTokenC(_msgSender(), PlayerStake.getTokenC(_msgSender()) + amount);
+//        uint256 rate = 1;//0.0001
+//
+//        uint256 last_time = GlobalStake.getLastStakeTime();
+//        uint256 current_time = block.timestamp;
+//        uint256 block_delta = current_time - last_time;
+//
+//        if (block_delta > 0) {
+//            uint256 supply = tokenC.totalSupply();
+//            uint256 temp = GlobalStake.getStakeTokenC() * (1 + GlobalStake.getStakeTokenC() / supply) * block_delta * rate / 10000;
+//
+//            uint256 valueC = GlobalStake.getStakeTokenC() + temp;
+//
+//            GlobalStake.setValueC(valueC);
+//            GlobalStake.setLastStakeTime(block.timestamp);
+//
+//            uint256 valueB = GlobalStake.getStakeTokenB();
+//
+//            uint256 netValueB = valueC - valueB;
+//            uint256 netValueC = valueB - valueC;
+//
+//            emit EventBurnToken(netValueB, netValueC);
+//        }
+//    }
+//
+//    function unStakeTokenB(address staker, uint256 amount) public {
+//        require(PlayerStake.getTokenB(staker) > amount, "insuffcient amount");
+//        address sender = _msgSender();
+//        if (sender == staker) {
+//            uint256 out = amount - (amount * GlobalConfig.getUnStakeFee() / 100);
+//            IERC20(TokenB).transferFrom(address(this), staker, out);
+//        }
+//    }
+//
+//    function passiveUnStake(bytes32 defender, bytes32 attacker) private {
+////        address defenderAddress = Utility.entityKeyToAddress(defender);
+////        address attackerAddress = Utility.entityKeyToAddress(attacker);
+////        uint256 limit = getStakeLimit(defenderAddress);
+////        uint256 totalStaked = PlayerStake.getTokenB() + PlayerStake.setTokenC();
+////        uint256 fee = GlobalConfig.getPassiveUnStakeFee();
+////        if (totalStaked > limit) {
+////            uint256 partB = PlayerStake.getTokenB() * 100 / totalStaked * 100;
+////            uint256 partC = PlayerStake.getTokenC() * 100 / totalStaked * 100;
+////            uint256 tokenUnStakedB = (totalStaked - limit) * partB / 100;
+////            uint256 tokenUnStakedC = (totalStaked - limit) * partC / 100;
+////            if (tokenUnStakedB > 0) {
+////                uint256 feeAmount = tokenUnStakedB * fee / 100;
+////                IERC20 tokenB = IERC20(TokenB);
+////                PlayerStake.setTokenB(defenderAddress, PlayerStake.getTokenB(defenderAddress) - tokenUnStakedB);
+////                tokenB.transferFrom(address(this), defenderAddress, tokenUnStakedB - feeAmount);
+////                tokenB.transferFrom(address(this), attackerAddress, feeAmount);
+////            }
+////            if (tokenUnStakedC > 0) {
+////                IERC20 tokenC = IERC20(TokenC);
+////                uint256 feeAmount = tokenUnStakedC * fee / 100;
+////                PlayerStake.setTokenC(defenderAddress, PlayerStake.getTokenC(defenderAddress) - tokenUnStakedC);
+////                tokenC.transferFrom(address(this), defenderAddress, tokenUnStakedC - feeAmount);
+////                tokenC.transferFrom(address(this), attackerAddress, feeAmount);
+////            }
+////        }
+//    }
 
     modifier onlyOwner() {
         require(_msgSender() == GlobalConfig.getOwner(), "Only the contract owner can call this function.");
