@@ -25,6 +25,11 @@ var myInfo = {}
 var myEntityKey = false
 var myWallet = false
 
+var myselfDetail = {
+	isInit = true,
+	isSpawnCapital = false
+}
+
 func Setup():
 	json = JSON.new()
 	print("On Mud Mgr Init")
@@ -39,6 +44,23 @@ func Setup():
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass
+
+# 购买士兵
+func BuySoldier(infantryNum, cavalryNum):
+	if not OS.get_name() == "Windows":
+		if infantryNum > 0:
+			JavaScriptBridge.eval("window.mud.buyInfantry(" + str(infantryNum) + ")")
+		if cavalryNum > 0:
+			JavaScriptBridge.eval("window.mud.buyCavalryA(" + str(cavalryNum) + ")")
+	else:
+		print("Buy Soldier: ", infantryNum, "  ",  cavalryNum)
+	
+# 购买主城
+func BuyCapital(tileId):
+	if not OS.get_name() == "Windows":
+		JavaScriptBridge.eval("window.mud.spawnCapital(" + str(tileId) + ")")
+	else:
+		print("Cannot work on windows " + str(tileId))
 	
 func OnPlayerDetailUpdate(data):
 	if not myEntityKey:

@@ -23,6 +23,9 @@ var buildingScene = preload("res://scene/building.tscn")
 #地图根节点
 var GameNode
 
+var CapitalCursor
+var isPlacingCapital = false
+
 # 根据场景内的坐标获得Hex坐标
 func SnapToHexGrid(pos):
 	var q = roundi((sqrt(3.0) / 3.0 * pos.x + pos.y / 3.0) / tileSize)
