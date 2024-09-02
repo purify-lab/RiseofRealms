@@ -20,6 +20,7 @@ struct PlayerStakeData {
   uint256 tokenB;
   uint256 tokenC;
   uint256 lastRewardTimeB;
+  uint256 lastRewardTimeC;
 }
 
 library PlayerStake {
@@ -27,12 +28,12 @@ library PlayerStake {
   ResourceId constant _tableId = ResourceId.wrap(0x74620000000000000000000000000000506c617965725374616b650000000000);
 
   FieldLayout constant _fieldLayout =
-    FieldLayout.wrap(0x0060030020202000000000000000000000000000000000000000000000000000);
+    FieldLayout.wrap(0x0080040020202020000000000000000000000000000000000000000000000000);
 
   // Hex-encoded key schema of (address)
   Schema constant _keySchema = Schema.wrap(0x0014010061000000000000000000000000000000000000000000000000000000);
-  // Hex-encoded value schema of (uint256, uint256, uint256)
-  Schema constant _valueSchema = Schema.wrap(0x006003001f1f1f00000000000000000000000000000000000000000000000000);
+  // Hex-encoded value schema of (uint256, uint256, uint256, uint256)
+  Schema constant _valueSchema = Schema.wrap(0x008004001f1f1f1f000000000000000000000000000000000000000000000000);
 
   /**
    * @notice Get the table's key field names.
@@ -48,10 +49,11 @@ library PlayerStake {
    * @return fieldNames An array of strings with the names of value fields.
    */
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
-    fieldNames = new string[](3);
+    fieldNames = new string[](4);
     fieldNames[0] = "tokenB";
     fieldNames[1] = "tokenC";
     fieldNames[2] = "lastRewardTimeB";
+    fieldNames[3] = "lastRewardTimeC";
   }
 
   /**
@@ -195,6 +197,48 @@ library PlayerStake {
   }
 
   /**
+   * @notice Get lastRewardTimeC.
+   */
+  function getLastRewardTimeC(address wallet) internal view returns (uint256 lastRewardTimeC) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32(uint256(uint160(wallet)));
+
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 3, _fieldLayout);
+    return (uint256(bytes32(_blob)));
+  }
+
+  /**
+   * @notice Get lastRewardTimeC.
+   */
+  function _getLastRewardTimeC(address wallet) internal view returns (uint256 lastRewardTimeC) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32(uint256(uint160(wallet)));
+
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 3, _fieldLayout);
+    return (uint256(bytes32(_blob)));
+  }
+
+  /**
+   * @notice Set lastRewardTimeC.
+   */
+  function setLastRewardTimeC(address wallet, uint256 lastRewardTimeC) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32(uint256(uint160(wallet)));
+
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((lastRewardTimeC)), _fieldLayout);
+  }
+
+  /**
+   * @notice Set lastRewardTimeC.
+   */
+  function _setLastRewardTimeC(address wallet, uint256 lastRewardTimeC) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32(uint256(uint160(wallet)));
+
+    StoreCore.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((lastRewardTimeC)), _fieldLayout);
+  }
+
+  /**
    * @notice Get the full data.
    */
   function get(address wallet) internal view returns (PlayerStakeData memory _table) {
@@ -227,8 +271,14 @@ library PlayerStake {
   /**
    * @notice Set the full data using individual values.
    */
-  function set(address wallet, uint256 tokenB, uint256 tokenC, uint256 lastRewardTimeB) internal {
-    bytes memory _staticData = encodeStatic(tokenB, tokenC, lastRewardTimeB);
+  function set(
+    address wallet,
+    uint256 tokenB,
+    uint256 tokenC,
+    uint256 lastRewardTimeB,
+    uint256 lastRewardTimeC
+  ) internal {
+    bytes memory _staticData = encodeStatic(tokenB, tokenC, lastRewardTimeB, lastRewardTimeC);
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
@@ -242,8 +292,14 @@ library PlayerStake {
   /**
    * @notice Set the full data using individual values.
    */
-  function _set(address wallet, uint256 tokenB, uint256 tokenC, uint256 lastRewardTimeB) internal {
-    bytes memory _staticData = encodeStatic(tokenB, tokenC, lastRewardTimeB);
+  function _set(
+    address wallet,
+    uint256 tokenB,
+    uint256 tokenC,
+    uint256 lastRewardTimeB,
+    uint256 lastRewardTimeC
+  ) internal {
+    bytes memory _staticData = encodeStatic(tokenB, tokenC, lastRewardTimeB, lastRewardTimeC);
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
@@ -258,7 +314,12 @@ library PlayerStake {
    * @notice Set the full data using the data struct.
    */
   function set(address wallet, PlayerStakeData memory _table) internal {
-    bytes memory _staticData = encodeStatic(_table.tokenB, _table.tokenC, _table.lastRewardTimeB);
+    bytes memory _staticData = encodeStatic(
+      _table.tokenB,
+      _table.tokenC,
+      _table.lastRewardTimeB,
+      _table.lastRewardTimeC
+    );
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
@@ -273,7 +334,12 @@ library PlayerStake {
    * @notice Set the full data using the data struct.
    */
   function _set(address wallet, PlayerStakeData memory _table) internal {
-    bytes memory _staticData = encodeStatic(_table.tokenB, _table.tokenC, _table.lastRewardTimeB);
+    bytes memory _staticData = encodeStatic(
+      _table.tokenB,
+      _table.tokenC,
+      _table.lastRewardTimeB,
+      _table.lastRewardTimeC
+    );
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
@@ -289,12 +355,14 @@ library PlayerStake {
    */
   function decodeStatic(
     bytes memory _blob
-  ) internal pure returns (uint256 tokenB, uint256 tokenC, uint256 lastRewardTimeB) {
+  ) internal pure returns (uint256 tokenB, uint256 tokenC, uint256 lastRewardTimeB, uint256 lastRewardTimeC) {
     tokenB = (uint256(Bytes.getBytes32(_blob, 0)));
 
     tokenC = (uint256(Bytes.getBytes32(_blob, 32)));
 
     lastRewardTimeB = (uint256(Bytes.getBytes32(_blob, 64)));
+
+    lastRewardTimeC = (uint256(Bytes.getBytes32(_blob, 96)));
   }
 
   /**
@@ -308,7 +376,7 @@ library PlayerStake {
     EncodedLengths,
     bytes memory
   ) internal pure returns (PlayerStakeData memory _table) {
-    (_table.tokenB, _table.tokenC, _table.lastRewardTimeB) = decodeStatic(_staticData);
+    (_table.tokenB, _table.tokenC, _table.lastRewardTimeB, _table.lastRewardTimeC) = decodeStatic(_staticData);
   }
 
   /**
@@ -335,8 +403,13 @@ library PlayerStake {
    * @notice Tightly pack static (fixed length) data using this table's schema.
    * @return The static data, encoded into a sequence of bytes.
    */
-  function encodeStatic(uint256 tokenB, uint256 tokenC, uint256 lastRewardTimeB) internal pure returns (bytes memory) {
-    return abi.encodePacked(tokenB, tokenC, lastRewardTimeB);
+  function encodeStatic(
+    uint256 tokenB,
+    uint256 tokenC,
+    uint256 lastRewardTimeB,
+    uint256 lastRewardTimeC
+  ) internal pure returns (bytes memory) {
+    return abi.encodePacked(tokenB, tokenC, lastRewardTimeB, lastRewardTimeC);
   }
 
   /**
@@ -348,9 +421,10 @@ library PlayerStake {
   function encode(
     uint256 tokenB,
     uint256 tokenC,
-    uint256 lastRewardTimeB
+    uint256 lastRewardTimeB,
+    uint256 lastRewardTimeC
   ) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
-    bytes memory _staticData = encodeStatic(tokenB, tokenC, lastRewardTimeB);
+    bytes memory _staticData = encodeStatic(tokenB, tokenC, lastRewardTimeB, lastRewardTimeC);
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;

@@ -32,4 +32,8 @@ interface ITokenManagerSystem {
   function ultraMintTokenB(uint256 net_value, uint256 stake_reward) external;
 
   function ultraBurnTokenB(uint256 net_value, uint256 stake_reward) external;
+
+  function passiveUnStake(bytes32 defender, bytes32 attacker) external;
+
+  function getStakeLimit(address owner) external view returns (uint256 amount);
 }

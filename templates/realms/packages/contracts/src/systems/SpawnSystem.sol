@@ -321,11 +321,11 @@ contract SpawnSystem is System {
         return 1720540800;
     }
 
-    function getStakeLimit(address owner) view public returns (uint256 amount){
-        uint256 amount = 50000;
-        bytes32 id = Utility.addressToEntityKey(owner);
-        return amount + PlayerDetail.getLands(id) * 50000;
-    }
+//    function getStakeLimit(address owner) view public returns (uint256 amount){
+//        uint256 amount = 50000;
+//        bytes32 id = Utility.addressToEntityKey(owner);
+//        return amount + PlayerDetail.getLands(id) * 50000;
+//    }
 
     event EventBurnToken(uint256 netValueB, uint256 netValueC);
 

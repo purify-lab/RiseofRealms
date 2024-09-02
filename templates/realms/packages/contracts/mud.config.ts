@@ -115,7 +115,8 @@ export default defineWorld({
         wallet: "address",
         tokenB: "uint256",
         tokenC: "uint256",
-        lastRewardTimeB: "uint256"
+        lastRewardTimeB: "uint256",
+        lastRewardTimeC: "uint256",
       },
       key: ['wallet']
     },

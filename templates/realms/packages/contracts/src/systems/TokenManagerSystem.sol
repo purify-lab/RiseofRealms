@@ -1,7 +1,7 @@
 pragma solidity >=0.8.0;
 
 import {System} from "@latticexyz/world/src/System.sol";
-import {GlobalConfig, PlayerAirdrop, GlobalStake, PlayerStake} from "../codegen/index.sol";
+import {GlobalConfig, PlayerAirdrop, GlobalStake, PlayerStake, PlayerDetail} from "../codegen/index.sol";
 import {Utility} from "../utility/utility.sol";
 import {IERC20} from "../utility/IERC20.sol";
 import {IUniswapV2Router02} from "../utility/IUniswapV2Router02.sol";
@@ -196,6 +196,27 @@ contract TokenManagerSystem is System {
     }
 
     function passiveUnStake(bytes32 defender, bytes32 attacker) public {
+        address defenderAddress = Utility.entityKeyToAddress(defender);
+        address attackerAddress = Utility.entityKeyToAddress(attacker);
+        uint256 limit = getStakeLimit(defenderAddress);
+        uint256 totalStaked = PlayerStake.getTokenB(defenderAddress) + PlayerStake.getTokenC(defenderAddress);
+        uint256 fee = GlobalConfig.getPassiveUnStakeFee();
+        if (totalStaked > limit) {
+            uint256 partB = PlayerStake.getTokenB(defenderAddress) * 100 / totalStaked * 100;
+            uint256 partC = PlayerStake.getTokenC(defenderAddress) * 100 / totalStaked * 100;
+            uint256 tokenUnStakedB = (totalStaked - limit) * partB / 100;
+            uint256 tokenUnStakedC = (totalStaked - limit) * partC / 100;
+            if (tokenUnStakedB > 0) {
 
+            }
+            if (tokenUnStakedC > 0) {
+            }
+        }
+    }
+
+    function getStakeLimit(address owner) view public returns (uint256 amount){
+        uint256 amount = 50000;
+        bytes32 id = Utility.addressToEntityKey(owner);
+        return amount + PlayerDetail.getLands(id) * 50000;
     }
 }

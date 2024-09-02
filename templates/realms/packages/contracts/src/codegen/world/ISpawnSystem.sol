@@ -48,8 +48,6 @@ interface ISpawnSystem {
 
   function getStageOneEndTime() external pure returns (uint256 timestamp);
 
-  function getStakeLimit(address owner) external view returns (uint256 amount);
-
   function setUnStakeFee(uint256 fee) external;
 
   function setPassiveUnStakeFee(uint256 fee) external;
