@@ -35,5 +35,5 @@ interface ITokenManagerSystem {
 
   function passiveUnStake(bytes32 defender, bytes32 attacker) external;
 
-  function getStakeLimit(address owner) external view returns (uint256 amount);
+  function getStakeLimit(address owner) external view returns (uint256);
 }
