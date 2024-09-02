@@ -13,10 +13,10 @@ contract TokenManagerSystem is System {
 
     function initAllowance() public onlyOwner {
         IERC20(Addresses.WETH).approve(Addresses.UniswapV2Router02Address, type(uint256).max);
-        IERC20(Addresses.TokenA).approve(Addresses.UniswapV2Router02Address, type(uint256).max);
+//        IERC20(Addresses.TokenA).approve(Addresses.UniswapV2Router02Address, type(uint256).max);
         IERC20(Addresses.TokenB).approve(Addresses.UniswapV2Router02Address, type(uint256).max);
         IERC20(Addresses.TokenC).approve(Addresses.UniswapV2Router02Address, type(uint256).max);
-        IERC20(Addresses.PairTokenA()).approve(Addresses.UniswapV2Router02Address, type(uint256).max);
+//        IERC20(Addresses.PairTokenA()).approve(Addresses.UniswapV2Router02Address, type(uint256).max);
         IERC20(Addresses.PairTokenB()).approve(Addresses.UniswapV2Router02Address, type(uint256).max);
         IERC20(Addresses.PairTokenC()).approve(Addresses.UniswapV2Router02Address, type(uint256).max);
     }
