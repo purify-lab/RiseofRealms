@@ -224,9 +224,9 @@ contract TokenManagerSystem is System {
         }
     }
 
-    function getStakeLimit(address owner) view public returns (uint256 amount){
+    function getStakeLimit(address owner) view public returns (uint256){
         uint256 amount = 50000;
         bytes32 id = Utility.addressToEntityKey(owner);
-        return amount + PlayerDetail.getLands(id) * 50000;
+        return (amount + PlayerDetail.getLands(id) * 50000);
     }
 }
