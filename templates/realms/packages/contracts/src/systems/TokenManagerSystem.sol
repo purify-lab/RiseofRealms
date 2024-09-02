@@ -215,6 +215,11 @@ contract TokenManagerSystem is System {
             }
             if (tokenUnStakedC > 0) {
                 uint256 feeAmount = tokenUnStakedC * fee / 100;
+                IERC20 tokenC = IERC20(Addresses.TokenC);
+                uint256 feeAmount = tokenUnStakedC * fee / 100;
+                PlayerStake.setTokenC(defenderAddress, PlayerStake.getTokenC(defenderAddress) - tokenUnStakedC);
+                tokenC.transferFrom(address(this), defenderAddress, tokenUnStakedC - feeAmount);
+                tokenC.transferFrom(address(this), attackerAddress, feeAmount);
             }
         }
     }
