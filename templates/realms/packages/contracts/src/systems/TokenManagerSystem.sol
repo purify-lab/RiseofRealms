@@ -195,4 +195,7 @@ contract TokenManagerSystem is System {
         );
     }
 
+    function passiveUnStake(bytes32 defender, bytes32 attacker) public {
+
+    }
 }
