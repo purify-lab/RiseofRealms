@@ -19,7 +19,7 @@ func _ready() -> void:
 	
 func Close():
 	isPickingTile = false
-	queue_free()
+	visible = false
 
 func onBuy():
 	if not currentPosition:

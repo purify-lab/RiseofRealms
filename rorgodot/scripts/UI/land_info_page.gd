@@ -4,11 +4,22 @@ extends Panel
 @onready var UnocuppiedPanel = $Content/UnocuppiedPanel
 @onready var OccupiedPanel = $Content/OccupiedPanel
 
+@onready var BtnAttack = $Content/UnocuppiedPanel/BtnAtk
+
+var currentPos = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	BtnClose.connect("pressed", CloseAnim)
+	BtnAttack.pressed.connect(onAtk)
 
 func onClose():
+	currentPos = false
+	queue_free()
+	
+func onAtk():
+	$"../SelectingSoldierPage".visible = true
+	$"../SelectingSoldierPage".SetDestination(currentPos)
 	queue_free()
 
 func OpenAnim():
@@ -19,6 +30,7 @@ func CloseAnim():
 	
 func SetLocation(pos):
 	$Content/loc.SetTilePos(pos)
+	currentPos = pos
 	
 	
 func InitData(data):

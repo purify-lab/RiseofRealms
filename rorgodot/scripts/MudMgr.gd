@@ -61,7 +61,16 @@ func BuyCapital(tileId):
 		JavaScriptBridge.eval("window.mud.spawnCapital(" + str(tileId) + ")")
 	else:
 		print("Cannot work on windows " + str(tileId))
-	
+
+# 派兵：
+func March(tileId, inf, calA, calB, calC, armyId):
+	var cmd = "window.mud.march(%s, %s, %s, %s, %s, %s)"
+	cmd = cmd % [str(tileId), str(inf), str(calA), str(calB), str(calC), str(armyId)]
+	if not OS.get_name() == "Windows":
+		JavaScriptBridge.eval(cmd)
+	else:
+		print("Marching... ", cmd)
+
 func OnPlayerDetailUpdate(data):
 	if not myEntityKey:
 		myEntityKey = JavaScriptBridge.eval("window.mud.network.playerEntity")
