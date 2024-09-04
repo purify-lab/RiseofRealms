@@ -25,6 +25,9 @@ var myInfo = {}
 var myEntityKey = false
 var myWallet = false
 
+# 地图上所有的主城
+var CapitalsOnMap = {}
+
 var myselfDetail = {
 	isInit = true,
 	isSpawnCapital = false
@@ -45,6 +48,16 @@ func Setup():
 	
 	army_update = JavaScriptBridge.create_callback(OnArmyUpdate)
 	mud.army_updated = army_update
+	
+	capital_update = JavaScriptBridge.create_callback(OnCapitalUpdate)
+	mud.capital_updated = capital_update
+	
+func OnCapitalUpdate(data):
+	var capital = data[0].value[0]
+	var tile_id = capital.tileId
+	MapDrawer.DrawCapital(tile_id)
+	
+	print("UpdateCapital Update")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -101,6 +114,7 @@ func OnArmyUpdate(data):
 		ArmyByEntity[owner] = {}
 	var player = ArmyByEntity[owner]
 	player[army_id] = t
+	MapDrawer.DrawArmy(t.destination)
 	
 	
 # 查找一个可用的Army 编号

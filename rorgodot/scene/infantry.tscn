@@ -1,0 +1,84 @@
+[gd_scene load_steps=13 format=3 uid="uid://c8i7rk2llycpi"]
+
+[ext_resource type="Texture2D" uid="uid://bo65thiqo6yhx" path="res://art/tmp/hero.png" id="1_mnqew"]
+[ext_resource type="Script" path="res://scripts/infantry.gd" id="2_y13km"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5utk4"]
+atlas = ExtResource("1_mnqew")
+region = Rect2(0, 704, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sumvo"]
+atlas = ExtResource("1_mnqew")
+region = Rect2(64, 704, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2jdsy"]
+atlas = ExtResource("1_mnqew")
+region = Rect2(128, 704, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d2c4q"]
+atlas = ExtResource("1_mnqew")
+region = Rect2(192, 704, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sc0lv"]
+atlas = ExtResource("1_mnqew")
+region = Rect2(256, 704, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nycq6"]
+atlas = ExtResource("1_mnqew")
+region = Rect2(320, 704, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pg11k"]
+atlas = ExtResource("1_mnqew")
+region = Rect2(384, 704, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_osgfn"]
+atlas = ExtResource("1_mnqew")
+region = Rect2(448, 704, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mg3xr"]
+atlas = ExtResource("1_mnqew")
+region = Rect2(512, 704, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_u6chc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5utk4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sumvo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2jdsy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d2c4q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sc0lv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nycq6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pg11k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_osgfn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mg3xr")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="infantry" type="AnimatedSprite2D"]
+texture_filter = 1
+position = Vector2(-8, -98)
+scale = Vector2(1.25, 1.25)
+sprite_frames = SubResource("SpriteFrames_u6chc")
+animation = &"idle"
+frame_progress = 0.632238
+script = ExtResource("2_y13km")

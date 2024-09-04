@@ -8,17 +8,20 @@ var tileSize = 45.0
 var HalfSize = tileSize / 2.0
 var SideRadius
 
-#当前生成的ID
+# 当前生成的ID
 var nowId = 1
 
-#地图大小六边形边界 递归深度
+# 地图大小六边形边界 递归深度
 var mapSize = 60
 
-#地块场景
+# 地块场景
 var tileScene = preload("res://scene/tile.tscn")
 
-#建筑场景
+# 建筑场景
 var buildingScene = preload("res://scene/building.tscn")
+
+# 士兵形象
+var soldierScene = preload("res://scene/infantry.tscn")
 
 #地图根节点
 var GameNode
@@ -107,3 +110,19 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
+
+# 绘制士兵军队
+func DrawArmy(tileId):
+	var t = soldierScene.instantiate()
+	GameNode.add_child(t)
+	var tile = TileByID[tileId]
+	var pos = GetScenePosByCoords(tile.coord)
+	t.set_position(pos)
+
+# 绘制主城
+func DrawCapital(tileId):
+	var tile = TileByID[tileId]
+	var pos = GetScenePosByCoords(tile.coord)
+	var t = buildingScene.instantiate()
+	GameNode.add_child(t)
+	t.set_position(pos)
