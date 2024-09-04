@@ -52,6 +52,7 @@ func Init(_game_node):
 	create()
 	
 
+
 #根据坐标获取场景位置
 func GetScenePosByCoords(coords):
 	var t = qAxies * coords.x + rAxies * coords.y + sAxies * coords.z

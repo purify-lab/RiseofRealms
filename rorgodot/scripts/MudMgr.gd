@@ -30,6 +30,8 @@ var myselfDetail = {
 	isSpawnCapital = false
 }
 
+var ArmyByEntity = {}
+
 func Setup():
 	json = JSON.new()
 	print("On Mud Mgr Init")
@@ -40,6 +42,9 @@ func Setup():
 	
 	player_detail_update = JavaScriptBridge.create_callback(OnPlayerDetailUpdate)
 	mud.player_detail_updated = player_detail_update
+	
+	army_update = JavaScriptBridge.create_callback(OnArmyUpdate)
+	mud.army_updated = army_update
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -64,7 +69,7 @@ func BuyCapital(tileId):
 
 # 派兵：
 func March(tileId, inf, calA, calB, calC, armyId):
-	var cmd = "window.mud.march(%s, %s, %s, %s, %s, %s)"
+	var cmd = "window.mud.marchArmy(%s, %s, %s, %s, %s, %s)"
 	cmd = cmd % [str(tileId), str(inf), str(calA), str(calB), str(calC), str(armyId)]
 	if not OS.get_name() == "Windows":
 		JavaScriptBridge.eval(cmd)
@@ -84,6 +89,28 @@ func OnPlayerDetailUpdate(data):
 	print("Jerry OnPlayer DetailUpdate: ", data[0].entity)
 	emit_signal("SigOnPlayerDetailUpdate", data[0].value[0])
 	emit_signal("SigChainConnected", myInfo)
+
+# 部队更新
+func OnArmyUpdate(data):
+	var t = data[0].value[0]
+	var owner = t.owner
+	var army_id = t.id
+	if t.lastTime <= 0:
+		return
+	if not ArmyByEntity.has(owner):
+		ArmyByEntity[owner] = {}
+	var player = ArmyByEntity[owner]
+	player[army_id] = t
+	
+	
+# 查找一个可用的Army 编号
+func FindAvailableArmy():
+	var amryList = ArmyByEntity[myEntityKey]
+	for i in range(1, 10):
+		if not amryList.has(i):
+			print("Found Army Id: ", i)
+			return i
+	return -1
 
 func OnPlayerUpdate(data):
 	print("Jerry OnPlayer Update:", data[0].entity)

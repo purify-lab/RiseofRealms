@@ -29,7 +29,8 @@ func onAtk():
 	if calvalryInp.text != "":
 		caralryNum = int(calvalryInp.text)
 	var tileId = MapDrawer.TileByPos[currentPos].id
-	MudMgr.March(tileId, infantryNum, caralryNum, 0, 0, 1)
+	var army_id = MudMgr.FindAvailableArmy()
+	MudMgr.March(tileId, infantryNum, caralryNum, 0, 0, army_id)
 	onClose()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
