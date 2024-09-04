@@ -52,6 +52,14 @@ func Setup():
 	capital_update = JavaScriptBridge.create_callback(OnCapitalUpdate)
 	mud.capital_updated = capital_update
 	
+	land_update = JavaScriptBridge.create_callback(OnLandUpdate)
+	mud.land_updated = land_update
+	
+# 地块更新消息
+func OnLandUpdate(data):
+	print("On Land Update...")
+	pass
+	
 func OnCapitalUpdate(data):
 	var capital = data[0].value[0]
 	var tile_id = capital.tileId
@@ -119,6 +127,8 @@ func OnArmyUpdate(data):
 	
 # 查找一个可用的Army 编号
 func FindAvailableArmy():
+	if OS.get_name() == "Windows":
+		return 1
 	var amryList = ArmyByEntity[myEntityKey]
 	for i in range(1, 10):
 		if not amryList.has(i):
