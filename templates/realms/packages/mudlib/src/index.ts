@@ -105,7 +105,8 @@ class MudLib {
     // Components expose a stream that triggers when the component is updated.
 
     components.Player.update$.subscribe((update) => {
-      console.log("Player updated", update)
+      const timestamp = new Date().toISOString(); // 获取当前时间戳
+      console.log(`${timestamp} -Player updated`, update)
       this.player_updated(({
         entity: update.entity,
         value: update.value
@@ -113,7 +114,8 @@ class MudLib {
     })
 
     components.PlayerDetail.update$.subscribe((update) => {
-      console.log("PlayerDetails updated", update)
+      const timestamp = new Date().toISOString(); // 获取当前时间戳
+      console.log(`${timestamp} -PlayerDetails updated`, update)
       this.player_detail_updated(({
         entity: update.entity,
         value: update.value
@@ -121,7 +123,8 @@ class MudLib {
     });
 
     components.Land.update$.subscribe((update) => {
-      console.log("Land updated", update)
+      const timestamp = new Date().toISOString(); // 获取当前时间戳
+      console.log(`${timestamp} -Land updated`, update)
       this.land_updated(({
         entity: update.entity,
         value: update.value
@@ -129,7 +132,8 @@ class MudLib {
     });
 
     components.Capital.update$.subscribe((update) => {
-      console.log("Capital updated", update)
+      const timestamp = new Date().toISOString(); // 获取当前时间戳
+      console.log(`${timestamp} -Capital updated`, update)
       this.capital_updated(({
         entity: update.entity,
         value: update.value
@@ -137,7 +141,8 @@ class MudLib {
     });
 
     components.Army.update$.subscribe((update) => {
-      console.log("Army updated", update)
+      const timestamp = new Date().toISOString(); // 获取当前时间戳
+      console.log(`${timestamp} -Army updated`, update)
       this.army_updated(({
         entity: update.entity,
         value: update.value
@@ -145,7 +150,8 @@ class MudLib {
     });
 
     components.BattleReport.update$.subscribe((update) => {
-      console.log("BattleReport updated", update)
+      const timestamp = new Date().toISOString(); // 获取当前时间戳
+      console.log(`${timestamp} -BattleReport updated`, update)
       this.battle_report_updated(({
         entity: update.entity,
         value: update.value
@@ -156,7 +162,8 @@ class MudLib {
 
     network.storedBlockLogs$.subscribe((update) => {
       if (!all_catch_up && update.blockNumber >= setupBlockNumber) {
-        console.log("all catch up", setupBlockNumber, '=>', update.blockNumber);
+        const timestamp = new Date().toISOString(); // 获取当前时间戳
+        console.log(`${timestamp} -all catch up`, setupBlockNumber, '=>', update.blockNumber);
         all_catch_up = true;
         this.all_catch_up({})
       }
