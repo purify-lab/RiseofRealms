@@ -4802,7 +4802,7 @@ async function call(ne, oe) {
     });
     return _n === "0x" ? { data: void 0 } : { data: _n };
   } catch (St) {
-    const Nt = getRevertErrorData(St), { offchainLookup: Ft, offchainLookupSignature: Vt } = await import("./ccip-52908228.js");
+    const Nt = getRevertErrorData(St), { offchainLookup: Ft, offchainLookupSignature: Vt } = await import("./ccip-61e428fd.js");
     if (ne.ccipRead !== !1 && (Nt == null ? void 0 : Nt.slice(0, 10)) === Vt && He)
       return { data: await Ft(ne, { data: Nt, to: He }) };
     throw getCallError(St, {
@@ -57906,7 +57906,7 @@ class MudLib {
     });
     let At = !1;
     ht.storedBlockLogs$.subscribe((St) => {
-      !At && St.blockNumber >= gt && (console.log("all catch up"), At = !0, this.all_catch_up({}));
+      !At && St.blockNumber >= gt && (console.log("all catch up", gt, "=>", St.blockNumber), At = !0, this.all_catch_up({}));
     });
   }
   // To be overwritten by Godot callback
