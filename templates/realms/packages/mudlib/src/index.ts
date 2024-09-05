@@ -156,7 +156,7 @@ class MudLib {
 
     network.storedBlockLogs$.subscribe((update) => {
       if (!all_catch_up && update.blockNumber >= setupBlockNumber) {
-        console.log("all catch up");
+        console.log("all catch up", setupBlockNumber, '=>', update.blockNumber);
         all_catch_up = true;
         this.all_catch_up({})
       }
