@@ -2,39 +2,7 @@ import {setup} from "./mud/setup";
 import mudConfig from "../../contracts/mud.config";
 import {mount as mountDevTools} from "@latticexyz/dev-tools";
 
-
-function convertFieldsToString(obj: Record<string, any>): Record<string, any> {
-  const result: Record<string, any> = Array.isArray(obj) ? [] : {};
-
-  for (const key in obj) {
-    const value = obj[key];
-
-    if (typeof value === 'bigint') {
-      result[key] = value.toString();
-    } else if (typeof value === 'number') {
-      result[key] = value.toString();
-    } else if (typeof value === 'object' && value !== null) {
-      // 递归处理对象或数组
-      result[key] = convertFieldsToString(value);
-    } else {
-      // 其他类型，保留原始值
-      result[key] = value;
-    }
-  }
-
-  return result;
-}
-
-function serialize(data) {
-  return JSON.stringify(data, (key, value) =>
-    typeof value === 'bigint' ? value.toString() : value
-  );
-}
-
-
 class MudLib {
-  increment: any
-
   async setup() {
     const {
       components,
@@ -165,7 +133,9 @@ class MudLib {
         const timestamp = new Date().toISOString(); // 获取当前时间戳
         console.log(`${timestamp} -all catch up`, setupBlockNumber, '=>', update.blockNumber);
         all_catch_up = true;
-        this.all_catch_up({})
+        setTimeout(() => {
+          this.all_catch_up({})
+        }, 2000);
       }
 
       // console.log("Stored block logs", update)
