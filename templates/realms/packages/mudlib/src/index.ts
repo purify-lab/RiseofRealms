@@ -1,22 +1,38 @@
 import {setup} from "./mud/setup";
 import mudConfig from "../../contracts/mud.config";
 import {mount as mountDevTools} from "@latticexyz/dev-tools";
-import { stringify, parse } from 'flatted';
+import {stringify} from 'flatted';
 
 
-function convertFieldsToString(obj: Record<string, any>): Record<string, string> {
-  const result: Record<string, string> = {};
+function convertFieldsToString(obj: Record<string, any>): Record<string, any> {
+  const result: Record<string, any> = Array.isArray(obj) ? [] : {};
 
   for (const key in obj) {
-    if (typeof obj[key] === 'bigint' || typeof obj[key] === 'number') {
-      result[key] = obj[key].toString();
+    const value = obj[key];
+
+    if (typeof value === 'bigint') {
+      result[key] = value.toString();
+    } else if (typeof value === 'number') {
+      result[key] = value.toString();
+    } else if (typeof value === 'object' && value !== null) {
+      // 递归处理对象或数组
+      result[key] = convertFieldsToString(value);
     } else {
-      result[key] = obj[key]; // 可以选择保留原始值，或根据需要处理其他类型
+      // 其他类型，保留原始值
+      result[key] = value;
     }
   }
 
   return result;
 }
+
+function serialize(data) {
+  return JSON.stringify(data, (key, value) =>
+    typeof value === 'bigint' ? value.toString() : value
+  );
+}
+
+
 
 class MudLib {
   increment: any
@@ -89,37 +105,57 @@ class MudLib {
 
     components.Player.update$.subscribe((update) => {
       console.log("Player updated", update)
-      this.player_updated(stringify(convertFieldsToString(update)))
+      this.player_updated(serialize({
+        entity:update.entity,
+        value:update.value
+      }))
     })
 
     components.PlayerDetail.update$.subscribe((update) => {
       console.log("PlayerDetails updated", update)
-      this.player_detail_updated(stringify(convertFieldsToString(update)))
+      this.player_detail_updated(serialize({
+        entity:update.entity,
+        value:update.value
+      }))
     });
 
     components.Land.update$.subscribe((update) => {
       console.log("Land updated", update)
-      this.land_updated(stringify(convertFieldsToString(update)))
+      this.land_updated(serialize({
+        entity:update.entity,
+        value:update.value
+      }))
     });
 
     components.Capital.update$.subscribe((update) => {
       console.log("Capital updated", update)
-      this.capital_updated(stringify(convertFieldsToString(update)))
+      this.capital_updated(serialize({
+        entity:update.entity,
+        value:update.value
+      }))
     });
 
     components.Army.update$.subscribe((update) => {
       console.log("Army updated", update)
-      this.army_updated(stringify(convertFieldsToString(update)))
+      this.army_updated(serialize({
+        entity:update.entity,
+        value:update.value
+      }))
     });
 
     components.BattleReport.update$.subscribe((update) => {
       console.log("BattleReport updated", update)
-      this.battle_report_updated(stringify(convertFieldsToString(update)))
+      this.battle_report_updated(serialize({
+        entity:update.entity,
+        value:update.value
+      }))
     })
 
     network.storedBlockLogs$.subscribe((update) => {
       console.log("Stored block logs", update)
-      this.stored_block_logs(stringify(convertFieldsToString(update)))
+      // this.stored_block_logs(stringify({
+      //   blockNumber: update.blockNumber.toString()
+      // }))
     });
 
     const blockNumber = await network.publicClient.getBlockNumber()
@@ -143,7 +179,7 @@ class MudLib {
   army_updated(update: any) {
   }
 
-  battle_report_updated(update:any){
+  battle_report_updated(update: any) {
   }
 
   stored_block_logs(update: any) {
