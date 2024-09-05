@@ -98,7 +98,7 @@ contract SpawnSystem is System {
         require(msg.value == 500000000000000, "No eth");
         bytes32 owner = Utility.addressToEntityKey(address(_msgSender()));
         require(Capital.getOwner(capital_id) == 0, "this capital already spawned");
-        require(PlayerDetail.getIsSpawnCapital(owner) == true, "you already spawned capital");
+        require(PlayerDetail.getIsSpawnCapital(owner) == false, "you already spawned capital");
 
         PlayerDetail.setLands(owner, PlayerDetail.getLands(owner) + 1);
         PlayerDetail.setIsSpawnCapital(owner, true);

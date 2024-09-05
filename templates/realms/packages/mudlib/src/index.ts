@@ -1,6 +1,22 @@
 import {setup} from "./mud/setup";
 import mudConfig from "../../contracts/mud.config";
 import {mount as mountDevTools} from "@latticexyz/dev-tools";
+import { stringify, parse } from 'flatted';
+
+
+function convertFieldsToString(obj: Record<string, any>): Record<string, string> {
+  const result: Record<string, string> = {};
+
+  for (const key in obj) {
+    if (typeof obj[key] === 'bigint' || typeof obj[key] === 'number') {
+      result[key] = obj[key].toString();
+    } else {
+      result[key] = obj[key]; // 可以选择保留原始值，或根据需要处理其他类型
+    }
+  }
+
+  return result;
+}
 
 class MudLib {
   increment: any
@@ -73,37 +89,37 @@ class MudLib {
 
     components.Player.update$.subscribe((update) => {
       console.log("Player updated", update)
-      this.player_updated(JSON.stringify(update))
+      this.player_updated(stringify(convertFieldsToString(update)))
     })
 
     components.PlayerDetail.update$.subscribe((update) => {
       console.log("PlayerDetails updated", update)
-      this.player_detail_updated(JSON.stringify(update))
+      this.player_detail_updated(stringify(convertFieldsToString(update)))
     });
 
     components.Land.update$.subscribe((update) => {
       console.log("Land updated", update)
-      this.land_updated(JSON.stringify(update))
+      this.land_updated(stringify(convertFieldsToString(update)))
     });
 
     components.Capital.update$.subscribe((update) => {
       console.log("Capital updated", update)
-      this.capital_updated(JSON.stringify(update))
+      this.capital_updated(stringify(convertFieldsToString(update)))
     });
 
     components.Army.update$.subscribe((update) => {
       console.log("Army updated", update)
-      this.army_updated(JSON.stringify(update))
+      this.army_updated(stringify(convertFieldsToString(update)))
     });
 
     components.BattleReport.update$.subscribe((update) => {
       console.log("BattleReport updated", update)
-      this.battle_report_updated(JSON.stringify(update))
+      this.battle_report_updated(stringify(convertFieldsToString(update)))
     })
 
     network.storedBlockLogs$.subscribe((update) => {
       console.log("Stored block logs", update)
-      this.stored_block_logs(JSON.stringify(update))
+      this.stored_block_logs(stringify(convertFieldsToString(update)))
     });
 
     const blockNumber = await network.publicClient.getBlockNumber()
