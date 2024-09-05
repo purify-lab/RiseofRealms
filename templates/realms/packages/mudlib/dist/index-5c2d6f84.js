@@ -4802,7 +4802,7 @@ async function call(ne, oe) {
     });
     return _n === "0x" ? { data: void 0 } : { data: _n };
   } catch (St) {
-    const Nt = getRevertErrorData(St), { offchainLookup: Ft, offchainLookupSignature: Vt } = await import("./ccip-6f208825.js");
+    const Nt = getRevertErrorData(St), { offchainLookup: Ft, offchainLookupSignature: Vt } = await import("./ccip-52908228.js");
     if (ne.ccipRead !== !1 && (Nt == null ? void 0 : Nt.slice(0, 10)) === Vt && He)
       return { data: await Ft(ne, { data: Nt, to: He }) };
     throw getCallError(St, {
@@ -23994,8 +23994,8 @@ const worldsJson = {
     ToadNumber: 27977825
   },
   17069: {
-    address: "0xfd24503495bf2aeeb06fe8eaa28a07e00c111045",
-    blockNumber: 6673606
+    address: "0xedaae3536b8b8694fc2cbf42c14c1137a7646c30",
+    blockNumber: 6676117
   },
   31337: {
     address: "0x5FbDB2315678afecb367f032d93F642f64180aa3"
