@@ -4802,7 +4802,7 @@ async function call(ne, oe) {
     });
     return _n === "0x" ? { data: void 0 } : { data: _n };
   } catch (At) {
-    const Nt = getRevertErrorData(At), { offchainLookup: Ft, offchainLookupSignature: Vt } = await import("./ccip-272b91ea.js");
+    const Nt = getRevertErrorData(At), { offchainLookup: Ft, offchainLookupSignature: Vt } = await import("./ccip-9fdfc95b.js");
     if (ne.ccipRead !== !1 && (Nt == null ? void 0 : Nt.slice(0, 10)) === Vt && He)
       return { data: await Ft(ne, { data: Nt, to: He }) };
     throw getCallError(At, {
@@ -57832,12 +57832,6 @@ react-router-dom/dist/index.js:
 @noble/hashes/esm/utils.js:
   (*! noble-hashes - MIT License (c) 2022 Paul Miller (paulmillr.com) *)
 */
-function serialize(ne) {
-  return JSON.stringify(
-    ne,
-    (oe, ae) => typeof ae == "bigint" ? ae.toString() : ae
-  );
-}
 class MudLib {
   constructor() {
     dc(this, "increment");
@@ -57880,37 +57874,39 @@ class MudLib {
       // tables:mudConfig.tables
       useStore: ht.useStore
     }), this.network = ht, oe.Player.update$.subscribe((St) => {
-      console.log("Player updated", St), this.player_updated(serialize({
+      console.log("Player updated", St), this.player_updated({
         entity: St.entity,
         value: St.value
-      }));
+      });
     }), oe.PlayerDetail.update$.subscribe((St) => {
-      console.log("PlayerDetails updated", St), this.player_detail_updated(serialize({
+      console.log("PlayerDetails updated", St), this.player_detail_updated({
         entity: St.entity,
         value: St.value
-      }));
+      });
     }), oe.Land.update$.subscribe((St) => {
-      console.log("Land updated", St), this.land_updated(serialize({
+      console.log("Land updated", St), this.land_updated({
         entity: St.entity,
         value: St.value
-      }));
+      });
     }), oe.Capital.update$.subscribe((St) => {
-      console.log("Capital updated", St), this.capital_updated(serialize({
+      console.log("Capital updated", St), this.capital_updated({
         entity: St.entity,
         value: St.value
-      }));
+      });
     }), oe.Army.update$.subscribe((St) => {
-      console.log("Army updated", St), this.army_updated(serialize({
+      console.log("Army updated", St), this.army_updated({
         entity: St.entity,
         value: St.value
-      }));
+      });
     }), oe.BattleReport.update$.subscribe((St) => {
-      console.log("BattleReport updated", St), this.battle_report_updated(serialize({
+      console.log("BattleReport updated", St), this.battle_report_updated({
         entity: St.entity,
         value: St.value
-      }));
+      });
     }), ht.storedBlockLogs$.subscribe((St) => {
-      console.log("Stored block logs", St);
+      console.log("Stored block logs", St), this.stored_block_logs({
+        blockNumber: St.blockNumber.toString()
+      });
     }), await ht.publicClient.getBlockNumber();
   }
   // To be overwritten by Godot callback
