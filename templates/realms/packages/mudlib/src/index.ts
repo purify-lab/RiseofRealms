@@ -1,7 +1,6 @@
 import {setup} from "./mud/setup";
 import mudConfig from "../../contracts/mud.config";
 import {mount as mountDevTools} from "@latticexyz/dev-tools";
-import {stringify} from 'flatted';
 
 
 function convertFieldsToString(obj: Record<string, any>): Record<string, any> {
@@ -31,7 +30,6 @@ function serialize(data) {
     typeof value === 'bigint' ? value.toString() : value
   );
 }
-
 
 
 class MudLib {
@@ -105,57 +103,57 @@ class MudLib {
 
     components.Player.update$.subscribe((update) => {
       console.log("Player updated", update)
-      this.player_updated(serialize({
-        entity:update.entity,
-        value:update.value
+      this.player_updated(({
+        entity: update.entity,
+        value: update.value
       }))
     })
 
     components.PlayerDetail.update$.subscribe((update) => {
       console.log("PlayerDetails updated", update)
-      this.player_detail_updated(serialize({
-        entity:update.entity,
-        value:update.value
+      this.player_detail_updated(({
+        entity: update.entity,
+        value: update.value
       }))
     });
 
     components.Land.update$.subscribe((update) => {
       console.log("Land updated", update)
-      this.land_updated(serialize({
-        entity:update.entity,
-        value:update.value
+      this.land_updated(({
+        entity: update.entity,
+        value: update.value
       }))
     });
 
     components.Capital.update$.subscribe((update) => {
       console.log("Capital updated", update)
-      this.capital_updated(serialize({
-        entity:update.entity,
-        value:update.value
+      this.capital_updated(({
+        entity: update.entity,
+        value: update.value
       }))
     });
 
     components.Army.update$.subscribe((update) => {
       console.log("Army updated", update)
-      this.army_updated(serialize({
-        entity:update.entity,
-        value:update.value
+      this.army_updated(({
+        entity: update.entity,
+        value: update.value
       }))
     });
 
     components.BattleReport.update$.subscribe((update) => {
       console.log("BattleReport updated", update)
-      this.battle_report_updated(serialize({
-        entity:update.entity,
-        value:update.value
+      this.battle_report_updated(({
+        entity: update.entity,
+        value: update.value
       }))
     })
 
     network.storedBlockLogs$.subscribe((update) => {
       console.log("Stored block logs", update)
-      // this.stored_block_logs(stringify({
-      //   blockNumber: update.blockNumber.toString()
-      // }))
+      this.stored_block_logs(({
+        blockNumber: update.blockNumber.toString()
+      }))
     });
 
     const blockNumber = await network.publicClient.getBlockNumber()
