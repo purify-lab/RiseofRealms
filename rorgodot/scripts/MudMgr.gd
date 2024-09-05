@@ -6,8 +6,11 @@ var player_detail_update
 var capital_update
 var army_update
 var land_update
+var all_catch_up
 
 var json
+
+var isAllCatchUp = false
 
 signal SigOnPlayerUpdate(data)
 signal SigOnPlayerDetailUpdate(data)
@@ -21,6 +24,8 @@ var armyStorage = {}
 var landStorage = {}
 
 var myInfo = {}
+
+var undrawnArmy = []
 
 var myEntityKey = false
 var myWallet = false
@@ -55,20 +60,50 @@ func Setup():
 	land_update = JavaScriptBridge.create_callback(OnLandUpdate)
 	mud.land_updated = land_update
 	
+	all_catch_up = JavaScriptBridge.create_callback(OnAllCatchUp)
+	mud.all_catch_up = all_catch_up
+	
 # 地块更新消息
 func OnLandUpdate(data):
 	print("On Land Update...")
+	
+# 区块同步完成
+func OnAllCatchUp(data):
+	print("All Catch Up....")
+	isAllCatchUp = true
+	if not playerStorage.has(myEntityKey):
+		SpawnPlayer()
+	DrawAllArmy()
+	
+# 生成玩家
+func SpawnPlayer():
+	if OS.get_name() == "Windows":
+		pass
+	else:
+		JavaScriptBridge.eval("window.mud.spawnPlayer()")
 	
 func OnCapitalUpdate(data):
 	var capital = data[0].value[0]
 	var tile_id = capital.tileId
 	MapDrawer.DrawCapital(tile_id)
+	CapitalsOnMap[capital.owner] = capital
 	
 	print("UpdateCapital Update")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass
+
+# 查找我自己的首都
+func find_my_capital():
+	var tt = CapitalsOnMap[myEntityKey]
+	return tt
+
+# 查找指定人的主城
+func find_capital(key):
+	for i in CapitalsOnMap:
+		print("We  Get : ", i)
+	return CapitalsOnMap[key]
 
 # 购买士兵
 func BuySoldier(infantryNum, cavalryNum):
@@ -121,12 +156,21 @@ func OnArmyUpdate(data):
 		ArmyByEntity[owner] = {}
 	var player = ArmyByEntity[owner]
 	player[army_id] = t
-	MapDrawer.DrawArmy(t.destination)
+	undrawnArmy.append(t)
+	if isAllCatchUp:
+		DrawAllArmy()
+
+func DrawAllArmy():
+	for i in undrawnArmy:
+		MapDrawer.DrawArmy(i)
+	undrawnArmy = []
 	
 	
 # 查找一个可用的Army 编号
 func FindAvailableArmy():
 	if OS.get_name() == "Windows":
+		return 1
+	if not ArmyByEntity.has(myEntityKey):
 		return 1
 	var amryList = ArmyByEntity[myEntityKey]
 	for i in range(1, 10):

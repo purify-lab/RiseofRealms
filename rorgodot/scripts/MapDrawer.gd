@@ -122,16 +122,15 @@ func get_neighbours(coord):
 	]
 
 # 绘制士兵军队
-func DrawArmy(tileId):
-	var tile = TileByID[tileId]
+func DrawArmy(data):
+	var tile = TileByID[data.destination]
+	var capital = MudMgr.find_capital(data.owner)
 	var pos = GetScenePosByCoords(tile.coord)
-	var startPos = GetScenePosByCoords(Vector3i.ZERO)
-	var path = find_path(Vector3i.ZERO, tile.coord)
-	print("Find Path: ",  path)
+	var startPos = TileByID[capital.tileId]
+	var path = find_path(startPos.coord, tile.coord)
 	var line = route_scene.instantiate()
 	GameNode.add_child(line)
 	line.DrawPoints(path)
-
 	var t = soldierScene.instantiate()
 	GameNode.add_child(t)
 	t.set_position(pos)
@@ -196,7 +195,7 @@ func find_path(from: Vector3i, to: Vector3i):
 					if reverse != from:
 						finalPath.append(reverse)
 				
-				finalPath.append(from)	
+				finalPath.append(from)
 				finalPath.reverse()
 				finalPath.append(to)
 				
