@@ -41,7 +41,8 @@ func FinishedInit():
 		print("Already Buy Capital...")
 	
 func OnClickBuyCapital():
-	UiMgr.open_buy_capital_page($"..")
+	#UiMgr.open_buy_capital_page($"..")
+	$"../PurchaseLandPanel".visible = true
 
 func onPlayerDetailUpdate(data):
 	print("********* Player Detail Updated!")
@@ -59,8 +60,6 @@ func onMyselfLogined(data):
 		LabMyGold.text = str(gold)
 		LabMyLands.text = str(lands)
 		LabMySoldiers.text = str(soldierCount)
-		if MudMgr.myselfDetail.isInit:
-			FinishedInit()
 		MudMgr.myselfDetail = myDetail
 
 func OnBuySoldier():

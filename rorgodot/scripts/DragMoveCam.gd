@@ -25,6 +25,7 @@ func _unhandled_input(event):
 		if event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
 			var t = get_global_mouse_position()
 			var coord = MapDrawer.SnapToHexGrid(t)
+			print("Is Picking> ", $"../CanvasLayer/PurchaseLandPanel".isPickingTile)
 			if $"../CanvasLayer/PurchaseLandPanel".isPickingTile:
 				$"../CanvasLayer/PurchaseLandPanel".OnPickTile(coord)
 			else:

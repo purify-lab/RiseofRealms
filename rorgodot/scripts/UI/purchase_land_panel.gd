@@ -31,6 +31,7 @@ func onBuy():
 func OnSelect():
 	visible = false
 	isPickingTile = true
+	print('on Select Tile')
 
 func OnPickTile(pos):
 	LabCoords.text = "Coordinate: " + str(pos)
