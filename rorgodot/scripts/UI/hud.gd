@@ -1,12 +1,24 @@
 extends Panel
 
+# 顶部购买士兵和购买土地的两个按钮
 @onready var BtnBuySoldier = $Top/Soldier/BtnBuySoldier
 @onready var BtnShowMyLands = $Top/Lands/BtnShowMyLands
 
+#钱包标签
 @onready var LabAddress = $Top/Address/addr
+
+# 地块 士兵 金币标签
 @onready var LabMyLands = $Top/Lands/Label
 @onready var LabMySoldiers = $Top/Soldier/Label
 @onready var LabMyGold = $Top/Coins/Label
+
+# 我的Entity ID
+var MyEntityKey
+
+var IsBuying
+
+# 购买首都按钮
+@onready var BtnBuyCapital = $BtnBuyCapital
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -17,6 +29,19 @@ func _ready() -> void:
 	print("OS: ", OS.get_name())
 	if not OS.get_name() == "Windows":
 		MudMgr.Setup()
+	else:
+		FinishedInit()
+	BtnBuyCapital.pressed.connect(OnClickBuyCapital)
+
+# 我的信息来了之后检查是否购买了主城
+func FinishedInit():
+	if not MudMgr.myselfDetail.isSpawnCapital:
+		$"../PurchaseLandPanel".visible = true
+	else:
+		print("Already Buy Capital...")
+	
+func OnClickBuyCapital():
+	UiMgr.open_buy_capital_page($"..")
 
 func onPlayerDetailUpdate(data):
 	print("********* Player Detail Updated!")
@@ -34,7 +59,9 @@ func onMyselfLogined(data):
 		LabMyGold.text = str(gold)
 		LabMyLands.text = str(lands)
 		LabMySoldiers.text = str(soldierCount)
-
+		if MudMgr.myselfDetail.isInit:
+			FinishedInit()
+		MudMgr.myselfDetail = myDetail
 
 func OnBuySoldier():
 	var t = UiMgr.OpenBuySoldier()

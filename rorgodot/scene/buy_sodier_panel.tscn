@@ -177,6 +177,7 @@ offset_right = -4.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_cxie6")
+placeholder_text = "Input Numbers"
 
 [node name="Item2" type="NinePatchRect" parent="Content"]
 layout_mode = 1
@@ -270,6 +271,7 @@ offset_right = -4.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_cxie6")
+placeholder_text = "Input Numbers"
 
 [node name="Currency" type="TextureRect" parent="Content"]
 layout_mode = 1

@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://ckr0q2l01nmp0"]
+[gd_scene load_steps=14 format=3 uid="uid://ckr0q2l01nmp0"]
 
 [ext_resource type="Texture2D" uid="uid://dg7l1nimns1nr" path="res://art/UI/common/common_bottom_fence.png" id="1_eex1g"]
+[ext_resource type="Script" path="res://scripts/UI/selecting_soldier_page.gd" id="1_h3oxo"]
 [ext_resource type="Texture2D" uid="uid://dnkd8tvc48vho" path="res://art/UI/common/common_button_close_n.png" id="2_2bsvh"]
 [ext_resource type="FontFile" uid="uid://d26g6ohny0dmm" path="res://art/UI/font/Montserrat-Black.otf" id="3_740s4"]
 [ext_resource type="Texture2D" uid="uid://0i3uaaxorl5p" path="res://art/UI/soldier/Soldier_warrior_A_n.png" id="4_ee3br"]
@@ -26,6 +27,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_h3oxo")
 
 [node name="Bg" type="NinePatchRect" parent="."]
 layout_mode = 1
