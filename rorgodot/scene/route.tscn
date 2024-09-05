@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://jgfpa7lnyeo"]
+
+[ext_resource type="Script" path="res://scripts/route.gd" id="1_lq5vy"]
+[ext_resource type="Texture2D" uid="uid://c84lhhx04ammv" path="res://icon.svg" id="1_uba0r"]
+
+[node name="Route" type="Node"]
+script = ExtResource("1_lq5vy")
+
+[node name="Line2D" type="Line2D" parent="."]
+z_as_relative = false
+texture_repeat = 2
+width = 15.0
+texture = ExtResource("1_uba0r")
+texture_mode = 1

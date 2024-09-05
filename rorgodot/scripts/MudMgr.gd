@@ -58,7 +58,6 @@ func Setup():
 # 地块更新消息
 func OnLandUpdate(data):
 	print("On Land Update...")
-	pass
 	
 func OnCapitalUpdate(data):
 	var capital = data[0].value[0]

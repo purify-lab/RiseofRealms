@@ -46,6 +46,7 @@ var TileByID = {}
 #坐标地块对应字典
 var TileByPos = {}
 
+# 初始化
 func Init(_game_node):
 	SideRadius = HalfSize * sqrt(3.0)
 	rAxies = Vector3(0, 0, -1.5 * HalfSize)
@@ -53,8 +54,6 @@ func Init(_game_node):
 	sAxies = Vector3(-SideRadius, 0,  1.5 * HalfSize)
 	GameNode = _game_node
 	create()
-	
-
 
 #根据坐标获取场景位置
 func GetScenePosByCoords(coords):
@@ -69,7 +68,7 @@ func PlaceBuildingOnTile(pos):
 	
 	return t
 	
-#生成一个单块Tile
+# 生成一个单块Tile
 func create_tile(pos):
 	var new_tile = tileScene.instantiate()
 	var scene_pos = GetScenePosByCoords(pos)
@@ -82,7 +81,8 @@ func create_tile(pos):
 	new_tile.set_position(scene_pos)
 	GameNode.add_child(new_tile)
 	return new_tile
-	
+
+# 创建一整张地图
 func create():
 	Maps = {}
 	TileByID = {}
@@ -110,13 +110,30 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
+	
+func get_neighbours(coord):
+	return [
+		coord + Vector3i(1, 0, -1),
+		coord + Vector3i(1, -1, 0),
+		coord + Vector3i(0, -1, 1),
+		coord + Vector3i(-1, 0, 1),
+		coord + Vector3i(-1, 1, 0),
+		coord + Vector3i(0, 1, -1),
+	]
 
 # 绘制士兵军队
 func DrawArmy(tileId):
-	var t = soldierScene.instantiate()
-	GameNode.add_child(t)
 	var tile = TileByID[tileId]
 	var pos = GetScenePosByCoords(tile.coord)
+	var startPos = GetScenePosByCoords(Vector3i.ZERO)
+	var path = find_path(Vector3i.ZERO, tile.coord)
+	print("Find Path: ",  path)
+	var line = route_scene.instantiate()
+	GameNode.add_child(line)
+	line.DrawPoints(path)
+
+	var t = soldierScene.instantiate()
+	GameNode.add_child(t)
 	t.set_position(pos)
 
 # 绘制主城
@@ -126,3 +143,64 @@ func DrawCapital(tileId):
 	var t = buildingScene.instantiate()
 	GameNode.add_child(t)
 	t.set_position(pos)
+	
+var route_scene = preload("res://scene/route.tscn")
+# 绘制路线
+func DrawLine(from, to):
+	var t = route_scene.instantiate()
+	GameNode.add_child(t)
+	t.Draw(from, to)
+
+# 计算两个地点的Cube距离
+func cube_distance(a : Vector3i, b : Vector3i):
+	var vec = a - b;
+	return (absf(vec.x) + absf(vec.y) + absf(vec.z)) / 2.0;
+
+# 寻路
+func find_path(from: Vector3i, to: Vector3i):
+	var start = from
+	var open = {}
+	var closed = {}
+	var path = {}
+	
+	open[start] = 0
+	while open.size() > 0:
+		var minDis = 1.7014117e+38
+		var nowPos = Vector3i.ZERO
+		var cost = 0
+		for i in open.keys():
+			var nowDis = open[i]
+			var totaldis = nowDis + cube_distance(i, to)
+			if minDis > totaldis:
+				minDis = totaldis
+				nowPos = i
+				cost = totaldis
+		closed[nowPos] = cost
+		open.erase(nowPos)
+		
+		var neighbours = get_neighbours(nowPos)
+		for k in neighbours:
+			if not TileByPos.has(k):
+				continue
+			if closed.has(k):
+				continue
+			if not open.has(k):
+				path[k] = nowPos
+				open[k] = closed[nowPos] + cube_distance(k, to)
+			if k == to:
+				var reverse = k
+				var finalPath = []
+				
+				while reverse != from:
+					reverse = path[reverse]
+					if reverse != from:
+						finalPath.append(reverse)
+				
+				finalPath.append(from)	
+				finalPath.reverse()
+				finalPath.append(to)
+				
+				return finalPath
+	return null
+		
+		
