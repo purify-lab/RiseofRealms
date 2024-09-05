@@ -48,6 +48,8 @@ class MudLib {
       network,
     } = await setup();
 
+    const setupBlockNumber = await network.publicClient.getBlockNumber()
+
     this.spawnPlayer = spawnPlayer;
     this.spawnCapital = spawnCapital;
     this.marchArmy = marchArmy;
@@ -83,6 +85,7 @@ class MudLib {
     // });
 
     // console.log("mudConfig",mudConfig)
+
 
     mountDevTools({
       config: mudConfig,
@@ -149,15 +152,27 @@ class MudLib {
       }))
     })
 
-    network.storedBlockLogs$.subscribe((update) => {
-      console.log("Stored block logs", update)
-      this.stored_block_logs(({
-        blockNumber: update.blockNumber.toString()
-      }))
-    });
+    let all_catch_up = false;
 
-    const blockNumber = await network.publicClient.getBlockNumber()
-    return blockNumber;
+    network.storedBlockLogs$.subscribe((update) => {
+      if (!all_catch_up && update.blockNumber >= setupBlockNumber) {
+        console.log("all catch up");
+        all_catch_up = true;
+        this.all_catch_up({})
+      }
+
+      // console.log("Stored block logs", update)
+      //   this.stored_block_logs(({
+      //     blockNumber: (Number)(update.blockNumber.toString())
+      //   }))
+    });
+    //
+    // // return blockNumber;
+    //
+    // console.log("setup block logs", update)
+    // this.setup_block(({
+    //   blockNumber: (Number)(blockNumber.toString())
+    // }));
   }
 
 
@@ -181,6 +196,14 @@ class MudLib {
   }
 
   stored_block_logs(update: any) {
+  }
+
+  setup_block(update: any) {
+
+  }
+
+  all_catch_up(update: any) {
+
   }
 }
 
