@@ -130,10 +130,10 @@ class MudLib {
 
     network.storedBlockLogs$.subscribe((update) => {
       if (!all_catch_up && update.blockNumber >= setupBlockNumber) {
-        const timestamp = new Date().toISOString(); // 获取当前时间戳
-        console.log(`${timestamp} -all catch up`, setupBlockNumber, '=>', update.blockNumber);
         all_catch_up = true;
         setTimeout(() => {
+          const timestamp = new Date().toISOString(); // 获取当前时间戳
+          console.log(`${timestamp} -all catch up`, setupBlockNumber, '=>', update.blockNumber);
           this.all_catch_up({})
         }, 2000);
       }
