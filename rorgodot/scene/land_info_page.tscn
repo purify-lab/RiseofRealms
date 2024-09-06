@@ -460,6 +460,7 @@ theme_override_font_sizes/font_size = 32
 text = "123,123"
 
 [node name="OccupiedPanel" type="Panel" parent="Content"]
+visible = false
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 15
@@ -594,7 +595,7 @@ grow_vertical = 2
 texture = ExtResource("18_jppm8")
 stretch_mode = 2
 
-[node name="Label" type="Label" parent="Content/OccupiedPanel/NinePatchRect/Soldier1"]
+[node name="Soldier1Num" type="Label" parent="Content/OccupiedPanel/NinePatchRect/Soldier1"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -624,7 +625,7 @@ grow_vertical = 2
 texture = ExtResource("19_j46fe")
 stretch_mode = 2
 
-[node name="Label" type="Label" parent="Content/OccupiedPanel/NinePatchRect/Soldier2"]
+[node name="Soldier2Num" type="Label" parent="Content/OccupiedPanel/NinePatchRect/Soldier2"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5

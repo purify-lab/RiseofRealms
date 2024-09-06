@@ -3,6 +3,7 @@ extends Panel
 @onready var BtnClose = $Content/BtnClose
 @onready var UnocuppiedPanel = $Content/UnocuppiedPanel
 @onready var OccupiedPanel = $Content/OccupiedPanel
+@onready var status: Label = $Content/LandStatus/status
 
 @onready var BtnAttack = $Content/UnocuppiedPanel/BtnAtk
 
@@ -33,6 +34,7 @@ func SetLocation(pos):
 	var tile_id = MapDrawer.GetTileIDByPos(pos)
 	if MudMgr.FindLand(tile_id) != null:
 		print("Found City", tile_id)
+		status.text = "Occupied"
 		UnocuppiedPanel.visible = false
 		OccupiedPanel.visible = true
 		SetOccupiedInfo(MudMgr.FindLand(tile_id))

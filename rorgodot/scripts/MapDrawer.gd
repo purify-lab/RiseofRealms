@@ -21,7 +21,8 @@ var tileScene = preload("res://scene/tile.tscn")
 var buildingScene = preload("res://scene/building.tscn")
 
 # 士兵形象
-var soldierScene = preload("res://scene/infantry.tscn")
+# var soldierScene = preload("res://scene/infantry.tscn")
+var soldierScene = preload("res://scene/tinyinfantry.tscn");
 
 #地图根节点
 var GameNode

@@ -1,0 +1,95 @@
+[gd_scene load_steps=14 format=3 uid="uid://bs0byijnyb5gj"]
+
+[ext_resource type="Texture2D" uid="uid://dlbitmxdi5v3b" path="res://art/tmp/_AttackCombo2hit.png" id="1_ipcvs"]
+[ext_resource type="Script" path="res://scripts/infantry.gd" id="2_kpaat"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cbls4"]
+atlas = ExtResource("1_ipcvs")
+region = Rect2(0, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r7r70"]
+atlas = ExtResource("1_ipcvs")
+region = Rect2(120, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_34hxk"]
+atlas = ExtResource("1_ipcvs")
+region = Rect2(240, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_41t5v"]
+atlas = ExtResource("1_ipcvs")
+region = Rect2(360, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5iwtn"]
+atlas = ExtResource("1_ipcvs")
+region = Rect2(480, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_plrsr"]
+atlas = ExtResource("1_ipcvs")
+region = Rect2(600, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_el5in"]
+atlas = ExtResource("1_ipcvs")
+region = Rect2(720, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fjm0y"]
+atlas = ExtResource("1_ipcvs")
+region = Rect2(840, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pp3dq"]
+atlas = ExtResource("1_ipcvs")
+region = Rect2(960, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3uuaq"]
+atlas = ExtResource("1_ipcvs")
+region = Rect2(1080, 0, 120, 80)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0qwos"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cbls4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r7r70")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_34hxk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_41t5v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5iwtn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_plrsr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_el5in")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fjm0y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pp3dq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3uuaq")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="Tinyinfantry" type="Node2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 10
+texture_filter = 1
+position = Vector2(-7, -38)
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_0qwos")
+animation = &"idle"
+frame_progress = 0.992855
+speed_scale = 2.0
+script = ExtResource("2_kpaat")
