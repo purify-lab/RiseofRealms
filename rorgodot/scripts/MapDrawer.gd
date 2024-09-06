@@ -54,6 +54,11 @@ func Init(_game_node):
 	sAxies = Vector3(-SideRadius, 0,  1.5 * HalfSize)
 	GameNode = _game_node
 	create()
+	
+# 根据TilePos拿到TileID
+func GetTileIDByPos(pos):
+	var t = TileByPos[pos]
+	return t.id
 
 #根据坐标获取场景位置
 func GetScenePosByCoords(coords):

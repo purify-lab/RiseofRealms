@@ -23,6 +23,7 @@ UiMgr="*res://scripts/UIMgr.gd"
 MudMgr="*res://scripts/MudMgr.gd"
 GameConfig="*res://scripts/GameConfig.gd"
 Utils="*res://scripts/Utils.gd"
+TimerMgr="*res://scripts/TimerMgr.gd"
 
 [display]
 

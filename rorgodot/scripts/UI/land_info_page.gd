@@ -29,9 +29,21 @@ func CloseAnim():
 	$AnimationPlayer.play("close")
 	
 func SetLocation(pos):
-	$Content/loc.SetTilePos(pos)
 	currentPos = pos
-	
+	var tile_id = MapDrawer.GetTileIDByPos(pos)
+	if MudMgr.FindLand(tile_id) != null:
+		print("Found City", tile_id)
+		UnocuppiedPanel.visible = false
+		OccupiedPanel.visible = true
+		SetOccupiedInfo(MudMgr.FindLand(tile_id))
+	else:
+		$Content/UnocuppiedPanel/loc.SetTilePos(pos)
+		print("No land of This Tile", tile_id)
+		
+
+# 填充面板的占用地块
+func SetOccupiedInfo(land):
+	OccupiedPanel.SetInfo(land)
 	
 func InitData(data):
 	if data:
