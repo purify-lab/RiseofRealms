@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://cy0pn8wrtole5"]
+[gd_scene load_steps=41 format=3 uid="uid://cy0pn8wrtole5"]
 
 [ext_resource type="Script" path="res://scripts/UI/hud.gd" id="2_4qf0b"]
 [ext_resource type="Texture2D" uid="uid://cdyeyjsa1kt40" path="res://art/UI/common/common_top_frame.png" id="2_yvpgi"]
@@ -16,7 +16,10 @@
 [ext_resource type="Texture2D" uid="uid://cf8ixkjl2vhc1" path="res://art/UI/common/common_coin_A_s.png" id="13_kmhq7"]
 [ext_resource type="Texture2D" uid="uid://c83q6gsc6s2qb" path="res://art/UI/common/common_coin_B_s.png" id="14_qe5e8"]
 [ext_resource type="Texture2D" uid="uid://dpv0i4d6rr43a" path="res://art/UI/common/common_coin_C_s.png" id="15_0dlu4"]
+[ext_resource type="Texture2D" uid="uid://2l2u775h5eyx" path="res://art/UI/common/common_button_exchange_n.png" id="15_f707n"]
+[ext_resource type="Texture2D" uid="uid://dgyd2lg1uoim4" path="res://art/UI/common/common_button_exchange_c.png" id="16_0nsif"]
 [ext_resource type="Texture2D" uid="uid://dyw7yjbc7ek1f" path="res://art/UI/common/common_icon_shop_n.png" id="16_e5fuu"]
+[ext_resource type="Texture2D" uid="uid://c5a77jawpbo7e" path="res://art/UI/common/common_button_exchange_h.png" id="17_2wy15"]
 [ext_resource type="Texture2D" uid="uid://cy2mdbeelq561" path="res://art/UI/common/common_icon_shop_c.png" id="17_nulcg"]
 [ext_resource type="Texture2D" uid="uid://ctjt50gouo4ty" path="res://art/UI/common/common_icon_result_n.png" id="18_haoxf"]
 [ext_resource type="Texture2D" uid="uid://b71yg4i4et4mu" path="res://art/UI/common/common_icon_result_c.png" id="19_h6l0n"]
@@ -343,7 +346,7 @@ grow_vertical = 2
 texture = ExtResource("13_kmhq7")
 stretch_mode = 2
 
-[node name="BtnCopyAddress" type="TextureButton" parent="CanvasLayer/Hud/Top/currencyA"]
+[node name="BtnCurrentAExchange" type="TextureButton" parent="CanvasLayer/Hud/Top/currencyA"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -356,8 +359,9 @@ offset_right = -8.0
 offset_bottom = 23.0
 grow_horizontal = 0
 grow_vertical = 2
-texture_normal = ExtResource("10_edpoi")
-texture_pressed = ExtResource("11_c0ik4")
+texture_normal = ExtResource("15_f707n")
+texture_pressed = ExtResource("16_0nsif")
+texture_hover = ExtResource("17_2wy15")
 
 [node name="Label" type="Label" parent="CanvasLayer/Hud/Top/currencyA"]
 layout_mode = 1
@@ -408,7 +412,7 @@ grow_vertical = 2
 texture = ExtResource("14_qe5e8")
 stretch_mode = 2
 
-[node name="BtnCopyAddress" type="TextureButton" parent="CanvasLayer/Hud/Top/currencyB"]
+[node name="BtnCurrentBExchange" type="TextureButton" parent="CanvasLayer/Hud/Top/currencyB"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -421,8 +425,9 @@ offset_right = -8.0
 offset_bottom = 23.0
 grow_horizontal = 0
 grow_vertical = 2
-texture_normal = ExtResource("10_edpoi")
-texture_pressed = ExtResource("11_c0ik4")
+texture_normal = ExtResource("15_f707n")
+texture_pressed = ExtResource("16_0nsif")
+texture_hover = ExtResource("17_2wy15")
 
 [node name="Label" type="Label" parent="CanvasLayer/Hud/Top/currencyB"]
 layout_mode = 1
@@ -473,7 +478,7 @@ grow_vertical = 2
 texture = ExtResource("15_0dlu4")
 stretch_mode = 2
 
-[node name="BtnCopyAddress" type="TextureButton" parent="CanvasLayer/Hud/Top/currencyC"]
+[node name="BtnCurrentCExchange" type="TextureButton" parent="CanvasLayer/Hud/Top/currencyC"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -486,8 +491,9 @@ offset_right = -8.0
 offset_bottom = 23.0
 grow_horizontal = 0
 grow_vertical = 2
-texture_normal = ExtResource("10_edpoi")
-texture_pressed = ExtResource("11_c0ik4")
+texture_normal = ExtResource("15_f707n")
+texture_pressed = ExtResource("16_0nsif")
+texture_hover = ExtResource("17_2wy15")
 
 [node name="Label" type="Label" parent="CanvasLayer/Hud/Top/currencyC"]
 layout_mode = 1
