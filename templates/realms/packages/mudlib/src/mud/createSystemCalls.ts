@@ -4,6 +4,7 @@
  */
 
 import {SetupNetworkResult} from "./setupNetwork";
+import {ethers} from "ethers";
 
 export type SystemCalls = ReturnType<typeof createSystemCalls>;
 
@@ -29,6 +30,7 @@ export function createSystemCalls(
    */
   {
     tables,
+    walletClient,
     worldContract,
     waitForTransaction,
     tokenAContract,
@@ -121,11 +123,28 @@ export function createSystemCalls(
   }
 
   const swapA2B = async (amount: number) => {
+    const wallet_address = walletClient.account.address;
+    const allowance_bignint = await tokenAContract.read.allowance([wallet_address, worldContract.address]);
+    const allowance = (Number)(ethers.utils.formatEther(allowance_bignint.toString(), 18));
+    console.log("allowance:", allowance);
+    if (allowance < amount) {
+      const approve_tx = await tokenAContract.write.approve([worldContract.address, ethers.constants.MaxUint256]);
+      console.log("approve_tx:", approve_tx);
+    }
+
     const tx = await worldContract.write.swapA2B([amount]);
     await waitForTransaction(tx);
   }
 
   const swapA2C = async (amount: number) => {
+    const wallet_address = walletClient.account.address;
+    const allowance_bignint = await tokenAContract.read.allowance([wallet_address, worldContract.address]);
+    const allowance = (Number)(ethers.utils.formatEther(allowance_bignint.toString(), 18));
+    console.log("allowance:", allowance);
+    if (allowance < amount) {
+      const approve_tx = await tokenAContract.write.approve([worldContract.address, ethers.constants.MaxUint256]);
+      console.log("approve_tx:", approve_tx);
+    }
     const tx = await worldContract.write.swapA2C([amount]);
     await waitForTransaction(tx);
   }
