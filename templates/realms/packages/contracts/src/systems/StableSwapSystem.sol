@@ -9,8 +9,6 @@ import {Addresses} from "../utility/Constant.sol";
 
 contract StableSwapSystem is System {
 
-    address constant UniswapV2Router02Address = 0xf9E6284f46E40c91F31dCe60A79d7aEb243afF6B;
-
     function swapA2B(uint256 amount) public whenNotPaused {
         IERC20(Addresses.TokenA).transferFrom(msg.sender, address(this), amount);
         IERC20(Addresses.TokenB).transfer(msg.sender, amount);
@@ -20,21 +18,6 @@ contract StableSwapSystem is System {
         IERC20(Addresses.TokenA).transferFrom(msg.sender, address(this), amount);
         IERC20(Addresses.TokenC).transfer(msg.sender, amount);
     }
-
-//    function addLiq(){
-//        IUniswapV2Router02(UniswapV2Router02Address).addLiquidityETH(
-//
-//        );
-//
-//        IUniswapV2Router02(UniswapV2Router02Address).removeLiquidityETH()(
-//
-//        );
-//
-//        IUniswapV2Router02(UniswapV2Router02Address).swapETHForExactTokens(
-//
-//        );
-
-//    }
 
     bool public paused;
 
