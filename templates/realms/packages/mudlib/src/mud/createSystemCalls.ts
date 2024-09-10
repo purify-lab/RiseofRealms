@@ -140,6 +140,16 @@ export function createSystemCalls(
     await waitForTransaction(tx);
   }
 
+  const transactionTokenB = async (to_address: string, amount: number) => {
+    const tx = await tokenBContract.write.transfer([to_address, amount]);
+    await waitForTransaction(tx);
+  }
+
+  const transactionTokenC = async (to_address: string, amount: number) => {
+    const tx = await tokenCContract.write.transfer([to_address, amount]);
+    await waitForTransaction(tx);
+  }
+
   const approveTokenA = async (owner: string, spender: string, amount: number) => {
     const tx = await tokenAContract.write.approve([owner, spender, amount]);
     await waitForTransaction(tx);
@@ -171,6 +181,8 @@ export function createSystemCalls(
     swapA2C,
     withdrawToken,
     transactionTokenA,
+    transactionTokenB,
+    transactionTokenC,
     approveTokenA,
   };
 }

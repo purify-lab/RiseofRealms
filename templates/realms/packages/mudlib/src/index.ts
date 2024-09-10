@@ -13,7 +13,7 @@ class MudLib {
         buyInfantry, buyCavalryA, buyCavalryB, buyCavalryC,
         stakeTokenB, stakeTokenC, unStakeTokenB, unStakeTokenC, farming,
         setMerkleRoot, claim, swapA2B, swapA2C, withdrawToken,
-        transactionTokenA, approveTokenA,
+        transactionTokenA, transactionTokenB, transactionTokenC, approveTokenA,
       },
       network,
     } = await setup();
@@ -77,6 +77,8 @@ class MudLib {
     this.swapA2C = swapA2C;
     this.withdrawToken = withdrawToken;
     this.transactionTokenA = transactionTokenA;
+    this.transactionTokenB = transactionTokenB;
+    this.transactionTokenC = transactionTokenC;
     this.approveTokenA = approveTokenA;
 
 
@@ -232,7 +234,7 @@ class MudLib {
 
   }
 
-  tokenb_updated(updated: any) {
+  tokenc_updated(updated: any) {
 
   }
 }
