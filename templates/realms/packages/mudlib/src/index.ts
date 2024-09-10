@@ -1,6 +1,7 @@
 import {setup} from "./mud/setup";
 import mudConfig from "../../contracts/mud.config";
 import {mount as mountDevTools} from "@latticexyz/dev-tools";
+import {ethers} from "ethers";
 
 class MudLib {
   async setup() {
@@ -30,21 +31,21 @@ class MudLib {
 
     setInterval(async () => {
       const timestamp = new Date().toISOString(); // 获取当前时间戳
-      let now_token_a_balance = await checkBalance(network.tokenAContract, wallet_address);
+      let now_token_a_balance = (Number)(ethers.utils.formatUnits(await checkBalance(network.tokenAContract, wallet_address), 18));
       if (now_token_a_balance != token_a_balance) {
         token_a_balance = now_token_a_balance;
         console.log(`${timestamp} - tokena updated`, token_a_balance)
         this.tokena_updated(token_a_balance)
       }
 
-      let now_token_b_balance = await checkBalance(network.tokenBContract, wallet_address);
+      let now_token_b_balance = (Number)(ethers.utils.formatUnits(await checkBalance(network.tokenBContract, wallet_address), 18));
       if (now_token_b_balance != token_b_balance) {
         token_b_balance = now_token_b_balance;
         console.log(`${timestamp} - tokenb updated`, token_b_balance)
         this.tokenb_updated(token_b_balance)
       }
 
-      let now_token_c_balance = await checkBalance(network.tokenCContract, wallet_address);
+      let now_token_c_balance = (Number)(ethers.utils.formatUnits(await checkBalance(network.tokenCContract, wallet_address), 18));
       if (now_token_c_balance != token_c_balance) {
         token_c_balance = now_token_c_balance;
         console.log(`${timestamp} - tokenc updated`, token_c_balance)
