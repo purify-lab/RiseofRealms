@@ -9,8 +9,8 @@ library Addresses {
     address constant Factory = 0x3B6cd946C2cCE6B827740dc9eEA76d4CC674b6af;
 
     address constant TokenA = 0x88b985C5515B646D5ae4afc56d0855051cea5b48;
-    address constant TokenB = 0x74f0Bf9321fF57a4028999bB88ca623cc9e79F14;
-    address constant TokenC = 0x74f0Bf9321fF57a4028999bB88ca623cc9e79F14;
+    address constant TokenB = 0x15772ec0dAd7848f243Ab4eAe022FfF2D642f078;
+    address constant TokenC = 0x4444426ae66Efca568B519fF5c2Fd0351D0674fB;
 
     function PairTokenA() public view returns (address){
         return IUniswapV2Factory(Factory).getPair(TokenA, WETH);

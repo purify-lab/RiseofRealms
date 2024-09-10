@@ -80,13 +80,13 @@ export async function setupNetwork() {
   });
 
   const tokenBContract = getContract({
-    address: "0x45AD5640957673B6585a5500D35740fbf698498b" as Hex,
+    address: "0x15772ec0dAd7848f243Ab4eAe022FfF2D642f078" as Hex,
     abi: IERC20Abi,
     client: {public: publicClient, wallet: burnerWalletClient},
   });
 
   const tokenCContract = getContract({
-    address: "0x358CD91cb9E587b5990E4BBa1C49Bc5FB384674e" as Hex,
+    address: "0x4444426ae66Efca568B519fF5c2Fd0351D0674fB" as Hex,
     abi: IERC20Abi,
     client: {public: publicClient, wallet: burnerWalletClient},
   });
