@@ -15,9 +15,9 @@ class MudLib {
   public buyCavalryC: ((amount: number) => Promise<void>) | undefined;
   public stakeTokenB: ((amount: number) => Promise<void>) | undefined;
   public stakeTokenC: ((amount: number) => Promise<void>) | undefined;
-  public unStakeTokenB: (() => Promise<void>) | undefined;
-  public unStakeTokenC: (() => Promise<void>) | undefined;
-  public farming: (() => Promise<void>) | undefined;
+  public unStakeTokenB: ((staker: string, amount: number) => Promise<void>) | undefined;
+  public unStakeTokenC: ((staker: string, amount: number) => Promise<void>) | undefined;
+  public farming: ((capital_id: number) => Promise<void>) | undefined;
 
   public network: any;
 
@@ -214,43 +214,44 @@ class MudLib {
 
 
   // To be overwritten by Godot callback
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   player_updated(update: any) {
   }
-
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   player_detail_updated(update: any) {
   }
-
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   land_updated(update: any) {
   }
-
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   capital_updated(update: any) {
   }
-
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   army_updated(update: any) {
   }
-
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   battle_report_updated(update: any) {
   }
-
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   stored_block_logs(update: any) {
   }
-
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   setup_block(update: any) {
 
   }
-
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   all_catch_up(update: any) {
 
   }
-
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   tokena_updated(update: any) {
 
   }
-
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   tokenb_updated(update: any) {
 
   }
-
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   tokenc_updated(updated: any) {
 
   }
