@@ -1,5 +1,9 @@
 extends Node
 
+signal CurrencyAChange(amount)
+signal CurrencyBChange(amount)
+signal CurrencyCChange(amount)
+
 var mud
 var player_update
 var player_detail_update
@@ -7,6 +11,9 @@ var capital_update
 var army_update
 var land_update
 var all_catch_up
+var js_currencya_update
+var js_currencyb_update
+var js_currencyc_update
 
 var json
 
@@ -62,6 +69,23 @@ func Setup():
 	
 	all_catch_up = JavaScriptBridge.create_callback(OnAllCatchUp)
 	mud.all_catch_up = all_catch_up
+	
+	js_currencya_update = JavaScriptBridge.create_callback(OnCurrencyAUpdate)
+	mud.tokena_updated = js_currencya_update
+	js_currencyb_update = JavaScriptBridge.create_callback(OnCurrencyBUpdate)
+	mud.tokenb_updated = js_currencyb_update
+	js_currencyc_update = JavaScriptBridge.create_callback(OnCurrencyCUpdate)
+	mud.tokenc_updated = js_currencyc_update
+
+func OnCurrencyAUpdate(data):
+	emit_signal("CurrencyAChange", data[0])
+
+func OnCurrencyBUpdate(data):
+	emit_signal("CurrencyBChange", data[0])
+	
+func OnCurrencyCUpdate(data):
+	emit_signal("CurrencyCChange", data[0])
+	
 	
 # 地块更新消息
 func OnLandUpdate(data):

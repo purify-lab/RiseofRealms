@@ -15,6 +15,18 @@ extends Panel
 @onready var btn_current_a_exchange: TextureButton = $Top/currencyA/BtnCurrentAExchange
 @onready var btn_current_b_exchange: TextureButton = $Top/currencyB/BtnCurrentBExchange
 @onready var btn_current_c_exchange: TextureButton = $Top/currencyC/BtnCurrentCExchange
+@onready var currencyA: Label = $Top/currencyA/Label
+@onready var currencyB: Label = $Top/currencyB/Label
+@onready var currencyC: Label = $Top/currencyC/Label
+
+func UpdateCurrentA(n):
+	currencyA.text = str(n)
+	
+func UpdateCurrentB(n):
+	currencyB.text = str(n)
+	
+func UpdateCurrentC(n):
+	currencyC.text = str(n)
 
 # 我的Entity ID
 var MyEntityKey
@@ -28,6 +40,10 @@ var IsBuying
 func _ready() -> void:
 	BtnBuySoldier.pressed.connect(self.OnBuySoldier)
 	BtnShowMyLands.pressed.connect(self.OnShowMyLands)
+	MudMgr.connect("CurrencyAChange", UpdateCurrentA)
+	MudMgr.connect("CurrencyBChange", UpdateCurrentB)
+	MudMgr.connect("CurrencyCChange", UpdateCurrentC)
+	
 	MudMgr.connect("SigOnPlayerDetailUpdate", onPlayerDetailUpdate)
 	MudMgr.connect("SigChainConnected", onMyselfLogined)
 	print("OS: ", OS.get_name())
