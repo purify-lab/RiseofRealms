@@ -74,7 +74,7 @@ export async function setupNetwork() {
   console.log("worldContract", worldContract);
 
   const tokenAContract = getContract({
-    address: "0x3d74e856d56492a76cE63904fFD8Dd97071ec87A" as Hex,
+    address: "0x88b985C5515B646D5ae4afc56d0855051cea5b48" as Hex,
     abi: IERC20Abi,
     client: {public: publicClient, wallet: burnerWalletClient},
   });
