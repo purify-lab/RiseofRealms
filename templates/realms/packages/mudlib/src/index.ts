@@ -12,9 +12,47 @@ class MudLib {
         buyInfantry, buyCavalryA, buyCavalryB, buyCavalryC,
         stakeTokenB, stakeTokenC, unStakeTokenB, unStakeTokenC, farming,
         setMerkleRoot, claim, swapA2B, swapA2C, withdrawToken,
+        transactionTokenA, approveTokenA,
       },
       network,
     } = await setup();
+
+    async function checkBalance(token: any, address: string) {
+      const balance = await token.read.balanceOf([address]);
+      return balance;
+    }
+
+    const wallet_address = network.walletClient.account.address;
+
+    let token_a_balance = -1;
+    let token_b_balance = -1;
+    let token_c_balance = -1;
+
+    setInterval(async () => {
+      const timestamp = new Date().toISOString(); // 获取当前时间戳
+      let now_token_a_balance = await checkBalance(network.tokenAContract, wallet_address);
+      if (now_token_a_balance != token_a_balance) {
+        token_a_balance = now_token_a_balance;
+        console.log("tokena updated", token_a_balance)
+        this.tokena_updated(token_a_balance)
+      }
+
+      let now_token_b_balance = await checkBalance(network.tokenBContract, wallet_address);
+      if (now_token_b_balance != token_b_balance) {
+        token_b_balance = now_token_b_balance;
+        console.log("tokenb updated", token_b_balance)
+        this.tokenb_updated(token_b_balance)
+      }
+
+      let now_token_c_balance = await checkBalance(network.tokenCContract, wallet_address);
+      if (now_token_c_balance != token_c_balance) {
+        token_c_balance = now_token_c_balance;
+        console.log("tokenc updated", token_c_balance)
+        this.tokenc_updated(token_c_balance)
+      }
+
+    }, 3000);
+
 
     const setupBlockNumber = await network.publicClient.getBlockNumber()
 
@@ -37,6 +75,8 @@ class MudLib {
     this.swapA2B = swapA2B;
     this.swapA2C = swapA2C;
     this.withdrawToken = withdrawToken;
+    this.transactionTokenA = transactionTokenA;
+    this.approveTokenA = approveTokenA;
 
 
     // this.increment = increment
@@ -180,6 +220,18 @@ class MudLib {
   }
 
   all_catch_up(update: any) {
+
+  }
+
+  tokena_updated(update: any) {
+
+  }
+
+  tokenb_updated(update: any) {
+
+  }
+
+  tokenb_updated(updated: any) {
 
   }
 }

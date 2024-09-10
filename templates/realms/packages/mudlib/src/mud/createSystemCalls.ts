@@ -27,7 +27,14 @@ export function createSystemCalls(
    *   syncToRecs
    *   (https://github.com/latticexyz/mud/blob/main/templates/react/packages/client/src/mud/setupNetwork.ts#L77-L83).
    */
-  {tables, worldContract, waitForTransaction}: SetupNetworkResult,
+  {
+    tables,
+    worldContract,
+    waitForTransaction,
+    tokenAContract,
+    tokenBContract,
+    tokenCContract
+  }: SetupNetworkResult,
 ) {
 
   const spawnPlayer = async () => {
@@ -51,7 +58,7 @@ export function createSystemCalls(
   }
 
   const buyInfantry = async (amount: number) => {
-    console.log("worldContract",worldContract)
+    console.log("worldContract", worldContract)
     const tx = await worldContract.write.buyInfantry([amount]);
     await waitForTransaction(tx);
   }
@@ -128,6 +135,16 @@ export function createSystemCalls(
     await waitForTransaction(tx);
   }
 
+  const transactionTokenA = async (to_address: string, amount: number) => {
+    const tx = await tokenAContract.write.transfer([to_address, amount]);
+    await waitForTransaction(tx);
+  }
+
+  const approveTokenA = async (owner: string, spender: string, amount: number) => {
+    const tx = await tokenAContract.write.approve([owner, spender, amount]);
+    await waitForTransaction(tx);
+  }
+
   // const getCapitalPower = async (capital_id: number) => {
   //   const result = await worldContract.read.getCapitalPower([capital_id]);
   //   return result[0];
@@ -153,5 +170,7 @@ export function createSystemCalls(
     swapA2B,
     swapA2C,
     withdrawToken,
+    transactionTokenA,
+    approveTokenA,
   };
 }
