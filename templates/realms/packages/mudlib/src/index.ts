@@ -4,6 +4,23 @@ import {mount as mountDevTools} from "@latticexyz/dev-tools";
 import {ethers} from "ethers";
 
 class MudLib {
+  public spawnPlayer: (() => Promise<void>) | undefined;
+  public spawnCapital: ((capital_id: number) => Promise<void>) | undefined;
+  public marchArmy: ((destination: number, infantry: number, cavalryA: number, cavalryB: number, cavalryC: number, army_id: number) => Promise<void>) | undefined;
+  public attack: ((army_id: number) => Promise<void>) | undefined;
+  public buyInfantry: ((amount: number) => Promise<void>) | undefined;
+  public garrison: ((capital_id: number, infantry: number, cavalryA: number, cavalryB: number, cavalryC: number) => Promise<void>) | undefined;
+  public buyCavalryA: ((amount: number) => Promise<void>) | undefined;
+  public buyCavalryB: ((amount: number) => Promise<void>) | undefined;
+  public buyCavalryC: ((amount: number) => Promise<void>) | undefined;
+  public stakeTokenB: ((amount: number) => Promise<void>) | undefined;
+  public stakeTokenC: ((amount: number) => Promise<void>) | undefined;
+  public unStakeTokenB: (() => Promise<void>) | undefined;
+  public unStakeTokenC: (() => Promise<void>) | undefined;
+  public farming: (() => Promise<void>) | undefined;
+
+  public network: any;
+
   async setup() {
     const {
       components,
