@@ -33,21 +33,21 @@ class MudLib {
       let now_token_a_balance = await checkBalance(network.tokenAContract, wallet_address);
       if (now_token_a_balance != token_a_balance) {
         token_a_balance = now_token_a_balance;
-        console.log("tokena updated", token_a_balance)
+        console.log(`${timestamp} - tokena updated`, token_a_balance)
         this.tokena_updated(token_a_balance)
       }
 
       let now_token_b_balance = await checkBalance(network.tokenBContract, wallet_address);
       if (now_token_b_balance != token_b_balance) {
         token_b_balance = now_token_b_balance;
-        console.log("tokenb updated", token_b_balance)
+        console.log(`${timestamp} - tokenb updated`, token_b_balance)
         this.tokenb_updated(token_b_balance)
       }
 
       let now_token_c_balance = await checkBalance(network.tokenCContract, wallet_address);
       if (now_token_c_balance != token_c_balance) {
         token_c_balance = now_token_c_balance;
-        console.log("tokenc updated", token_c_balance)
+        console.log(`${timestamp} - tokenc updated`, token_c_balance)
         this.tokenc_updated(token_c_balance)
       }
 
