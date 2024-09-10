@@ -5,22 +5,20 @@ import {GlobalConfig, PlayerAirdrop} from "../codegen/index.sol";
 import {Utility} from "../utility/utility.sol";
 import {IERC20} from "../utility/IERC20.sol";
 import {IUniswapV2Router02} from "../utility/IUniswapV2Router02.sol";
+import {Addresses} from "../utility/Constant.sol";
 
 contract StableSwapSystem is System {
 
-    address constant TokenA = 0x74f0Bf9321fF57a4028999bB88ca623cc9e79F14;
-    address constant TokenB = 0x74f0Bf9321fF57a4028999bB88ca623cc9e79F14;
-    address constant TokenC = 0x74f0Bf9321fF57a4028999bB88ca623cc9e79F14;
-    address constant UniswapV2Router02Address= 0xf9E6284f46E40c91F31dCe60A79d7aEb243afF6B;
+    address constant UniswapV2Router02Address = 0xf9E6284f46E40c91F31dCe60A79d7aEb243afF6B;
 
     function swapA2B(uint256 amount) public whenNotPaused {
-        IERC20(TokenA).transferFrom(msg.sender, address(this), amount);
-        IERC20(TokenB).transfer(msg.sender, amount);
+        IERC20(Addresses.TokenA).transferFrom(msg.sender, address(this), amount);
+        IERC20(Addresses.TokenB).transfer(msg.sender, amount);
     }
 
     function swapA2C(uint256 amount) public whenNotPaused {
-        IERC20(TokenA).transferFrom(msg.sender, address(this), amount);
-        IERC20(TokenC).transfer(msg.sender, amount);
+        IERC20(Addresses.TokenA).transferFrom(msg.sender, address(this), amount);
+        IERC20(Addresses.TokenC).transfer(msg.sender, amount);
     }
 
 //    function addLiq(){

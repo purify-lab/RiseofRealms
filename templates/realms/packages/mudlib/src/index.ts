@@ -18,6 +18,15 @@ class MudLib {
   public unStakeTokenB: ((staker: string, amount: number) => Promise<void>) | undefined;
   public unStakeTokenC: ((staker: string, amount: number) => Promise<void>) | undefined;
   public farming: ((capital_id: number) => Promise<void>) | undefined;
+  public setMerkleRoot: ((merkleRoot: string) => Promise<void>) | undefined;
+  public claim: ((capital_id: number) => Promise<void>) | undefined;
+  public swapA2B: ((amount: number) => Promise<void>) | undefined;
+  public swapA2C: ((amount: number) => Promise<void>) | undefined;
+  public withdrawToken: ((amount: number) => Promise<void>) | undefined;
+  public transactionTokenA: ((amount: number) => Promise<void>) | undefined;
+  public transactionTokenB: ((amount: number) => Promise<void>) | undefined;
+  public transactionTokenC: ((amount: number) => Promise<void>) | undefined;
+  public approveTokenA: ((amount: number) => Promise<void>) | undefined;
 
   public network: any;
 
