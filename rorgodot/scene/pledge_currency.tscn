@@ -1,6 +1,7 @@
-[gd_scene load_steps=30 format=4 uid="uid://ci0w7ykvtajxd"]
+[gd_scene load_steps=32 format=4 uid="uid://ci0w7ykvtajxd"]
 
 [ext_resource type="Texture2D" uid="uid://c3g4pmnnf07v5" path="res://art/UI/common/common_popup_frame_01.png" id="1_8mk6p"]
+[ext_resource type="Script" path="res://scripts/UI/pledge_currency.gd" id="1_35483"]
 [ext_resource type="Texture2D" uid="uid://bmkfekfju2j8k" path="res://art/UI/common/common_popoup_title_01.png" id="2_2f87g"]
 [ext_resource type="Texture2D" uid="uid://dpxjunq5cqttq" path="res://art/UI/common/common_title_icon_finance.png" id="3_jhaym"]
 [ext_resource type="FontFile" uid="uid://d26g6ohny0dmm" path="res://art/UI/font/Montserrat-Black.otf" id="4_hsxbq"]
@@ -10,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://c83q6gsc6s2qb" path="res://art/UI/common/common_coin_B_s.png" id="9_w8uac"]
 [ext_resource type="Texture2D" uid="uid://dpv0i4d6rr43a" path="res://art/UI/common/common_coin_C_s.png" id="10_33ayp"]
 [ext_resource type="Texture2D" uid="uid://w3vsn4hsx0c0" path="res://art/UI/common/common_button_blue_n-2.png" id="11_ll3yv"]
+[ext_resource type="Texture2D" uid="uid://dnkd8tvc48vho" path="res://art/UI/common/common_button_close_n.png" id="11_wh1ee"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_33vfh"]
 
@@ -1814,6 +1816,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_35483")
 
 [node name="Content" type="NinePatchRect" parent="."]
 layout_mode = 1
@@ -1889,7 +1892,7 @@ patch_margin_top = 10
 patch_margin_right = 10
 patch_margin_bottom = 10
 
-[node name="TextEdit" type="TextEdit" parent="Content/Amout"]
+[node name="Amount" type="TextEdit" parent="Content/Amout"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1964,3 +1967,15 @@ theme_override_font_sizes/font_size = 34
 text = "Confirm"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="BtnClose" type="TextureButton" parent="Content"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -55.0
+offset_top = -11.0
+offset_right = 7.0
+offset_bottom = 54.0
+grow_horizontal = 0
+texture_normal = ExtResource("11_wh1ee")

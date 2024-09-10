@@ -23,6 +23,7 @@ UiMgr="*res://scripts/UIMgr.gd"
 MudMgr="*res://scripts/MudMgr.gd"
 GameConfig="*res://scripts/GameConfig.gd"
 Utils="*res://scripts/Utils.gd"
+TimerMgr="*res://scripts/TimerMgr.gd"
 
 [display]
 
@@ -36,4 +37,5 @@ window/stretch/aspect="keep_height"
 textures/canvas_textures/default_texture_repeat=1
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true
 environment/defaults/default_clear_color=Color(0, 0, 0, 1)

@@ -65,11 +65,23 @@ func Setup():
 	
 # 地块更新消息
 func OnLandUpdate(data):
+	var land = data[0].value[0]
+	landStorage[land.tileId] = land
 	print("On Land Update...")
+
+# 查找地块
+func FindLand(id):
+	if landStorage.has(id):
+		return landStorage[id]
+	return null
 	
 # 区块同步完成
 func OnAllCatchUp(data):
 	print("All Catch Up....")
+	TimerMgr.set_timeout(3, RealCatchUp)
+
+func RealCatchUp():
+	print("Real All Catch UP.....")
 	isAllCatchUp = true
 	if not playerStorage.has(myEntityKey):
 		SpawnPlayer()

@@ -12,6 +12,10 @@ extends Panel
 @onready var LabMySoldiers = $Top/Soldier/Label
 @onready var LabMyGold = $Top/Coins/Label
 
+@onready var btn_current_a_exchange: TextureButton = $Top/currencyA/BtnCurrentAExchange
+@onready var btn_current_b_exchange: TextureButton = $Top/currencyB/BtnCurrentBExchange
+@onready var btn_current_c_exchange: TextureButton = $Top/currencyC/BtnCurrentCExchange
+
 # 我的Entity ID
 var MyEntityKey
 
@@ -32,6 +36,13 @@ func _ready() -> void:
 	else:
 		FinishedInit()
 	BtnBuyCapital.pressed.connect(OnClickBuyCapital)
+	btn_current_a_exchange.pressed.connect(openExchangePage)
+	btn_current_b_exchange.pressed.connect(openExchangePage)
+	btn_current_c_exchange.pressed.connect(openExchangePage)
+	
+# 打开置换的界面
+func openExchangePage():
+	UiMgr.open_pledge_currency_page($"..")
 
 # 我的信息来了之后检查是否购买了主城
 func FinishedInit():

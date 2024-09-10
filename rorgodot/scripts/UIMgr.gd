@@ -4,6 +4,7 @@ var land_info_page = preload("res://scene/land_info_page.tscn")
 var pledge_currenyc_page = preload("res://scene/pledge_currency.tscn")
 var mylands_page = preload("res://scene/owne_tiles.tscn")
 var buy_capital_page = preload("res://scene/PurchaseLandPanel.tscn")
+var pledge_currency_page = preload("res://scene/pledge_currency.tscn")
 
 func open(name):
 	pass
@@ -32,6 +33,11 @@ func open_buy_capital_page(parent):
 	parent.add_child(t)
 	return t
 
+# 打开置换界面
+func open_pledge_currency_page(parent):
+	var t = pledge_currency_page.instantiate()
+	parent.add_child(t)
+	return t
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

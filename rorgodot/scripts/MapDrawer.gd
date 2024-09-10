@@ -21,7 +21,8 @@ var tileScene = preload("res://scene/tile.tscn")
 var buildingScene = preload("res://scene/building.tscn")
 
 # 士兵形象
-var soldierScene = preload("res://scene/infantry.tscn")
+# var soldierScene = preload("res://scene/infantry.tscn")
+var soldierScene = preload("res://scene/tinyinfantry.tscn");
 
 #地图根节点
 var GameNode
@@ -54,6 +55,11 @@ func Init(_game_node):
 	sAxies = Vector3(-SideRadius, 0,  1.5 * HalfSize)
 	GameNode = _game_node
 	create()
+	
+# 根据TilePos拿到TileID
+func GetTileIDByPos(pos):
+	var t = TileByPos[pos]
+	return t.id
 
 #根据坐标获取场景位置
 func GetScenePosByCoords(coords):
