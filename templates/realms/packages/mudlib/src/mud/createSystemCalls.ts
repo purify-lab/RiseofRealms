@@ -132,7 +132,8 @@ export function createSystemCalls(
       console.log("approve_tx:", approve_tx);
     }
 
-    const amount_in_wei = ethers.utils.parseUnits(amount, 18);
+    const amount_in_wei = ethers.utils.parseUnits(amount.toString(), 18).toString();
+    console.log("amount_in_wei:",amount_in_wei);
     const tx = await worldContract.write.swapA2B([amount_in_wei]);
     await waitForTransaction(tx);
   }
@@ -146,7 +147,8 @@ export function createSystemCalls(
       const approve_tx = await tokenAContract.write.approve([worldContract.address, ethers.constants.MaxUint256]);
       console.log("approve_tx:", approve_tx);
     }
-    const amount_in_wei = ethers.utils.parseUnits(amount, 18);
+    const amount_in_wei = ethers.utils.parseUnits(amount.toString(), 18).toString();
+    console.log("amount_in_wei:",amount_in_wei);
     const tx = await worldContract.write.swapA2C([amount_in_wei]);
     await waitForTransaction(tx);
   }
